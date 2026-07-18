@@ -8,20 +8,47 @@ import Foundation
 
 @Observable
 final class GameTimer {
+    private var timer: Timer?
 
-    var secondsRemaining = 30
+    private(set) var remainingTime: TimeInterval
+        private(set) var isRunning = false
 
-    var isRunning = false
+        let startingTime: TimeInterval
 
-    func start() {
+    init(seconds: TimeInterval = 10.0) {
+            self.startingTime = seconds
+            self.remainingTime = seconds
+        }
 
-    }
+        func start() {
+            guard !isRunning else { return }
 
-    func stop() {
+            isRunning = true
 
-    }
+            timer = Timer.scheduledTimer(withTimeInterval: 0.1, repeats: true) { [weak self] _ in
+                guard let self else { return }
 
-    func reset() {
+                remainingTime -= 0.1
 
+                if remainingTime <= 0 {
+                    remainingTime = 0
+                    stop()
+                }
+            }
+        }
+
+        func stop() {
+            timer?.invalidate()
+            timer = nil
+            isRunning = false
+        }
+
+        func reset() {
+            stop()
+            remainingTime = startingTime
+        }
+
+    func addSeconds(_ amount: Int) {
+        remainingTime = max(0, remainingTime + TimeInterval(amount))
     }
 }

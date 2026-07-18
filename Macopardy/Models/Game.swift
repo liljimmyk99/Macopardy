@@ -12,4 +12,9 @@ struct Game {
     var currentRound: Int = 0
 
     var teams: [Team]
+
+    var currentBoard: JeopardyBoard? {
+        guard currentRound >= 0, currentRound < rounds.count else { return nil }
+        return rounds[currentRound]
+    }
 }

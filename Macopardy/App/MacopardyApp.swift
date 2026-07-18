@@ -16,13 +16,13 @@ struct JeopardyApp: App {
     var body: some Scene {
 
         Window("Control", id: "control") {
-            ControlPanelView()
+            ControlView()
                 .environment(gameState)
         }
         .defaultSize(width: 1200, height: 900)
 
         Window("Display", id: "display") {
-            PlayerDisplayView()
+            PresentationView()
                 .environment(gameState)
         }
         .defaultSize(width: 1920, height: 1080)
