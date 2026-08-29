@@ -36,7 +36,7 @@ struct QuestionView: View {
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .background(JeopardyTheme.clueBackground)
             .onAppear {
-                
+                gameState.timer.start()
             }
         }
     }

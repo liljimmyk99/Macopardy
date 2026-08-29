@@ -55,9 +55,13 @@ struct ControlView: View {
 
     private var categoriesContent: some View {
         VStack(spacing: 20) {
-            QuestionPickerView()
-            ScoreControlsView()
             TimerControlsView()
+            ScoreControlsView()
+            if gameState.currentQuestion == nil {
+                QuestionPickerView()
+            }
+            
+            
         }
     }
 

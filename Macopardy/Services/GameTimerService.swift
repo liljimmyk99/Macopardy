@@ -15,7 +15,7 @@ final class GameTimer {
 
         let startingTime: TimeInterval
 
-    init(seconds: TimeInterval = 10.0) {
+    init(seconds: TimeInterval = 15.0) {
             self.startingTime = seconds
             self.remainingTime = seconds
         }
