@@ -12,18 +12,27 @@ struct JeopardyApp: App {
 
     @State
     private var gameState = GameState()
+    
+    @State
+    private var hasSelectedGame = false
 
     var body: some Scene {
 
         Window("Control", id: "control") {
-            ControlView()
-                .environment(gameState)
+            if hasSelectedGame {
+                ControlView()
+                    .environment(gameState)
+            } else {
+                LaunchScreenView(hasSelectedGame: $hasSelectedGame, gameState: gameState)
+            }
         }
         .defaultSize(width: 1200, height: 900)
 
         Window("Display", id: "display") {
-            PresentationView()
-                .environment(gameState)
+            if hasSelectedGame {
+                PresentationView()
+                    .environment(gameState)
+            }
         }
         .defaultSize(width: 1920, height: 1080)
     }
