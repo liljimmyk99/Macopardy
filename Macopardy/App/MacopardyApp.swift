@@ -23,7 +23,7 @@ struct JeopardyApp: App {
                 ControlView()
                     .environment(gameState)
             } else {
-                LaunchScreenView(hasSelectedGame: $hasSelectedGame, gameState: gameState)
+                LaunchScreenView(hasSelectedGame: $hasSelectedGame, gameState: $gameState)
             }
         }
         .defaultSize(width: 1200, height: 900)
@@ -35,5 +35,10 @@ struct JeopardyApp: App {
             }
         }
         .defaultSize(width: 1920, height: 1080)
+
+        Window("Create Jeopardy Game", id: "create-jeopardy") {
+            CreateJeopardyGameView()
+        }
+        .defaultSize(width: 1400, height: 820)
     }
 }
