@@ -4,6 +4,8 @@
 //
 
 import SwiftUI
+import UniformTypeIdentifiers
+internal import os
 
 struct CreateJeopardyGameView: View {
     @Environment(\.dismissWindow) private var dismissWindow
@@ -39,6 +41,12 @@ struct CreateJeopardyGameView: View {
 
     @State
     private var showSaveErrorAlert = false
+
+    @State
+    private var exportDocument: JeopardyBoardDocument?
+
+    @State
+    private var showFileExporter = false
 
     var body: some View {
         VStack(alignment: .leading, spacing: 18) {
@@ -112,6 +120,26 @@ struct CreateJeopardyGameView: View {
         } message: {
             Text(saveErrorMessage)
         }
+        .fileExporter(
+            isPresented: $showFileExporter,
+            document: exportDocument,
+            contentType: .json,
+            defaultFilename: exportDocument.map {
+                FileManagerService().defaultFilename(for: $0.board.title)
+            }
+        ) { result in
+            switch result {
+            case .success:
+                AppLogger.database.info("Successfully Saved Board")
+                dismissWindow(id: "create-jeopardy")
+            case .failure(let error):
+                if (error as? CocoaError)?.code != .userCancelled {
+                    saveErrorMessage = "The game could not be saved.\n\(error.localizedDescription)"
+                    showSaveErrorAlert = true
+                }
+                AppLogger.database.error("\(error.localizedDescription)")
+            }
+        }
         .sheet(item: $selectedQuestion) { question in
             QuestionEditorView(
                 value: question.value,
@@ -183,20 +211,8 @@ struct CreateJeopardyGameView: View {
             }
         )
 
-        do {
-            try FileManagerService().saveBoardToStorage(
-                title: trimmedTitle,
-                board: board,
-                onError: { error in
-                    saveErrorMessage = error
-                    showSaveErrorAlert = true
-                }
-            )
-            dismissWindow(id: "create-jeopardy")
-        } catch {
-            saveErrorMessage = "The game could not be encoded to JSON. Please try again.\n\(error.localizedDescription)"
-            showSaveErrorAlert = true
-        }
+        exportDocument = FileManagerService().makeExportDocument(for: board)
+        showFileExporter = true
     }
 
     private func missingQuestions() -> [String] {

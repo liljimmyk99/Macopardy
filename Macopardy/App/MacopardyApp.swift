@@ -35,10 +35,12 @@ struct JeopardyApp: App {
             }
         }
         .defaultSize(width: 1920, height: 1080)
+        .defaultLaunchBehavior(.suppressed)
 
         Window("Create Jeopardy Game", id: "create-jeopardy") {
             CreateJeopardyGameView()
         }
         .defaultSize(width: 1400, height: 820)
+        .defaultLaunchBehavior(.suppressed)
     }
 }

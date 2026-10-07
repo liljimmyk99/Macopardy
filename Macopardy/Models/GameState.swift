@@ -76,6 +76,10 @@ final class GameState {
         game.currentRound += 1
         showBoard()
     }
+    
+    func loadGameFromJSON(URL: URL) throws {
+        let data = JSONDecoder().decode(<#T##type: Decodable.Type##Decodable.Type#>, from: <#T##Data#>)
+    }
 
     private func markQuestionPlayed(_ question: Question) {
         guard let roundIndex = game.rounds.indices.first(where: { $0 == game.currentRound }) else { return }
