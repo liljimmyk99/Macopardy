@@ -77,8 +77,12 @@ final class GameState {
         showBoard()
     }
     
-    func loadGameFromJSON(URL: URL) throws {
-        let data = JSONDecoder().decode(<#T##type: Decodable.Type##Decodable.Type#>, from: <#T##Data#>)
+    func loadGame(board: JeopardyBoard) {
+        self.game = Game(
+            rounds: [board],
+            currentRound: 0,
+            teams: Team.sampleTeams
+        )
     }
 
     private func markQuestionPlayed(_ question: Question) {

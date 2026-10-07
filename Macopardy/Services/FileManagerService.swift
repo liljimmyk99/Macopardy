@@ -19,12 +19,16 @@ struct JeopardyBoardDocument: FileDocument {
         self.board = board
     }
 
+    static func decodeBoard(from data: Data) throws -> JeopardyBoard {
+        try JSONDecoder().decode(JeopardyBoard.self, from: data)
+    }
+
     init(configuration: ReadConfiguration) throws {
         guard let data = configuration.file.regularFileContents else {
             throw CocoaError(.fileReadCorruptFile)
         }
 
-        board = try JSONDecoder().decode(JeopardyBoard.self, from: data)
+        board = try Self.decodeBoard(from: data)
     }
 
     func fileWrapper(configuration: WriteConfiguration) throws -> FileWrapper {
@@ -56,8 +60,15 @@ final class FileManagerService {
         return "\(base).json"
     }
     
-    // Read File
-    func readBoard() async throws -> JeopardyBoard {
-        return JeopardyBoard.sample
+    func readBoard(from url: URL) async throws -> JeopardyBoard {
+        let hasScopedAccess = url.startAccessingSecurityScopedResource()
+        defer {
+            if hasScopedAccess {
+                url.stopAccessingSecurityScopedResource()
+            }
+        }
+
+        let data = try Data(contentsOf: url)
+        return try JeopardyBoardDocument.decodeBoard(from: data)
     }
 }

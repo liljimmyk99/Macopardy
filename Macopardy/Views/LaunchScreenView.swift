@@ -51,13 +51,25 @@ struct LaunchScreenView: View {
                 switch result {
                 case .success(let URL):
                     AppLogger.database.info("Successfully Imported \(URL.lastPathComponent)")
-                    gameState
+                    loadGame(url: URL)
                 case .failure(let error):
                     AppLogger.database.error("\(error.localizedDescription)")
                 }
                 
             }
         )
+    }
+    
+    func loadGame(url: URL) {
+        Task {
+            do {
+                let board = try await FileManagerService().readBoard(from: url)
+                gameState.loadGame(board: board)
+                hasSelectedGame = true
+            } catch {
+                AppLogger.control.error("Failed to decode board from JSON: \(error.localizedDescription)")
+            }
+        }
     }
 }
 
