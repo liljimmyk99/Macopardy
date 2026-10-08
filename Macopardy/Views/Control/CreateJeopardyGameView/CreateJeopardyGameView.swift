@@ -56,41 +56,17 @@ struct CreateJeopardyGameView: View {
             GameTitleEditor(title: $title)
             
             RoundIndictator(currentRound: $currentRound)
+            
+            DraftBoard(
+                draftCategories: $draftCategories,
+                selectedQuestion: $selectedQuestion
+            )
 
-            ScrollView([.horizontal, .vertical], showsIndicators: false) {
-                VStack(alignment: .leading, spacing: 8) {
-                    CategoryRow(draftCategories: $draftCategories)
 
-                    ForEach(Array(Self.values.enumerated()), id: \.offset) { rowIndex, value in
-                        HStack(spacing: 8) {
-                            BoardRow(draftCategories: $draftCategories, selectedQuestion: $selectedQuestion, rowIndex: rowIndex, value: value)
-                        }
-                    }
-                }
-            }
-
-            HStack {
-                if currentRound < 2 {
-                    Button("Next Round") {
-                        currentRound += 1
-                    }.buttonStyle(.bordered)
-                }
-                
-                if currentRound > 0 {
-                    Button("Previous Round") {
-                        currentRound -= 1
-                    }.buttonStyle(.bordered)
-                }
-                
-                Spacer()
-                
-                Button("Save Game") {
-                    saveGame()
-                }
-                .buttonStyle(.borderedProminent)
-                .controlSize(.large)
-                .accessibilityLabel("Save game")
-            }
+            DraftBoardControls(
+                currentRound: $currentRound,
+                saveGame: saveGame
+            )
         }
         .padding(20)
         .frame(minWidth: 1200, minHeight: 820)
