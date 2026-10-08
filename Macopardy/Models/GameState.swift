@@ -76,6 +76,14 @@ final class GameState {
         game.currentRound += 1
         showBoard()
     }
+    
+    func loadGame(board: JeopardyBoard) {
+        self.game = Game(
+            rounds: [board],
+            currentRound: 0,
+            teams: Team.sampleTeams
+        )
+    }
 
     private func markQuestionPlayed(_ question: Question) {
         guard let roundIndex = game.rounds.indices.first(where: { $0 == game.currentRound }) else { return }
