@@ -10,7 +10,7 @@ internal import os
 struct CreateJeopardyGameView: View {
     @Environment(\.dismissWindow) private var dismissWindow
 
-    internal static let categoryTitles = [
+    internal static let round1DefaultCategories = [
         "Science",
         "History",
         "Literature",
@@ -19,14 +19,23 @@ struct CreateJeopardyGameView: View {
         "Think Music"
     ]
 
+    internal static let round2DefaultCategories = [
+        "World History",
+        "Physical Science",
+        "Fine Arts",
+        "World Geography",
+        "Music & Movies",
+        "Word Play"
+    ]
+
     internal static let round1Values = [200, 400, 600, 800, 1000]
     internal static let round2Values = [400, 800, 1200, 1600, 2000]
 
     @State internal var title: String = ""
     @State internal var currentRound: Int = 0
 
-    @State internal var round1Categories: [DraftCategory] = Self.makeDefaultCategories(values: Self.round1Values)
-    @State internal var round2Categories: [DraftCategory] = Self.makeDefaultCategories(values: Self.round2Values)
+    @State internal var round1Categories: [DraftCategory] = Self.makeDefaultCategories(values: Self.round1Values, titles: Self.round1DefaultCategories)
+    @State internal var round2Categories: [DraftCategory] = Self.makeDefaultCategories(values: Self.round2Values, titles: Self.round2DefaultCategories)
     @State internal var finalJeopardy: DraftFinalJeopardy = DraftFinalJeopardy()
 
     @State internal var selectedQuestion: EditingQuestion?
