@@ -8,11 +8,19 @@ import Foundation
 
 extension CreateJeopardyGameView {
     func updateQuestion(categoryIndex: Int, questionIndex: Int, clue: String? = nil, response: String? = nil) {
-        guard categoryIndex >= 0, categoryIndex < draftCategories.count else { return }
-        guard questionIndex >= 0, questionIndex < draftCategories[categoryIndex].questions.count else { return }
+        if currentRound == 0 {
+            guard categoryIndex >= 0, categoryIndex < round1Categories.count else { return }
+            guard questionIndex >= 0, questionIndex < round1Categories[categoryIndex].questions.count else { return }
 
-        draftCategories[categoryIndex].questions[questionIndex].clue = clue ?? draftCategories[categoryIndex].questions[questionIndex].clue
-        draftCategories[categoryIndex].questions[questionIndex].response = response ?? draftCategories[categoryIndex].questions[questionIndex].response
+            if let clue { round1Categories[categoryIndex].questions[questionIndex].clue = clue }
+            if let response { round1Categories[categoryIndex].questions[questionIndex].response = response }
+        } else if currentRound == 1 {
+            guard categoryIndex >= 0, categoryIndex < round2Categories.count else { return }
+            guard questionIndex >= 0, questionIndex < round2Categories[categoryIndex].questions.count else { return }
+
+            if let clue { round2Categories[categoryIndex].questions[questionIndex].clue = clue }
+            if let response { round2Categories[categoryIndex].questions[questionIndex].response = response }
+        }
     }
 
     func saveGame() {
@@ -23,20 +31,11 @@ extension CreateJeopardyGameView {
             showValidationAlert = true
             return
         }
-        //TODO: Uncomment after create game logic is complete
-        /*
-        let incompleteQuestions = missingQuestions()
-        if !incompleteQuestions.isEmpty {
-            validationMessage = "Your game is incomplete. Please complete all categories and questions before saving. Missing: \(incompleteQuestions.joined(separator: ", "))"
-            showValidationAlert = true
-            return
-        }
-         */
 
-        let board = JeopardyBoard(
-            title: trimmedTitle,
+        let board1 = JeopardyBoard(
+            title: "\(trimmedTitle) - Jeopardy",
             round: .jeopardy,
-            categories: draftCategories.map { category in
+            categories: round1Categories.map { category in
                 Category(
                     title: category.title,
                     questions: category.questions.map { question in
@@ -50,29 +49,46 @@ extension CreateJeopardyGameView {
             }
         )
 
-        exportDocument = FileManagerService().makeExportDocument(for: board)
+        let board2 = JeopardyBoard(
+            title: "\(trimmedTitle) - Double Jeopardy",
+            round: .doubleJeopardy,
+            categories: round2Categories.map { category in
+                Category(
+                    title: category.title,
+                    questions: category.questions.map { question in
+                        Question(
+                            value: question.value,
+                            clue: question.clue.trimmingCharacters(in: .whitespacesAndNewlines),
+                            response: question.response.trimmingCharacters(in: .whitespacesAndNewlines)
+                        )
+                    }
+                )
+            }
+        )
+
+        let finalCategory = finalJeopardy.category.trimmingCharacters(in: .whitespacesAndNewlines)
+        let board3 = JeopardyBoard(
+            title: "\(trimmedTitle) - Final Jeopardy",
+            round: .finalJeopardy,
+            categories: [
+                Category(
+                    title: finalCategory.isEmpty ? "Final Jeopardy" : finalCategory,
+                    questions: [
+                        Question(
+                            value: 0,
+                            clue: finalJeopardy.clue.trimmingCharacters(in: .whitespacesAndNewlines),
+                            response: finalJeopardy.response.trimmingCharacters(in: .whitespacesAndNewlines)
+                        )
+                    ]
+                )
+            ]
+        )
+
+        exportDocument = FileManagerService().makeExportDocument(for: [board1, board2, board3])
         showFileExporter = true
     }
 
-    func missingQuestions() -> [String] {
-        var missing: [String] = []
-
-        for category in draftCategories {
-            for question in category.questions {
-                let clueIsEmpty = question.clue.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
-                let responseIsEmpty = question.response.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
-
-                if clueIsEmpty || responseIsEmpty {
-                    missing.append("\(category.title) - \(question.value)")
-                }
-            }
-        }
-
-        return missing
-    }
-    
-
-    static func makeDefaultCategories() -> [DraftCategory] {
+    static func makeDefaultCategories(values: [Int]) -> [DraftCategory] {
         categoryTitles.map { title in
             DraftCategory(
                 title: title,

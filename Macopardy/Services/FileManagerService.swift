@@ -8,19 +8,19 @@ import Foundation
 import SwiftUI
 import UniformTypeIdentifiers
 
-struct JeopardyBoardDocument: FileDocument {
+struct JeopardyBoardsDocument: FileDocument {
 
     static var readableContentTypes: [UTType] { [.json] }
     static var writableContentTypes: [UTType] { [.json] }
 
-    var board: JeopardyBoard
+    var boards: [JeopardyBoard]
 
-    init(board: JeopardyBoard) {
-        self.board = board
+    init(boards: [JeopardyBoard]) {
+        self.boards = boards
     }
 
-    static func decodeBoard(from data: Data) throws -> JeopardyBoard {
-        try JSONDecoder().decode(JeopardyBoard.self, from: data)
+    static func decodeBoards(from data: Data) throws -> [JeopardyBoard] {
+        try JSONDecoder().decode([JeopardyBoard].self, from: data)
     }
 
     init(configuration: ReadConfiguration) throws {
@@ -28,20 +28,20 @@ struct JeopardyBoardDocument: FileDocument {
             throw CocoaError(.fileReadCorruptFile)
         }
 
-        board = try Self.decodeBoard(from: data)
+        boards = try Self.decodeBoards(from: data)
     }
 
     func fileWrapper(configuration: WriteConfiguration) throws -> FileWrapper {
         let encoder = JSONEncoder()
         encoder.outputFormatting = [.prettyPrinted, .sortedKeys]
 
-        return FileWrapper(regularFileWithContents: try encoder.encode(board))
+        return FileWrapper(regularFileWithContents: try encoder.encode(boards))
     }
 }
 
 final class FileManagerService {
-    func makeExportDocument(for board: JeopardyBoard) -> JeopardyBoardDocument {
-        JeopardyBoardDocument(board: board)
+    func makeExportDocument(for boards: [JeopardyBoard]) -> JeopardyBoardsDocument {
+        JeopardyBoardsDocument(boards: boards)
     }
 
     func defaultFilename(for title: String) -> String {
@@ -60,7 +60,7 @@ final class FileManagerService {
         return "\(base).json"
     }
     
-    func readBoard(from url: URL) async throws -> JeopardyBoard {
+    func readBoards(from url: URL) async throws -> [JeopardyBoard] {
         let hasScopedAccess = url.startAccessingSecurityScopedResource()
         defer {
             if hasScopedAccess {
@@ -69,6 +69,6 @@ final class FileManagerService {
         }
 
         let data = try Data(contentsOf: url)
-        return try JeopardyBoardDocument.decodeBoard(from: data)
+        return try JeopardyBoardsDocument.decodeBoards(from: data)
     }
 }
