@@ -25,8 +25,8 @@ struct CreateJeopardyGameView: View {
     @State internal var title: String = ""
     @State internal var currentRound: Int = 0
 
-    @State internal var round1Categories: [DraftCategory] = Self.makeDefaultCategories(values: round1Values)
-    @State internal var round2Categories: [DraftCategory] = Self.makeDefaultCategories(values: round2Values)
+    @State internal var round1Categories: [DraftCategory] = Self.makeDefaultCategories(values: Self.round1Values)
+    @State internal var round2Categories: [DraftCategory] = Self.makeDefaultCategories(values: Self.round2Values)
     @State internal var finalJeopardy: DraftFinalJeopardy = DraftFinalJeopardy()
 
     @State internal var selectedQuestion: EditingQuestion?
