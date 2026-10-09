@@ -9,7 +9,7 @@ import Foundation
 struct DraftCategory: Identifiable {
 
     let id = UUID()
-    let title: String
+    var title: String
     var questions: [DraftQuestion]
 }
 

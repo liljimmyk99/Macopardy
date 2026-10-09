@@ -35,9 +35,10 @@ extension CreateJeopardyGameView {
         let board1 = JeopardyBoard(
             title: "\(trimmedTitle) - Jeopardy",
             round: .jeopardy,
-            categories: round1Categories.map { category in
-                Category(
-                    title: category.title,
+            categories: round1Categories.enumerated().map { index, category in
+                let trimmedCategoryTitle = category.title.trimmingCharacters(in: .whitespacesAndNewlines)
+                return Category(
+                    title: trimmedCategoryTitle.isEmpty ? "Category \(index + 1)" : trimmedCategoryTitle,
                     questions: category.questions.map { question in
                         Question(
                             value: question.value,
@@ -52,9 +53,10 @@ extension CreateJeopardyGameView {
         let board2 = JeopardyBoard(
             title: "\(trimmedTitle) - Double Jeopardy",
             round: .doubleJeopardy,
-            categories: round2Categories.map { category in
-                Category(
-                    title: category.title,
+            categories: round2Categories.enumerated().map { index, category in
+                let trimmedCategoryTitle = category.title.trimmingCharacters(in: .whitespacesAndNewlines)
+                return Category(
+                    title: trimmedCategoryTitle.isEmpty ? "Category \(index + 1)" : trimmedCategoryTitle,
                     questions: category.questions.map { question in
                         Question(
                             value: question.value,
@@ -88,8 +90,8 @@ extension CreateJeopardyGameView {
         showFileExporter = true
     }
 
-    static func makeDefaultCategories(values: [Int]) -> [DraftCategory] {
-        categoryTitles.map { title in
+    static func makeDefaultCategories(values: [Int], titles: [String]) -> [DraftCategory] {
+        titles.map { title in
             DraftCategory(
                 title: title,
                 questions: values.map { value in

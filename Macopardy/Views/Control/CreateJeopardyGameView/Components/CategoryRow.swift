@@ -7,13 +7,15 @@
 import SwiftUI
 struct CategoryRow: View {
     @Binding var draftCategories: [DraftCategory]
+
     var body: some View {
         HStack(spacing: 8) {
-            ForEach(Array(draftCategories.enumerated()), id: \.element.id) { _, category in
-                CategoryHeaderView(title: category.title)
-                    .frame(width: 180, height: 80)
-                    .accessibilityAddTraits(.isHeader)
-                    .accessibilityLabel(category.title)
+            ForEach(draftCategories.indices, id: \.self) { index in
+                EditableCategoryHeaderView(
+                    title: $draftCategories[index].title,
+                    placeholder: "Category \(index + 1)"
+                )
+                .frame(width: 180, height: 80)
             }
         }
     }
