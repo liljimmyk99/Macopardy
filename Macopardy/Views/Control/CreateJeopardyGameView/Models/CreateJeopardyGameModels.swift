@@ -34,3 +34,16 @@ struct EditingQuestion: Identifiable {
     let clue: String
     let response: String
 }
+
+struct DraftFinalJeopardy {
+
+    var category: String = ""
+    var clue: String = ""
+    var response: String = ""
+
+    var isComplete: Bool {
+        !category.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
+            && !clue.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
+            && !response.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
+    }
+}

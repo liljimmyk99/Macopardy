@@ -63,11 +63,11 @@ struct LaunchScreenView: View {
     func loadGame(url: URL) {
         Task {
             do {
-                let board = try await FileManagerService().readBoard(from: url)
-                gameState.loadGame(board: board)
+                let boards = try await FileManagerService().readBoards(from: url)
+                gameState.loadGame(boards: boards)
                 hasSelectedGame = true
             } catch {
-                AppLogger.control.error("Failed to decode board from JSON: \(error.localizedDescription)")
+                AppLogger.control.error("Failed to decode boards from JSON: \(error.localizedDescription)")
             }
         }
     }

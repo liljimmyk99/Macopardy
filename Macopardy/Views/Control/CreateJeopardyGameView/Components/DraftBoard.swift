@@ -9,13 +9,14 @@ import SwiftUI
 struct DraftBoard: View {
     @Binding var draftCategories: [DraftCategory]
     @Binding var selectedQuestion: EditingQuestion?
+    let values: [Int]
     
     var body: some View {
         ScrollView([.horizontal, .vertical], showsIndicators: false) {
             VStack(alignment: .leading, spacing: 8) {
                 CategoryRow(draftCategories: $draftCategories)
 
-                ForEach(Array(CreateJeopardyGameView.values.enumerated()), id: \.offset) { rowIndex, value in
+                ForEach(Array(values.enumerated()), id: \.offset) { rowIndex, value in
                     HStack(spacing: 8) {
                         BoardRow(
                             draftCategories: $draftCategories,

@@ -77,9 +77,9 @@ final class GameState {
         showBoard()
     }
     
-    func loadGame(board: JeopardyBoard) {
+    func loadGame(boards: [JeopardyBoard]) {
         self.game = Game(
-            rounds: [board],
+            rounds: boards,
             currentRound: 0,
             teams: Team.sampleTeams
         )

@@ -12,17 +12,19 @@ struct DraftBoardControls: View {
     let saveGame: () -> Void
     
     var body: some View {
-        HStack {
-            if currentRound < 2 {
-                Button("Next Round") {
-                    currentRound += 1
-                }.buttonStyle(.bordered)
-            }
-            
+        HStack(spacing: 12) {
             if currentRound > 0 {
-                Button("Previous Round") {
+                Button(previousRoundLabel) {
                     currentRound -= 1
-                }.buttonStyle(.bordered)
+                }
+                .buttonStyle(.bordered)
+            }
+
+            if currentRound < 2 {
+                Button(nextRoundLabel) {
+                    currentRound += 1
+                }
+                .buttonStyle(.bordered)
             }
             
             Spacer()
@@ -34,5 +36,20 @@ struct DraftBoardControls: View {
             .controlSize(.large)
         }
     }
-    
+
+    private var previousRoundLabel: String {
+        switch currentRound {
+        case 1: "Previous: Jeopardy"
+        case 2: "Previous: Double Jeopardy"
+        default: "Previous Round"
+        }
+    }
+
+    private var nextRoundLabel: String {
+        switch currentRound {
+        case 0: "Next: Double Jeopardy"
+        case 1: "Next: Final Jeopardy"
+        default: "Next Round"
+        }
+    }
 }

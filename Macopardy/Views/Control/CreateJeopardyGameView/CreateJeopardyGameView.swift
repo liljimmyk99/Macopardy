@@ -19,37 +19,26 @@ struct CreateJeopardyGameView: View {
         "Think Music"
     ]
 
-    internal static let values = [200, 400, 600, 800, 1000]
+    internal static let round1Values = [200, 400, 600, 800, 1000]
+    internal static let round2Values = [400, 800, 1200, 1600, 2000]
 
-    @State
-    internal var title: String = ""
+    @State internal var title: String = ""
+    @State internal var currentRound: Int = 0
 
-    @State
-    internal var draftCategories: [DraftCategory] = Self.makeDefaultCategories()
+    @State internal var round1Categories: [DraftCategory] = Self.makeDefaultCategories(values: round1Values)
+    @State internal var round2Categories: [DraftCategory] = Self.makeDefaultCategories(values: round2Values)
+    @State internal var finalJeopardy: DraftFinalJeopardy = DraftFinalJeopardy()
 
-    @State
-    internal var selectedQuestion: EditingQuestion?
+    @State internal var selectedQuestion: EditingQuestion?
 
-    @State
-    internal var validationMessage: String = ""
+    @State internal var validationMessage: String = ""
+    @State internal var showValidationAlert = false
 
-    @State
-    internal var showValidationAlert = false
+    @State internal var saveErrorMessage: String = ""
+    @State internal var showSaveErrorAlert = false
 
-    @State
-    internal var saveErrorMessage: String = ""
-
-    @State
-    internal var showSaveErrorAlert = false
-
-    @State
-    internal var exportDocument: JeopardyBoardDocument?
-
-    @State
-    internal var showFileExporter = false
-    
-    @State
-    internal var currentRound: Int = 0
+    @State internal var exportDocument: JeopardyBoardsDocument?
+    @State internal var showFileExporter = false
 
     var body: some View {
         VStack(alignment: .leading, spacing: 18) {
@@ -57,11 +46,21 @@ struct CreateJeopardyGameView: View {
             
             RoundIndictator(currentRound: $currentRound)
             
-            DraftBoard(
-                draftCategories: $draftCategories,
-                selectedQuestion: $selectedQuestion
-            )
-
+            if currentRound == 0 {
+                DraftBoard(
+                    draftCategories: $round1Categories,
+                    selectedQuestion: $selectedQuestion,
+                    values: Self.round1Values
+                )
+            } else if currentRound == 1 {
+                DraftBoard(
+                    draftCategories: $round2Categories,
+                    selectedQuestion: $selectedQuestion,
+                    values: Self.round2Values
+                )
+            } else {
+                DraftFinalJeopardyView(draft: $finalJeopardy)
+            }
 
             DraftBoardControls(
                 currentRound: $currentRound,
@@ -85,13 +84,13 @@ struct CreateJeopardyGameView: View {
             isPresented: $showFileExporter,
             document: exportDocument,
             contentType: .json,
-            defaultFilename: exportDocument.map {
-                FileManagerService().defaultFilename(for: $0.board.title)
+            defaultFilename: exportDocument.map { _ in
+                FileManagerService().defaultFilename(for: title)
             }
         ) { result in
             switch result {
             case .success:
-                AppLogger.database.info("Successfully Saved Board")
+                AppLogger.database.info("Successfully Saved Boards")
                 dismissWindow(id: "create-jeopardy")
             case .failure(let error):
                 if (error as? CocoaError)?.code != .userCancelled {
@@ -105,7 +104,13 @@ struct CreateJeopardyGameView: View {
             QuestionEditorView(
                 value: question.value,
                 clue: Binding(
-                    get: { draftCategories[question.categoryIndex].questions[question.questionIndex].clue },
+                    get: {
+                        if currentRound == 0 {
+                            return round1Categories[question.categoryIndex].questions[question.questionIndex].clue
+                        } else {
+                            return round2Categories[question.categoryIndex].questions[question.questionIndex].clue
+                        }
+                    },
                     set: { newValue in
                         updateQuestion(
                             categoryIndex: question.categoryIndex,
@@ -115,7 +120,13 @@ struct CreateJeopardyGameView: View {
                     }
                 ),
                 response: Binding(
-                    get: { draftCategories[question.categoryIndex].questions[question.questionIndex].response },
+                    get: {
+                        if currentRound == 0 {
+                            return round1Categories[question.categoryIndex].questions[question.questionIndex].response
+                        } else {
+                            return round2Categories[question.categoryIndex].questions[question.questionIndex].response
+                        }
+                    },
                     set: { newValue in
                         updateQuestion(
                             categoryIndex: question.categoryIndex,
