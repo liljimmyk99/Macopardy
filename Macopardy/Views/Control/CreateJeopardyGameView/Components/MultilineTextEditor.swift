@@ -11,22 +11,14 @@ struct MultilineTextEditor: View {
     @Binding
     var text: String
     let placeholder: String
+    var minHeight: CGFloat = 120
 
     var body: some View {
-        ZStack(alignment: .topLeading) {
-            if text.isEmpty {
-                Text(placeholder)
-                    .foregroundStyle(.secondary)
-                    .padding(.leading, 8)
-                    .padding(.top, 10)
-            }
-
-            TextEditor(text: $text)
-                .padding(4)
-                .background(Color(.textBackgroundColor))
-                .clipShape(RoundedRectangle(cornerRadius: 8))
-                .frame(minHeight: 120)
-                .opacity(text.isEmpty ? 0.8 : 1)
-        }
+        TextField(placeholder, text: $text, axis: .vertical)
+            .lineLimit(4...10)
+            .padding(10)
+            .background(Color(.textBackgroundColor))
+            .clipShape(RoundedRectangle(cornerRadius: 8))
+            .frame(minHeight: minHeight, alignment: .topLeading)
     }
 }
