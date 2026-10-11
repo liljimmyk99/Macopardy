@@ -12,12 +12,7 @@ struct CountdownView: View {
     var color: Color = JeopardyTheme.gold
 
     var body: some View {
-        Text("\(seconds)")
-            .font(font)
-            .foregroundStyle(color)
-            .monospacedDigit()
-            .contentTransition(.numericText())
-            .animation(.default, value: seconds)
+        countdownText()
     }
 }
 

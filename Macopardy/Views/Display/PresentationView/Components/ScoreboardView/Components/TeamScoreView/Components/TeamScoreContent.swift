@@ -1,16 +1,7 @@
-//
-//  TeamScoreView.swift
-//  Macopardy
-//
-
 import SwiftUI
 
-struct TeamScoreView: View {
-
-    let team: Team
-    var compact: Bool = false
-
-    var body: some View {
+extension TeamScoreView {
+    func teamScoreContent() -> some View {
         VStack(spacing: compact ? 4 : 8) {
             Text(team.name)
                 .font(compact ? .headline : .title2)
@@ -24,10 +15,4 @@ struct TeamScoreView: View {
         }
         .frame(maxWidth: .infinity)
     }
-}
-
-#Preview {
-    TeamScoreView(team: Team.sampleTeams[0])
-        .padding()
-        .background(JeopardyTheme.boardBlue)
 }
