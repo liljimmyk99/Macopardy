@@ -1,15 +1,7 @@
-//
-//  ScoreboardView.swift
-//  Macopardy
-//
-
 import SwiftUI
 
-struct ScoreboardView: View {
-
-    let teams: [Team]
-
-    var body: some View {
+extension ScoreboardView {
+    func scoreboardContent() -> some View {
         HStack(spacing: 32) {
             ForEach(teams) { team in
                 TeamScoreView(team: team)
@@ -19,8 +11,4 @@ struct ScoreboardView: View {
         .padding(.vertical, 16)
         .background(JeopardyTheme.boardBlue.opacity(0.95))
     }
-}
-
-#Preview {
-    ScoreboardView(teams: Team.sampleTeams)
 }

@@ -1,16 +1,11 @@
-//
-//  TimerView.swift
-//  Macopardy
-//
-
 import SwiftUI
 
 struct TimerView: View {
 
-    @Environment(GameState.self) private var gameState
+    @Environment(GameState.self) var gameState
 
     var body: some View {
-        CountdownView(seconds: Int(gameState.timer.remainingTime))
+        countdownContent()
     }
 }
 

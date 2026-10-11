@@ -1,8 +1,3 @@
-//
-//  CategoryColumnView.swift
-//  Macopardy
-//
-
 import SwiftUI
 
 struct CategoryColumnView: View {
@@ -11,12 +6,8 @@ struct CategoryColumnView: View {
 
     var body: some View {
         VStack(spacing: 4) {
-            CategoryHeaderView(title: category.title)
-                .frame(height: 80)
-
-            ForEach(category.questions) { question in
-                QuestionTileView(question: question)
-            }
+            categoryHeader()
+            questionTiles()
         }
     }
 }

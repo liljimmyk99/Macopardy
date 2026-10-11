@@ -1,8 +1,3 @@
-//
-//  QuestionTileView.swift
-//  Macopardy
-//
-
 import SwiftUI
 
 struct QuestionTileView: View {
@@ -10,15 +5,7 @@ struct QuestionTileView: View {
     let question: Question
 
     var body: some View {
-        ZStack {
-            Rectangle()
-                .fill(question.hasBeenPlayed ? JeopardyTheme.tilePlayed : JeopardyTheme.tileBlue)
-
-            if !question.hasBeenPlayed {
-                QuestionValueView(value: question.value)
-            }
-        }
-        .aspectRatio(1.4, contentMode: .fit)
+        tileContent()
     }
 }
 
