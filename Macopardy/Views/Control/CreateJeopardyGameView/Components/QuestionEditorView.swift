@@ -17,6 +17,9 @@ struct QuestionEditorView: View {
     @Binding
     var response: String
 
+    @Binding
+    var isDailyDouble: Bool
+
     let onDone: () -> Void
 
     private enum Field: Hashable {
@@ -31,6 +34,11 @@ struct QuestionEditorView: View {
                     .font(.title2)
                     .bold()
                 Spacer()
+                Toggle(isOn: $isDailyDouble) {
+                    Label("Daily Double", systemImage: "star.fill")
+                }
+                .toggleStyle(.button)
+                .tint(JeopardyTheme.gold)
                 Button("Done") {
                     onDone()
                 }

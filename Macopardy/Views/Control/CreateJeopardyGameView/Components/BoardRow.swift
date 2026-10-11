@@ -18,18 +18,20 @@ struct BoardRow: View {
             QuestionTileButtonView(
                 value: value,
                 isComplete: question.isComplete,
+                isDailyDouble: question.isDailyDouble,
                 action: {
                     selectedQuestion = EditingQuestion(
                         categoryIndex: categoryIndex,
                         questionIndex: rowIndex,
                         value: value,
                         clue: question.clue,
-                        response: question.response
+                        response: question.response,
+                        isDailyDouble: question.isDailyDouble
                     )
                 }
             )
             .frame(width: 180, height: 120)
-            .accessibilityLabel("\(category.title) question for \(value), \(question.isComplete ? "completed" : "incomplete")")
+            .accessibilityLabel("\(category.title) question for \(value), \(question.isComplete ? "completed" : "incomplete")\(question.isDailyDouble ? ", Daily Double" : "")")
         }
     }
 }

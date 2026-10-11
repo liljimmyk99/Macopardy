@@ -41,19 +41,19 @@ struct ControlView: View {
             SetupControlView()
 
         case .board:
-            Phase2BoardControlView()
+            BoardControlView()
 
         case .question, .answer:
-            Phase3QuestionControlView()
+            QuestionControlView()
 
         case .dailyDouble:
-            Phase4DailyDoubleControlView()
+            DailyDoubleControlView()
 
         case .finalJeopardyCategory:
-            Phase5FinalJeopardyCategoryControlView()
+            FinalJeopardyCategoryControlView()
 
         case .finalJeopardyQuestion, .finalJeopardyAnswer:
-            Phase6FinalJeopardyControlView()
+            FinalJeopardyControlView()
         }
     }
 

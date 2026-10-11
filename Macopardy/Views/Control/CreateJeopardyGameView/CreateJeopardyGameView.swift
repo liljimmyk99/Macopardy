@@ -144,6 +144,22 @@ struct CreateJeopardyGameView: View {
                         )
                     }
                 ),
+                isDailyDouble: Binding(
+                    get: {
+                        if currentRound == 0 {
+                            return round1Categories[question.categoryIndex].questions[question.questionIndex].isDailyDouble
+                        } else {
+                            return round2Categories[question.categoryIndex].questions[question.questionIndex].isDailyDouble
+                        }
+                    },
+                    set: { newValue in
+                        updateQuestion(
+                            categoryIndex: question.categoryIndex,
+                            questionIndex: question.questionIndex,
+                            isDailyDouble: newValue
+                        )
+                    }
+                ),
                 onDone: {
                     selectedQuestion = nil
                 }

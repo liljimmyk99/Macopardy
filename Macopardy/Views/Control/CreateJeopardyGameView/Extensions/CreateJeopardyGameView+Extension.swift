@@ -7,19 +7,21 @@
 import Foundation
 
 extension CreateJeopardyGameView {
-    func updateQuestion(categoryIndex: Int, questionIndex: Int, clue: String? = nil, response: String? = nil) {
+    func updateQuestion(categoryIndex: Int, questionIndex: Int, clue: String? = nil, response: String? = nil, isDailyDouble: Bool? = nil) {
         if currentRound == 0 {
             guard categoryIndex >= 0, categoryIndex < round1Categories.count else { return }
             guard questionIndex >= 0, questionIndex < round1Categories[categoryIndex].questions.count else { return }
 
             if let clue { round1Categories[categoryIndex].questions[questionIndex].clue = clue }
             if let response { round1Categories[categoryIndex].questions[questionIndex].response = response }
+            if let isDailyDouble { round1Categories[categoryIndex].questions[questionIndex].isDailyDouble = isDailyDouble }
         } else if currentRound == 1 {
             guard categoryIndex >= 0, categoryIndex < round2Categories.count else { return }
             guard questionIndex >= 0, questionIndex < round2Categories[categoryIndex].questions.count else { return }
 
             if let clue { round2Categories[categoryIndex].questions[questionIndex].clue = clue }
             if let response { round2Categories[categoryIndex].questions[questionIndex].response = response }
+            if let isDailyDouble { round2Categories[categoryIndex].questions[questionIndex].isDailyDouble = isDailyDouble }
         }
     }
 
@@ -43,7 +45,8 @@ extension CreateJeopardyGameView {
                         Question(
                             value: question.value,
                             clue: question.clue.trimmingCharacters(in: .whitespacesAndNewlines),
-                            response: question.response.trimmingCharacters(in: .whitespacesAndNewlines)
+                            response: question.response.trimmingCharacters(in: .whitespacesAndNewlines),
+                            isDailyDouble: question.isDailyDouble
                         )
                     }
                 )
@@ -61,7 +64,8 @@ extension CreateJeopardyGameView {
                         Question(
                             value: question.value,
                             clue: question.clue.trimmingCharacters(in: .whitespacesAndNewlines),
-                            response: question.response.trimmingCharacters(in: .whitespacesAndNewlines)
+                            response: question.response.trimmingCharacters(in: .whitespacesAndNewlines),
+                            isDailyDouble: question.isDailyDouble
                         )
                     }
                 )
@@ -101,3 +105,4 @@ extension CreateJeopardyGameView {
         }
     }
 }
+

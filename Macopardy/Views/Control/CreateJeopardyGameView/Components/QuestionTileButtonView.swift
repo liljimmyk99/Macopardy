@@ -10,6 +10,7 @@ struct QuestionTileButtonView: View {
 
     let value: Int
     let isComplete: Bool
+    var isDailyDouble: Bool = false
     let action: () -> Void
 
     var body: some View {
@@ -23,11 +24,18 @@ struct QuestionTileButtonView: View {
                             .stroke(isComplete ? JeopardyTheme.gold : Color.clear, lineWidth: 2)
                     )
 
-                if isComplete {
-                    Image(systemName: "checkmark.circle.fill")
-                        .foregroundStyle(JeopardyTheme.gold)
-                        .padding(8)
+                HStack(spacing: 4) {
+                    if isDailyDouble {
+                        Image(systemName: "star.fill")
+                            .foregroundStyle(JeopardyTheme.gold)
+                            .font(.caption)
+                    }
+                    if isComplete {
+                        Image(systemName: "checkmark.circle.fill")
+                            .foregroundStyle(JeopardyTheme.gold)
+                    }
                 }
+                .padding(8)
 
                 QuestionValueView(value: value)
                     .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
