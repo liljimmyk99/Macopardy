@@ -7,15 +7,19 @@
 import Foundation
 import SwiftUI
 
-struct Team: Identifiable {
+struct Team: Identifiable, Equatable {
 
-    let id = UUID()
-
+    let id: UUID
     var name: String
-
     var score: Int
-
     var color: String
+
+    init(id: UUID = UUID(), name: String, score: Int = 0, color: String = "blue") {
+        self.id = id
+        self.name = name
+        self.score = score
+        self.color = color
+    }
 
     var displayColor: Color {
         switch color.lowercased() {
@@ -31,6 +35,12 @@ struct Team: Identifiable {
 }
 
 extension Team {
+
+    static let defaultNewTeams: [Team] = [
+        Team(name: "Team 1", score: 0, color: "blue"),
+        Team(name: "Team 2", score: 0, color: "red"),
+        Team(name: "Team 3", score: 0, color: "green"),
+    ]
 
     static let sampleTeams: [Team] = [
         Team(name: "Blue Team", score: 2400, color: "blue"),
