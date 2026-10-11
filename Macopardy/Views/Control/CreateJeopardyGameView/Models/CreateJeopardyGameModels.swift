@@ -18,6 +18,7 @@ struct DraftQuestion {
     let value: Int
     var clue: String
     var response: String
+    var isDailyDouble: Bool = false
 
     var isComplete: Bool {
         !clue.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
@@ -33,6 +34,7 @@ struct EditingQuestion: Identifiable {
     let value: Int
     let clue: String
     let response: String
+    let isDailyDouble: Bool
 }
 
 struct DraftFinalJeopardy {
