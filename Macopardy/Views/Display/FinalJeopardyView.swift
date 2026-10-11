@@ -2,6 +2,8 @@
 //  FinalJeopardyView.swift
 //  Macopardy
 //
+//  Created by Jimmy Kane on 7/15/26.
+//
 
 import SwiftUI
 
@@ -10,7 +12,7 @@ struct FinalJeopardyView: View {
     @Environment(GameState.self) private var gameState
 
     var body: some View {
-        VStack(spacing: 48) {
+        VStack(spacing: 36) {
             Spacer()
 
             Text("FINAL JEOPARDY")
@@ -18,19 +20,47 @@ struct FinalJeopardyView: View {
                 .foregroundStyle(JeopardyTheme.gold)
 
             if let categoryTitle = gameState.currentCategoryTitle {
-                VStack(spacing: 12) {
-                    Text("Category")
-                        .font(.title2)
-                        .foregroundStyle(.white.opacity(0.8))
+                VStack(spacing: 8) {
+                    Text("CATEGORY")
+                        .font(.headline)
+                        .foregroundStyle(JeopardyTheme.gold.opacity(0.8))
 
                     Text(categoryTitle.uppercased())
-                        .font(.system(size: 56, weight: .bold))
+                        .font(.system(size: 48, weight: .bold))
                         .foregroundStyle(.white)
                         .multilineTextAlignment(.center)
                 }
             }
 
-            TimerView()
+            switch gameState.phase {
+            case .finalJeopardyCategory:
+                EmptyView()
+
+            case .finalJeopardyQuestion:
+                if let question = gameState.currentQuestion {
+                    Text(question.clue)
+                        .font(JeopardyTheme.clueFont)
+                        .foregroundStyle(.white)
+                        .multilineTextAlignment(.center)
+                        .padding(.horizontal, 60)
+                }
+                TimerView()
+                    .onAppear {
+                        gameState.timer.start()
+                    }
+
+            case .finalJeopardyAnswer:
+                if let question = gameState.currentQuestion {
+                    Text(question.response)
+                        .font(JeopardyTheme.answerFont)
+                        .foregroundStyle(.white)
+                        .multilineTextAlignment(.center)
+                        .padding(.horizontal, 60)
+                }
+
+            default:
+                EmptyView()
+            }
 
             Spacer()
         }
@@ -42,7 +72,7 @@ struct FinalJeopardyView: View {
 #Preview {
     let gameState = GameState()
     gameState.currentCategoryTitle = "Think Music"
-    gameState.phase = .finalJeopardy
+    gameState.phase = .finalJeopardyCategory
 
     return FinalJeopardyView()
         .environment(gameState)
