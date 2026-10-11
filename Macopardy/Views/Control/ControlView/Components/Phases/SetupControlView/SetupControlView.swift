@@ -9,32 +9,16 @@ import SwiftUI
 
 struct SetupControlView: View {
 
-    @Environment(GameState.self) private var gameState
+    @Environment(GameState.self) var gameState
 
     var body: some View {
         VStack(spacing: 24) {
-            VStack(spacing: 8) {
-                Text("Phase 1: Game Setup")
-                    .font(.title2.bold())
-
-                Text("Configure your teams before starting the game.")
-                    .font(.subheadline)
-                    .foregroundStyle(.secondary)
-            }
-            .padding(.top, 10)
+            setupHeader()
 
             TeamEditorView()
                 .frame(maxWidth: 600)
 
-            LargeButton(
-                title: "Start Game",
-                systemImage: "play.circle.fill",
-                tint: .green
-            ) {
-                gameState.startGame()
-            }
-            .frame(maxWidth: 300)
-            .padding(.top, 8)
+            startGameButton()
 
             Spacer()
         }
