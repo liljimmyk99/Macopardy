@@ -5,7 +5,7 @@ extension DailyDoubleControlView {
         LargeButton(
             title: "control.daily_double.button.show_question",
             systemImage: "questionmark.circle.fill",
-            tint: JeopardyTheme.gold
+            tint: MacpardyTheme.gold
         ) {
             let teamID = selectedTeamID ?? gameState.game.teams.first?.id ?? UUID()
             let finalWager = max(5, min(parsedWagerValue, maxWager))

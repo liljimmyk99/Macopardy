@@ -21,8 +21,8 @@ extension PresentationView {
         case .dailyDouble:
             DailyDoubleView()
 
-        case .finalJeopardyCategory, .finalJeopardyQuestion, .finalJeopardyAnswer:
-            FinalJeopardyView()
+        case .finalMacpardyCategory, .finalMacpardyQuestion, .finalMacpardyAnswer:
+            FinalMacpardyView()
         }
     }
 }

@@ -14,8 +14,8 @@ extension ControlView {
         case .board: "control.nav_title.board"
         case .question, .answer: "control.nav_title.question"
         case .dailyDouble: "control.nav_title.daily_double"
-        case .finalJeopardyCategory: "control.nav_title.final_jeopardy_category"
-        case .finalJeopardyQuestion, .finalJeopardyAnswer: "control.nav_title.final_jeopardy_question"
+        case .finalMacpardyCategory: "control.nav_title.final_macpardy_category"
+        case .finalMacpardyQuestion, .finalMacpardyAnswer: "control.nav_title.final_macpardy_question"
         }
     }
 
@@ -26,9 +26,9 @@ extension ControlView {
         case .question: "control.phase_indicator.question"
         case .answer: "control.phase_indicator.answer"
         case .dailyDouble: "control.phase_indicator.daily_double"
-        case .finalJeopardyCategory: "control.phase_indicator.final_jeopardy_category"
-        case .finalJeopardyQuestion: "control.phase_indicator.final_jeopardy_question"
-        case .finalJeopardyAnswer: "control.phase_indicator.final_jeopardy_answer"
+        case .finalMacpardyCategory: "control.phase_indicator.final_macpardy_category"
+        case .finalMacpardyQuestion: "control.phase_indicator.final_macpardy_question"
+        case .finalMacpardyAnswer: "control.phase_indicator.final_macpardy_answer"
         }
     }
 }

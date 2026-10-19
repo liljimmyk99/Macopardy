@@ -18,5 +18,5 @@ struct QuestionTileView: View {
     }
     .frame(width: 300)
     .padding()
-    .background(JeopardyTheme.boardBlue)
+    .background(MacpardyTheme.boardBlue)
 }

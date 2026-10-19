@@ -10,7 +10,7 @@ extension AnswerView {
                 Spacer()
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
-            .background(JeopardyTheme.clueBackground)
+            .background(MacpardyTheme.clueBackground)
         }
     }
 }

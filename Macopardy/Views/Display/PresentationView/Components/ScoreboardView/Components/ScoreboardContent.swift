@@ -9,6 +9,6 @@ extension ScoreboardView {
         }
         .padding(.horizontal, 40)
         .padding(.vertical, 16)
-        .background(JeopardyTheme.boardBlue.opacity(0.95))
+        .background(MacpardyTheme.boardBlue.opacity(0.95))
     }
 }

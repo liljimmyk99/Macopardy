@@ -6,10 +6,10 @@ extension ScoreControlsView {
         if let ddTeamID = gameState.dailyDoubleTeamID,
            let team = gameState.game.teams.first(where: { $0.id == ddTeamID }) {
             dailyDoubleTeamControls(for: team, wager: gameState.dailyDoubleWager)
-        } else if gameState.phase == .finalJeopardyQuestion || gameState.phase == .finalJeopardyAnswer {
+        } else if gameState.phase == .finalMacpardyQuestion || gameState.phase == .finalMacpardyAnswer {
             ForEach(gameState.game.teams) { team in
-                let wager = gameState.finalJeopardyWagers[team.id] ?? 0
-                finalJeopardyTeamControls(for: team, wager: wager)
+                let wager = gameState.finalMacpardyWagers[team.id] ?? 0
+                finalMacpardyTeamControls(for: team, wager: wager)
             }
         } else {
             ForEach(gameState.game.teams) { team in
@@ -25,7 +25,7 @@ extension ScoreControlsView {
             HStack(spacing: 8) {
                 Text("control.score.daily_double_wager \(wager)")
                     .font(.caption.bold())
-                    .foregroundStyle(JeopardyTheme.gold)
+                    .foregroundStyle(MacpardyTheme.gold)
 
                 Spacer()
 
@@ -38,7 +38,7 @@ extension ScoreControlsView {
         .clipShape(RoundedRectangle(cornerRadius: 8))
     }
 
-    func finalJeopardyTeamControls(for team: Team, wager: Int) -> some View {
+    func finalMacpardyTeamControls(for team: Team, wager: Int) -> some View {
         VStack(alignment: .leading, spacing: 8) {
             teamHeader(team)
 

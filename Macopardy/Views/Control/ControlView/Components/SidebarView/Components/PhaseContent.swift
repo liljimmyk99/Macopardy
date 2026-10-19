@@ -12,7 +12,7 @@ extension SidebarView {
     func phaseContent() -> some View {
         HStack {
             Image(systemName: phaseIcon)
-                .foregroundStyle(JeopardyTheme.gold)
+                .foregroundStyle(MacpardyTheme.gold)
             Text(phaseLabel)
                 .fontWeight(.medium)
         }

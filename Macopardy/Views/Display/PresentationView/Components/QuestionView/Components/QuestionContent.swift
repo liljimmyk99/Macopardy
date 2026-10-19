@@ -12,7 +12,7 @@ extension QuestionView {
                 Spacer()
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
-            .background(JeopardyTheme.clueBackground)
+            .background(MacpardyTheme.clueBackground)
             .onAppear {
                 gameState.timer.start()
             }

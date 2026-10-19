@@ -13,5 +13,5 @@ struct TimerView: View {
     TimerView()
         .environment(GameState())
         .padding()
-        .background(JeopardyTheme.clueBackground)
+        .background(MacpardyTheme.clueBackground)
 }

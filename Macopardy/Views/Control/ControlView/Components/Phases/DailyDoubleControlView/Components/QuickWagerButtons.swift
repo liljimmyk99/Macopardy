@@ -20,7 +20,7 @@ extension DailyDoubleControlView {
                 wagerText = "\(maxWager)"
             }
             .buttonStyle(.bordered)
-            .tint(JeopardyTheme.gold)
+            .tint(MacpardyTheme.gold)
         }
     }
 }

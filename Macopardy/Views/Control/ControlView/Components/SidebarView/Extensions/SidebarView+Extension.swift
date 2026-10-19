@@ -15,9 +15,9 @@ extension SidebarView {
         case .question: "control.phase.question"
         case .answer: "control.phase.answer"
         case .dailyDouble: "control.phase.daily_double"
-        case .finalJeopardyCategory: "control.phase.final_jeopardy_category"
-        case .finalJeopardyQuestion: "control.phase.final_jeopardy_question"
-        case .finalJeopardyAnswer: "control.phase.final_jeopardy_answer"
+        case .finalMacpardyCategory: "control.phase.final_macpardy_category"
+        case .finalMacpardyQuestion: "control.phase.final_macpardy_question"
+        case .finalMacpardyAnswer: "control.phase.final_macpardy_answer"
         }
     }
 
@@ -27,7 +27,7 @@ extension SidebarView {
         case .board: "square.grid.3x3"
         case .question, .answer: "questionmark.circle.fill"
         case .dailyDouble: "star.fill"
-        case .finalJeopardyCategory, .finalJeopardyQuestion, .finalJeopardyAnswer: "flag.checkered"
+        case .finalMacpardyCategory, .finalMacpardyQuestion, .finalMacpardyAnswer: "flag.checkered"
         }
     }
 }

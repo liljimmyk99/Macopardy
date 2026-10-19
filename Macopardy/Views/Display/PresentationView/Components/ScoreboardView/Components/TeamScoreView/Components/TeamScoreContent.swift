@@ -9,7 +9,7 @@ extension TeamScoreView {
                 .foregroundStyle(team.displayColor)
 
             Text("\(team.score)")
-                .font(compact ? JeopardyTheme.scoreFont : .system(size: 40, weight: .bold))
+                .font(compact ? MacpardyTheme.scoreFont : .system(size: 40, weight: .bold))
                 .foregroundStyle(.white)
                 .monospacedDigit()
         }

@@ -20,7 +20,7 @@ struct LaunchScreenView: View {
     var body: some View {
         VStack(spacing: 40) {
             VStack(spacing: 16) {
-                GameTitleView(title: "Jeopardy!")
+                GameTitleView(title: "Macpardy!")
                 Text("launch.welcome_title")
                     .font(.subheadline)
                     .foregroundStyle(.secondary)
@@ -40,7 +40,7 @@ struct LaunchScreenView: View {
                     systemImage: "plus.circle",
                     tint: .orange
                 ) {
-                    openWindow(id: "create-jeopardy")
+                    openWindow(id: "create-macpardy")
                 }
             }
         }

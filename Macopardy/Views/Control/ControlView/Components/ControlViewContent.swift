@@ -22,11 +22,11 @@ extension ControlView {
         case .dailyDouble:
             DailyDoubleControlView()
 
-        case .finalJeopardyCategory:
-            FinalJeopardyCategoryControlView()
+        case .finalMacpardyCategory:
+            FinalMacpardyCategoryControlView()
 
-        case .finalJeopardyQuestion, .finalJeopardyAnswer:
-            FinalJeopardyControlView()
+        case .finalMacpardyQuestion, .finalMacpardyAnswer:
+            FinalMacpardyControlView()
         }
     }
 }

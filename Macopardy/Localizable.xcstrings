@@ -241,8 +241,8 @@
         }
       }
     },
-    "control.final_jeopardy.button.end_game": {
-      "comment": "Button to conclude the game after Final Jeopardy",
+    "control.final_macpardy.button.end_game": {
+      "comment": "Button to conclude the game after Final Macpardy",
       "extractionState": "manual",
       "localizations": {
         "en": {
@@ -253,20 +253,20 @@
         }
       }
     },
-    "control.final_jeopardy.button.show_question": {
+    "control.final_macpardy.button.show_question": {
       "comment": "Button on control view to move from category view to clue view",
       "extractionState": "manual",
       "localizations": {
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Show Final Jeopardy Question"
+            "value": "Show Final Macpardy Question"
           }
         }
       }
     },
-    "control.final_jeopardy.category_instructions": {
-      "comment": "Instructions shown during the Final Jeopardy category phase",
+    "control.final_macpardy.category_instructions": {
+      "comment": "Instructions shown during the Final Macpardy category phase",
       "extractionState": "manual",
       "localizations": {
         "en": {
@@ -277,14 +277,14 @@
         }
       }
     },
-    "control.final_jeopardy.category_title": {
-      "comment": "Title of Final Jeopardy category control phase",
+    "control.final_macpardy.category_title": {
+      "comment": "Title of Final Macpardy category control phase",
       "extractionState": "manual",
       "localizations": {
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Final Jeopardy Category"
+            "value": "Final Macpardy Category"
           }
         }
       }
@@ -313,26 +313,26 @@
         }
       }
     },
-    "control.nav_title.final_jeopardy_category": {
-      "comment": "Navigation title for final jeopardy category phase",
+    "control.nav_title.final_macpardy_category": {
+      "comment": "Navigation title for final macpardy category phase",
       "extractionState": "manual",
       "localizations": {
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Phase 5: Final Jeopardy"
+            "value": "Phase 5: Final Macpardy"
           }
         }
       }
     },
-    "control.nav_title.final_jeopardy_question": {
-      "comment": "Navigation title for final jeopardy question/answer phase",
+    "control.nav_title.final_macpardy_question": {
+      "comment": "Navigation title for final macpardy question/answer phase",
       "extractionState": "manual",
       "localizations": {
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Phase 6: Final Jeopardy Question"
+            "value": "Phase 6: Final Macpardy Question"
           }
         }
       }
@@ -397,8 +397,8 @@
         }
       }
     },
-    "control.phase.final_jeopardy_answer": {
-      "comment": "Sidebar phase label for Final Jeopardy Answer phase",
+    "control.phase.final_macpardy_answer": {
+      "comment": "Sidebar phase label for Final Macpardy Answer phase",
       "extractionState": "manual",
       "localizations": {
         "en": {
@@ -409,8 +409,8 @@
         }
       }
     },
-    "control.phase.final_jeopardy_category": {
-      "comment": "Sidebar phase label for Final Jeopardy Category phase",
+    "control.phase.final_macpardy_category": {
+      "comment": "Sidebar phase label for Final Macpardy Category phase",
       "extractionState": "manual",
       "localizations": {
         "en": {
@@ -421,8 +421,8 @@
         }
       }
     },
-    "control.phase.final_jeopardy_question": {
-      "comment": "Sidebar phase label for Final Jeopardy Question phase",
+    "control.phase.final_macpardy_question": {
+      "comment": "Sidebar phase label for Final Macpardy Question phase",
       "extractionState": "manual",
       "localizations": {
         "en": {
@@ -493,7 +493,7 @@
         }
       }
     },
-    "control.phase_indicator.final_jeopardy_answer": {
+    "control.phase_indicator.final_macpardy_answer": {
       "comment": "Phase indicator for FJ Answer",
       "extractionState": "manual",
       "localizations": {
@@ -505,7 +505,7 @@
         }
       }
     },
-    "control.phase_indicator.final_jeopardy_category": {
+    "control.phase_indicator.final_macpardy_category": {
       "comment": "Phase indicator for FJ Category",
       "extractionState": "manual",
       "localizations": {
@@ -517,7 +517,7 @@
         }
       }
     },
-    "control.phase_indicator.final_jeopardy_question": {
+    "control.phase_indicator.final_macpardy_question": {
       "comment": "Phase indicator for FJ Question",
       "extractionState": "manual",
       "localizations": {
@@ -734,7 +734,7 @@
       }
     },
     "control.score.fj_wager %lld": {
-      "comment": "Label showing Final Jeopardy wager amount",
+      "comment": "Label showing Final Macpardy wager amount",
       "extractionState": "manual",
       "localizations": {
         "en": {
@@ -1117,20 +1117,20 @@
         }
       }
     },
-    "create.final_jeopardy.category_accessibility": {
-      "comment": "Accessibility label for Final Jeopardy category field",
+    "create.final_macpardy.category_accessibility": {
+      "comment": "Accessibility label for Final Macpardy category field",
       "extractionState": "manual",
       "localizations": {
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Final Jeopardy Category"
+            "value": "Final Macpardy Category"
           }
         }
       }
     },
-    "create.final_jeopardy.category_label": {
-      "comment": "Label above Final Jeopardy category input",
+    "create.final_macpardy.category_label": {
+      "comment": "Label above Final Macpardy category input",
       "extractionState": "manual",
       "localizations": {
         "en": {
@@ -1141,50 +1141,50 @@
         }
       }
     },
-    "create.final_jeopardy.category_placeholder": {
-      "comment": "Placeholder text for Final Jeopardy category input",
+    "create.final_macpardy.category_placeholder": {
+      "comment": "Placeholder text for Final Macpardy category input",
       "extractionState": "manual",
       "localizations": {
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Enter Final Jeopardy Category (e.g. American History)"
+            "value": "Enter Final Macpardy Category (e.g. American History)"
           }
         }
       }
     },
-    "create.final_jeopardy.clue_accessibility": {
-      "comment": "Accessibility label for Final Jeopardy clue editor",
+    "create.final_macpardy.clue_accessibility": {
+      "comment": "Accessibility label for Final Macpardy clue editor",
       "extractionState": "manual",
       "localizations": {
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Final Jeopardy Clue"
+            "value": "Final Macpardy Clue"
           }
         }
       }
     },
-    "create.final_jeopardy.default_category": {
-      "comment": "Default category title for Final Jeopardy",
+    "create.final_macpardy.default_category": {
+      "comment": "Default category title for Final Macpardy",
       "extractionState": "manual",
       "localizations": {
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Final Jeopardy"
+            "value": "Final Macpardy"
           }
         }
       }
     },
-    "create.final_jeopardy.response_accessibility": {
-      "comment": "Accessibility label for Final Jeopardy response editor",
+    "create.final_macpardy.response_accessibility": {
+      "comment": "Accessibility label for Final Macpardy response editor",
       "extractionState": "manual",
       "localizations": {
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Final Jeopardy Response"
+            "value": "Final Macpardy Response"
           }
         }
       }
@@ -1316,7 +1316,7 @@
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "My Jeopardy Game"
+            "value": "My Macpardy Game"
           }
         }
       }
@@ -1345,8 +1345,8 @@
         }
       }
     },
-    "display.final_jeopardy.category_label": {
-      "comment": "Header label shown above category in Final Jeopardy presentation screen",
+    "display.final_macpardy.category_label": {
+      "comment": "Header label shown above category in Final Macpardy presentation screen",
       "extractionState": "manual",
       "localizations": {
         "en": {
@@ -1357,14 +1357,14 @@
         }
       }
     },
-    "display.final_jeopardy.header": {
-      "comment": "Header banner on presentation screen for Final Jeopardy",
+    "display.final_macpardy.header": {
+      "comment": "Header banner on presentation screen for Final Macpardy",
       "extractionState": "manual",
       "localizations": {
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "FINAL JEOPARDY"
+            "value": "FINAL MACPARDY"
           }
         }
       }
@@ -1477,38 +1477,38 @@
         }
       }
     },
-    "round.double_jeopardy": {
-      "comment": "Name of the second round: Double Jeopardy",
+    "round.double_macpardy": {
+      "comment": "Name of the second round: Double Macpardy",
       "extractionState": "manual",
       "localizations": {
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Double Jeopardy"
+            "value": "Double Macpardy"
           }
         }
       }
     },
-    "round.final_jeopardy": {
-      "comment": "Name of the final round: Final Jeopardy",
+    "round.final_macpardy": {
+      "comment": "Name of the final round: Final Macpardy",
       "extractionState": "manual",
       "localizations": {
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Final Jeopardy"
+            "value": "Final Macpardy"
           }
         }
       }
     },
-    "round.jeopardy": {
-      "comment": "Name of the first round: Jeopardy",
+    "round.macpardy": {
+      "comment": "Name of the first round: Macpardy",
       "extractionState": "manual",
       "localizations": {
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Jeopardy"
+            "value": "Macpardy"
           }
         }
       }
@@ -1729,19 +1729,19 @@
         }
       }
     },
-    "control.final_jeopardy.subtitle_status": {
+    "control.final_macpardy.subtitle_status": {
       "comment": "Status text explaining display is showing FJ category to players",
       "extractionState": "manual",
       "localizations": {
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Display is currently showing the Final Jeopardy Category to players."
+            "value": "Display is currently showing the Final Macpardy Category to players."
           }
         }
       }
     },
-    "control.final_jeopardy.team_wagers_group": {
+    "control.final_macpardy.team_wagers_group": {
       "comment": "GroupBox title for team wagers",
       "extractionState": "manual",
       "localizations": {
@@ -1753,8 +1753,8 @@
         }
       }
     },
-    "control.final_jeopardy.current_score %lld": {
-      "comment": "Current score label for team in final jeopardy",
+    "control.final_macpardy.current_score %lld": {
+      "comment": "Current score label for team in final macpardy",
       "extractionState": "manual",
       "localizations": {
         "en": {
@@ -1765,8 +1765,8 @@
         }
       }
     },
-    "control.final_jeopardy.button.reveal_question": {
-      "comment": "Button to reveal final jeopardy question",
+    "control.final_macpardy.button.reveal_question": {
+      "comment": "Button to reveal final macpardy question",
       "extractionState": "manual",
       "localizations": {
         "en": {
@@ -1777,8 +1777,8 @@
         }
       }
     },
-    "control.final_jeopardy.button.complete_game": {
-      "comment": "Button to finish game after final jeopardy",
+    "control.final_macpardy.button.complete_game": {
+      "comment": "Button to finish game after final macpardy",
       "extractionState": "manual",
       "localizations": {
         "en": {
@@ -1789,26 +1789,26 @@
         }
       }
     },
-    "control.final_jeopardy.clue_and_answer_group": {
-      "comment": "GroupBox title for Final Jeopardy Clue & Answer",
+    "control.final_macpardy.clue_and_answer_group": {
+      "comment": "GroupBox title for Final Macpardy Clue & Answer",
       "extractionState": "manual",
       "localizations": {
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Final Jeopardy Clue & Answer"
+            "value": "Final Macpardy Clue & Answer"
           }
         }
       }
     },
-    "control.final_jeopardy.clue_header": {
-      "comment": "Header label for final jeopardy clue",
+    "control.final_macpardy.clue_header": {
+      "comment": "Header label for final macpardy clue",
       "extractionState": "manual",
       "localizations": {
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "FINAL JEOPARDY CLUE"
+            "value": "FINAL MACPARDY CLUE"
           }
         }
       }
@@ -1825,26 +1825,26 @@
         }
       }
     },
-    "create.draft.previous_round.jeopardy": {
-      "comment": "Button to navigate back to Jeopardy round",
+    "create.draft.previous_round.macpardy": {
+      "comment": "Button to navigate back to Macpardy round",
       "extractionState": "manual",
       "localizations": {
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Previous: Jeopardy"
+            "value": "Previous: Macpardy"
           }
         }
       }
     },
-    "create.draft.previous_round.double_jeopardy": {
-      "comment": "Button to navigate back to Double Jeopardy round",
+    "create.draft.previous_round.double_macpardy": {
+      "comment": "Button to navigate back to Double Macpardy round",
       "extractionState": "manual",
       "localizations": {
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Previous: Double Jeopardy"
+            "value": "Previous: Double Macpardy"
           }
         }
       }
@@ -1861,44 +1861,44 @@
         }
       }
     },
-    "create.draft.next_round.double_jeopardy": {
-      "comment": "Button to navigate to Double Jeopardy round",
+    "create.draft.next_round.double_macpardy": {
+      "comment": "Button to navigate to Double Macpardy round",
       "extractionState": "manual",
       "localizations": {
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Next: Double Jeopardy"
+            "value": "Next: Double Macpardy"
           }
         }
       }
     },
-    "create.draft.next_round.final_jeopardy": {
-      "comment": "Button to navigate to Final Jeopardy round",
+    "create.draft.next_round.final_macpardy": {
+      "comment": "Button to navigate to Final Macpardy round",
       "extractionState": "manual",
       "localizations": {
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Next: Final Jeopardy"
+            "value": "Next: Final Macpardy"
           }
         }
       }
     },
-    "create.final_jeopardy.clue_placeholder": {
-      "comment": "Placeholder text for final jeopardy clue",
+    "create.final_macpardy.clue_placeholder": {
+      "comment": "Placeholder text for final macpardy clue",
       "extractionState": "manual",
       "localizations": {
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Enter the Final Jeopardy clue or question..."
+            "value": "Enter the Final Macpardy clue or question..."
           }
         }
       }
     },
-    "create.final_jeopardy.response_placeholder": {
-      "comment": "Placeholder text for final jeopardy response",
+    "create.final_macpardy.response_placeholder": {
+      "comment": "Placeholder text for final macpardy response",
       "extractionState": "manual",
       "localizations": {
         "en": {

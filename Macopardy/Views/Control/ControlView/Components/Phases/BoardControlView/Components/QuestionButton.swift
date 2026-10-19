@@ -15,7 +15,7 @@ extension QuestionPickerView {
                 } else if question.isDailyDouble {
                     Text("DD")
                         .font(.caption2.bold())
-                        .foregroundStyle(JeopardyTheme.gold)
+                        .foregroundStyle(MacpardyTheme.gold)
                 }
             }
             .frame(maxWidth: .infinity)

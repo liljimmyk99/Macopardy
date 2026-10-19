@@ -8,7 +8,7 @@ import SwiftUI
 struct CategoryHeaderView: View {
 
     let title: String
-    var font: Font = JeopardyTheme.categoryFont
+    var font: Font = MacpardyTheme.categoryFont
 
     var body: some View {
         Text(title.uppercased())
@@ -19,7 +19,7 @@ struct CategoryHeaderView: View {
             .minimumScaleFactor(0.6)
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .padding(.horizontal, 8)
-            .background(JeopardyTheme.tileBlue)
+            .background(MacpardyTheme.tileBlue)
     }
 }
 

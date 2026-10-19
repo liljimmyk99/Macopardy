@@ -6,14 +6,14 @@ extension QuestionControlView {
             if let categoryTitle = gameState.currentCategoryTitle {
                 Text(categoryTitle.uppercased())
                     .font(.headline)
-                    .foregroundStyle(JeopardyTheme.gold)
+                    .foregroundStyle(MacpardyTheme.gold)
             }
 
             if let question = gameState.currentQuestion {
                 if gameState.dailyDoubleTeamID != nil {
                     Text("control.question.daily_double_header \(gameState.dailyDoubleWager)")
                         .font(.headline)
-                        .foregroundStyle(JeopardyTheme.gold)
+                        .foregroundStyle(MacpardyTheme.gold)
                 } else {
                     Text("• $\(question.value)")
                         .font(.headline)
@@ -51,7 +51,7 @@ extension QuestionControlView {
                         VStack(alignment: .leading, spacing: 4) {
                             Text("control.question.correct_response_header")
                                 .font(.caption.bold())
-                                .foregroundStyle(JeopardyTheme.gold)
+                                .foregroundStyle(MacpardyTheme.gold)
                             Text(question.response)
                                 .font(.title3.bold())
                                 .foregroundStyle(Color.accentColor)
