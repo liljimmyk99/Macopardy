@@ -7,7 +7,7 @@
 import Foundation
 import SwiftUI
 
-struct Team: Identifiable, Equatable {
+struct Team: Identifiable, Equatable, Codable {
 
     let id: UUID
     var name: String

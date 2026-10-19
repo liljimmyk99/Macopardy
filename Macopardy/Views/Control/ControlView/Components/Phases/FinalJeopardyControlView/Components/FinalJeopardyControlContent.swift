@@ -15,6 +15,19 @@ extension FinalJeopardyControlView {
 
             Spacer()
 
+            if gameState.phase == .finalJeopardyAnswer {
+                Button(role: .destructive) {
+                    Task {
+                        await GameSaveStore.shared.clear()
+                    }
+                    gameState.phase = .setup
+                } label: {
+                    Label("Complete Game", systemImage: "flag.checkered.circle.fill")
+                }
+                .buttonStyle(.borderedProminent)
+                .tint(.green)
+            }
+
             Button {
                 gameState.showBoard()
             } label: {

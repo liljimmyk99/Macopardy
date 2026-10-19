@@ -6,7 +6,7 @@
 //
 import Foundation
 
-struct JeopardyBoard: Identifiable, Codable {
+struct JeopardyBoard: Identifiable, Codable, Equatable {
 
     let id: UUID
     var title: String

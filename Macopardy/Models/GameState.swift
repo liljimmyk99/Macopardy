@@ -23,6 +23,10 @@ final class GameState {
     // Final Jeopardy State
     var finalJeopardyWagers: [UUID: Int] = [:]
 
+    // Persistence
+    private var pendingSaveTask: Task<Void, Never>?
+    var onSaveTriggered: ((GameSnapshot) -> Void)?
+
     init(rounds: [JeopardyBoard], currentRound: Int = 0, teams: [Team] = Team.defaultNewTeams, phase: GamePhase = .setup) {
         self.game = Game(
             rounds: rounds,
@@ -41,8 +45,53 @@ final class GameState {
         )
     }
 
+    convenience init(from snapshot: GameSnapshot) {
+        self.init(
+            rounds: snapshot.game.rounds,
+            currentRound: snapshot.game.currentRound,
+            teams: snapshot.game.teams,
+            phase: snapshot.phase
+        )
+        self.dailyDoubleTeamID = snapshot.dailyDoubleTeamID
+        self.dailyDoubleWager = snapshot.dailyDoubleWager
+        self.finalJeopardyWagers = snapshot.finalJeopardyWagers
+        self.currentCategoryTitle = snapshot.currentCategoryTitle
+        if let qID = snapshot.currentQuestionID,
+           snapshot.game.rounds.indices.contains(snapshot.game.currentRound) {
+            let currentBoard = snapshot.game.rounds[snapshot.game.currentRound]
+            for cat in currentBoard.categories {
+                if let matched = cat.questions.first(where: { $0.id == qID }) {
+                    self.currentQuestion = matched
+                    break
+                }
+            }
+        }
+    }
+
+    func restore(from snapshot: GameSnapshot) {
+        self.game = snapshot.game
+        self.phase = snapshot.phase
+        self.dailyDoubleTeamID = snapshot.dailyDoubleTeamID
+        self.dailyDoubleWager = snapshot.dailyDoubleWager
+        self.finalJeopardyWagers = snapshot.finalJeopardyWagers
+        self.currentCategoryTitle = snapshot.currentCategoryTitle
+        self.currentQuestion = nil
+        if let qID = snapshot.currentQuestionID,
+           game.rounds.indices.contains(game.currentRound) {
+            let currentBoard = game.rounds[game.currentRound]
+            for cat in currentBoard.categories {
+                if let matched = cat.questions.first(where: { $0.id == qID }) {
+                    self.currentQuestion = matched
+                    break
+                }
+            }
+        }
+        self.timer.reset()
+    }
+
     func startGame() {
         phase = .board
+        triggerSave()
     }
 
     func selectQuestion(_ question: Question, categoryTitle: String) {
@@ -59,6 +108,7 @@ final class GameState {
             phase = .question
             timer.reset()
         }
+        triggerSave()
     }
 
     func submitDailyDoubleWager(teamID: UUID, wager: Int) {
@@ -66,6 +116,7 @@ final class GameState {
         dailyDoubleWager = wager
         phase = .question
         timer.reset()
+        triggerSave()
     }
 
     func revealAnswer() {
@@ -74,6 +125,7 @@ final class GameState {
         } else {
             phase = .answer
         }
+        triggerSave()
     }
 
     func showBoard() {
@@ -82,10 +134,12 @@ final class GameState {
         currentCategoryTitle = nil
         dailyDoubleTeamID = nil
         dailyDoubleWager = 0
+        triggerSave()
     }
 
     func showDailyDouble() {
         phase = .dailyDouble
+        triggerSave()
     }
 
     func showFinalJeopardy(categoryTitle: String? = nil) {
@@ -107,21 +161,25 @@ final class GameState {
         finalJeopardyWagers = Dictionary(uniqueKeysWithValues: game.teams.map { ($0.id, 0) })
         phase = .finalJeopardyCategory
         timer.reset()
+        triggerSave()
     }
 
     func revealFinalJeopardyQuestion() {
         phase = .finalJeopardyQuestion
         timer.reset()
+        triggerSave()
     }
 
     func adjustScore(for teamID: UUID, by amount: Int) {
         guard let index = game.teams.firstIndex(where: { $0.id == teamID }) else { return }
         game.teams[index].score += amount
+        triggerSave()
     }
 
     func resetScore(for teamID: UUID) {
         guard let index = game.teams.firstIndex(where: { $0.id == teamID }) else { return }
         game.teams[index].score = 0
+        triggerSave()
     }
 
     func advanceRound() {
@@ -135,6 +193,7 @@ final class GameState {
                 showBoard()
             }
         }
+        triggerSave()
     }
 
     func loadGame(boards: [JeopardyBoard]) {
@@ -157,15 +216,18 @@ final class GameState {
         let availableColors = ["blue", "red", "green", "yellow", "purple", "orange"]
         let chosenColor = availableColors[(count - 1) % availableColors.count]
         game.teams.append(Team(name: teamName, score: 0, color: chosenColor))
+        triggerSave()
     }
 
     func removeTeam(at index: Int) {
         guard game.teams.indices.contains(index) else { return }
         game.teams.remove(at: index)
+        triggerSave()
     }
 
     func removeTeam(id: UUID) {
         game.teams.removeAll(where: { $0.id == id })
+        triggerSave()
     }
 
     func removeTeam(at offsets: IndexSet) {
@@ -174,6 +236,7 @@ final class GameState {
                 game.teams.remove(at: index)
             }
         }
+        triggerSave()
     }
 
     private func markQuestionPlayed(_ question: Question) {
@@ -186,6 +249,21 @@ final class GameState {
                     return
                 }
             }
+        }
+    }
+
+    // MARK: - Persistence Triggers
+
+    func triggerSave() {
+        guard phase != .setup else { return }
+        let snapshot = GameSnapshot(from: self)
+        onSaveTriggered?(snapshot)
+
+        pendingSaveTask?.cancel()
+        pendingSaveTask = Task { [snapshot] in
+            try? await Task.sleep(for: .milliseconds(300))
+            guard !Task.isCancelled else { return }
+            try? await GameSaveStore.shared.save(snapshot)
         }
     }
 }

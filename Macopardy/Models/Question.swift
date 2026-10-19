@@ -6,7 +6,7 @@
 //
 import Foundation
 
-struct Question: Identifiable, Codable {
+struct Question: Identifiable, Codable, Equatable {
 
     let id: UUID
 
