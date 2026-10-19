@@ -9,7 +9,7 @@ import SwiftUI
 
 struct EditableCategoryHeaderView: View {
     @Binding var title: String
-    var placeholder: String = "Category"
+    var placeholder: String = String(localized: "create.category_placeholder")
     var font: Font = JeopardyTheme.categoryFont
 
     @FocusState private var isFocused: Bool
@@ -31,7 +31,7 @@ struct EditableCategoryHeaderView: View {
             .textFieldStyle(.plain)
             .padding(.horizontal, 8)
             .focused($isFocused)
-            .accessibilityLabel("Category: \(title.isEmpty ? placeholder : title)")
+            .accessibilityLabel(Text("create.category_accessibility \(title.isEmpty ? placeholder : title)"))
         }
         .clipShape(RoundedRectangle(cornerRadius: 6))
         .overlay(

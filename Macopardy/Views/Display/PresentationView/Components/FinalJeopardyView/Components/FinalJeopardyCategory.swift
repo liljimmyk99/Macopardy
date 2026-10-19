@@ -5,7 +5,7 @@ extension FinalJeopardyView {
     func finalJeopardyCategory() -> some View {
         if let categoryTitle = gameState.currentCategoryTitle {
             VStack(spacing: 8) {
-                Text("CATEGORY")
+                Text("display.final_jeopardy.category_label")
                     .font(.headline)
                     .foregroundStyle(JeopardyTheme.gold.opacity(0.8))
 

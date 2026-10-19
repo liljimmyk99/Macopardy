@@ -10,7 +10,7 @@ struct RoundIndictator: View {
     
     var body: some View {
         HStack(spacing: 12) {
-            Text("Round:")
+            Text("create.round_label")
                 .font(.headline)
                 .foregroundStyle(.primary)
 
@@ -20,7 +20,7 @@ struct RoundIndictator: View {
                 HStack(spacing: 6) {
                     Image(systemName: "1.circle.fill")
                         .imageScale(.medium)
-                    Text("Jeopardy")
+                    Text("round.jeopardy")
                         .fontWeight(currentRound == 0 ? .bold : .regular)
                 }
                 .padding(.horizontal, 12)
@@ -41,7 +41,7 @@ struct RoundIndictator: View {
                 HStack(spacing: 6) {
                     Image(systemName: "2.circle.fill")
                         .imageScale(.medium)
-                    Text("Double Jeopardy")
+                    Text("round.double_jeopardy")
                         .fontWeight(currentRound == 1 ? .bold : .regular)
                 }
                 .padding(.horizontal, 12)
@@ -62,7 +62,7 @@ struct RoundIndictator: View {
                 HStack(spacing: 6) {
                     Image(systemName: "flag.checkered")
                         .imageScale(.medium)
-                    Text("Final Jeopardy")
+                    Text("round.final_jeopardy")
                         .fontWeight(currentRound == 2 ? .bold : .regular)
                 }
                 .padding(.horizontal, 12)

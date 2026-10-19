@@ -29,7 +29,7 @@ struct DraftBoardControls: View {
             
             Spacer()
             
-            Button("Save Game") {
+            Button("create.button.save_game") {
                 saveGame()
             }
             .buttonStyle(.borderedProminent)
@@ -37,19 +37,19 @@ struct DraftBoardControls: View {
         }
     }
 
-    private var previousRoundLabel: String {
+    private var previousRoundLabel: LocalizedStringKey {
         switch currentRound {
-        case 1: "Previous: Jeopardy"
-        case 2: "Previous: Double Jeopardy"
-        default: "Previous Round"
+        case 1: "create.draft.previous_round.jeopardy"
+        case 2: "create.draft.previous_round.double_jeopardy"
+        default: "create.draft.previous_round"
         }
     }
 
-    private var nextRoundLabel: String {
+    private var nextRoundLabel: LocalizedStringKey {
         switch currentRound {
-        case 0: "Next: Double Jeopardy"
-        case 1: "Next: Final Jeopardy"
-        default: "Next Round"
+        case 0: "create.draft.next_round.double_jeopardy"
+        case 1: "create.draft.next_round.final_jeopardy"
+        default: "create.draft.next_round"
         }
     }
 }

@@ -21,7 +21,7 @@ struct LaunchScreenView: View {
         VStack(spacing: 40) {
             VStack(spacing: 16) {
                 GameTitleView(title: "Jeopardy!")
-                Text("Welcome to Macopardy")
+                Text("launch.welcome_title")
                     .font(.subheadline)
                     .foregroundStyle(.secondary)
             }
@@ -29,14 +29,14 @@ struct LaunchScreenView: View {
 
             VStack(spacing: 16) {
                 LargeButton(
-                    title: "Open Existing Game",
+                    title: "launch.button.open_existing",
                     systemImage: "folder.open"
                 ) {
                     handleOpenExistingGame()
                 }
 
                 LargeButton(
-                    title: "New Game",
+                    title: "launch.button.new_game",
                     systemImage: "plus.circle",
                     tint: .orange
                 ) {
@@ -47,22 +47,22 @@ struct LaunchScreenView: View {
         .padding()
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background(Color(.controlBackgroundColor))
-        .alert("Resume previous game?", isPresented: $showResumeAlert) {
-            Button("Resume") {
+        .alert("launch.alert.resume_title", isPresented: $showResumeAlert) {
+            Button("launch.alert.resume_action") {
                 if let snapshot = pendingSavedSnapshot {
                     gameState.restore(from: snapshot)
                     hasSelectedGame = true
                 }
             }
-            Button("New Game", role: .destructive) {
+            Button("launch.alert.new_game_action", role: .destructive) {
                 Task {
                     await GameSaveStore.shared.clear()
                 }
                 showFileExporter = true
             }
-            Button("Cancel", role: .cancel) {}
+            Button("common.cancel", role: .cancel) {}
         } message: {
-            Text("A previously active game was found. Would you like to resume where you left off or start a new game?")
+            Text("launch.alert.resume_message")
         }
         .fileImporter(
             isPresented: $showFileExporter,

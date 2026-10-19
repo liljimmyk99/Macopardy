@@ -1,0 +1,1938 @@
+{
+  "sourceLanguage": "en",
+  "strings": {
+    "color.blue": {
+      "comment": "Team color option blue",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Blue"
+          }
+        }
+      }
+    },
+    "color.green": {
+      "comment": "Team color option green",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Green"
+          }
+        }
+      }
+    },
+    "color.orange": {
+      "comment": "Team color option orange",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Orange"
+          }
+        }
+      }
+    },
+    "color.purple": {
+      "comment": "Team color option purple",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Purple"
+          }
+        }
+      }
+    },
+    "color.red": {
+      "comment": "Team color option red",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Red"
+          }
+        }
+      }
+    },
+    "color.yellow": {
+      "comment": "Team color option yellow",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Yellow"
+          }
+        }
+      }
+    },
+    "common.cancel": {
+      "comment": "Generic cancel button",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cancel"
+          }
+        }
+      }
+    },
+    "common.done": {
+      "comment": "Generic done button",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Done"
+          }
+        }
+      }
+    },
+    "common.ok": {
+      "comment": "Generic OK button",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "OK"
+          }
+        }
+      }
+    },
+    "control.board.button.end_round": {
+      "comment": "Action button to conclude the current round and proceed to the next",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "End Round"
+          }
+        }
+      }
+    },
+    "control.daily_double.button.show_question": {
+      "comment": "Button to reveal question after wager has been set",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Show Question"
+          }
+        }
+      }
+    },
+    "control.daily_double.current_score %lld": {
+      "comment": "Displays current team score on daily double screen",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Current Team Score: $%lld"
+          }
+        }
+      }
+    },
+    "control.daily_double.heading": {
+      "comment": "Header label on the Daily Double control phase screen",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Daily Double!"
+          }
+        }
+      }
+    },
+    "control.daily_double.instructions": {
+      "comment": "Instructional text on the Daily Double control phase screen",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Select the team and enter wager before revealing the clue."
+          }
+        }
+      }
+    },
+    "control.daily_double.max_wager %lld": {
+      "comment": "Displays maximum wager allowed for the daily double",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Maximum Wager: $%lld"
+          }
+        }
+      }
+    },
+    "control.daily_double.quick_wager %lld": {
+      "comment": "Button to set quick wager amount",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "$%lld"
+          }
+        }
+      }
+    },
+    "control.daily_double.team_picker": {
+      "comment": "Picker label for choosing which team found the Daily Double",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Wagering Team"
+          }
+        }
+      }
+    },
+    "control.daily_double.true_daily_double": {
+      "comment": "Quick wager button to bet all points or the maximum allowed",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "True Daily Double"
+          }
+        }
+      }
+    },
+    "control.daily_double.wager_group": {
+      "comment": "Title for the wager details groupbox",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Wager Details"
+          }
+        }
+      }
+    },
+    "control.daily_double.wager_placeholder": {
+      "comment": "Placeholder in the wager amount text field",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Wager amount"
+          }
+        }
+      }
+    },
+    "control.final_jeopardy.button.end_game": {
+      "comment": "Button to conclude the game after Final Jeopardy",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "End Game"
+          }
+        }
+      }
+    },
+    "control.final_jeopardy.button.show_question": {
+      "comment": "Button on control view to move from category view to clue view",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Show Final Jeopardy Question"
+          }
+        }
+      }
+    },
+    "control.final_jeopardy.category_instructions": {
+      "comment": "Instructions shown during the Final Jeopardy category phase",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Announce the category and collect wagers from each team before continuing."
+          }
+        }
+      }
+    },
+    "control.final_jeopardy.category_title": {
+      "comment": "Title of Final Jeopardy category control phase",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Final Jeopardy Category"
+          }
+        }
+      }
+    },
+    "control.nav_title.board": {
+      "comment": "Navigation title for board phase",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Phase 2: Board"
+          }
+        }
+      }
+    },
+    "control.nav_title.daily_double": {
+      "comment": "Navigation title for daily double phase",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Phase 4: Daily Double"
+          }
+        }
+      }
+    },
+    "control.nav_title.final_jeopardy_category": {
+      "comment": "Navigation title for final jeopardy category phase",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Phase 5: Final Jeopardy"
+          }
+        }
+      }
+    },
+    "control.nav_title.final_jeopardy_question": {
+      "comment": "Navigation title for final jeopardy question/answer phase",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Phase 6: Final Jeopardy Question"
+          }
+        }
+      }
+    },
+    "control.nav_title.question": {
+      "comment": "Navigation title for question/answer phase",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Phase 3: Question"
+          }
+        }
+      }
+    },
+    "control.nav_title.setup": {
+      "comment": "Navigation title for setup phase",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Phase 1: Setup"
+          }
+        }
+      }
+    },
+    "control.phase.answer": {
+      "comment": "Sidebar phase label for Answer phase",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Phase 3: Answer"
+          }
+        }
+      }
+    },
+    "control.phase.board": {
+      "comment": "Sidebar phase label for Board phase",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Phase 2: Board"
+          }
+        }
+      }
+    },
+    "control.phase.daily_double": {
+      "comment": "Sidebar phase label for Daily Double phase",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Phase 4: Daily Double"
+          }
+        }
+      }
+    },
+    "control.phase.final_jeopardy_answer": {
+      "comment": "Sidebar phase label for Final Jeopardy Answer phase",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Phase 6: FJ Answer"
+          }
+        }
+      }
+    },
+    "control.phase.final_jeopardy_category": {
+      "comment": "Sidebar phase label for Final Jeopardy Category phase",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Phase 5: FJ Category"
+          }
+        }
+      }
+    },
+    "control.phase.final_jeopardy_question": {
+      "comment": "Sidebar phase label for Final Jeopardy Question phase",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Phase 6: FJ Question"
+          }
+        }
+      }
+    },
+    "control.phase.question": {
+      "comment": "Sidebar phase label for Question phase",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Phase 3: Question"
+          }
+        }
+      }
+    },
+    "control.phase.setup": {
+      "comment": "Sidebar phase label for Setup phase",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Phase 1: Setup"
+          }
+        }
+      }
+    },
+    "control.phase_indicator.answer": {
+      "comment": "Phase indicator for Answer Revealed",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Phase 3 - Answer Revealed"
+          }
+        }
+      }
+    },
+    "control.phase_indicator.board": {
+      "comment": "Phase indicator for Board",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Phase 2 - Board"
+          }
+        }
+      }
+    },
+    "control.phase_indicator.daily_double": {
+      "comment": "Phase indicator for Daily Double",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Phase 4 - Daily Double"
+          }
+        }
+      }
+    },
+    "control.phase_indicator.final_jeopardy_answer": {
+      "comment": "Phase indicator for FJ Answer",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Phase 6 - FJ Answer"
+          }
+        }
+      }
+    },
+    "control.phase_indicator.final_jeopardy_category": {
+      "comment": "Phase indicator for FJ Category",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Phase 5 - FJ Category"
+          }
+        }
+      }
+    },
+    "control.phase_indicator.final_jeopardy_question": {
+      "comment": "Phase indicator for FJ Question",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Phase 6 - FJ Question"
+          }
+        }
+      }
+    },
+    "control.phase_indicator.question": {
+      "comment": "Phase indicator for Question",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Phase 3 - Question"
+          }
+        }
+      }
+    },
+    "control.phase_indicator.setup": {
+      "comment": "Phase indicator for Game Load",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Phase 1 - Game Load"
+          }
+        }
+      }
+    },
+    "control.question.button.back_to_board": {
+      "comment": "Button to dismiss question/answer and return to the game board",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Back to Board"
+          }
+        }
+      }
+    },
+    "control.question.button.reveal_answer": {
+      "comment": "Button to display the answer clue to the audience/contestants",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Reveal Answer"
+          }
+        }
+      }
+    },
+    "control.question.clue_group": {
+      "comment": "Group box title for clue content",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Clue"
+          }
+        }
+      }
+    },
+    "control.question.response_group": {
+      "comment": "Group box title for response content",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Response"
+          }
+        }
+      }
+    },
+    "control.question.scoring_group": {
+      "comment": "Group box title for scoring controls",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Scoring"
+          }
+        }
+      }
+    },
+    "control.score.amount.minus_100": {
+      "comment": "Minus 100 points button",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "-100"
+          }
+        }
+      }
+    },
+    "control.score.amount.minus_200": {
+      "comment": "Minus 200 points button",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "-200"
+          }
+        }
+      }
+    },
+    "control.score.amount.plus_100": {
+      "comment": "Plus 100 points button",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "+100"
+          }
+        }
+      }
+    },
+    "control.score.amount.plus_200": {
+      "comment": "Plus 200 points button",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "+200"
+          }
+        }
+      }
+    },
+    "control.score.button.correct_value %lld": {
+      "comment": "Award score for correct answer",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Correct (+%lld)"
+          }
+        }
+      }
+    },
+    "control.score.button.correct_wager %lld": {
+      "comment": "Award wager score for correct answer",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Correct (+%lld)"
+          }
+        }
+      }
+    },
+    "control.score.button.reset": {
+      "comment": "Reset scoring button",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Reset"
+          }
+        }
+      }
+    },
+    "control.score.button.wrong_value %lld": {
+      "comment": "Deduct score for wrong answer",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Wrong (-%lld)"
+          }
+        }
+      }
+    },
+    "control.score.button.wrong_wager %lld": {
+      "comment": "Deduct wager score for wrong answer",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Wrong (-%lld)"
+          }
+        }
+      }
+    },
+    "control.score.daily_double_wager %lld": {
+      "comment": "Label showing Daily Double wager amount",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Daily Double Wager: %lld"
+          }
+        }
+      }
+    },
+    "control.score.fj_wager %lld": {
+      "comment": "Label showing Final Jeopardy wager amount",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "FJ Wager: %lld"
+          }
+        }
+      }
+    },
+    "control.setup.button.add_team": {
+      "comment": "Button label to add another team",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Add Team"
+          }
+        }
+      }
+    },
+    "control.setup.button.start_game": {
+      "comment": "Action button to begin the game from setup",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Start Game"
+          }
+        }
+      }
+    },
+    "control.setup.color_picker_label": {
+      "comment": "Accessibility/label for team color picker",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Color"
+          }
+        }
+      }
+    },
+    "control.setup.heading": {
+      "comment": "Heading on the game setup control screen",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Phase 1: Game Setup"
+          }
+        }
+      }
+    },
+    "control.setup.subheading": {
+      "comment": "Subtitle text on setup screen explaining actions",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Configure your teams before starting the game."
+          }
+        }
+      }
+    },
+    "control.setup.team_count": {
+      "comment": "Count of teams configured in setup",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "variations": {
+            "plural": {
+              "one": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%lld Team"
+                }
+              },
+              "other": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%lld Teams"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "control.setup.team_name_placeholder": {
+      "comment": "Placeholder text inside team name input field",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Team name"
+          }
+        }
+      }
+    },
+    "control.setup.teams_heading": {
+      "comment": "Heading above the list of teams",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Teams"
+          }
+        }
+      }
+    },
+    "control.sidebar.detail_placeholder": {
+      "comment": "Placeholder label in split view navigation column",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Detail"
+          }
+        }
+      }
+    },
+    "control.sidebar.no_active_round": {
+      "comment": "Text indicating no round is currently running",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No Active Round"
+          }
+        }
+      }
+    },
+    "control.sidebar.section.phase": {
+      "comment": "Sidebar section header for game phase",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Phase"
+          }
+        }
+      }
+    },
+    "control.sidebar.section.round": {
+      "comment": "Sidebar section header for game round",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Round"
+          }
+        }
+      }
+    },
+    "control.sidebar.section.teams": {
+      "comment": "Sidebar section header for teams list and scores",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Teams & Standings"
+          }
+        }
+      }
+    },
+    "control.sidebar.title": {
+      "comment": "Title of control panel sidebar",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Control Panel"
+          }
+        }
+      }
+    },
+    "control.timer.adjustment.minus_5": {
+      "comment": "Button to subtract 5 seconds from timer",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "-5"
+          }
+        }
+      }
+    },
+    "control.timer.adjustment.plus_5": {
+      "comment": "Button to add 5 seconds to timer",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "+5"
+          }
+        }
+      }
+    },
+    "control.timer.pause": {
+      "comment": "Button to pause timer",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pause"
+          }
+        }
+      }
+    },
+    "control.timer.remaining": {
+      "comment": "Label for remaining timer countdown",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Remaining"
+          }
+        }
+      }
+    },
+    "control.timer.reset": {
+      "comment": "Button to reset timer",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Reset"
+          }
+        }
+      }
+    },
+    "control.timer.seconds_format %lld": {
+      "comment": "Format string for seconds remaining",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%llds"
+          }
+        }
+      }
+    },
+    "control.timer.start": {
+      "comment": "Button to start timer",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Start"
+          }
+        }
+      }
+    },
+    "create.alert.incomplete_title": {
+      "comment": "Alert title when game validation fails before saving",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Game incomplete"
+          }
+        }
+      }
+    },
+    "create.alert.save_failed_title": {
+      "comment": "Alert title when saving game fails",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Save failed"
+          }
+        }
+      }
+    },
+    "create.board.tile_accessibility %@ %lld %@": {
+      "comment": "Accessibility label for board tile in game creator: category name, question value, completed status",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%1$@ question for %2$lld, %3$@"
+          }
+        }
+      }
+    },
+    "create.board.tile_completed": {
+      "comment": "Status text for completed question tile",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "completed"
+          }
+        }
+      }
+    },
+    "create.board.tile_incomplete": {
+      "comment": "Status text for incomplete question tile",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "incomplete"
+          }
+        }
+      }
+    },
+    "create.button.save_game": {
+      "comment": "Button to save created game",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Save Game"
+          }
+        }
+      }
+    },
+    "create.category_accessibility %@": {
+      "comment": "Accessibility label for category header in creator",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Category: %@"
+          }
+        }
+      }
+    },
+    "create.category_default_name %lld": {
+      "comment": "Default category name when left blank",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Category %lld"
+          }
+        }
+      }
+    },
+    "create.category_placeholder": {
+      "comment": "Default category placeholder text",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Category"
+          }
+        }
+      }
+    },
+    "create.final_jeopardy.category_accessibility": {
+      "comment": "Accessibility label for Final Jeopardy category field",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Final Jeopardy Category"
+          }
+        }
+      }
+    },
+    "create.final_jeopardy.category_label": {
+      "comment": "Label above Final Jeopardy category input",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Category"
+          }
+        }
+      }
+    },
+    "create.final_jeopardy.category_placeholder": {
+      "comment": "Placeholder text for Final Jeopardy category input",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Enter Final Jeopardy Category (e.g. American History)"
+          }
+        }
+      }
+    },
+    "create.final_jeopardy.clue_accessibility": {
+      "comment": "Accessibility label for Final Jeopardy clue editor",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Final Jeopardy Clue"
+          }
+        }
+      }
+    },
+    "create.final_jeopardy.default_category": {
+      "comment": "Default category title for Final Jeopardy",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Final Jeopardy"
+          }
+        }
+      }
+    },
+    "create.final_jeopardy.response_accessibility": {
+      "comment": "Accessibility label for Final Jeopardy response editor",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Final Jeopardy Response"
+          }
+        }
+      }
+    },
+    "create.question.clue_accessibility %lld": {
+      "comment": "Accessibility label for clue editor of specific point value",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Question clue for %lld"
+          }
+        }
+      }
+    },
+    "create.question.clue_label": {
+      "comment": "Label for clue input",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Question / Clue"
+          }
+        }
+      }
+    },
+    "create.question.clue_placeholder": {
+      "comment": "Placeholder prompt for clue input",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Enter the clue or question..."
+          }
+        }
+      }
+    },
+    "create.question.daily_double": {
+      "comment": "Toggle label to mark question as Daily Double in creator",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Daily Double"
+          }
+        }
+      }
+    },
+    "create.question.response_accessibility %lld": {
+      "comment": "Accessibility label for response editor of specific point value",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Answer response for %lld"
+          }
+        }
+      }
+    },
+    "create.question.response_label": {
+      "comment": "Label for response input",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Answer / Response"
+          }
+        }
+      }
+    },
+    "create.question.response_placeholder": {
+      "comment": "Placeholder prompt for response input",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Enter the answer or response..."
+          }
+        }
+      }
+    },
+    "create.round_label": {
+      "comment": "Label preceding the round indicators in creator",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Round:"
+          }
+        }
+      }
+    },
+    "create.title_accessibility": {
+      "comment": "Accessibility label for game title field",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Game title"
+          }
+        }
+      }
+    },
+    "create.title_label": {
+      "comment": "Label above game title text field",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Game Title"
+          }
+        }
+      }
+    },
+    "create.title_placeholder": {
+      "comment": "Placeholder inside game title text field",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "My Jeopardy Game"
+          }
+        }
+      }
+    },
+    "create.validation.missing_title": {
+      "comment": "Validation error shown when user attempts to save a game without a title",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Your game is incomplete. Please enter a game title before saving."
+          }
+        }
+      }
+    },
+    "display.daily_double.title": {
+      "comment": "Title banner for Daily Double on the presentation screen",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "DAILY DOUBLE"
+          }
+        }
+      }
+    },
+    "display.final_jeopardy.category_label": {
+      "comment": "Header label shown above category in Final Jeopardy presentation screen",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "CATEGORY"
+          }
+        }
+      }
+    },
+    "display.final_jeopardy.header": {
+      "comment": "Header banner on presentation screen for Final Jeopardy",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "FINAL JEOPARDY"
+          }
+        }
+      }
+    },
+    "display.preview.reveal_answer": {
+      "comment": "Sample preview button title",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Reveal Answer"
+          }
+        }
+      }
+    },
+    "display.setup.waiting": {
+      "comment": "Status message on presentation screen before game is started",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Waiting to start game..."
+          }
+        }
+      }
+    },
+    "launch.alert.new_game_action": {
+      "comment": "Button to start a new game instead of resuming",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "New Game"
+          }
+        }
+      }
+    },
+    "launch.alert.resume_action": {
+      "comment": "Button to resume saved game",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Resume"
+          }
+        }
+      }
+    },
+    "launch.alert.resume_message": {
+      "comment": "Alert message prompting user to resume previously active game",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "A previously active game was found. Would you like to resume where you left off or start a new game?"
+          }
+        }
+      }
+    },
+    "launch.alert.resume_title": {
+      "comment": "Alert title asking if user wants to resume previous game",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Resume previous game?"
+          }
+        }
+      }
+    },
+    "launch.button.new_game": {
+      "comment": "Launch screen button to create a new game",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "New Game"
+          }
+        }
+      }
+    },
+    "launch.button.open_existing": {
+      "comment": "Launch screen button to open an existing game file",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Open Existing Game"
+          }
+        }
+      }
+    },
+    "launch.welcome_title": {
+      "comment": "Greeting text on launch screen",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Welcome to Macopardy"
+          }
+        }
+      }
+    },
+    "round.double_jeopardy": {
+      "comment": "Name of the second round: Double Jeopardy",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Double Jeopardy"
+          }
+        }
+      }
+    },
+    "round.final_jeopardy": {
+      "comment": "Name of the final round: Final Jeopardy",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Final Jeopardy"
+          }
+        }
+      }
+    },
+    "round.jeopardy": {
+      "comment": "Name of the first round: Jeopardy",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Jeopardy"
+          }
+        }
+      }
+    },
+    "team.default_name %lld": {
+      "comment": "Default team name template given a team number index",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Team %lld"
+          }
+        }
+      }
+    },
+    "control.board.button.show_hide": {
+      "comment": "Button to show or hide the board display",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Show/Hide Board"
+          }
+        }
+      }
+    },
+    "control.board.button.next_round": {
+      "comment": "Button to advance to the next round",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Next Round"
+          }
+        }
+      }
+    },
+    "control.daily_double.label_category %@": {
+      "comment": "Category label on daily double screen",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Category: %@"
+          }
+        }
+      }
+    },
+    "control.daily_double.group_box_title": {
+      "comment": "Daily double wager group box title",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Daily Double Wager"
+          }
+        }
+      }
+    },
+    "control.daily_double.select_team": {
+      "comment": "Prompt to select the team for daily double wager",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Select Wagering Team:"
+          }
+        }
+      }
+    },
+    "control.daily_double.team_picker_label": {
+      "comment": "Picker label for wagering team",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Team"
+          }
+        }
+      }
+    },
+    "control.daily_double.wager_amount_label": {
+      "comment": "Label for wager amount input",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Wager Amount:"
+          }
+        }
+      }
+    },
+    "control.daily_double.max_allowed %lld": {
+      "comment": "Label for max allowed wager",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Max Allowed: $%lld"
+          }
+        }
+      }
+    },
+    "control.daily_double.quick_wager.min": {
+      "comment": "Quick wager button for minimum wager ($5)",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Min ($5)"
+          }
+        }
+      }
+    },
+    "control.daily_double.quick_wager.clue_value %lld": {
+      "comment": "Quick wager button for clue value",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Clue Value ($%lld)"
+          }
+        }
+      }
+    },
+    "control.daily_double.quick_wager.true_daily_double %lld": {
+      "comment": "Quick wager button for true daily double with amount",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "True Daily Double ($%lld)"
+          }
+        }
+      }
+    },
+    "control.question.button.return_to_board": {
+      "comment": "Button to return to board view",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Return to Board"
+          }
+        }
+      }
+    },
+    "control.question.clue_and_answer_group": {
+      "comment": "GroupBox title for Clue & Answer",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Clue & Answer"
+          }
+        }
+      }
+    },
+    "control.question.clue_header": {
+      "comment": "Header for question clue",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "CLUE"
+          }
+        }
+      }
+    },
+    "control.question.correct_response_header": {
+      "comment": "Header for correct response",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "CORRECT RESPONSE"
+          }
+        }
+      }
+    },
+    "control.question.daily_double_header %lld": {
+      "comment": "Question header indicator for Daily Double",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "• Daily Double ($%lld)"
+          }
+        }
+      }
+    },
+    "control.question.button.answer_revealed": {
+      "comment": "Button label when answer is already revealed",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Answer Revealed"
+          }
+        }
+      }
+    },
+    "control.final_jeopardy.subtitle_status": {
+      "comment": "Status text explaining display is showing FJ category to players",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Display is currently showing the Final Jeopardy Category to players."
+          }
+        }
+      }
+    },
+    "control.final_jeopardy.team_wagers_group": {
+      "comment": "GroupBox title for team wagers",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Team Wagers"
+          }
+        }
+      }
+    },
+    "control.final_jeopardy.current_score %lld": {
+      "comment": "Current score label for team in final jeopardy",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Current Score: $%lld"
+          }
+        }
+      }
+    },
+    "control.final_jeopardy.button.reveal_question": {
+      "comment": "Button to reveal final jeopardy question",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Reveal Question"
+          }
+        }
+      }
+    },
+    "control.final_jeopardy.button.complete_game": {
+      "comment": "Button to finish game after final jeopardy",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Complete Game"
+          }
+        }
+      }
+    },
+    "control.final_jeopardy.clue_and_answer_group": {
+      "comment": "GroupBox title for Final Jeopardy Clue & Answer",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Final Jeopardy Clue & Answer"
+          }
+        }
+      }
+    },
+    "control.final_jeopardy.clue_header": {
+      "comment": "Header label for final jeopardy clue",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "FINAL JEOPARDY CLUE"
+          }
+        }
+      }
+    },
+    "create.draft.previous_round": {
+      "comment": "Button to navigate to previous round",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Previous Round"
+          }
+        }
+      }
+    },
+    "create.draft.previous_round.jeopardy": {
+      "comment": "Button to navigate back to Jeopardy round",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Previous: Jeopardy"
+          }
+        }
+      }
+    },
+    "create.draft.previous_round.double_jeopardy": {
+      "comment": "Button to navigate back to Double Jeopardy round",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Previous: Double Jeopardy"
+          }
+        }
+      }
+    },
+    "create.draft.next_round": {
+      "comment": "Button to navigate to next round",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Next Round"
+          }
+        }
+      }
+    },
+    "create.draft.next_round.double_jeopardy": {
+      "comment": "Button to navigate to Double Jeopardy round",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Next: Double Jeopardy"
+          }
+        }
+      }
+    },
+    "create.draft.next_round.final_jeopardy": {
+      "comment": "Button to navigate to Final Jeopardy round",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Next: Final Jeopardy"
+          }
+        }
+      }
+    },
+    "create.final_jeopardy.clue_placeholder": {
+      "comment": "Placeholder text for final jeopardy clue",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Enter the Final Jeopardy clue or question..."
+          }
+        }
+      }
+    },
+    "create.final_jeopardy.response_placeholder": {
+      "comment": "Placeholder text for final jeopardy response",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Enter the correct response (e.g. What is the Constitution?)..."
+          }
+        }
+      }
+    },
+    "create.alert.save_error_message %@": {
+      "comment": "Save error message with error details",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The game could not be saved.\n%@"
+          }
+        }
+      }
+    },
+    "control.board.no_board_available": {
+      "comment": "Status message when no board is loaded",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No board available"
+          }
+        }
+      }
+    }
+  },
+  "version": "1.0"
+}

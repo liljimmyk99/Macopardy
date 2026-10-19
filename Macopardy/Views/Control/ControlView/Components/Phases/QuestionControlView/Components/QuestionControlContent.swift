@@ -11,7 +11,7 @@ extension QuestionControlView {
 
             if let question = gameState.currentQuestion {
                 if gameState.dailyDoubleTeamID != nil {
-                    Text("• Daily Double ($\(gameState.dailyDoubleWager))")
+                    Text("control.question.daily_double_header \(gameState.dailyDoubleWager)")
                         .font(.headline)
                         .foregroundStyle(JeopardyTheme.gold)
                 } else {
@@ -26,7 +26,7 @@ extension QuestionControlView {
             Button {
                 gameState.showBoard()
             } label: {
-                Label("Return to Board", systemImage: "arrowshape.turn.up.backward.fill")
+                Label("control.question.button.return_to_board", systemImage: "arrowshape.turn.up.backward.fill")
             }
             .buttonStyle(.bordered)
         }
@@ -35,10 +35,10 @@ extension QuestionControlView {
     func questionDetails() -> some View {
         Group {
             if let question = gameState.currentQuestion {
-                GroupBox("Clue & Answer") {
+                GroupBox("control.question.clue_and_answer_group") {
                     VStack(alignment: .leading, spacing: 14) {
                         VStack(alignment: .leading, spacing: 4) {
-                            Text("CLUE")
+                            Text("control.question.clue_header")
                                 .font(.caption.bold())
                                 .foregroundStyle(.secondary)
                             Text(question.clue)
@@ -49,7 +49,7 @@ extension QuestionControlView {
                         Divider()
 
                         VStack(alignment: .leading, spacing: 4) {
-                            Text("CORRECT RESPONSE")
+                            Text("control.question.correct_response_header")
                                 .font(.caption.bold())
                                 .foregroundStyle(JeopardyTheme.gold)
                             Text(question.response)
@@ -67,7 +67,7 @@ extension QuestionControlView {
     func revealAnswerButton() -> some View {
         HStack {
             LargeButton(
-                title: gameState.phase == .answer ? "Answer Revealed" : "Reveal Answer",
+                title: gameState.phase == .answer ? "control.question.button.answer_revealed" : "control.question.button.reveal_answer",
                 systemImage: "eye.fill",
                 tint: gameState.phase == .answer ? .secondary : .accentColor
             ) {

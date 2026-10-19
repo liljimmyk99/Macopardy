@@ -2,7 +2,7 @@ import SwiftUI
 
 extension DailyDoubleView {
     func dailyDoubleTitle() -> some View {
-        Text("DAILY DOUBLE")
+        Text("display.daily_double.title")
             .font(JeopardyTheme.dailyDoubleFont)
             .foregroundStyle(JeopardyTheme.gold)
             .multilineTextAlignment(.center)

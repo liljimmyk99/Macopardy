@@ -5,10 +5,10 @@ extension DailyDoubleControlView {
     func wagerInput() -> some View {
         VStack(alignment: .leading, spacing: 8) {
             HStack {
-                Text("Wager Amount:")
+                Text("control.daily_double.wager_amount_label")
                     .font(.headline)
                 Spacer()
-                Text("Max Allowed: $\(maxWager)")
+                Text("control.daily_double.max_allowed \(maxWager)")
                     .font(.caption)
                     .foregroundStyle(.secondary)
             }
@@ -18,7 +18,7 @@ extension DailyDoubleControlView {
                     .font(.title2.bold())
                     .foregroundStyle(.secondary)
 
-                TextField("Wager", text: $wagerText)
+                TextField("control.daily_double.wager_placeholder", text: $wagerText)
                     .textFieldStyle(.roundedBorder)
                     .font(.title3.monospacedDigit())
             }

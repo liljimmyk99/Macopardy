@@ -79,13 +79,13 @@ struct CreateJeopardyGameView: View {
         .padding(20)
         .frame(minWidth: 1200, minHeight: 820)
         .background(JeopardyTheme.controlBackground)
-        .alert("Game incomplete", isPresented: $showValidationAlert) {
-            Button("OK") {}
+        .alert("create.alert.incomplete_title", isPresented: $showValidationAlert) {
+            Button("common.ok") {}
         } message: {
             Text(validationMessage)
         }
-        .alert("Save failed", isPresented: $showSaveErrorAlert) {
-            Button("OK") {}
+        .alert("create.alert.save_failed_title", isPresented: $showSaveErrorAlert) {
+            Button("common.ok") {}
         } message: {
             Text(saveErrorMessage)
         }
@@ -103,7 +103,7 @@ struct CreateJeopardyGameView: View {
                 dismissWindow(id: "create-jeopardy")
             case .failure(let error):
                 if (error as? CocoaError)?.code != .userCancelled {
-                    saveErrorMessage = "The game could not be saved.\n\(error.localizedDescription)"
+                    saveErrorMessage = String(localized: "create.alert.save_error_message \(error.localizedDescription)")
                     showSaveErrorAlert = true
                 }
                 AppLogger.database.error("\(error.localizedDescription)")

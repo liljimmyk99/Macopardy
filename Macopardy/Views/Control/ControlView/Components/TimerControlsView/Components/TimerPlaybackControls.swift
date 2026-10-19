@@ -3,22 +3,22 @@ import SwiftUI
 extension TimerControlsView {
     func timerPlaybackControls() -> some View {
         HStack(spacing: 8) {
-            controlButton("Start", systemImage: "play.fill") {
+            controlButton("control.timer.start", systemImage: "play.fill") {
                 gameState.timer.start()
             }
 
-            controlButton("Pause", systemImage: "pause.fill") {
+            controlButton("control.timer.pause", systemImage: "pause.fill") {
                 gameState.timer.stop()
             }
 
-            controlButton("Reset", systemImage: "arrow.counterclockwise") {
+            controlButton("control.timer.reset", systemImage: "arrow.counterclockwise") {
                 gameState.timer.reset()
             }
         }
     }
 
     func controlButton(
-        _ title: String,
+        _ title: LocalizedStringKey,
         systemImage: String,
         action: @escaping () -> Void
     ) -> some View {

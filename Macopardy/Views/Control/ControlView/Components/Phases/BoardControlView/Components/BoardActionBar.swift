@@ -4,16 +4,16 @@ extension BoardControlView {
     @ViewBuilder
     func boardActionBar() -> some View {
         HStack(spacing: 12) {
-            LargeButton(title: "Show/Hide Board", systemImage: "display") {
+            LargeButton(title: "control.board.button.show_hide", systemImage: "display") {
                 openWindow(id: "display")
                 gameState.showBoard()
             }
 
-            LargeButton(title: "Final Jeopardy", systemImage: "flag.checkered", tint: JeopardyTheme.gold) {
+            LargeButton(title: "round.final_jeopardy", systemImage: "flag.checkered", tint: JeopardyTheme.gold) {
                 gameState.showFinalJeopardy()
             }
 
-            LargeButton(title: "Next Round", systemImage: "forward.fill") {
+            LargeButton(title: "control.board.button.next_round", systemImage: "forward.fill") {
                 gameState.advanceRound()
             }
 

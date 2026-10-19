@@ -3,7 +3,7 @@ import SwiftUI
 extension FinalJeopardyControlView {
     func finalJeopardyHeader() -> some View {
         HStack {
-            Text("FINAL JEOPARDY")
+            Text("display.final_jeopardy.header")
                 .font(.headline)
                 .foregroundStyle(JeopardyTheme.gold)
 
@@ -22,7 +22,7 @@ extension FinalJeopardyControlView {
                     }
                     gameState.phase = .setup
                 } label: {
-                    Label("Complete Game", systemImage: "flag.checkered.circle.fill")
+                    Label("control.final_jeopardy.button.complete_game", systemImage: "flag.checkered.circle.fill")
                 }
                 .buttonStyle(.borderedProminent)
                 .tint(.green)
@@ -31,7 +31,7 @@ extension FinalJeopardyControlView {
             Button {
                 gameState.showBoard()
             } label: {
-                Label("Return to Board", systemImage: "arrowshape.turn.up.backward.fill")
+                Label("control.question.button.return_to_board", systemImage: "arrowshape.turn.up.backward.fill")
             }
             .buttonStyle(.bordered)
         }
@@ -40,10 +40,10 @@ extension FinalJeopardyControlView {
     func finalJeopardyQuestionDetails() -> some View {
         Group {
             if let question = gameState.currentQuestion {
-                GroupBox("Final Jeopardy Clue & Answer") {
+                GroupBox("control.final_jeopardy.clue_and_answer_group") {
                     VStack(alignment: .leading, spacing: 14) {
                         VStack(alignment: .leading, spacing: 4) {
-                            Text("FINAL JEOPARDY CLUE")
+                            Text("control.final_jeopardy.clue_header")
                                 .font(.caption.bold())
                                 .foregroundStyle(.secondary)
                             Text(question.clue)
@@ -54,7 +54,7 @@ extension FinalJeopardyControlView {
                         Divider()
 
                         VStack(alignment: .leading, spacing: 4) {
-                            Text("CORRECT RESPONSE")
+                            Text("control.question.correct_response_header")
                                 .font(.caption.bold())
                                 .foregroundStyle(JeopardyTheme.gold)
                             Text(question.response)
@@ -72,7 +72,7 @@ extension FinalJeopardyControlView {
     func revealAnswerButton() -> some View {
         HStack {
             LargeButton(
-                title: gameState.phase == .finalJeopardyAnswer ? "Answer Revealed" : "Reveal Answer",
+                title: gameState.phase == .finalJeopardyAnswer ? "control.question.button.answer_revealed" : "control.question.button.reveal_answer",
                 systemImage: "eye.fill",
                 tint: gameState.phase == .finalJeopardyAnswer ? .secondary : .accentColor
             ) {
