@@ -15,10 +15,10 @@ extension TeamEditorView {
 
     func teamEditorHeader() -> some View {
         HStack {
-            Text("Teams")
+            Text("control.setup.teams_heading")
                 .font(.headline)
             Spacer()
-            Text("\(gameState.game.teams.count) Teams")
+            Text("control.setup.team_count \(gameState.game.teams.count)")
                 .font(.caption)
                 .foregroundStyle(.secondary)
         }
@@ -29,7 +29,7 @@ extension TeamEditorView {
             Button {
                 gameState.addTeam()
             } label: {
-                Label("Add Team", systemImage: "plus.circle.fill")
+                Label("control.setup.button.add_team", systemImage: "plus.circle.fill")
             }
             .buttonStyle(.borderless)
             .tint(.accentColor)
@@ -45,7 +45,7 @@ extension TeamEditorView {
                 .fill(team.displayColor)
                 .frame(width: 16, height: 16)
 
-            TextField("Team name", text: Binding(
+            TextField("control.setup.team_name_placeholder", text: Binding(
                 get: {
                     gameState.game.teams.first(where: { $0.id == team.id })?.name ?? team.name
                 },
@@ -57,7 +57,7 @@ extension TeamEditorView {
             ))
             .textFieldStyle(.roundedBorder)
 
-            Picker("Color", selection: Binding(
+            Picker("control.setup.color_picker_label", selection: Binding(
                 get: {
                     gameState.game.teams.first(where: { $0.id == team.id })?.color ?? team.color
                 },
@@ -68,7 +68,7 @@ extension TeamEditorView {
                 }
             )) {
                 ForEach(colorOptions, id: \.self) { color in
-                    Text(color.capitalized).tag(color)
+                    Text(LocalizedStringKey("color.\(color)")).tag(color)
                 }
             }
             .labelsHidden()

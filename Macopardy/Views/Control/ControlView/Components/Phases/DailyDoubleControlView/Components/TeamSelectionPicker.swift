@@ -3,10 +3,10 @@ import SwiftUI
 extension DailyDoubleControlView {
     func teamSelectionPicker() -> some View {
         VStack(alignment: .leading, spacing: 8) {
-            Text("Select Wagering Team:")
+            Text("control.daily_double.select_team")
                 .font(.headline)
 
-            Picker("Team", selection: selectedTeamBinding) {
+            Picker("control.daily_double.team_picker_label", selection: selectedTeamBinding) {
                 ForEach(gameState.game.teams) { team in
                     HStack {
                         Circle()

@@ -14,7 +14,7 @@ extension QuestionPickerView {
             }
             .frame(maxHeight: 400)
         } else {
-            Text("No board available")
+            Text("control.board.no_board_available")
                 .foregroundStyle(.secondary)
         }
     }

@@ -23,14 +23,14 @@ extension ScoreControlsView {
             teamHeader(team)
 
             HStack(spacing: 8) {
-                Text("Daily Double Wager: \(wager)")
+                Text("control.score.daily_double_wager \(wager)")
                     .font(.caption.bold())
                     .foregroundStyle(JeopardyTheme.gold)
 
                 Spacer()
 
-                scoreButton("Correct (+\(wager))", for: team, amount: wager, isCorrect: true)
-                scoreButton("Wrong (-\(wager))", for: team, amount: -wager, isCorrect: false)
+                scoreButton(title: "control.score.button.correct_wager \(wager)", for: team, amount: wager, isCorrect: true)
+                scoreButton(title: "control.score.button.wrong_wager \(wager)", for: team, amount: -wager, isCorrect: false)
             }
         }
         .padding(10)
@@ -43,14 +43,14 @@ extension ScoreControlsView {
             teamHeader(team)
 
             HStack(spacing: 8) {
-                Text("FJ Wager: \(wager)")
+                Text("control.score.fj_wager \(wager)")
                     .font(.caption.bold())
                     .foregroundStyle(.secondary)
 
                 Spacer()
 
-                scoreButton("Correct (+\(wager))", for: team, amount: wager, isCorrect: true)
-                scoreButton("Wrong (-\(wager))", for: team, amount: -wager, isCorrect: false)
+                scoreButton(title: "control.score.button.correct_wager \(wager)", for: team, amount: wager, isCorrect: true)
+                scoreButton(title: "control.score.button.wrong_wager \(wager)", for: team, amount: -wager, isCorrect: false)
             }
         }
         .padding(10)
@@ -64,15 +64,15 @@ extension ScoreControlsView {
 
             HStack(spacing: 6) {
                 if let value = gameState.currentQuestion?.value {
-                    scoreButton("Correct (+\(value))", for: team, amount: value, isCorrect: true)
-                    scoreButton("Wrong (-\(value))", for: team, amount: -value, isCorrect: false)
+                    scoreButton(title: "control.score.button.correct_value \(value)", for: team, amount: value, isCorrect: true)
+                    scoreButton(title: "control.score.button.wrong_value \(value)", for: team, amount: -value, isCorrect: false)
                 } else {
-                    scoreButton("+100", for: team, amount: 100)
-                    scoreButton("-100", for: team, amount: -100)
-                    scoreButton("+200", for: team, amount: 200)
-                    scoreButton("-200", for: team, amount: -200)
+                    scoreButton(title: "control.score.amount.plus_100", for: team, amount: 100)
+                    scoreButton(title: "control.score.amount.minus_100", for: team, amount: -100)
+                    scoreButton(title: "control.score.amount.plus_200", for: team, amount: 200)
+                    scoreButton(title: "control.score.amount.minus_200", for: team, amount: -200)
 
-                    Button("Reset") {
+                    Button("control.score.button.reset") {
                         gameState.resetScore(for: team.id)
                     }
                     .buttonStyle(.bordered)
@@ -101,7 +101,7 @@ extension ScoreControlsView {
         }
     }
 
-    func scoreButton(_ title: String, for team: Team, amount: Int, isCorrect: Bool? = nil) -> some View {
+    func scoreButton(title: LocalizedStringKey, for team: Team, amount: Int, isCorrect: Bool? = nil) -> some View {
         Button(title) {
             gameState.adjustScore(for: team.id, by: amount)
         }

@@ -29,7 +29,7 @@ extension CreateJeopardyGameView {
         let trimmedTitle = title.trimmingCharacters(in: .whitespacesAndNewlines)
 
         if trimmedTitle.isEmpty {
-            validationMessage = "Your game is incomplete. Please enter a game title before saving."
+            validationMessage = String(localized: "create.validation.missing_title")
             showValidationAlert = true
             return
         }
@@ -40,7 +40,7 @@ extension CreateJeopardyGameView {
             categories: round1Categories.enumerated().map { index, category in
                 let trimmedCategoryTitle = category.title.trimmingCharacters(in: .whitespacesAndNewlines)
                 return Category(
-                    title: trimmedCategoryTitle.isEmpty ? "Category \(index + 1)" : trimmedCategoryTitle,
+                    title: trimmedCategoryTitle.isEmpty ? String(localized: "create.category_default_name \(index + 1)") : trimmedCategoryTitle,
                     questions: category.questions.map { question in
                         Question(
                             value: question.value,
@@ -59,7 +59,7 @@ extension CreateJeopardyGameView {
             categories: round2Categories.enumerated().map { index, category in
                 let trimmedCategoryTitle = category.title.trimmingCharacters(in: .whitespacesAndNewlines)
                 return Category(
-                    title: trimmedCategoryTitle.isEmpty ? "Category \(index + 1)" : trimmedCategoryTitle,
+                    title: trimmedCategoryTitle.isEmpty ? String(localized: "create.category_default_name \(index + 1)") : trimmedCategoryTitle,
                     questions: category.questions.map { question in
                         Question(
                             value: question.value,
@@ -78,7 +78,7 @@ extension CreateJeopardyGameView {
             round: .finalJeopardy,
             categories: [
                 Category(
-                    title: finalCategory.isEmpty ? "Final Jeopardy" : finalCategory,
+                    title: finalCategory.isEmpty ? String(localized: "create.final_jeopardy.default_category") : finalCategory,
                     questions: [
                         Question(
                             value: 0,

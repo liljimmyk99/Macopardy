@@ -3,10 +3,10 @@ import SwiftUI
 extension SetupControlView {
     func setupHeader() -> some View {
         VStack(spacing: 8) {
-            Text("Phase 1: Game Setup")
+            Text("control.setup.heading")
                 .font(.title2.bold())
 
-            Text("Configure your teams before starting the game.")
+            Text("control.setup.subheading")
                 .font(.subheadline)
                 .foregroundStyle(.secondary)
         }
@@ -15,7 +15,7 @@ extension SetupControlView {
 
     func startGameButton() -> some View {
         LargeButton(
-            title: "Start Game",
+            title: "control.setup.button.start_game",
             systemImage: "play.circle.fill",
             tint: .green
         ) {

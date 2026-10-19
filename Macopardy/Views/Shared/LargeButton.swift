@@ -7,10 +7,31 @@ import SwiftUI
 
 struct LargeButton: View {
 
-    let title: String
+    let title: LocalizedStringKey
     var systemImage: String?
     var tint: Color = .accentColor
     let action: () -> Void
+
+    init(title: LocalizedStringKey, systemImage: String? = nil, tint: Color = .accentColor, action: @escaping () -> Void) {
+        self.title = title
+        self.systemImage = systemImage
+        self.tint = tint
+        self.action = action
+    }
+
+    init(_ title: LocalizedStringKey, systemImage: String? = nil, tint: Color = .accentColor, action: @escaping () -> Void) {
+        self.title = title
+        self.systemImage = systemImage
+        self.tint = tint
+        self.action = action
+    }
+
+    init(stringLiteral title: String, systemImage: String? = nil, tint: Color = .accentColor, action: @escaping () -> Void) {
+        self.title = LocalizedStringKey(title)
+        self.systemImage = systemImage
+        self.tint = tint
+        self.action = action
+    }
 
     var body: some View {
         Button(action: action) {
@@ -30,6 +51,6 @@ struct LargeButton: View {
 }
 
 #Preview {
-    LargeButton(title: "Reveal Answer", systemImage: "eye") {}
+    LargeButton(title: "display.preview.reveal_answer", systemImage: "eye") {}
         .padding()
 }

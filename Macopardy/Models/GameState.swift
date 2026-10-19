@@ -212,7 +212,7 @@ final class GameState {
 
     func addTeam(name: String = "", color: String = "blue") {
         let count = game.teams.count + 1
-        let teamName = name.isEmpty ? "Team \(count)" : name
+        let teamName = name.isEmpty ? String(localized: "team.default_name \(count)") : name
         let availableColors = ["blue", "red", "green", "yellow", "purple", "orange"]
         let chosenColor = availableColors[(count - 1) % availableColors.count]
         game.teams.append(Team(name: teamName, score: 0, color: chosenColor))

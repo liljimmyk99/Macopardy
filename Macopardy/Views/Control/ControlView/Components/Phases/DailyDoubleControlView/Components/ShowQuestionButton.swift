@@ -3,7 +3,7 @@ import SwiftUI
 extension DailyDoubleControlView {
     func showQuestionButton() -> some View {
         LargeButton(
-            title: "Show Question",
+            title: "control.daily_double.button.show_question",
             systemImage: "questionmark.circle.fill",
             tint: JeopardyTheme.gold
         ) {

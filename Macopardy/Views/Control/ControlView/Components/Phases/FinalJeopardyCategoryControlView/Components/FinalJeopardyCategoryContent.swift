@@ -3,17 +3,17 @@ import SwiftUI
 extension FinalJeopardyCategoryControlView {
     func finalJeopardyHeader() -> some View {
         VStack(spacing: 8) {
-            Text("FINAL JEOPARDY")
+            Text("display.final_jeopardy.header")
                 .font(.system(size: 32, weight: .black))
                 .foregroundStyle(JeopardyTheme.gold)
 
             if let category = gameState.currentCategoryTitle {
-                Text("Category: \(category)")
+                Text("control.daily_double.label_category \(category)")
                     .font(.title2.bold())
                     .foregroundStyle(.primary)
             }
 
-            Text("Display is currently showing the Final Jeopardy Category to players.")
+            Text("control.final_jeopardy.subtitle_status")
                 .font(.subheadline)
                 .foregroundStyle(.secondary)
         }
@@ -21,7 +21,7 @@ extension FinalJeopardyCategoryControlView {
     }
 
     func teamWagerGroup() -> some View {
-        GroupBox("Team Wagers") {
+        GroupBox("control.final_jeopardy.team_wagers_group") {
             VStack(spacing: 16) {
                 ForEach(gameState.game.teams, id: \.id) { team in
                     HStack(spacing: 12) {
@@ -34,7 +34,7 @@ extension FinalJeopardyCategoryControlView {
 
                         Spacer()
 
-                        Text("Current Score: $\(team.score)")
+                        Text("control.final_jeopardy.current_score \(team.score)")
                             .font(.subheadline)
                             .foregroundStyle(.secondary)
 
@@ -42,7 +42,7 @@ extension FinalJeopardyCategoryControlView {
                             Text("$")
                                 .foregroundStyle(.secondary)
 
-                            TextField("Wager", text: Binding(
+                            TextField("control.daily_double.wager_placeholder", text: Binding(
                                 get: { wagers[team.id] ?? "" },
                                 set: { wagers[team.id] = $0 }
                             ))
@@ -61,7 +61,7 @@ extension FinalJeopardyCategoryControlView {
 
     func revealQuestionButton() -> some View {
         LargeButton(
-            title: "Reveal Question",
+            title: "control.final_jeopardy.button.reveal_question",
             systemImage: "questionmark.circle.fill",
             tint: JeopardyTheme.gold
         ) {

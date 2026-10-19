@@ -5,7 +5,7 @@ extension PresentationView {
         VStack(spacing: 20) {
             Spacer()
             GameTitleView(title: "Jeopardy!")
-            Text("Waiting to start game...")
+            Text("display.setup.waiting")
                 .font(.title2)
                 .foregroundStyle(.white.opacity(0.8))
             Spacer()

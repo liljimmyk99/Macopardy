@@ -36,11 +36,13 @@ struct Team: Identifiable, Equatable, Codable {
 
 extension Team {
 
-    static let defaultNewTeams: [Team] = [
-        Team(name: "Team 1", score: 0, color: "blue"),
-        Team(name: "Team 2", score: 0, color: "red"),
-        Team(name: "Team 3", score: 0, color: "green"),
-    ]
+    static var defaultNewTeams: [Team] {
+        [
+            Team(name: String(localized: "team.default_name \(1)"), score: 0, color: "blue"),
+            Team(name: String(localized: "team.default_name \(2)"), score: 0, color: "red"),
+            Team(name: String(localized: "team.default_name \(3)"), score: 0, color: "green"),
+        ]
+    }
 
     static let sampleTeams: [Team] = [
         Team(name: "Blue Team", score: 2400, color: "blue"),

@@ -3,11 +3,11 @@ import SwiftUI
 extension TimerControlsView {
     func timerAdjustmentControls() -> some View {
         HStack(spacing: 8) {
-            controlButton("+5", systemImage: "plus") {
+            controlButton("control.timer.adjustment.plus_5", systemImage: "plus") {
                 gameState.timer.addSeconds(5)
             }
 
-            controlButton("-5", systemImage: "minus") {
+            controlButton("control.timer.adjustment.minus_5", systemImage: "minus") {
                 gameState.timer.addSeconds(-5)
             }
         }

@@ -35,23 +35,23 @@ struct QuestionEditorView: View {
                     .bold()
                 Spacer()
                 Toggle(isOn: $isDailyDouble) {
-                    Label("Daily Double", systemImage: "star.fill")
+                    Label("create.question.daily_double", systemImage: "star.fill")
                 }
                 .toggleStyle(.button)
                 .tint(JeopardyTheme.gold)
-                Button("Done") {
+                Button("common.done") {
                     onDone()
                 }
                 .buttonStyle(.borderedProminent)
             }
 
             VStack(alignment: .leading, spacing: 8) {
-                Text("Question / Clue")
+                Text("create.question.clue_label")
                     .font(.headline)
 
-                MultilineTextEditor(text: $clue, placeholder: "Enter the clue or question...")
+                MultilineTextEditor(text: $clue, placeholder: String(localized: "create.question.clue_placeholder"))
                     .focused($focusedField, equals: .clue)
-                    .accessibilityLabel("Question clue for \(value)")
+                    .accessibilityLabel(Text("create.question.clue_accessibility \(value)"))
                     .onSubmit {
                         focusedField = .response
                     }
@@ -65,12 +65,12 @@ struct QuestionEditorView: View {
             }
 
             VStack(alignment: .leading, spacing: 8) {
-                Text("Answer / Response")
+                Text("create.question.response_label")
                     .font(.headline)
 
-                MultilineTextEditor(text: $response, placeholder: "Enter the answer or response...")
+                MultilineTextEditor(text: $response, placeholder: String(localized: "create.question.response_placeholder"))
                     .focused($focusedField, equals: .response)
-                    .accessibilityLabel("Answer response for \(value)")
+                    .accessibilityLabel(Text("create.question.response_accessibility \(value)"))
                     .onSubmit {
                         onDone()
                     }

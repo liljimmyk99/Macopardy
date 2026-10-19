@@ -11,7 +11,10 @@ let project = Project(
             deploymentTargets: .macOS("26.3"),
             infoPlist: .default,
             sources: ["Macopardy/**/*.swift"],
-            resources: ["Macopardy/Assets.xcassets"],
+            resources: [
+                "Macopardy/Assets.xcassets",
+                "Macopardy/Localizable.xcstrings"
+            ],
             settings: .settings(
                 base: [
                     "ASSETCATALOG_COMPILER_APPICON_NAME": "AppIcon",

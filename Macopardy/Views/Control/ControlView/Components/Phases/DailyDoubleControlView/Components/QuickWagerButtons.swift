@@ -4,19 +4,19 @@ extension DailyDoubleControlView {
     @ViewBuilder
     func quickWagerButtons() -> some View {
         HStack(spacing: 8) {
-            Button("Min ($5)") {
+            Button("control.daily_double.quick_wager.min") {
                 wagerText = "5"
             }
             .buttonStyle(.bordered)
 
             if let clueValue = gameState.currentQuestion?.value {
-                Button("Clue Value ($\(clueValue))") {
+                Button("control.daily_double.quick_wager.clue_value \(clueValue)") {
                     wagerText = "\(clueValue)"
                 }
                 .buttonStyle(.bordered)
             }
 
-            Button("True Daily Double ($\(maxWager))") {
+            Button("control.daily_double.quick_wager.true_daily_double \(maxWager)") {
                 wagerText = "\(maxWager)"
             }
             .buttonStyle(.bordered)

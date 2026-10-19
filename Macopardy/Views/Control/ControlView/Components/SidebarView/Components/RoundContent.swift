@@ -16,7 +16,7 @@ extension SidebarView {
                 .font(.caption)
                 .foregroundStyle(.secondary)
         } else {
-            Text("No Active Round")
+            Text("control.sidebar.no_active_round")
                 .foregroundStyle(.secondary)
         }
     }

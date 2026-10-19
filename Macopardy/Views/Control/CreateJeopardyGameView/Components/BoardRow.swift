@@ -31,7 +31,7 @@ struct BoardRow: View {
                 }
             )
             .frame(width: 180, height: 120)
-            .accessibilityLabel("\(category.title) question for \(value), \(question.isComplete ? "completed" : "incomplete")\(question.isDailyDouble ? ", Daily Double" : "")")
+            .accessibilityLabel(Text("create.board.tile_accessibility \(category.title) \(value) \(question.isComplete ? String(localized: "create.board.tile_completed") : String(localized: "create.board.tile_incomplete"))"))
         }
     }
 }

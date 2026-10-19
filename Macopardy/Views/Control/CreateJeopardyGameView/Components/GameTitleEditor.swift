@@ -11,14 +11,14 @@ struct GameTitleEditor: View {
     
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
-            Text("Game Title")
+            Text("create.title_label")
                 .font(.headline)
                 .foregroundStyle(.primary)
 
-            TextField("My Jeopardy Game", text: $title)
+            TextField("create.title_placeholder", text: $title)
                 .textFieldStyle(.roundedBorder)
                 .frame(maxWidth: 420)
-                .accessibilityLabel("Game title")
+                .accessibilityLabel(Text("create.title_accessibility"))
         }
     }
 }

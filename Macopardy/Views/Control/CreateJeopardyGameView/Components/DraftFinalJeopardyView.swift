@@ -20,15 +20,15 @@ struct DraftFinalJeopardyView: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 20) {
             VStack(alignment: .leading, spacing: 8) {
-                Text("Category")
+                Text("create.final_jeopardy.category_label")
                     .font(.headline)
                     .foregroundStyle(.primary)
 
-                TextField("Enter Final Jeopardy Category (e.g. American History)", text: $draft.category)
+                TextField("create.final_jeopardy.category_placeholder", text: $draft.category)
                     .focused($focusedField, equals: .category)
                     .textFieldStyle(.roundedBorder)
                     .frame(maxWidth: 480)
-                    .accessibilityLabel("Final Jeopardy Category")
+                    .accessibilityLabel(Text("create.final_jeopardy.category_accessibility"))
                     .onSubmit {
                         focusedField = .question
                     }
@@ -46,17 +46,17 @@ struct DraftFinalJeopardyView: View {
             }
 
             VStack(alignment: .leading, spacing: 8) {
-                Text("Question / Clue")
+                Text("create.question.clue_label")
                     .font(.headline)
                     .foregroundStyle(.primary)
 
                 MultilineTextEditor(
                     text: $draft.clue,
-                    placeholder: "Enter the Final Jeopardy clue or question...",
+                    placeholder: String(localized: "create.final_jeopardy.clue_placeholder"),
                     minHeight: 140
                 )
                 .focused($focusedField, equals: .question)
-                .accessibilityLabel("Final Jeopardy Clue")
+                .accessibilityLabel(Text("create.final_jeopardy.clue_accessibility"))
                 .onSubmit {
                     focusedField = .answer
                 }
@@ -74,17 +74,17 @@ struct DraftFinalJeopardyView: View {
             }
 
             VStack(alignment: .leading, spacing: 8) {
-                Text("Answer / Response")
+                Text("create.question.response_label")
                     .font(.headline)
                     .foregroundStyle(.primary)
 
                 MultilineTextEditor(
                     text: $draft.response,
-                    placeholder: "Enter the correct response (e.g. What is the Constitution?)...",
+                    placeholder: String(localized: "create.final_jeopardy.response_placeholder"),
                     minHeight: 140
                 )
                 .focused($focusedField, equals: .answer)
-                .accessibilityLabel("Final Jeopardy Response")
+                .accessibilityLabel(Text("create.final_jeopardy.response_accessibility"))
                 .onSubmit {
                     focusedField = .category
                 }

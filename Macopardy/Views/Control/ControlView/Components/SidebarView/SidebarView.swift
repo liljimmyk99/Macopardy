@@ -13,20 +13,20 @@ struct SidebarView: View {
 
     var body: some View {
         List {
-            Section("Round") {
+            Section("control.sidebar.section.round") {
                 roundContent()
             }
 
-            Section("Phase") {
+            Section("control.sidebar.section.phase") {
                 phaseContent()
             }
 
-            Section("Teams & Standings") {
+            Section("control.sidebar.section.teams") {
                 teamStandingsContent()
             }
         }
         .listStyle(.sidebar)
-        .navigationTitle("Control Panel")
+        .navigationTitle("control.sidebar.title")
     }
 }
 
@@ -35,6 +35,6 @@ struct SidebarView: View {
         SidebarView()
             .environment(GameState())
     } detail: {
-        Text("Detail")
+        Text("control.sidebar.detail_placeholder")
     }
 }
