@@ -18,7 +18,7 @@ struct PresentationView: View {
             ScoreboardView(teams: gameState.game.teams)
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .background(JeopardyTheme.boardBlue)
+        .background(MacpardyTheme.boardBlue)
     }
 }
 

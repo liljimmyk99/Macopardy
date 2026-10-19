@@ -7,7 +7,7 @@ extension QuestionView {
             Text(categoryTitle.uppercased())
                 .font(.title)
                 .fontWeight(.bold)
-                .foregroundStyle(JeopardyTheme.gold)
+                .foregroundStyle(MacpardyTheme.gold)
         }
 
         QuestionValueView(value: question.value, font: .system(size: 48, weight: .bold))

@@ -8,8 +8,8 @@ import SwiftUI
 struct CountdownView: View {
 
     let seconds: Int
-    var font: Font = JeopardyTheme.timerFont
-    var color: Color = JeopardyTheme.gold
+    var font: Font = MacpardyTheme.timerFont
+    var color: Color = MacpardyTheme.gold
 
     var body: some View {
         countdownText()
@@ -19,5 +19,5 @@ struct CountdownView: View {
 #Preview {
     CountdownView(seconds: 30)
         .padding()
-        .background(JeopardyTheme.clueBackground)
+        .background(MacpardyTheme.clueBackground)
 }

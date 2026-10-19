@@ -18,5 +18,5 @@ struct TeamScoreView: View {
 #Preview {
     TeamScoreView(team: Team.sampleTeams[0])
         .padding()
-        .background(JeopardyTheme.boardBlue)
+        .background(MacpardyTheme.boardBlue)
 }

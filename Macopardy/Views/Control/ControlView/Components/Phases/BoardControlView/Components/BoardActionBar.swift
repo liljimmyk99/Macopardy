@@ -9,8 +9,8 @@ extension BoardControlView {
                 gameState.showBoard()
             }
 
-            LargeButton(title: "round.final_jeopardy", systemImage: "flag.checkered", tint: JeopardyTheme.gold) {
-                gameState.showFinalJeopardy()
+            LargeButton(title: "round.final_macpardy", systemImage: "flag.checkered", tint: MacpardyTheme.gold) {
+                gameState.showFinalMacpardy()
             }
 
             LargeButton(title: "control.board.button.next_round", systemImage: "forward.fill") {

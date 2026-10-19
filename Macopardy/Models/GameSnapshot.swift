@@ -18,7 +18,7 @@ struct GameSnapshot: Codable, Equatable, Sendable {
     let currentCategoryTitle: String?
     let dailyDoubleTeamID: UUID?
     let dailyDoubleWager: Int
-    let finalJeopardyWagers: [UUID: Int]
+    let finalMacpardyWagers: [UUID: Int]
 
     init(
         schemaVersion: Int = GameSnapshot.currentSchemaVersion,
@@ -29,7 +29,7 @@ struct GameSnapshot: Codable, Equatable, Sendable {
         currentCategoryTitle: String? = nil,
         dailyDoubleTeamID: UUID? = nil,
         dailyDoubleWager: Int = 0,
-        finalJeopardyWagers: [UUID: Int] = [:]
+        finalMacpardyWagers: [UUID: Int] = [:]
     ) {
         self.schemaVersion = schemaVersion
         self.savedAt = savedAt
@@ -39,7 +39,7 @@ struct GameSnapshot: Codable, Equatable, Sendable {
         self.currentCategoryTitle = currentCategoryTitle
         self.dailyDoubleTeamID = dailyDoubleTeamID
         self.dailyDoubleWager = dailyDoubleWager
-        self.finalJeopardyWagers = finalJeopardyWagers
+        self.finalMacpardyWagers = finalMacpardyWagers
     }
 
     init(from gameState: GameState) {
@@ -51,6 +51,6 @@ struct GameSnapshot: Codable, Equatable, Sendable {
         self.currentCategoryTitle = gameState.currentCategoryTitle
         self.dailyDoubleTeamID = gameState.dailyDoubleTeamID
         self.dailyDoubleWager = gameState.dailyDoubleWager
-        self.finalJeopardyWagers = gameState.finalJeopardyWagers
+        self.finalMacpardyWagers = gameState.finalMacpardyWagers
     }
 }

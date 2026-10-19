@@ -20,14 +20,14 @@ final class GameState {
     var dailyDoubleTeamID: UUID?
     var dailyDoubleWager: Int = 0
 
-    // Final Jeopardy State
-    var finalJeopardyWagers: [UUID: Int] = [:]
+    // Final Macpardy State
+    var finalMacpardyWagers: [UUID: Int] = [:]
 
     // Persistence
     private var pendingSaveTask: Task<Void, Never>?
     var onSaveTriggered: ((GameSnapshot) -> Void)?
 
-    init(rounds: [JeopardyBoard], currentRound: Int = 0, teams: [Team] = Team.defaultNewTeams, phase: GamePhase = .setup) {
+    init(rounds: [MacpardyBoard], currentRound: Int = 0, teams: [Team] = Team.defaultNewTeams, phase: GamePhase = .setup) {
         self.game = Game(
             rounds: rounds,
             currentRound: currentRound,
@@ -38,7 +38,7 @@ final class GameState {
 
     convenience init() {
         self.init(
-            rounds: [JeopardyBoard.sample],
+            rounds: [MacpardyBoard.sample],
             currentRound: 0,
             teams: Team.defaultNewTeams,
             phase: .setup
@@ -54,7 +54,7 @@ final class GameState {
         )
         self.dailyDoubleTeamID = snapshot.dailyDoubleTeamID
         self.dailyDoubleWager = snapshot.dailyDoubleWager
-        self.finalJeopardyWagers = snapshot.finalJeopardyWagers
+        self.finalMacpardyWagers = snapshot.finalMacpardyWagers
         self.currentCategoryTitle = snapshot.currentCategoryTitle
         if let qID = snapshot.currentQuestionID,
            snapshot.game.rounds.indices.contains(snapshot.game.currentRound) {
@@ -73,7 +73,7 @@ final class GameState {
         self.phase = snapshot.phase
         self.dailyDoubleTeamID = snapshot.dailyDoubleTeamID
         self.dailyDoubleWager = snapshot.dailyDoubleWager
-        self.finalJeopardyWagers = snapshot.finalJeopardyWagers
+        self.finalMacpardyWagers = snapshot.finalMacpardyWagers
         self.currentCategoryTitle = snapshot.currentCategoryTitle
         self.currentQuestion = nil
         if let qID = snapshot.currentQuestionID,
@@ -120,8 +120,8 @@ final class GameState {
     }
 
     func revealAnswer() {
-        if phase == .finalJeopardyQuestion {
-            phase = .finalJeopardyAnswer
+        if phase == .finalMacpardyQuestion {
+            phase = .finalMacpardyAnswer
         } else {
             phase = .answer
         }
@@ -142,30 +142,30 @@ final class GameState {
         triggerSave()
     }
 
-    func showFinalJeopardy(categoryTitle: String? = nil) {
-        // Look up final jeopardy board if present
-        if let fjBoard = game.rounds.first(where: { $0.round == .finalJeopardy }),
+    func showFinalMacpardy(categoryTitle: String? = nil) {
+        // Look up final macpardy board if present
+        if let fjBoard = game.rounds.first(where: { $0.round == .finalMacpardy }),
            let category = fjBoard.categories.first,
            let question = category.questions.first {
             currentCategoryTitle = category.title
             currentQuestion = question
         } else if let title = categoryTitle {
             currentCategoryTitle = title
-            currentQuestion = Question(value: 0, clue: "Final Jeopardy Clue", response: "Final Jeopardy Response")
+            currentQuestion = Question(value: 0, clue: "Final Macpardy Clue", response: "Final Macpardy Response")
         } else {
-            currentCategoryTitle = "Final Jeopardy"
-            currentQuestion = Question(value: 0, clue: "Final Jeopardy Clue", response: "Final Jeopardy Response")
+            currentCategoryTitle = "Final Macpardy"
+            currentQuestion = Question(value: 0, clue: "Final Macpardy Clue", response: "Final Macpardy Response")
         }
 
         // Initialize team wagers with 0
-        finalJeopardyWagers = Dictionary(uniqueKeysWithValues: game.teams.map { ($0.id, 0) })
-        phase = .finalJeopardyCategory
+        finalMacpardyWagers = Dictionary(uniqueKeysWithValues: game.teams.map { ($0.id, 0) })
+        phase = .finalMacpardyCategory
         timer.reset()
         triggerSave()
     }
 
-    func revealFinalJeopardyQuestion() {
-        phase = .finalJeopardyQuestion
+    func revealFinalMacpardyQuestion() {
+        phase = .finalMacpardyQuestion
         timer.reset()
         triggerSave()
     }
@@ -183,11 +183,11 @@ final class GameState {
     }
 
     func advanceRound() {
-        // Find next non-final-jeopardy board or next round index
+        // Find next non-final-macpardy board or next round index
         let nextRound = game.currentRound + 1
         if nextRound < game.rounds.count {
-            if game.rounds[nextRound].round == .finalJeopardy {
-                showFinalJeopardy()
+            if game.rounds[nextRound].round == .finalMacpardy {
+                showFinalMacpardy()
             } else {
                 game.currentRound = nextRound
                 showBoard()
@@ -196,7 +196,7 @@ final class GameState {
         triggerSave()
     }
 
-    func loadGame(boards: [JeopardyBoard]) {
+    func loadGame(boards: [MacpardyBoard]) {
         self.game = Game(
             rounds: boards,
             currentRound: 0,
@@ -207,7 +207,7 @@ final class GameState {
         self.currentCategoryTitle = nil
         self.dailyDoubleTeamID = nil
         self.dailyDoubleWager = 0
-        self.finalJeopardyWagers = [:]
+        self.finalMacpardyWagers = [:]
     }
 
     func addTeam(name: String = "", color: String = "blue") {

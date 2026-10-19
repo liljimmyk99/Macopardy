@@ -11,7 +11,7 @@ struct QuestionView: View {
 
 #Preview {
     let gameState = GameState()
-    gameState.currentQuestion = JeopardyBoard.sample.categories[0].questions[0]
+    gameState.currentQuestion = MacpardyBoard.sample.categories[0].questions[0]
     gameState.currentCategoryTitle = "Science"
     gameState.phase = .question
 

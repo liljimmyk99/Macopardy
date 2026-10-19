@@ -8,7 +8,7 @@
 import SwiftUI
 
 @main
-struct JeopardyApp: App {
+struct MacpardyApp: App {
 
     @State
     private var gameState = GameState()
@@ -37,8 +37,8 @@ struct JeopardyApp: App {
         .defaultSize(width: 1920, height: 1080)
         .defaultLaunchBehavior(.suppressed)
 
-        Window("Create Jeopardy Game", id: "create-jeopardy") {
-            CreateJeopardyGameView()
+        Window("Create Macpardy Game", id: "create-macpardy") {
+            CreateMacpardyGameView()
         }
         .defaultSize(width: 1400, height: 820)
         .defaultLaunchBehavior(.suppressed)

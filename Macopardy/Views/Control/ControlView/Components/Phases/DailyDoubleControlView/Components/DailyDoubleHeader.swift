@@ -6,7 +6,7 @@ extension DailyDoubleControlView {
         VStack(spacing: 8) {
             Text("control.daily_double.heading")
                 .font(.system(size: 32, weight: .black))
-                .foregroundStyle(JeopardyTheme.gold)
+                .foregroundStyle(MacpardyTheme.gold)
 
             if let category = gameState.currentCategoryTitle {
                 Text("control.daily_double.label_category \(category)")

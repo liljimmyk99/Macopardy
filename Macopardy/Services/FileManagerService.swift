@@ -8,19 +8,19 @@ import Foundation
 import SwiftUI
 import UniformTypeIdentifiers
 
-struct JeopardyBoardsDocument: FileDocument {
+struct MacpardyBoardsDocument: FileDocument {
 
     static var readableContentTypes: [UTType] { [.json] }
     static var writableContentTypes: [UTType] { [.json] }
 
-    var boards: [JeopardyBoard]
+    var boards: [MacpardyBoard]
 
-    init(boards: [JeopardyBoard]) {
+    init(boards: [MacpardyBoard]) {
         self.boards = boards
     }
 
-    static func decodeBoards(from data: Data) throws -> [JeopardyBoard] {
-        try JSONDecoder().decode([JeopardyBoard].self, from: data)
+    static func decodeBoards(from data: Data) throws -> [MacpardyBoard] {
+        try JSONDecoder().decode([MacpardyBoard].self, from: data)
     }
 
     init(configuration: ReadConfiguration) throws {
@@ -40,8 +40,8 @@ struct JeopardyBoardsDocument: FileDocument {
 }
 
 final class FileManagerService {
-    func makeExportDocument(for boards: [JeopardyBoard]) -> JeopardyBoardsDocument {
-        JeopardyBoardsDocument(boards: boards)
+    func makeExportDocument(for boards: [MacpardyBoard]) -> MacpardyBoardsDocument {
+        MacpardyBoardsDocument(boards: boards)
     }
 
     func defaultFilename(for title: String) -> String {
@@ -56,11 +56,11 @@ final class FileManagerService {
             .replacingOccurrences(of: ".", with: "-")
             .replacingOccurrences(of: " ", with: "-")
 
-        let base = cleaned.isEmpty ? "jeopardy-game" : cleaned
+        let base = cleaned.isEmpty ? "macpardy-game" : cleaned
         return "\(base).json"
     }
     
-    func readBoards(from url: URL) async throws -> [JeopardyBoard] {
+    func readBoards(from url: URL) async throws -> [MacpardyBoard] {
         let hasScopedAccess = url.startAccessingSecurityScopedResource()
         defer {
             if hasScopedAccess {
@@ -69,6 +69,6 @@ final class FileManagerService {
         }
 
         let data = try Data(contentsOf: url)
-        return try JeopardyBoardsDocument.decodeBoards(from: data)
+        return try MacpardyBoardsDocument.decodeBoards(from: data)
     }
 }

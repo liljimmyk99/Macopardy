@@ -25,13 +25,13 @@ struct ControlView: View {
                         .font(.caption.bold())
                         .padding(.horizontal, 10)
                         .padding(.vertical, 5)
-                        .background(JeopardyTheme.gold.opacity(0.2))
-                        .foregroundStyle(JeopardyTheme.gold)
+                        .background(MacpardyTheme.gold.opacity(0.2))
+                        .foregroundStyle(MacpardyTheme.gold)
                         .clipShape(Capsule())
                 }
             }
         }
-        .background(JeopardyTheme.controlBackground)
+        .background(MacpardyTheme.controlBackground)
     }
 }
 

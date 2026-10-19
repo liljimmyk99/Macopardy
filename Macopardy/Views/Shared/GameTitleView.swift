@@ -11,11 +11,11 @@ struct GameTitleView: View {
 
     var body: some View {
         Text(title)
-            .font(JeopardyTheme.titleFont)
+            .font(MacpardyTheme.titleFont)
             .foregroundStyle(.primary)
     }
 }
 
 #Preview {
-    GameTitleView(title: "Jeopardy!")
+    GameTitleView(title: "Macpardy!")
 }

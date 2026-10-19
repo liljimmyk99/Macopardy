@@ -16,7 +16,7 @@ struct DailyDoubleControlView: View {
 
     var maxWager: Int {
         guard let team = selectedTeam else { return 1000 }
-        let roundMax = (gameState.game.currentBoard?.round == .doubleJeopardy) ? 2000 : 1000
+        let roundMax = (gameState.game.currentBoard?.round == .doubleMacpardy) ? 2000 : 1000
         return max(team.score, roundMax)
     }
 

@@ -11,7 +11,7 @@ enum GamePhase: String, CaseIterable, Codable {
     case question = "Question"
     case answer = "Answer"
     case dailyDouble = "Daily Double"
-    case finalJeopardyCategory = "Final Jeopardy Category"
-    case finalJeopardyQuestion = "Final Jeopardy Question"
-    case finalJeopardyAnswer = "Final Jeopardy Answer"
+    case finalMacpardyCategory = "Final Macpardy Category"
+    case finalMacpardyQuestion = "Final Macpardy Question"
+    case finalMacpardyAnswer = "Final Macpardy Answer"
 }

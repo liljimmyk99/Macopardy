@@ -13,8 +13,8 @@ struct CategoryColumnView: View {
 }
 
 #Preview {
-    CategoryColumnView(category: JeopardyBoard.sample.categories[0])
+    CategoryColumnView(category: MacpardyBoard.sample.categories[0])
         .frame(width: 160)
         .padding()
-        .background(JeopardyTheme.boardBlue)
+        .background(MacpardyTheme.boardBlue)
 }

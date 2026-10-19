@@ -8,17 +8,17 @@ import SwiftUI
 struct QuestionValueView: View {
 
     let value: Int
-    var font: Font = JeopardyTheme.valueFont
+    var font: Font = MacpardyTheme.valueFont
 
     var body: some View {
         Text("$\(value)")
             .font(font)
-            .foregroundStyle(JeopardyTheme.gold)
+            .foregroundStyle(MacpardyTheme.gold)
     }
 }
 
 #Preview {
     QuestionValueView(value: 400)
         .padding()
-        .background(JeopardyTheme.tileBlue)
+        .background(MacpardyTheme.tileBlue)
 }

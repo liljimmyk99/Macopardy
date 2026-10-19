@@ -4,7 +4,7 @@ extension QuestionTileView {
     func tileContent() -> some View {
         ZStack {
             Rectangle()
-                .fill(question.hasBeenPlayed ? JeopardyTheme.tilePlayed : JeopardyTheme.tileBlue)
+                .fill(question.hasBeenPlayed ? MacpardyTheme.tilePlayed : MacpardyTheme.tileBlue)
 
             if !question.hasBeenPlayed {
                 QuestionValueView(value: question.value)
