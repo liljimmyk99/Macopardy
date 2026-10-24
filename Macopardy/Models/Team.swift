@@ -9,6 +9,9 @@ import SwiftUI
 
 struct Team: Identifiable, Equatable, Codable {
 
+    /// Most teams a game can have; each can be claimed by one buzzer phone.
+    static let maxCount = 4
+
     let id: UUID
     var name: String
     var score: Int

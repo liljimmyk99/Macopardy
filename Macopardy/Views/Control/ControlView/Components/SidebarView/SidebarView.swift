@@ -10,6 +10,7 @@ import SwiftUI
 struct SidebarView: View {
 
     @Environment(GameState.self) var gameState
+    @Environment(BuzzerState.self) var buzzerState
 
     var body: some View {
         List {
@@ -34,6 +35,7 @@ struct SidebarView: View {
     NavigationSplitView {
         SidebarView()
             .environment(GameState())
+            .environment(BuzzerState())
     } detail: {
         Text("control.sidebar.detail_placeholder")
     }

@@ -10,12 +10,13 @@ import SwiftUI
 struct PresentationView: View {
 
     @Environment(GameState.self) var gameState
+    @Environment(BuzzerState.self) var buzzerState
 
     var body: some View {
         VStack(spacing: 0) {
             phaseContent
 
-            ScoreboardView(teams: gameState.game.teams)
+            ScoreboardView(teams: gameState.game.teams, disconnectedTeamIDs: buzzerState.disconnectedTeamIDs)
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background(MacpardyTheme.boardBlue)
@@ -25,5 +26,6 @@ struct PresentationView: View {
 #Preview {
     PresentationView()
         .environment(GameState())
+        .environment(BuzzerState())
         .frame(width: 960, height: 540)
 }

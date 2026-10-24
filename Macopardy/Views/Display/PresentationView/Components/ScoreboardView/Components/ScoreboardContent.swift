@@ -4,7 +4,7 @@ extension ScoreboardView {
     func scoreboardContent() -> some View {
         HStack(spacing: 32) {
             ForEach(teams) { team in
-                TeamScoreView(team: team)
+                TeamScoreView(team: team, isDisconnected: disconnectedTeamIDs.contains(team.id))
             }
         }
         .padding(.horizontal, 40)

@@ -1,4 +1,4 @@
-# Macpardy! Buzzer WebSocket Protocol — v1
+# Macpardy! Buzzer WebSocket Protocol — v2
 
 All WebSocket messages are JSON objects with a required top-level `type` string field
 and an optional `payload` object. Unknown `type` values should be silently ignored by
@@ -36,8 +36,24 @@ and closes the connection.
 
 | Field     | Type   | Description                                              |
 |-----------|--------|----------------------------------------------------------|
-| `version` | int    | Required. Protocol version the client speaks. Currently always `1`. A missing version is not decodable and the message is ignored. |
+| `version` | int    | Required. Protocol version the client speaks. Currently always `2`. A missing version is not decodable and the message is ignored. |
 | `code`    | string | The 6-character join code shown on the host's screen.    |
+
+---
+
+### `claim`
+
+Asks to take a team. Only valid after a successful `join`; ignored otherwise.
+A phone holds at most one team, so a successful claim releases any team it held.
+The server answers with `claimAccepted` or `claimRejected`.
+
+```json
+{ "type": "claim", "teamID": "6F9619FF-8B86-D011-B42D-00C04FC964FF" }
+```
+
+| Field    | Type   | Description                                  |
+|----------|--------|----------------------------------------------|
+| `teamID` | string | `id` of a team from `joinAccepted` / `teams`. |
 
 ---
 
@@ -63,16 +79,18 @@ Sent to the joining phone after a valid join code is received.
 {
   "type": "joinAccepted",
   "payload": {
-    "version": 1,
-    "teams": ["Team 1", "Team 2", "Team 3"]
+    "version": 2,
+    "teams": [
+      { "id": "6F9619FF-8B86-D011-B42D-00C04FC964FF", "name": "Team 1", "color": "blue", "claimed": false }
+    ]
   }
 }
 ```
 
 | Payload field | Type     | Description                                                     |
 |---------------|----------|-----------------------------------------------------------------|
-| `version`     | int      | Protocol version the server is speaking. Currently always `1`.  |
-| `teams`       | string[] | Ordered list of team names (empty list until sub-issue 2 lands).|
+| `version`     | int      | Protocol version the server is speaking. Currently always `2`.  |
+| `teams`       | object[] | Teams in display order (at most 4). `claimed` is true while a phone holds the team; the phone disables that team's Join button. `color` is one of `blue`, `red`, `green`, `yellow`, `purple`, `orange`. |
 
 ---
 
@@ -82,6 +100,10 @@ Sent when the join code in the `join` message does not match or the client
 protocol version is unsupported.
 The connection is closed by the server after sending this.
 The client should display an error and **not** attempt to reconnect.
+
+Wrong codes are rate limited per remote address (default: more than 5 in 60 s
+locks the address out for 30 s). While locked out, even the correct code is
+rejected.
 
 ```json
 {
@@ -95,6 +117,58 @@ The client should display an error and **not** attempt to reconnect.
 | Payload field | Type   | Description                          |
 |---------------|--------|--------------------------------------|
 | `reason`      | string | Human-readable rejection reason.     |
+
+---
+
+### `teams`
+
+Broadcast to every joined phone whenever a team is added, renamed, recolored or
+removed, or a claim is taken or freed. Same `teams` array as `joinAccepted`.
+
+```json
+{ "type": "teams", "payload": { "teams": [ ... ] } }
+```
+
+---
+
+### `claimAccepted`
+
+The phone now holds the team. Sent to the claiming phone only; everyone gets the
+updated `teams` broadcast. Repeating a claim for the team already held is also
+answered with `claimAccepted`.
+
+```json
+{ "type": "claimAccepted", "payload": { "teamID": "6F9619FF-8B86-D011-B42D-00C04FC964FF" } }
+```
+
+---
+
+### `claimRejected`
+
+The claim was refused; the phone stays on the team picker. For `taken` and
+`invalidTeam` a fresh `teams` message is sent just before this one.
+
+```json
+{ "type": "claimRejected", "payload": { "reason": "taken" } }
+```
+
+| `reason`      | Meaning                                                                    |
+|---------------|----------------------------------------------------------------------------|
+| `taken`       | Another phone holds the team.                                              |
+| `invalidTeam` | No such team (for example the host deleted it).                            |
+| `rateLimited` | Too many claims from this address (default: more than 10 in 10 s locks it out for 30 s). |
+
+---
+
+### `removed`
+
+The host removed this phone from its team. The server closes the connection right
+after sending this. The phone shows "Removed by host" and does **not** reconnect on
+its own. The team keeps its score, and a new phone can claim it.
+
+```json
+{ "type": "removed" }
+```
 
 ---
 
@@ -144,7 +218,9 @@ Server                          Phone
   | (repeat every 2 s)            |
 ```
 
-If no `pong` is received within `heartbeatTTL` (5 s), the server closes the connection.
+If no `pong` is received within `heartbeatTTL` (5 s), the server closes the connection
+and frees the team the phone held. The check runs on the 2 s ping timer, so the slot is
+released between 5 and 7 s after the last pong.
 A socket that connects but never sends a valid `join` within the same TTL is also closed.
 
 The phone runs its own watchdog: if it hears nothing from the server for 5 s (for
@@ -167,8 +243,22 @@ The page automatically attempts to reconnect with exponential back-off
 
 ---
 
+## Team claims and presence
+
+- A team is held by at most one phone; a claim lives exactly as long as the phone's
+  connection. When the connection drops (TTL, close, or host removal) the slot is freed
+  and anyone with the join code can claim it.
+- Scores belong to the team, not the phone, so a freed team keeps its score and whoever
+  claims it next inherits it.
+- A phone that refreshes gets a new connection, so it can be blocked (`taken`) for up to
+  5 s until the server times out the old one.
+- The host app marks a team as disconnected once a phone has held it and none does now.
+
+---
+
 ## Version history
 
 | Version | Changes                          |
 |---------|----------------------------------|
 | 1       | Initial release (issue #28). Introduces `join`, `joinRejected`, `joinAccepted`, `ping`, `pong`, `state`. |
+| 2       | Issue #29. `joinAccepted.teams` is now an array of `{id, name, color, claimed}` objects. Adds `claim`, `teams`, `claimAccepted`, `claimRejected`, `removed` and rate limiting. |

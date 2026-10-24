@@ -33,10 +33,28 @@ extension TeamEditorView {
             }
             .buttonStyle(.borderless)
             .tint(.accentColor)
+            .disabled(gameState.game.teams.count >= Team.maxCount)
 
             Spacer()
         }
         .padding(.top, 4)
+    }
+
+    /// Shows whether a phone holds the team, with a button for the host to remove it.
+    @ViewBuilder
+    func phoneStatus(for team: Team) -> some View {
+        if buzzerState.claimedTeamIDs.contains(team.id) {
+            Button {
+                Task { await buzzerState.removePhone(forTeam: team.id) }
+            } label: {
+                Label("control.team.remove_phone", systemImage: "iphone.slash")
+            }
+            .help("control.team.remove_phone.help")
+        } else if buzzerState.disconnectedTeamIDs.contains(team.id) {
+            Label("control.team.disconnected", systemImage: "iphone.slash")
+                .font(.caption)
+                .foregroundStyle(.orange)
+        }
     }
 
     func teamRow(for team: Team) -> some View {
@@ -73,6 +91,8 @@ extension TeamEditorView {
             }
             .labelsHidden()
             .frame(width: 120)
+
+            phoneStatus(for: team)
 
             if gameState.game.teams.count > 1 {
                 Button {
