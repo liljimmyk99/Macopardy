@@ -93,6 +93,12 @@ extension ScoreControlsView {
             Text(team.name)
                 .fontWeight(.semibold)
 
+            if buzzerState.firstBuzzTeamID == team.id {
+                Label("control.team.buzzed_first", systemImage: "bolt.fill")
+                    .font(.caption.bold())
+                    .foregroundStyle(MacpardyTheme.gold)
+            }
+
             Spacer()
 
             Text("$\(team.score)")
@@ -101,9 +107,26 @@ extension ScoreControlsView {
         }
     }
 
+    /// Standard questions only: a wrong answer locks the team out and re-arms the
+    /// others, a correct one stops the buzzers. Daily Double and Final scoring
+    /// never touch the buzzers.
+    private func updateBuzzer(for team: Team, isCorrect: Bool?) {
+        guard let isCorrect,
+              gameState.dailyDoubleTeamID == nil,
+              gameState.phase == .question || gameState.phase == .answer else { return }
+        Task {
+            if isCorrect {
+                await buzzerState.teamAnsweredCorrect()
+            } else {
+                await buzzerState.teamAnsweredWrong(team.id)
+            }
+        }
+    }
+
     func scoreButton(title: LocalizedStringKey, for team: Team, amount: Int, isCorrect: Bool? = nil) -> some View {
         Button(title) {
             gameState.adjustScore(for: team.id, by: amount)
+            updateBuzzer(for: team, isCorrect: isCorrect)
         }
         .buttonStyle(.bordered)
         .tint(isCorrect == true ? .green : (isCorrect == false ? .red : nil))

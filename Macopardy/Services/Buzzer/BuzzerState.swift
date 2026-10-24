@@ -38,8 +38,14 @@ final class BuzzerState {
     /// shows no warnings.
     var disconnectedTeamIDs: Set<UUID> { everClaimedTeamIDs.subtracting(claimedTeamIDs) }
 
+    /// The team that buzzed in first and is answering, if any.
+    private(set) var firstBuzzTeamID: UUID?
+
     // MARK: - Private
 
+    private var latestScores: [UUID: Int] = [:]
+    private var latestMode: BuzzerMode = .disabled
+    private var firstBuzzObserverTask: Task<Void, Never>?
     private var everClaimedTeamIDs: Set<UUID> = []
     private var latestTeams: [BuzzerTeam] = []
     private var server: BuzzerServer?
@@ -54,6 +60,29 @@ final class BuzzerState {
     func syncTeams(_ teams: [BuzzerTeam]) async {
         latestTeams = teams
         await server?.updateTeams(teams)
+    }
+
+    /// Pushes team scores to the server; they break ties between simultaneous buzzes.
+    func syncScores(_ scores: [UUID: Int]) async {
+        latestScores = scores
+        await server?.updateScores(scores)
+    }
+
+    // MARK: - Buzzer control
+
+    /// Sets up the buzzers for the screen being shown. Clears lockouts.
+    func setMode(_ mode: BuzzerMode) async {
+        latestMode = mode
+        await server?.setBuzzerMode(mode)
+    }
+
+    /// Locks the team out for the question and re-arms the other teams.
+    func teamAnsweredWrong(_ teamID: UUID) async {
+        await server?.markWrong(teamID: teamID)
+    }
+
+    func teamAnsweredCorrect() async {
+        await server?.markCorrect()
     }
 
     /// Frees a team's slot and disconnects its phone with "Removed by host".
@@ -91,6 +120,15 @@ final class BuzzerState {
             AppLogger.buzzer.info("Buzzer server started at \(urlString)")
 
             await newServer.updateTeams(latestTeams)
+            await newServer.updateScores(latestScores)
+            await newServer.setBuzzerMode(latestMode)
+
+            firstBuzzObserverTask = Task { [weak self, stream = newServer.firstBuzzStream] in
+                for await teamID in stream {
+                    guard let self else { return }
+                    self.firstBuzzTeamID = teamID
+                }
+            }
 
             // Track which teams have a phone attached.
             claimedObserverTask = Task { [weak self, stream = newServer.claimedTeamsStream] in
@@ -131,6 +169,9 @@ final class BuzzerState {
         claimedObserverTask = nil
         failureObserverTask?.cancel()
         failureObserverTask = nil
+        firstBuzzObserverTask?.cancel()
+        firstBuzzObserverTask = nil
+        firstBuzzTeamID = nil
         await server?.stop()
         server = nil
         isRunning = false

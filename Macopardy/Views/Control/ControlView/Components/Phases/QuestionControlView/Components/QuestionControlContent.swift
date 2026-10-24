@@ -32,6 +32,38 @@ extension QuestionControlView {
         }
     }
 
+    /// Names the team that buzzed in first. Hidden when no phone has joined and
+    /// during Daily Doubles, where buzzers are off.
+    @ViewBuilder
+    func buzzedFirstBanner() -> some View {
+        if buzzerState.connectedClientCount > 0, gameState.dailyDoubleTeamID == nil {
+            if let teamID = buzzerState.firstBuzzTeamID,
+               let team = gameState.game.teams.first(where: { $0.id == teamID }) {
+                HStack(spacing: 10) {
+                    Image(systemName: "bolt.fill")
+                        .foregroundStyle(MacpardyTheme.gold)
+                    Circle()
+                        .fill(team.displayColor)
+                        .frame(width: 14, height: 14)
+                    Text("control.question.buzzed_first \(team.name)")
+                        .font(.title3.bold())
+                    Spacer()
+                }
+                .padding(12)
+                .background(MacpardyTheme.gold.opacity(0.18))
+                .clipShape(RoundedRectangle(cornerRadius: 8))
+            } else {
+                Label("control.question.waiting_for_buzz", systemImage: "bolt.slash")
+                    .font(.callout)
+                    .foregroundStyle(.secondary)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .padding(12)
+                    .background(Color(nsColor: .controlBackgroundColor))
+                    .clipShape(RoundedRectangle(cornerRadius: 8))
+            }
+        }
+    }
+
     func questionDetails() -> some View {
         Group {
             if let question = gameState.currentQuestion {

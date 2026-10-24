@@ -31,6 +31,12 @@ struct BuzzerTeamRow: View {
                 .font(.subheadline.monospacedDigit())
                 .foregroundStyle(.secondary)
 
+            if buzzerState.firstBuzzTeamID == team.id {
+                Label("control.team.buzzed_first", systemImage: "bolt.fill")
+                    .font(.caption.bold())
+                    .foregroundStyle(MacpardyTheme.gold)
+            }
+
             Spacer()
 
             status

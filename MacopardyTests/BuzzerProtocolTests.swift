@@ -39,6 +39,19 @@ final class BuzzerProtocolTests: XCTestCase {
         )
     }
 
+    func testBuzzDecodes() throws {
+        let buzz = try JSONDecoder().decode(ClientMessage.self, from: Data(#"{"type":"buzz"}"#.utf8))
+        guard case .buzz = buzz else { return XCTFail("expected buzz") }
+    }
+
+    func testBuzzerStateEncoding() throws {
+        let data = try ServerMessage.buzzerState(.lockedOut).jsonData()
+        let json = try XCTUnwrap(JSONSerialization.jsonObject(with: data) as? [String: Any])
+        XCTAssertEqual(json["type"] as? String, "buzzerState")
+        let payload = try XCTUnwrap(json["payload"] as? [String: Any])
+        XCTAssertEqual(payload["state"] as? String, "lockedOut")
+    }
+
     func testJoinAcceptedEncoding() throws {
         let id = UUID()
         let team = BuzzerTeam(id: id, name: "A", color: "blue", claimed: true)

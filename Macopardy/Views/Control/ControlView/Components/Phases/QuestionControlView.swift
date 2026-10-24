@@ -10,10 +10,12 @@ import SwiftUI
 struct QuestionControlView: View {
 
     @Environment(GameState.self) var gameState
+    @Environment(BuzzerState.self) var buzzerState
 
     var body: some View {
         VStack(spacing: 20) {
             questionHeader()
+            buzzedFirstBanner()
             questionDetails()
             revealAnswerButton()
             TimerControlsView()
@@ -32,4 +34,5 @@ struct QuestionControlView: View {
 
     return QuestionControlView()
         .environment(gameState)
+        .environment(BuzzerState())
 }

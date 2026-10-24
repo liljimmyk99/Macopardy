@@ -43,6 +43,9 @@ actor BuzzerServer {
     /// ignored here; it is always derived from `claims`.
     private var currentTeams: [BuzzerTeam] = []
     private var claims = TeamClaimRegistry()
+    private var scores: [UUID: Int] = [:]
+    private var engine = BuzzerEngine()
+    private var tieWindowTask: Task<Void, Never>?
     private var codeLimiter = AttemptRateLimiter(
         maxAttempts: BuzzerConstants.maxCodeAttempts,
         window: BuzzerConstants.codeAttemptWindow,
@@ -62,6 +65,12 @@ actor BuzzerServer {
     /// Emits the set of team ids currently held by a phone whenever it changes.
     private var claimedContinuation: AsyncStream<Set<UUID>>.Continuation?
     nonisolated let claimedTeamsStream: AsyncStream<Set<UUID>>
+
+    // MARK: - First-buzz stream
+
+    /// Emits the team that is answering after a buzz, or nil when none is.
+    private var firstBuzzContinuation: AsyncStream<UUID?>.Continuation?
+    nonisolated let firstBuzzStream: AsyncStream<UUID?>
 
     // MARK: - Connection-count stream
 
@@ -102,6 +111,10 @@ actor BuzzerServer {
         var claimedCont: AsyncStream<Set<UUID>>.Continuation!
         self.claimedTeamsStream = AsyncStream { claimedCont = $0 }
         self.claimedContinuation = claimedCont
+
+        var firstBuzzCont: AsyncStream<UUID?>.Continuation!
+        self.firstBuzzStream = AsyncStream { firstBuzzCont = $0 }
+        self.firstBuzzContinuation = firstBuzzCont
 
         var failureCont: AsyncStream<String>.Continuation!
         self.listenerFailureStream = AsyncStream { failureCont = $0 }
@@ -170,6 +183,8 @@ actor BuzzerServer {
     func stop() {
         heartbeatTask?.cancel()
         heartbeatTask = nil
+        tieWindowTask?.cancel()
+        tieWindowTask = nil
         sessions.values.forEach { $0.close() }
         sessions.removeAll()
         claims = TeamClaimRegistry()
@@ -177,6 +192,7 @@ actor BuzzerServer {
         listener = nil
         countContinuation?.finish()
         claimedContinuation?.finish()
+        firstBuzzContinuation?.finish()
         failureContinuation?.finish()
         AppLogger.buzzer.info("BuzzerServer stopped")
     }
@@ -214,6 +230,76 @@ actor BuzzerServer {
             AppLogger.buzzer.info("[\(sessionID)] Removed by host from team \(teamID)")
         }
         claimsChanged()
+    }
+
+    // MARK: - Buzzer
+
+    /// Latest scores, used to break ties between simultaneous buzzes.
+    func updateScores(_ newScores: [UUID: Int]) {
+        scores = newScores
+    }
+
+    /// Sets up the buzzers for a new screen: clears lockouts and any buzz in progress.
+    func setBuzzerMode(_ mode: BuzzerMode) {
+        tieWindowTask?.cancel()
+        tieWindowTask = nil
+        engine.apply(mode)
+        buzzerChanged()
+    }
+
+    /// The team answered wrong: lock it out and re-arm the others.
+    func markWrong(teamID: UUID) {
+        engine.markWrong(teamID: teamID, eligibleTeamIDs: claims.claimedTeamIDs)
+        buzzerChanged()
+    }
+
+    func markCorrect() {
+        tieWindowTask?.cancel()
+        tieWindowTask = nil
+        engine.markCorrect()
+        buzzerChanged()
+    }
+
+    private func handleBuzz(from session: ClientSession) {
+        guard let teamID = claims.teamID(for: session.id) else { return }
+        let buzz = Buzz(teamID: teamID, receivedAt: Date(), score: scores[teamID] ?? 0)
+        switch engine.buzz(buzz) {
+        case .tooEarly:
+            session.send(.buzzerState(.tooEarly))
+        case .ignored:
+            break
+        case .windowStarted:
+            tieWindowTask = Task { [weak self] in
+                try? await Task.sleep(for: .seconds(BuzzerConstants.tieWindow))
+                guard !Task.isCancelled else { return }
+                await self?.closeTieWindow()
+            }
+            buzzerChanged()
+        case .addedToWindow:
+            buzzerChanged()
+        }
+    }
+
+    private func closeTieWindow() {
+        tieWindowTask = nil
+        if let winner = engine.closeWindow() {
+            AppLogger.buzzer.info("Team \(winner.teamID) buzzed in first")
+        }
+        buzzerChanged()
+    }
+
+    /// Pushes each claimed phone its button state and tells the host UI who is answering.
+    private func buzzerChanged() {
+        for teamID in claims.claimedTeamIDs {
+            sendBuzzerState(toTeam: teamID)
+        }
+        firstBuzzContinuation?.yield(engine.firstBuzzTeamID)
+    }
+
+    private func sendBuzzerState(toTeam teamID: UUID) {
+        guard let sessionID = claims.sessionID(for: teamID),
+              let session = sessions[sessionID] else { return }
+        session.send(.buzzerState(engine.phoneState(for: teamID)))
     }
 
     /// Teams with their current claim flags.
@@ -509,10 +595,12 @@ actor BuzzerServer {
             ) {
             case .claimed:
                 session.send(.claimAccepted(teamID: teamID))
+                sendBuzzerState(toTeam: teamID)
                 claimsChanged()
                 AppLogger.buzzer.info("[\(session.id)] Claimed team \(teamID)")
             case .alreadyHeld:
                 session.send(.claimAccepted(teamID: teamID))
+                sendBuzzerState(toTeam: teamID)
             // Refresh the picker first so the rejection message isn't wiped by it.
             case .taken:
                 session.send(.teams(teamsPayload()))
@@ -524,6 +612,10 @@ actor BuzzerServer {
 
         case .pong:
             session.lastPong = Date()
+
+        case .buzz:
+            guard session.isAuthenticated else { return }
+            handleBuzz(from: session)
         }
     }
 
