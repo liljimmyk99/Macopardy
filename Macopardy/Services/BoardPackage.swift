@@ -70,14 +70,22 @@ nonisolated enum BoardPackage {
     /// Decodes either the versioned `BoardFile` shape or a legacy `[MacpardyBoard]`.
     static func decodeBoardJSON(_ data: Data) throws -> [MacpardyBoard] {
         let decoder = JSONDecoder()
-        if let legacy = try? decoder.decode([MacpardyBoard].self, from: data) {
-            return legacy
+        // A top-level array is a legacy board. Decode it directly so a broken
+        // one reports the field that's wrong rather than "expected an object".
+        if startsWithArray(data) {
+            return try decoder.decode([MacpardyBoard].self, from: data)
         }
         let file = try decoder.decode(BoardFile.self, from: data)
         guard file.formatVersion <= formatVersion else {
             throw PackageError.unsupportedFormatVersion(file.formatVersion)
         }
         return file.boards
+    }
+
+    /// Whether the first non-whitespace character is `[` (skipping a UTF-8 BOM).
+    private static func startsWithArray(_ data: Data) -> Bool {
+        let whitespace: Set<UInt8> = [0x20, 0x09, 0x0A, 0x0D, 0xEF, 0xBB, 0xBF]
+        return data.first { !whitespace.contains($0) } == UInt8(ascii: "[")
     }
 
     private static func readPackage(_ data: Data) throws -> [MacpardyBoard] {

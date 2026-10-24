@@ -11,7 +11,9 @@ import UniformTypeIdentifiers
 struct MacpardyBoardsDocument: FileDocument {
 
     static var readableContentTypes: [UTType] { [.macpardyBoard, .json] }
-    static var writableContentTypes: [UTType] { [.macpardyBoard] }
+    /// Saved as a `.macpardy` package, or as plain JSON when the exporter
+    /// asks for `.json` (edited boards with no pictures).
+    static var writableContentTypes: [UTType] { [.macpardyBoard, .json] }
 
     var boards: [MacpardyBoard]
 
@@ -33,7 +35,10 @@ struct MacpardyBoardsDocument: FileDocument {
     }
 
     func fileWrapper(configuration: WriteConfiguration) throws -> FileWrapper {
-        FileWrapper(regularFileWithContents: try BoardPackage.write(boards))
+        if configuration.contentType.conforms(to: .json) {
+            return FileWrapper(regularFileWithContents: try MacpardyJSONBoardDocument.encode(boards))
+        }
+        return FileWrapper(regularFileWithContents: try BoardPackage.write(boards))
     }
 }
 

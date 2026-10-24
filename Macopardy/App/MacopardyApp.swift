@@ -20,6 +20,9 @@ struct MacpardyApp: App {
     @State
     private var buzzerState = BuzzerState()
 
+    @State
+    private var editorSession = BoardEditorSession()
+
     private var buzzerTeams: [BuzzerTeam] {
         gameState.game.teams.map(BuzzerTeam.init(team:))
     }
@@ -68,6 +71,17 @@ struct MacpardyApp: App {
         }
     }
 
+    /// Starts a game the user just edited and saved. Ignored while a game is
+    /// in progress, like boards opened from Finder.
+    private func playEditedBoards(_ boards: [MacpardyBoard]) {
+        guard !hasSelectedGame else {
+            AppLogger.control.info("Ignoring edited board: a game is in progress")
+            return
+        }
+        gameState.loadGame(boards: boards)
+        hasSelectedGame = true
+    }
+
     var body: some Scene {
 
         Window("Control", id: "control") {
@@ -79,6 +93,7 @@ struct MacpardyApp: App {
                 } else {
                     LaunchScreenView(hasSelectedGame: $hasSelectedGame, gameState: $gameState)
                         .environment(buzzerState)
+                        .environment(editorSession)
                 }
             }
             // Double-clicking a .macpardy board in Finder opens it here.
@@ -114,6 +129,12 @@ struct MacpardyApp: App {
                 if gameState.phase == .finalMacpardyCategory { await syncWagering() }
             }
         }
+        // "Play now" after saving an edited board.
+        .onChange(of: editorSession.boardsToPlay) { _, boards in
+            guard let boards else { return }
+            editorSession.boardsToPlay = nil
+            playEditedBoards(boards)
+        }
         .onChange(of: buzzerMode) { _, mode in
             Task { await buzzerState.setMode(mode) }
         }
@@ -134,6 +155,7 @@ struct MacpardyApp: App {
 
         Window("Create Macpardy Game", id: "create-macpardy") {
             CreateMacpardyGameView()
+                .environment(editorSession)
         }
         .defaultSize(width: 1400, height: 820)
         .defaultLaunchBehavior(.suppressed)

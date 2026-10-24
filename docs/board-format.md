@@ -18,7 +18,7 @@ images/<file>   one file per question image
 
 Format 1 is a plain `.json` file containing `[MacpardyBoard]`. These still open from
 "Open Existing Game", as does a bare `board.json` in the format 2 shape. New boards are
-always saved as packages.
+always saved as packages (edited boards are the exception, see below).
 
 ## Images
 
@@ -43,3 +43,21 @@ The auto-saved game (`Application Support/Macopardy/saved_game.json`) embeds ima
 
 Games imported from CSV (see [csv-import.md](csv-import.md)) are saved as a plain `.json` file
 in the format 2 shape (`{ "formatVersion": 2, "boards": [...] }`), since they have no images.
+
+## Editing an existing board
+
+"Edit Existing Game" on the start screen opens a `.json`, `.macpardy` (or `.zip`), or `.csv`
+board in the same editor as "Create Game", filled in. Loading goes through `BoardLoader`, which
+picks the reader by file extension and reuses the readers above and the CSV importer.
+
+- The editor needs one Macpardy round, one Double Macpardy round, and one Final Macpardy round
+  with exactly one clue. In each of the first two rounds every category must have the same
+  point values; any values are fine (the editor keeps them), not only the defaults.
+- The game title is the Macpardy board's title without its " - Macpardy" suffix; if the
+  board doesn't have one, the file name is used.
+- A file that can't be loaded is not partly loaded. The start screen lists what's wrong:
+  the field path for JSON (e.g. `boards[0].categories[2].title`), the row and column for CSV.
+- Saving an edited board asks where to save it, so the original is only replaced if the user
+  picks it. It's saved as plain `.json` unless a clue has a picture, in which case it's a
+  `.macpardy` package. Afterwards the user can play it right away.
+- Auto-saved games can't be opened for editing.

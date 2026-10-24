@@ -9,6 +9,8 @@ internal import os
 //TODO: Change this to be creating a Game instead
 struct CreateMacpardyGameView: View {
     @Environment(\.dismissWindow) private var dismissWindow
+    @Environment(\.openWindow) private var openWindow
+    @Environment(BoardEditorSession.self) internal var editorSession
 
     internal static let round1DefaultCategories = [
         "Science",
@@ -38,6 +40,14 @@ struct CreateMacpardyGameView: View {
     @State internal var round2Categories: [DraftCategory] = Self.makeDefaultCategories(values: Self.round2Values, titles: Self.round2DefaultCategories)
     @State internal var finalMacpardy: DraftFinalMacpardy = DraftFinalMacpardy()
 
+    /// Row values for each round. The defaults for a new game; a loaded
+    /// board keeps its own.
+    @State internal var round1BoardValues: [Int] = Self.round1Values
+    @State internal var round2BoardValues: [Int] = Self.round2Values
+
+    /// `true` once a loaded board is in the editor ("Edit game").
+    @State internal var isEditingExistingBoard = false
+
     @State internal var selectedQuestion: EditingQuestion?
 
     @State internal var validationMessage: String = ""
@@ -47,7 +57,10 @@ struct CreateMacpardyGameView: View {
     @State internal var showSaveErrorAlert = false
 
     @State internal var exportDocument: MacpardyBoardsDocument?
+    @State internal var exportContentType: UTType = .macpardyBoard
     @State internal var showFileExporter = false
+
+    @State internal var showPlayPrompt = false
 
     var body: some View {
         VStack(alignment: .leading, spacing: 18) {
@@ -59,13 +72,13 @@ struct CreateMacpardyGameView: View {
                 DraftBoard(
                     draftCategories: $round1Categories,
                     selectedQuestion: $selectedQuestion,
-                    values: Self.round1Values
+                    values: round1BoardValues
                 )
             } else if currentRound == 1 {
                 DraftBoard(
                     draftCategories: $round2Categories,
                     selectedQuestion: $selectedQuestion,
-                    values: Self.round2Values
+                    values: round2BoardValues
                 )
             } else {
                 DraftFinalMacpardyView(draft: $finalMacpardy)
@@ -89,18 +102,38 @@ struct CreateMacpardyGameView: View {
         } message: {
             Text(saveErrorMessage)
         }
+        .alert("edit.alert.play_title", isPresented: $showPlayPrompt) {
+            Button("edit.alert.play_action") {
+                if let boards = exportDocument?.boards {
+                    editorSession.boardsToPlay = boards
+                }
+                openWindow(id: "control")
+                dismissWindow(id: "create-macpardy")
+            }
+            Button("edit.alert.not_now_action", role: .cancel) {
+                dismissWindow(id: "create-macpardy")
+            }
+        } message: {
+            Text("edit.alert.play_message")
+        }
         .fileExporter(
             isPresented: $showFileExporter,
             document: exportDocument,
-            contentType: .macpardyBoard,
+            contentType: exportContentType,
             defaultFilename: exportDocument.map { _ in
-                FileManagerService().defaultFilename(for: title)
+                exportContentType == .json
+                    ? FileManagerService().defaultJSONFilename(for: title)
+                    : FileManagerService().defaultFilename(for: title)
             }
         ) { result in
             switch result {
-            case .success:
-                AppLogger.database.info("Successfully Saved Boards")
-                dismissWindow(id: "create-macpardy")
+            case .success(let url):
+                AppLogger.database.info("Saved boards to \(url.lastPathComponent, privacy: .public)")
+                if isEditingExistingBoard {
+                    showPlayPrompt = true
+                } else {
+                    dismissWindow(id: "create-macpardy")
+                }
             case .failure(let error):
                 if (error as? CocoaError)?.code != .userCancelled {
                     saveErrorMessage = String(localized: "create.alert.save_error_message \(error.localizedDescription)")
@@ -182,9 +215,18 @@ struct CreateMacpardyGameView: View {
             )
             .frame(minWidth: 540, minHeight: 520)
         }
+        // "Edit game" queues a loaded board; pick it up when the window opens,
+        // or right away if it's already open.
+        .onAppear {
+            loadPendingDraft()
+        }
+        .onChange(of: editorSession.editRequest) { _, _ in
+            loadPendingDraft()
+        }
     }
 }
 
 #Preview {
     CreateMacpardyGameView()
+        .environment(BoardEditorSession())
 }
