@@ -66,7 +66,7 @@ struct LaunchScreenView: View {
         }
         .fileImporter(
             isPresented: $showFileExporter,
-            allowedContentTypes: [.json],
+            allowedContentTypes: [.macpardyBoard, .json],
             onCompletion: { result in
                 switch result {
                 case .success(let URL):

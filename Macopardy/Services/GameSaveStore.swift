@@ -14,12 +14,17 @@ actor GameSaveStore {
     private let fileManager: FileManager
     private let saveFileName: String = "saved_game.json"
     private let directoryName: String = "Macopardy"
+    private let baseDirectory: URL?
 
-    init(fileManager: FileManager = .default) {
+    /// - Parameter baseDirectory: Where to keep the save. Defaults to
+    ///   Application Support/Macopardy; tests pass a temporary directory.
+    init(fileManager: FileManager = .default, baseDirectory: URL? = nil) {
         self.fileManager = fileManager
+        self.baseDirectory = baseDirectory
     }
 
     private var applicationSupportDirectory: URL? {
+        if let baseDirectory { return baseDirectory }
         guard let url = fileManager.urls(for: .applicationSupportDirectory, in: .userDomainMask).first else {
             return nil
         }

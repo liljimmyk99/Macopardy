@@ -10,8 +10,8 @@ import UniformTypeIdentifiers
 
 struct MacpardyBoardsDocument: FileDocument {
 
-    static var readableContentTypes: [UTType] { [.json] }
-    static var writableContentTypes: [UTType] { [.json] }
+    static var readableContentTypes: [UTType] { [.macpardyBoard, .json] }
+    static var writableContentTypes: [UTType] { [.macpardyBoard] }
 
     var boards: [MacpardyBoard]
 
@@ -19,8 +19,9 @@ struct MacpardyBoardsDocument: FileDocument {
         self.boards = boards
     }
 
+    /// Accepts a `.macpardy` package or a plain `.json` board.
     static func decodeBoards(from data: Data) throws -> [MacpardyBoard] {
-        try JSONDecoder().decode([MacpardyBoard].self, from: data)
+        try BoardPackage.read(data)
     }
 
     init(configuration: ReadConfiguration) throws {
@@ -32,10 +33,7 @@ struct MacpardyBoardsDocument: FileDocument {
     }
 
     func fileWrapper(configuration: WriteConfiguration) throws -> FileWrapper {
-        let encoder = JSONEncoder()
-        encoder.outputFormatting = [.prettyPrinted, .sortedKeys]
-
-        return FileWrapper(regularFileWithContents: try encoder.encode(boards))
+        FileWrapper(regularFileWithContents: try BoardPackage.write(boards))
     }
 }
 
@@ -57,7 +55,7 @@ final class FileManagerService {
             .replacingOccurrences(of: " ", with: "-")
 
         let base = cleaned.isEmpty ? "macpardy-game" : cleaned
-        return "\(base).json"
+        return "\(base).\(BoardPackage.fileExtension)"
     }
     
     func readBoards(from url: URL) async throws -> [MacpardyBoard] {
