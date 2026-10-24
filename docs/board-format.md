@@ -38,3 +38,8 @@ control, or phone buzzer screens).
 
 The auto-saved game (`Application Support/Macopardy/saved_game.json`) embeds image bytes
 (base64), so resuming works even if the original board file was moved or deleted.
+
+## Boards imported from CSV
+
+Games imported from CSV (see [csv-import.md](csv-import.md)) are saved as a plain `.json` file
+in the format 2 shape (`{ "formatVersion": 2, "boards": [...] }`), since they have no images.

@@ -2498,6 +2498,450 @@
           }
         }
       }
+    },
+    "new_game.title" : {
+      "comment" : "Title of the New Game sheet",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "New Game"
+          }
+        }
+      }
+    },
+    "new_game.editor.title" : {
+      "comment" : "New Game sheet: heading for building a game in the editor",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Build in the Editor"
+          }
+        }
+      }
+    },
+    "new_game.editor.description" : {
+      "comment" : "New Game sheet: description of the editor option",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Create each round's categories and clues on screen. You can add pictures to clues here."
+          }
+        }
+      }
+    },
+    "new_game.editor.button" : {
+      "comment" : "New Game sheet: button that opens the game editor",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Open Editor"
+          }
+        }
+      }
+    },
+    "new_game.csv.title" : {
+      "comment" : "New Game sheet: heading for importing a game from CSV",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Import from CSV"
+          }
+        }
+      }
+    },
+    "new_game.csv.description" : {
+      "comment" : "New Game sheet: description of the CSV option",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Download the template, fill it in with a spreadsheet app, export it as CSV (UTF-8), and upload it. Pictures aren't supported in CSV; add them later in the editor."
+          }
+        }
+      }
+    },
+    "new_game.csv.download_template" : {
+      "comment" : "New Game sheet: button to save the CSV template",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Download Template"
+          }
+        }
+      }
+    },
+    "new_game.csv.upload" : {
+      "comment" : "New Game sheet: button to pick a CSV file to import",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Upload CSV"
+          }
+        }
+      }
+    },
+    "new_game.csv.template_saved %@" : {
+      "comment" : "Status after the CSV template is saved. Argument is the file name.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Template saved as %@."
+          }
+        }
+      }
+    },
+    "new_game.csv.save_failed %@" : {
+      "comment" : "Status when saving a file fails. Argument is the error.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The file couldn't be saved. %@"
+          }
+        }
+      }
+    },
+    "new_game.csv.read_failed %@" : {
+      "comment" : "Status when the picked CSV can't be read. Argument is the error.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The file couldn't be read. %@"
+          }
+        }
+      }
+    },
+    "new_game.csv.ready %@ %lld" : {
+      "comment" : "Shown when a CSV imports without problems. Arguments are the game title and the number of clues.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "“%1$@” is ready: %2$lld clues."
+          }
+        }
+      }
+    },
+    "new_game.csv.ready_detail" : {
+      "comment" : "Explains the Save and Play step after a CSV import",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Save the game as a JSON file to keep it, then the game starts."
+          }
+        }
+      }
+    },
+    "new_game.csv.save_and_play" : {
+      "comment" : "Button that saves the imported game and starts it",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Save and Play"
+          }
+        }
+      }
+    },
+    "new_game.csv.errors_title %lld" : {
+      "comment" : "Heading above the list of CSV problems. Argument is the number of problems.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nothing was imported. Fix these problems (%lld) and upload again:"
+          }
+        }
+      }
+    },
+    "csv.error.location.row_column %lld %@" : {
+      "comment" : "Location of a CSV problem. Arguments are the row number and the column header.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Row %1$lld, column “%2$@”"
+          }
+        }
+      }
+    },
+    "csv.error.location.row %lld" : {
+      "comment" : "Location of a CSV problem that affects a whole row. Argument is the row number.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Row %lld"
+          }
+        }
+      }
+    },
+    "csv.error.location.column %@" : {
+      "comment" : "Location of a CSV problem in a column. Argument is the column header.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Column “%@”"
+          }
+        }
+      }
+    },
+    "csv.error.empty_file" : {
+      "comment" : "CSV import error",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The file is empty. It needs a header row and one row per clue."
+          }
+        }
+      }
+    },
+    "csv.error.not_utf8" : {
+      "comment" : "CSV import error",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The file isn't UTF-8 text. Export it from your spreadsheet app as “CSV UTF-8” and try again."
+          }
+        }
+      }
+    },
+    "csv.error.unclosed_quote" : {
+      "comment" : "CSV import error",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A quoted cell starting in this row is never closed."
+          }
+        }
+      }
+    },
+    "csv.error.text_after_quote" : {
+      "comment" : "CSV import error",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "There's text after a closing quote. Put the whole cell in quotes and double any quotes inside it (\"\")."
+          }
+        }
+      }
+    },
+    "csv.error.missing_column" : {
+      "comment" : "CSV import error: a required column header is missing",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "This required column is missing from the header row."
+          }
+        }
+      }
+    },
+    "csv.error.duplicate_column" : {
+      "comment" : "CSV import error",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "This column appears more than once in the header row."
+          }
+        }
+      }
+    },
+    "csv.error.extra_cells" : {
+      "comment" : "CSV import error",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "This row has filled cells to the right of the last column."
+          }
+        }
+      }
+    },
+    "csv.error.empty_cell" : {
+      "comment" : "CSV import error",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "This cell can't be empty."
+          }
+        }
+      }
+    },
+    "csv.error.unknown_round %@" : {
+      "comment" : "CSV import error. Argument is the text found. single, double and final are fixed identifiers; don't translate them.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Unknown round “%@”. Use single, double, or final."
+          }
+        }
+      }
+    },
+    "csv.error.not_a_number %@" : {
+      "comment" : "CSV import error. Argument is the text found.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "“%@” isn't a whole number."
+          }
+        }
+      }
+    },
+    "csv.error.value_not_allowed %lld %@" : {
+      "comment" : "CSV import error. Arguments are the value found and the list of allowed values.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$lld isn't a value in this round. Use %2$@."
+          }
+        }
+      }
+    },
+    "csv.error.duplicate_value %lld" : {
+      "comment" : "CSV import error. Argument is the point value.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "This category already has a %lld clue."
+          }
+        }
+      }
+    },
+    "csv.error.bad_daily_double %@" : {
+      "comment" : "CSV import error. Argument is the text found.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "“%@” isn't a valid Daily Double setting. Use yes or no, or leave it empty."
+          }
+        }
+      }
+    },
+    "csv.error.missing_values %@ %@" : {
+      "comment" : "CSV import error. Arguments are the category title and the list of missing values.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Category “%1$@” is missing clues for %2$@."
+          }
+        }
+      }
+    },
+    "csv.error.wrong_category_count %@ %lld %lld" : {
+      "comment" : "CSV import error. Arguments are the round identifier, the number of categories found, and the number needed.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Round “%1$@” has %2$lld categories but needs %3$lld."
+          }
+        }
+      }
+    },
+    "csv.error.missing_round %@" : {
+      "comment" : "CSV import error. Argument is the round identifier.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "There are no rows for round “%@”."
+          }
+        }
+      }
+    },
+    "csv.error.duplicate_final" : {
+      "comment" : "CSV import error",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Only one final row is allowed."
+          }
+        }
+      }
+    },
+    "csv.error.final_has_value" : {
+      "comment" : "CSV import error",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Leave the value empty for the final round."
+          }
+        }
+      }
+    },
+    "csv.error.final_is_daily_double" : {
+      "comment" : "CSV import error",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The final round can't be a Daily Double."
+          }
+        }
+      }
     }
   },
   "version" : "1.1"
