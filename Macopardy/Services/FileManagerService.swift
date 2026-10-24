@@ -43,10 +43,15 @@ final class FileManagerService {
     }
 
     func defaultFilename(for title: String) -> String {
-        sanitizedFileName(from: title)
+        sanitizedFileName(from: title, fileExtension: BoardPackage.fileExtension)
     }
 
-    private func sanitizedFileName(from title: String) -> String {
+    /// File name for a board saved as plain JSON (boards imported from CSV).
+    func defaultJSONFilename(for title: String) -> String {
+        sanitizedFileName(from: title, fileExtension: "json")
+    }
+
+    private func sanitizedFileName(from title: String, fileExtension: String) -> String {
         let cleaned = title
             .trimmingCharacters(in: .whitespacesAndNewlines)
             .replacingOccurrences(of: "/", with: "-")
@@ -55,7 +60,7 @@ final class FileManagerService {
             .replacingOccurrences(of: " ", with: "-")
 
         let base = cleaned.isEmpty ? "macpardy-game" : cleaned
-        return "\(base).\(BoardPackage.fileExtension)"
+        return "\(base).\(fileExtension)"
     }
     
     func readBoards(from url: URL) async throws -> [MacpardyBoard] {
@@ -68,5 +73,16 @@ final class FileManagerService {
 
         let data = try Data(contentsOf: url)
         return try MacpardyBoardsDocument.decodeBoards(from: data)
+    }
+
+    /// Reads a file the user picked (security-scoped).
+    func readData(from url: URL) throws -> Data {
+        let hasScopedAccess = url.startAccessingSecurityScopedResource()
+        defer {
+            if hasScopedAccess {
+                url.stopAccessingSecurityScopedResource()
+            }
+        }
+        return try Data(contentsOf: url)
     }
 }

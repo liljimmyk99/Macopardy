@@ -1,0 +1,62 @@
+﻿round,category,value,question,answer,daily_double
+single,Science,200,The closest star to Earth.,What is the Sun?,no
+single,Science,400,This planet has the Great Red Spot.,What is Jupiter?,no
+single,Science,600,The force that keeps planets in orbit.,What is gravity?,no
+single,Science,800,This element has the symbol Au.,What is gold?,no
+single,Science,1000,The study of living organisms.,What is biology?,no
+single,History,200,This 1776 document declared American independence.,What is the Declaration of Independence?,no
+single,History,400,The ancient Egyptian writing system.,What are hieroglyphics?,no
+single,History,600,This wall divided Berlin from 1961 to 1989.,What is the Berlin Wall?,no
+single,History,800,The first president of the United States.,Who is George Washington?,no
+single,History,1000,This empire was ruled from Rome.,What is the Roman Empire?,no
+single,Literature,200,Shakespeare's star-crossed lovers from Verona.,Who are Romeo and Juliet?,no
+single,Literature,400,"The author of ""1984"".",Who is George Orwell?,no
+single,Literature,600,This detective lives at 221B Baker Street.,Who is Sherlock Holmes?,no
+single,Literature,800,"The author of ""Pride and Prejudice"".",Who is Jane Austen?,yes
+single,Literature,1000,This epic poem tells of Odysseus's journey home.,What is the Odyssey?,no
+single,Geography,200,The longest river in the world.,What is the Nile?,no
+single,Geography,400,The capital of France.,What is Paris?,no
+single,Geography,600,This mountain range separates Europe and Asia.,What are the Urals?,no
+single,Geography,800,The largest ocean on Earth.,What is the Pacific?,no
+single,Geography,1000,This country is both a continent and a nation.,What is Australia?,no
+single,Pop Culture,200,This 1997 film featured Jack and Rose on the Titanic.,What is Titanic?,no
+single,Pop Culture,400,"The streaming service known for ""Stranger Things"".",What is Netflix?,no
+single,Pop Culture,600,"This singer performed ""Shake It Off"".",Who is Taylor Swift?,no
+single,Pop Culture,800,The wizarding school Harry Potter attends.,What is Hogwarts?,no
+single,Pop Culture,1000,This franchise features lightsabers and the Force.,What is Star Wars?,no
+single,Think Music,200,This instrument has 88 keys.,What is a piano?,no
+single,Think Music,400,The Beatles were from this city.,What is Liverpool?,no
+single,Think Music,600,This note follows sol in the scale.,What is la?,no
+single,Think Music,800,"The composer of the ""Moonlight Sonata"".",Who is Beethoven?,no
+single,Think Music,1000,This genre originated in New Orleans in the early 1900s.,What is jazz?,no
+double,World History,400,Replace with your World History clue for 400,Replace with the response,no
+double,World History,800,Replace with your World History clue for 800,Replace with the response,no
+double,World History,1200,Replace with your World History clue for 1200,Replace with the response,no
+double,World History,1600,Replace with your World History clue for 1600,Replace with the response,no
+double,World History,2000,Replace with your World History clue for 2000,Replace with the response,no
+double,Physical Science,400,Replace with your Physical Science clue for 400,Replace with the response,no
+double,Physical Science,800,Replace with your Physical Science clue for 800,Replace with the response,no
+double,Physical Science,1200,Replace with your Physical Science clue for 1200,Replace with the response,yes
+double,Physical Science,1600,Replace with your Physical Science clue for 1600,Replace with the response,no
+double,Physical Science,2000,Replace with your Physical Science clue for 2000,Replace with the response,no
+double,Fine Arts,400,Replace with your Fine Arts clue for 400,Replace with the response,no
+double,Fine Arts,800,Replace with your Fine Arts clue for 800,Replace with the response,no
+double,Fine Arts,1200,Replace with your Fine Arts clue for 1200,Replace with the response,no
+double,Fine Arts,1600,Replace with your Fine Arts clue for 1600,Replace with the response,no
+double,Fine Arts,2000,Replace with your Fine Arts clue for 2000,Replace with the response,no
+double,World Geography,400,Replace with your World Geography clue for 400,Replace with the response,no
+double,World Geography,800,Replace with your World Geography clue for 800,Replace with the response,no
+double,World Geography,1200,Replace with your World Geography clue for 1200,Replace with the response,no
+double,World Geography,1600,Replace with your World Geography clue for 1600,Replace with the response,no
+double,World Geography,2000,Replace with your World Geography clue for 2000,Replace with the response,no
+double,Music & Movies,400,Replace with your Music & Movies clue for 400,Replace with the response,no
+double,Music & Movies,800,Replace with your Music & Movies clue for 800,Replace with the response,no
+double,Music & Movies,1200,Replace with your Music & Movies clue for 1200,Replace with the response,no
+double,Music & Movies,1600,Replace with your Music & Movies clue for 1600,Replace with the response,no
+double,Music & Movies,2000,Replace with your Music & Movies clue for 2000,Replace with the response,yes
+double,Word Play,400,Replace with your Word Play clue for 400,Replace with the response,no
+double,Word Play,800,Replace with your Word Play clue for 800,Replace with the response,no
+double,Word Play,1200,Replace with your Word Play clue for 1200,Replace with the response,no
+double,Word Play,1600,Replace with your Word Play clue for 1600,Replace with the response,no
+double,Word Play,2000,Replace with your Word Play clue for 2000,Replace with the response,no
+final,World Capitals,,"This capital city sits on both banks of the Danube, which once divided its two halves.",What is Budapest?,

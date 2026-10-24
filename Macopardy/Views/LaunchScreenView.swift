@@ -16,6 +16,7 @@ struct LaunchScreenView: View {
 
     @State private var showResumeAlert: Bool = false
     @State private var pendingSavedSnapshot: GameSnapshot?
+    @State private var showNewGameSheet: Bool = false
 
     var body: some View {
         VStack(spacing: 40) {
@@ -40,13 +41,26 @@ struct LaunchScreenView: View {
                     systemImage: "plus.circle",
                     tint: .orange
                 ) {
-                    openWindow(id: "create-macpardy")
+                    showNewGameSheet = true
                 }
             }
         }
         .padding()
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background(Color(.controlBackgroundColor))
+        .sheet(isPresented: $showNewGameSheet) {
+            NewGameView(
+                onBuildInEditor: {
+                    showNewGameSheet = false
+                    openWindow(id: "create-macpardy")
+                },
+                onPlay: { boards in
+                    showNewGameSheet = false
+                    gameState.loadGame(boards: boards)
+                    hasSelectedGame = true
+                }
+            )
+        }
         .alert("launch.alert.resume_title", isPresented: $showResumeAlert) {
             Button("launch.alert.resume_action") {
                 if let snapshot = pendingSavedSnapshot {
