@@ -213,7 +213,10 @@
 
     if (mine) {
       setState("connected", `You\u2019re ${mine.name}`,
-               "Waiting for the game\u2026");
+               "Waiting for game to start\u2026");
+      // setState keeps the list visible in the connected state, so hide it here.
+      teamsEl.replaceChildren();
+      teamsEl.style.display = "none";
       return;
     }
 
