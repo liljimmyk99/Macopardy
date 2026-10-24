@@ -58,6 +58,9 @@ nonisolated enum ServerMessage {
 
     /// Broadcast when the game phase changes so the phone can update its UI.
     case state(phase: String)
+
+    /// What the phone's buzzer button should show. Sent to a single phone.
+    case buzzerState(BuzzerPhoneState)
 }
 
 extension ServerMessage: Encodable {
@@ -104,11 +107,16 @@ extension ServerMessage: Encodable {
             try container.encode("state", forKey: .type)
             var payload = container.nestedContainer(keyedBy: PayloadKeys.self, forKey: .payload)
             try payload.encode(phase, forKey: .phase)
+
+        case .buzzerState(let state):
+            try container.encode("buzzerState", forKey: .type)
+            var payload = container.nestedContainer(keyedBy: PayloadKeys.self, forKey: .payload)
+            try payload.encode(state, forKey: .state)
         }
     }
 
     private enum PayloadKeys: String, CodingKey {
-        case teams, version, reason, phase, teamID
+        case teams, version, reason, phase, teamID, state
     }
 }
 
@@ -125,6 +133,9 @@ nonisolated enum ClientMessage {
 
     /// Response to a `ping`. Resets the client's heartbeat TTL.
     case pong
+
+    /// The phone's buzzer button was pressed. Only valid once a team is claimed.
+    case buzz
 }
 
 extension ClientMessage: Decodable {
@@ -144,6 +155,8 @@ extension ClientMessage: Decodable {
             self = .claim(teamID: try container.decode(UUID.self, forKey: .teamID))
         case "pong":
             self = .pong
+        case "buzz":
+            self = .buzz
         default:
             throw DecodingError.dataCorruptedError(
                 forKey: .type,

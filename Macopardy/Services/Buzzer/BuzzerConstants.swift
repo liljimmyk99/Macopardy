@@ -18,7 +18,10 @@ nonisolated enum BuzzerConstants {
     static let pingInterval: TimeInterval = 2.0
 
     /// Current wire-protocol version sent in joinAccepted messages.
-    static let protocolVersion = 2
+    static let protocolVersion = 3
+
+    /// Buzzes received within this long of the first one count as a tie.
+    static let tieWindow: TimeInterval = 0.075
 
     /// Wrong join codes allowed from one address within `codeAttemptWindow`.
     static let maxCodeAttempts = 5

@@ -10,6 +10,7 @@ import SwiftUI
 struct ScoreControlsView: View {
 
     @Environment(GameState.self) var gameState
+    @Environment(BuzzerState.self) var buzzerState
 
     var body: some View {
         GroupBox("Scores") {
@@ -24,6 +25,7 @@ struct ScoreControlsView: View {
 #Preview {
     ScoreControlsView()
         .environment(GameState())
+        .environment(BuzzerState())
         .padding()
         .frame(width: 500)
 }

@@ -23,6 +23,20 @@ struct MacpardyApp: App {
         gameState.game.teams.map(BuzzerTeam.init(team:))
     }
 
+    private var teamScores: [UUID: Int] {
+        Dictionary(uniqueKeysWithValues: gameState.game.teams.map { ($0.id, $0.score) })
+    }
+
+    /// Buzzers arm on a normal question, are off (and can't be pressed) on a
+    /// Daily Double, and are otherwise disabled.
+    private var buzzerMode: BuzzerMode {
+        switch gameState.phase {
+        case .question where gameState.dailyDoubleTeamID == nil: .armed
+        case .question, .dailyDouble: .unavailable
+        default: .disabled
+        }
+    }
+
     var body: some Scene {
 
         Window("Control", id: "control") {
@@ -40,6 +54,8 @@ struct MacpardyApp: App {
             if selected {
                 Task {
                     await buzzerState.syncTeams(buzzerTeams)
+                    await buzzerState.syncScores(teamScores)
+                    await buzzerState.setMode(buzzerMode)
                     await buzzerState.startServer()
                 }
             } else {
@@ -49,6 +65,12 @@ struct MacpardyApp: App {
         // Keyed on the phone-facing fields only, so score changes don't re-sync.
         .onChange(of: buzzerTeams) { _, teams in
             Task { await buzzerState.syncTeams(teams) }
+        }
+        .onChange(of: teamScores) { _, scores in
+            Task { await buzzerState.syncScores(scores) }
+        }
+        .onChange(of: buzzerMode) { _, mode in
+            Task { await buzzerState.setMode(mode) }
         }
 
         Window("Display", id: "display") {

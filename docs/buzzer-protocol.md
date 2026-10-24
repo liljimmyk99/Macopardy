@@ -1,4 +1,4 @@
-# Macpardy! Buzzer WebSocket Protocol — v2
+# Macpardy! Buzzer WebSocket Protocol — v3
 
 All WebSocket messages are JSON objects with a required top-level `type` string field
 and an optional `payload` object. Unknown `type` values should be silently ignored by
@@ -36,7 +36,7 @@ and closes the connection.
 
 | Field     | Type   | Description                                              |
 |-----------|--------|----------------------------------------------------------|
-| `version` | int    | Required. Protocol version the client speaks. Currently always `2`. A missing version is not decodable and the message is ignored. |
+| `version` | int    | Required. Protocol version the client speaks. Currently always `3`. A missing version is not decodable and the message is ignored. |
 | `code`    | string | The 6-character join code shown on the host's screen.    |
 
 ---
@@ -67,6 +67,18 @@ Sent in response to a `ping` from the server. Resets the 5-second heartbeat TTL.
 
 ---
 
+### `buzz`
+
+The phone's buzzer button was pressed. Only valid after a successful `claim`.
+The server decides the result and answers with `buzzerState`. Buzzes received within
+75 ms of the first one count as a tie: the lowest score wins, then random.
+
+```json
+{ "type": "buzz" }
+```
+
+---
+
 ## Server → Client messages
 
 These messages are sent by the Macpardy app to one or all phone browsers.
@@ -79,7 +91,7 @@ Sent to the joining phone after a valid join code is received.
 {
   "type": "joinAccepted",
   "payload": {
-    "version": 2,
+    "version": 3,
     "teams": [
       { "id": "6F9619FF-8B86-D011-B42D-00C04FC964FF", "name": "Team 1", "color": "blue", "claimed": false }
     ]
@@ -89,7 +101,7 @@ Sent to the joining phone after a valid join code is received.
 
 | Payload field | Type     | Description                                                     |
 |---------------|----------|-----------------------------------------------------------------|
-| `version`     | int      | Protocol version the server is speaking. Currently always `2`.  |
+| `version`     | int      | Protocol version the server is speaking. Currently always `3`.  |
 | `teams`       | object[] | Teams in display order (at most 4). `claimed` is true while a phone holds the team; the phone disables that team's Join button. `color` is one of `blue`, `red`, `green`, `yellow`, `purple`, `orange`. |
 
 ---
@@ -256,9 +268,35 @@ The page automatically attempts to reconnect with exponential back-off
 
 ---
 
+---
+
+## Buzzer
+
+### `buzzerState`
+
+Sent to a single phone whenever what its buzzer button shows changes, and right
+after `claimAccepted`.
+
+```json
+{ "type": "buzzerState", "payload": { "state": "armed" } }
+```
+
+| `state`       | Meaning                                                                          |
+|---------------|----------------------------------------------------------------------------------|
+| `waiting`     | Buzzer disabled (board, answer revealed, another team answering). Pressing it is answered with `tooEarly`. |
+| `unavailable` | Daily Double. The button cannot be pressed and the server ignores any `buzz`.    |
+| `armed`       | A question is displayed; the team can buzz.                                      |
+| `pressed`     | The team buzzed and the tie window is still open.                                |
+| `first`       | The team won the buzz and is answering.                                          |
+| `lockedOut`   | The team answered wrong and cannot buzz again on this question.                  |
+| `tooEarly`    | The team pressed while disabled ("Slow your horses bud, too early"). Transient: the phone returns to `waiting` on its own. |
+
+---
+
 ## Version history
 
 | Version | Changes                          |
 |---------|----------------------------------|
 | 1       | Initial release (issue #28). Introduces `join`, `joinRejected`, `joinAccepted`, `ping`, `pong`, `state`. |
 | 2       | Issue #29. `joinAccepted.teams` is now an array of `{id, name, color, claimed}` objects. Adds `claim`, `teams`, `claimAccepted`, `claimRejected`, `removed` and rate limiting. |
+| 3       | Issue #30. Adds `buzz` and `buzzerState`. |

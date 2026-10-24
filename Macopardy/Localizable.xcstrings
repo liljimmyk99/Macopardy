@@ -152,6 +152,18 @@
         }
       }
     },
+    "control.team.buzzed_first" : {
+      "comment" : "Label next to the team that buzzed in first",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Buzzed first"
+          }
+        }
+      }
+    },
     "control.team.disconnected" : {
       "comment" : "Shown next to a team whose buzzer phone has disconnected",
       "extractionState" : "manual",
@@ -1051,6 +1063,30 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Reveal Answer"
+          }
+        }
+      }
+    },
+    "control.question.buzzed_first %@" : {
+      "comment" : "Banner on the question screen naming the team that buzzed in first",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ buzzed in first"
+          }
+        }
+      }
+    },
+    "control.question.waiting_for_buzz" : {
+      "comment" : "Banner on the question screen while buzzers are armed and nobody has buzzed",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Waiting for a buzz…"
           }
         }
       }

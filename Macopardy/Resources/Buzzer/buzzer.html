@@ -143,6 +143,27 @@
     .team-join:disabled {
       opacity: 0.35;
     }
+
+    /* Buzzer button */
+    .buzzer {
+      display: none;
+      width: 100%;
+      min-height: 200px;
+      font: inherit;
+      font-size: 2rem;
+      font-weight: 800;
+      border: 0;
+      border-radius: 24px;
+      color: #1a1a1a;
+      background: #8a8fa8;
+      touch-action: manipulation;
+    }
+    .buzzer:disabled { opacity: 0.45; }
+    .buzzer.buzz-armed     { background: #33bf59; }
+    .buzzer.buzz-pressed   { background: #f28c26; }
+    .buzzer.buzz-first     { background: var(--gold); }
+    .buzzer.buzz-lockedOut { background: var(--red); color: var(--white); }
+    .buzzer.buzz-tooEarly  { background: var(--red); color: var(--white); font-size: 1.4rem; }
   </style>
 </head>
 <body>
@@ -155,6 +176,7 @@
     <div class="status-text" id="statusText">Connecting…</div>
     <div class="status-sub"  id="statusSub"></div>
     <div class="teams" id="teams"></div>
+    <button class="buzzer" id="buzzer" type="button"></button>
     <div class="reconnect-bar" id="reconnectBar" style="display:none">
       <div class="reconnect-bar-fill" id="reconnectFill" style="width:100%"></div>
     </div>
@@ -163,7 +185,7 @@
 
 <script>
   // ─── Config ──────────────────────────────────────────────────────────────
-  const PROTOCOL_VERSION = 2;
+  const PROTOCOL_VERSION = 3;
   const MAX_BACKOFF_MS   = 10_000;
   const WATCHDOG_MS      = 5_000;   // server pings every 2s; silence this long = lost
   const CODE             = new URLSearchParams(location.search).get("code") ?? "";
@@ -179,6 +201,8 @@
   let rejected     = false;   // permanent — don't reconnect after joinRejected / removed
   let teams        = [];      // latest team list from the server
   let myTeamId     = null;    // team this phone holds, if any
+  let buzzState    = "waiting";   // what the buzzer button shows, set by the server
+  let tooEarlyTid  = null;
 
   // ─── DOM refs ────────────────────────────────────────────────────────────
   const card          = document.getElementById("card");
@@ -189,6 +213,17 @@
   const reconnectBar  = document.getElementById("reconnectBar");
   const reconnectFill = document.getElementById("reconnectFill");
   const teamsEl       = document.getElementById("teams");
+  const buzzerEl      = document.getElementById("buzzer");
+
+  const BUZZ_LABELS = {
+    waiting:     "Waiting for the question\u2026",
+    unavailable: "Daily Double",
+    armed:       "BUZZ!",
+    pressed:     "Buzzed\u2026",
+    first:       "You\u2019re up!",
+    lockedOut:   "Locked out",
+    tooEarly:    "Slow your horses bud, too early",
+  };
 
   const TEAM_COLORS = {
     blue: "#3373f2", red: "#e64040", green: "#33bf59",
@@ -204,6 +239,15 @@
     icon.style.display          = state !== "connecting" ? "block" : "none";
     reconnectBar.style.display  = state === "lost"       ? "block" : "none";
     if (state !== "connected") teamsEl.style.display = "none";
+    if (state !== "connected") buzzerEl.style.display = "none";
+  }
+
+  function renderBuzzer() {
+    buzzerEl.className = `buzzer buzz-${buzzState}`;
+    buzzerEl.textContent = BUZZ_LABELS[buzzState] ?? "";
+    // Pressable while waiting too: that press is answered with "too early".
+    buzzerEl.disabled = !["armed", "waiting"].includes(buzzState);
+    buzzerEl.style.display = "block";
   }
 
   // Shows the team picker, or the held team's status once this phone has one.
@@ -212,8 +256,8 @@
     if (myTeamId && !mine) myTeamId = null;   // our team was deleted
 
     if (mine) {
-      setState("connected", `You\u2019re ${mine.name}`,
-               "Waiting for game to start\u2026");
+      setState("connected", `You\u2019re ${mine.name}`);
+      renderBuzzer();
       // setState keeps the list visible in the connected state, so hide it here.
       teamsEl.replaceChildren();
       teamsEl.style.display = "none";
@@ -246,6 +290,14 @@
     teamsEl.style.display = "flex";
   }
 
+  buzzerEl.addEventListener("click", () => {
+    if (buzzState === "armed") {
+      buzzState = "pressed";   // instant feedback; the server has the final say
+      renderBuzzer();
+    }
+    send({ type: "buzz" });
+  });
+
   function startCountdownBar(seconds) {
     reconnectFill.style.transition = "none";
     reconnectFill.style.width      = "100%";
@@ -266,6 +318,7 @@
     socket.addEventListener("open", () => {
       if (socket !== ws) return;
       myTeamId = null;     // a new connection never holds a team yet
+      buzzState = "waiting";
       // Send join immediately.
       send({ type: "join", version: PROTOCOL_VERSION, code: CODE });
       backoffMs = 1_000;   // reset back-off on success
@@ -321,8 +374,18 @@
           send({ type: "pong" });
           break;
 
+        case "buzzerState": {
+          clearTimeout(tooEarlyTid);
+          buzzState = msg.payload?.state ?? "waiting";
+          // "Too early" is a flash; the buzzer is still disabled afterwards.
+          if (buzzState === "tooEarly") {
+            tooEarlyTid = setTimeout(() => { buzzState = "waiting"; if (myTeamId) renderBuzzer(); }, 2_000);
+          }
+          if (myTeamId) renderBuzzer();
+          break;
+        }
+
         case "state":
-          // Future sub-issues will act on game state here.
           break;
       }
     });
