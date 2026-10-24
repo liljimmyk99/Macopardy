@@ -12,9 +12,12 @@ struct MacpardyApp: App {
 
     @State
     private var gameState = GameState()
-    
+
     @State
     private var hasSelectedGame = false
+
+    @State
+    private var buzzerState = BuzzerState()
 
     var body: some Scene {
 
@@ -22,11 +25,20 @@ struct MacpardyApp: App {
             if hasSelectedGame {
                 ControlView()
                     .environment(gameState)
+                    .environment(buzzerState)
             } else {
                 LaunchScreenView(hasSelectedGame: $hasSelectedGame, gameState: $gameState)
+                    .environment(buzzerState)
             }
         }
         .defaultSize(width: 1200, height: 900)
+        .onChange(of: hasSelectedGame) { _, selected in
+            if selected {
+                Task { await buzzerState.startServer() }
+            } else {
+                Task { await buzzerState.stopServer() }
+            }
+        }
 
         Window("Display", id: "display") {
             if hasSelectedGame {
