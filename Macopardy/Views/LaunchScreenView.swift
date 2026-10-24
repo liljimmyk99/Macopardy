@@ -9,6 +9,7 @@ import UniformTypeIdentifiers
 struct LaunchScreenView: View {
 
     @Environment(\.openWindow) private var openWindow
+    @Environment(BoardEditorSession.self) private var editorSession
 
     @Binding var hasSelectedGame: Bool
     @State var showFileExporter: Bool = false
@@ -17,6 +18,8 @@ struct LaunchScreenView: View {
     @State private var showResumeAlert: Bool = false
     @State private var pendingSavedSnapshot: GameSnapshot?
     @State private var showNewGameSheet: Bool = false
+    @State private var showEditImporter: Bool = false
+    @State private var loadErrorReport: BoardLoadReport?
 
     var body: some View {
         VStack(spacing: 40) {
@@ -37,6 +40,20 @@ struct LaunchScreenView: View {
                 }
 
                 LargeButton(
+                    title: "launch.button.edit_existing",
+                    systemImage: "square.and.pencil",
+                    tint: .purple
+                ) {
+                    showEditImporter = true
+                }
+                .fileImporter(
+                    isPresented: $showEditImporter,
+                    allowedContentTypes: [.macpardyBoard, .json, .zip, .commaSeparatedText]
+                ) { result in
+                    handleEditPicked(result)
+                }
+
+                LargeButton(
                     title: "launch.button.new_game",
                     systemImage: "plus.circle",
                     tint: .orange
@@ -48,6 +65,9 @@ struct LaunchScreenView: View {
         .padding()
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background(Color(.controlBackgroundColor))
+        .sheet(item: $loadErrorReport) { report in
+            BoardLoadErrorView(report: report)
+        }
         .sheet(isPresented: $showNewGameSheet) {
             NewGameView(
                 onBuildInEditor: {
@@ -105,6 +125,26 @@ struct LaunchScreenView: View {
         }
     }
     
+    /// Loads a JSON, package, or CSV board and opens it in the editor.
+    /// A bad file shows what's wrong and leaves the user here.
+    private func handleEditPicked(_ result: Result<URL, Error>) {
+        switch result {
+        case .success(let url):
+            do {
+                let data = try FileManagerService().readData(from: url)
+                let draft = try BoardLoader.load(data: data, fileName: url.lastPathComponent)
+                AppLogger.database.info("Opened \(url.lastPathComponent, privacy: .public) for editing")
+                editorSession.edit(draft)
+                openWindow(id: "create-macpardy")
+            } catch {
+                AppLogger.database.error("Can't edit \(url.lastPathComponent, privacy: .public): \(String(describing: error), privacy: .public)")
+                loadErrorReport = BoardLoadReport(fileName: url.lastPathComponent, error: error)
+            }
+        case .failure(let error):
+            AppLogger.database.error("Edit picker failed: \(error.localizedDescription)")
+        }
+    }
+
     func loadGame(url: URL) {
         Task {
             do {
@@ -123,4 +163,5 @@ struct LaunchScreenView: View {
         hasSelectedGame: .constant(false),
         gameState: .constant(GameState())
     )
+    .environment(BoardEditorSession())
 }

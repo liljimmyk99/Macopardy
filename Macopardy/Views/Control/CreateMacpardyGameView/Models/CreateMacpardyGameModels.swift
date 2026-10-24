@@ -6,14 +6,14 @@
 //
 import Foundation
 
-struct DraftCategory: Identifiable {
+struct DraftCategory: Identifiable, Equatable {
 
     let id = UUID()
     var title: String
     var questions: [DraftQuestion]
 }
 
-struct DraftQuestion {
+struct DraftQuestion: Equatable {
 
     let value: Int
     var clue: String
@@ -38,7 +38,7 @@ struct EditingQuestion: Identifiable {
     let isDailyDouble: Bool
 }
 
-struct DraftFinalMacpardy {
+struct DraftFinalMacpardy: Equatable {
 
     var category: String = ""
     var clue: String = ""

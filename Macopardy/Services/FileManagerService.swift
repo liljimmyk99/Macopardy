@@ -11,12 +11,19 @@ import UniformTypeIdentifiers
 struct MacpardyBoardsDocument: FileDocument {
 
     static var readableContentTypes: [UTType] { [.macpardyBoard, .json] }
-    static var writableContentTypes: [UTType] { [.macpardyBoard] }
+    /// Saved as a `.macpardy` package, or as plain JSON when the exporter
+    /// asks for `.json` (edited boards with no pictures).
+    static var writableContentTypes: [UTType] { [.macpardyBoard, .json] }
 
     var boards: [MacpardyBoard]
 
-    init(boards: [MacpardyBoard]) {
+    /// The game's name, saved in the file. `nil` when read back from a file
+    /// that doesn't have one.
+    var title: String?
+
+    init(boards: [MacpardyBoard], title: String? = nil) {
         self.boards = boards
+        self.title = title
     }
 
     /// Accepts a `.macpardy` package or a plain `.json` board.
@@ -29,17 +36,22 @@ struct MacpardyBoardsDocument: FileDocument {
             throw CocoaError(.fileReadCorruptFile)
         }
 
-        boards = try Self.decodeBoards(from: data)
+        let game = try BoardPackage.readGame(data)
+        boards = game.boards
+        title = game.title
     }
 
     func fileWrapper(configuration: WriteConfiguration) throws -> FileWrapper {
-        FileWrapper(regularFileWithContents: try BoardPackage.write(boards))
+        if configuration.contentType.conforms(to: .json) {
+            return FileWrapper(regularFileWithContents: try MacpardyJSONBoardDocument.encode(boards, title: title))
+        }
+        return FileWrapper(regularFileWithContents: try BoardPackage.write(boards, title: title))
     }
 }
 
 final class FileManagerService {
-    func makeExportDocument(for boards: [MacpardyBoard]) -> MacpardyBoardsDocument {
-        MacpardyBoardsDocument(boards: boards)
+    func makeExportDocument(for boards: [MacpardyBoard], title: String? = nil) -> MacpardyBoardsDocument {
+        MacpardyBoardsDocument(boards: boards, title: title)
     }
 
     func defaultFilename(for title: String) -> String {

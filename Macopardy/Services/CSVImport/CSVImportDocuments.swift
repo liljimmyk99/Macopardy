@@ -51,9 +51,9 @@ struct MacpardyJSONBoardDocument: FileDocument {
         FileWrapper(regularFileWithContents: try Self.encode(boards))
     }
 
-    nonisolated static func encode(_ boards: [MacpardyBoard]) throws -> Data {
+    nonisolated static func encode(_ boards: [MacpardyBoard], title: String? = nil) throws -> Data {
         let encoder = JSONEncoder()
         encoder.outputFormatting = [.prettyPrinted, .sortedKeys]
-        return try encoder.encode(BoardPackage.BoardFile(formatVersion: BoardPackage.formatVersion, boards: boards))
+        return try encoder.encode(BoardPackage.BoardFile(formatVersion: BoardPackage.formatVersion, boards: boards, title: title))
     }
 }
