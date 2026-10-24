@@ -217,6 +217,8 @@ final class BuzzerState {
         await server?.stop()
         server = nil
         isRunning = false
+        joinCode = ""
+        serverURL = nil
         connectedClientCount = 0
         claimedTeamIDs = []
         everClaimedTeamIDs = []
