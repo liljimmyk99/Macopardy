@@ -17,11 +17,12 @@ extension UTType {
 ///
 /// Package format (`.macpardy`), a zip archive containing:
 /// ```
-/// board.json      { "formatVersion": 2, "boards": [MacpardyBoard] }
+/// board.json      { "formatVersion": 2, "title": "…", "boards": [MacpardyBoard] }
 /// images/<file>   one file per question image, referenced from board.json
 /// ```
 /// A question references its image with `"image": { "path": "images/<file>" }`.
-/// A package with only `board.json` is valid.
+/// A package with only `board.json` is valid. `title` is the game's name; it's
+/// optional, and files saved before games had their own name don't have it.
 ///
 /// Legacy boards (format 1) are a plain `.json` file holding `[MacpardyBoard]`.
 /// They, and a bare `board.json` in the new shape, still open directly.
@@ -51,16 +52,29 @@ nonisolated enum BoardPackage {
     struct BoardFile: Codable {
         let formatVersion: Int
         let boards: [MacpardyBoard]
+        /// The game's name. Absent in older files; ignored by older apps.
+        var title: String? = nil
+    }
+
+    /// A game read from disk: its boards and, if the file has one, its name.
+    struct GameFile: Equatable {
+        var boards: [MacpardyBoard]
+        var title: String?
     }
 
     // MARK: - Reading
 
     /// Reads a package, a new-style `board.json`, or a legacy `.json` board.
     static func read(_ data: Data) throws -> [MacpardyBoard] {
+        try readGame(data).boards
+    }
+
+    /// Like `read`, but keeps the game's title.
+    static func readGame(_ data: Data) throws -> GameFile {
         if isZip(data) {
             return try readPackage(data)
         }
-        return try decodeBoardJSON(data)
+        return try decodeGameJSON(data)
     }
 
     static func isZip(_ data: Data) -> Bool {
@@ -69,17 +83,22 @@ nonisolated enum BoardPackage {
 
     /// Decodes either the versioned `BoardFile` shape or a legacy `[MacpardyBoard]`.
     static func decodeBoardJSON(_ data: Data) throws -> [MacpardyBoard] {
+        try decodeGameJSON(data).boards
+    }
+
+    /// Like `decodeBoardJSON`, but keeps the game's title.
+    static func decodeGameJSON(_ data: Data) throws -> GameFile {
         let decoder = JSONDecoder()
         // A top-level array is a legacy board. Decode it directly so a broken
         // one reports the field that's wrong rather than "expected an object".
         if startsWithArray(data) {
-            return try decoder.decode([MacpardyBoard].self, from: data)
+            return GameFile(boards: try decoder.decode([MacpardyBoard].self, from: data), title: nil)
         }
         let file = try decoder.decode(BoardFile.self, from: data)
         guard file.formatVersion <= formatVersion else {
             throw PackageError.unsupportedFormatVersion(file.formatVersion)
         }
-        return file.boards
+        return GameFile(boards: file.boards, title: file.title)
     }
 
     /// Whether the first non-whitespace character is `[` (skipping a UTF-8 BOM).
@@ -88,7 +107,7 @@ nonisolated enum BoardPackage {
         return data.first { !whitespace.contains($0) } == UInt8(ascii: "[")
     }
 
-    private static func readPackage(_ data: Data) throws -> [MacpardyBoard] {
+    private static func readPackage(_ data: Data) throws -> GameFile {
         let archive: Archive
         do {
             archive = try Archive(data: data, accessMode: .read)
@@ -104,8 +123,8 @@ nonisolated enum BoardPackage {
             throw PackageError.archiveUnreadable
         }
 
-        var boards = try decodeBoardJSON(boardData)
-        resolveImages(in: &boards) { path in
+        var game = try decodeGameJSON(boardData)
+        resolveImages(in: &game.boards) { path in
             guard isSafeImagePath(path) else {
                 AppLogger.database.warning("Ignoring unsafe image path \(path, privacy: .public)")
                 return nil
@@ -120,7 +139,7 @@ nonisolated enum BoardPackage {
             }
             return extract(entry, from: archive, limit: maxImageEntryBytes)
         }
-        return boards
+        return game
     }
 
     /// Extracts an entry, giving up if it inflates past `limit` (the header's
@@ -155,7 +174,7 @@ nonisolated enum BoardPackage {
     /// Writes boards as a zip package. Image paths are reassigned from each
     /// question's ID so they're unique; questions whose image has no data
     /// lose the reference.
-    static func write(_ boards: [MacpardyBoard]) throws -> Data {
+    static func write(_ boards: [MacpardyBoard], title: String? = nil) throws -> Data {
         var boards = boards
         var images: [(path: String, data: Data)] = []
 
@@ -179,7 +198,7 @@ nonisolated enum BoardPackage {
         let encoder = JSONEncoder()
         encoder.outputFormatting = [.prettyPrinted, .sortedKeys]
         encoder.userInfo[.omitQuestionImageData] = true
-        let boardData = try encoder.encode(BoardFile(formatVersion: formatVersion, boards: boards))
+        let boardData = try encoder.encode(BoardFile(formatVersion: formatVersion, boards: boards, title: title))
 
         return try makeArchive(entries: [(path: boardFileName, data: boardData)] + images)
     }

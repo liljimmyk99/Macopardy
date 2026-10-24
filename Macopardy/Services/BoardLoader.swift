@@ -8,8 +8,8 @@ import Foundation
 /// Loads a board file for "Edit game" and turns it into an editor draft.
 ///
 /// Picks the reader by file extension and reuses the existing ones:
-/// - `.json`: a plain board (`BoardPackage.decodeBoardJSON`)
-/// - `.macpardy` / `.zip`: a board package with images (`BoardPackage.read`)
+/// - `.json`: a plain board (`BoardPackage.decodeGameJSON`)
+/// - `.macpardy` / `.zip`: a board package with images (`BoardPackage.readGame`)
 /// - `.csv`: a CSV board (`CSVBoardImporter`)
 ///
 /// Nothing is partly loaded: either the whole board fits the editor or a
@@ -61,8 +61,8 @@ enum BoardLoader {
     // MARK: - Loading
 
     /// Loads `data` read from a file named `fileName`. The file name picks
-    /// the reader and, for CSV and boards saved without the editor's title
-    /// suffix, names the game.
+    /// the reader and names the game when the file doesn't (CSV files and
+    /// boards saved before games had their own title).
     ///
     /// - Throws: `LoadError`.
     static func load(data: Data, fileName: String) throws -> BoardDraft {
@@ -74,25 +74,28 @@ enum BoardLoader {
             throw LoadError.unsupportedFileType(fileExtension)
         }
 
-        let boards = try boards(from: data, kind: kind, title: title)
+        let game = try game(from: data, kind: kind, title: title)
         do {
-            return try BoardDraft(boards: boards, fallbackTitle: title)
+            return try BoardDraft(boards: game.boards, gameTitle: game.title, fallbackTitle: title)
         } catch let error as BoardDraft.ShapeError {
             throw LoadError.shape(error)
         }
     }
 
-    static func boards(from data: Data, kind: FileKind, title: String) throws -> [MacpardyBoard] {
+    static func game(from data: Data, kind: FileKind, title: String) throws -> BoardPackage.GameFile {
         switch kind {
         case .csv:
             do {
-                return try CSVBoardImporter.importBoards(from: data, title: title)
+                return BoardPackage.GameFile(
+                    boards: try CSVBoardImporter.importBoards(from: data, title: title),
+                    title: title
+                )
             } catch let error as CSVBoardImporter.ImportError {
                 throw LoadError.csv(error.issues)
             }
         case .json:
             do {
-                return try BoardPackage.decodeBoardJSON(data)
+                return try BoardPackage.decodeGameJSON(data)
             } catch {
                 throw mapped(error, inPackage: false)
             }
@@ -101,7 +104,7 @@ enum BoardLoader {
                 throw LoadError.package(.archiveUnreadable)
             }
             do {
-                return try BoardPackage.read(data)
+                return try BoardPackage.readGame(data)
             } catch {
                 throw mapped(error, inPackage: true)
             }

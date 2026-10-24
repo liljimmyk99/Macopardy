@@ -115,15 +115,15 @@ extension BoardDraft.ShapeError {
                 location: nil,
                 message: String(localized: "board_load.error.duplicate_round \(round.displayName)")
             )
-        case .emptyRound(let round):
+        case .wrongCategoryCount(let round, let found):
             BoardLoadProblem(
                 location: String(localized: "board_load.location.round \(round.displayName)"),
-                message: String(localized: "board_load.error.empty_round")
+                message: String(localized: "board_load.error.wrong_category_count \(found) \(BoardDraft.categoriesPerRound) \(BoardDraft.cluesPerCategory)")
             )
-        case .emptyCategory(let round, let category):
+        case .wrongClueCount(let round, let category, let found):
             BoardLoadProblem(
                 location: String(localized: "board_load.location.round_category \(round.displayName) \(category)"),
-                message: String(localized: "board_load.error.empty_category")
+                message: String(localized: "board_load.error.wrong_clue_count \(found) \(BoardDraft.cluesPerCategory) \(BoardDraft.categoriesPerRound)")
             )
         case .mismatchedValues(let round, let category, let expected, let found):
             BoardLoadProblem(

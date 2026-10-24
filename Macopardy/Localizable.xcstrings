@@ -3171,30 +3171,6 @@
         }
       }
     },
-    "board_load.error.empty_round" : {
-      "comment" : "A round in a board file has no categories",
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "This round has no categories."
-          }
-        }
-      }
-    },
-    "board_load.error.empty_category" : {
-      "comment" : "A category in a board file has no clues",
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "This category has no clues."
-          }
-        }
-      }
-    },
     "board_load.error.mismatched_values %@ %@" : {
       "comment" : "A category's point values differ from the rest of its round. Arguments are this category's values and the round's values, as lists.",
       "extractionState" : "manual",
@@ -3263,6 +3239,114 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Not Now"
+          }
+        }
+      }
+    },
+    "board_load.error.wrong_category_count %lld %lld %lld" : {
+      "comment" : "A round doesn't have the right number of categories. Arguments: categories found, categories required, clues per category.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "This round has %1$lld categories. Boards must be %2$lld categories by %3$lld clues."
+          }
+        }
+      }
+    },
+    "board_load.error.wrong_clue_count %lld %lld %lld" : {
+      "comment" : "A category doesn't have the right number of clues. Arguments: clues found, clues required, categories per round.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "This category has %1$lld clues, but every category needs exactly %2$lld. Boards must be %3$lld categories by %2$lld clues."
+          }
+        }
+      }
+    },
+    "create.round_title_label" : {
+      "comment" : "Label for the round title field in the game editor",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Round Title"
+          }
+        }
+      }
+    },
+    "create.round_title_accessibility %@" : {
+      "comment" : "Accessibility label for the round title field. The argument is the round name.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ round title"
+          }
+        }
+      }
+    },
+    "edit.alert.unsaved.title %@" : {
+      "comment" : "Title of the prompt when closing the editor or quitting with unsaved edits. The argument is the game title.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Save changes to “%@”?"
+          }
+        }
+      }
+    },
+    "edit.alert.unsaved.title_untitled" : {
+      "comment" : "Title of the unsaved-edits prompt when the game has no title",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Save changes to this game?"
+          }
+        }
+      }
+    },
+    "edit.alert.unsaved.message" : {
+      "comment" : "Message of the unsaved-edits prompt",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Your changes will be lost if you don’t save them."
+          }
+        }
+      }
+    },
+    "edit.alert.unsaved.save" : {
+      "comment" : "Button to save an edited board before closing or quitting",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Save…"
+          }
+        }
+      }
+    },
+    "edit.alert.unsaved.discard" : {
+      "comment" : "Button to close or quit without saving edits",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Don’t Save"
           }
         }
       }

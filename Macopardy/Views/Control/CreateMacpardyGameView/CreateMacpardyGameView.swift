@@ -8,7 +8,7 @@ import UniformTypeIdentifiers
 internal import os
 //TODO: Change this to be creating a Game instead
 struct CreateMacpardyGameView: View {
-    @Environment(\.dismissWindow) private var dismissWindow
+    @Environment(\.dismissWindow) internal var dismissWindow
     @Environment(\.openWindow) private var openWindow
     @Environment(BoardEditorSession.self) internal var editorSession
 
@@ -40,6 +40,11 @@ struct CreateMacpardyGameView: View {
     @State internal var round2Categories: [DraftCategory] = Self.makeDefaultCategories(values: Self.round2Values, titles: Self.round2DefaultCategories)
     @State internal var finalMacpardy: DraftFinalMacpardy = DraftFinalMacpardy()
 
+    /// Each round's own title, shown on the control screen during play.
+    @State internal var round1Title: String = BoardDraft.defaultTitle(for: .macpardy)
+    @State internal var round2Title: String = BoardDraft.defaultTitle(for: .doubleMacpardy)
+    @State internal var finalTitle: String = BoardDraft.defaultTitle(for: .finalMacpardy)
+
     /// Row values for each round. The defaults for a new game; a loaded
     /// board keeps its own.
     @State internal var round1BoardValues: [Int] = Self.round1Values
@@ -47,6 +52,19 @@ struct CreateMacpardyGameView: View {
 
     /// `true` once a loaded board is in the editor ("Edit game").
     @State internal var isEditingExistingBoard = false
+
+    /// The edited board as last loaded or saved; unsaved edits are any
+    /// difference from it.
+    @State internal var savedDraft: BoardDraft?
+
+    /// The draft handed to the save panel, which becomes `savedDraft` once
+    /// the save succeeds.
+    @State internal var draftBeingSaved: BoardDraft?
+
+    /// Close or quit to finish once the current save succeeds.
+    @State internal var closeAfterSave: BoardEditorSession.CloseRequest?
+
+    @State internal var showUnsavedPrompt = false
 
     @State internal var selectedQuestion: EditingQuestion?
 
@@ -67,7 +85,9 @@ struct CreateMacpardyGameView: View {
             GameTitleEditor(title: $title)
             
             RoundIndictator(currentRound: $currentRound)
-            
+
+            RoundTitleEditor(title: currentRoundTitle, round: currentRoundKind)
+
             if currentRound == 0 {
                 DraftBoard(
                     draftCategories: $round1Categories,
@@ -86,7 +106,7 @@ struct CreateMacpardyGameView: View {
 
             DraftBoardControls(
                 currentRound: $currentRound,
-                saveGame: saveGame
+                saveGame: { saveGame() }
             )
         }
         .padding(20)
@@ -101,6 +121,19 @@ struct CreateMacpardyGameView: View {
             Button("common.ok") {}
         } message: {
             Text(saveErrorMessage)
+        }
+        .alert(unsavedPromptTitle, isPresented: $showUnsavedPrompt) {
+            Button("edit.alert.unsaved.save") {
+                saveGame(thenFinish: editorSession.closeRequest)
+            }
+            Button("edit.alert.unsaved.discard", role: .destructive) {
+                finishClose(proceed: true)
+            }
+            Button("common.cancel", role: .cancel) {
+                finishClose(proceed: false)
+            }
+        } message: {
+            Text("edit.alert.unsaved.message")
         }
         .alert("edit.alert.play_title", isPresented: $showPlayPrompt) {
             Button("edit.alert.play_action") {
@@ -129,7 +162,12 @@ struct CreateMacpardyGameView: View {
             switch result {
             case .success(let url):
                 AppLogger.database.info("Saved boards to \(url.lastPathComponent, privacy: .public)")
-                if isEditingExistingBoard {
+                savedDraft = draftBeingSaved
+                if closeAfterSave != nil {
+                    // Saved from the "save changes?" prompt: carry on closing.
+                    closeAfterSave = nil
+                    finishClose(proceed: true)
+                } else if isEditingExistingBoard {
                     showPlayPrompt = true
                 } else {
                     dismissWindow(id: "create-macpardy")
@@ -140,6 +178,7 @@ struct CreateMacpardyGameView: View {
                     showSaveErrorAlert = true
                 }
                 AppLogger.database.error("\(error.localizedDescription)")
+                cancelPendingClose()
             }
         }
         .sheet(item: $selectedQuestion) { question in
@@ -223,6 +262,30 @@ struct CreateMacpardyGameView: View {
         .onChange(of: editorSession.editRequest) { _, _ in
             loadPendingDraft()
         }
+        // Unsaved edits block closing the window or quitting until the user answers.
+        .onChange(of: hasUnsavedEdits, initial: true) { _, unsaved in
+            editorSession.hasUnsavedEdits = unsaved
+        }
+        .onChange(of: editorSession.closeRequest) { _, request in
+            if request != nil {
+                showUnsavedPrompt = true
+            }
+        }
+        .onDisappear {
+            editorSession.hasUnsavedEdits = false
+        }
+        .background(
+            WindowCloseGuard(
+                shouldClose: { [editorSession] in
+                    guard editorSession.hasUnsavedEdits else { return true }
+                    editorSession.requestClose(.closeWindow)
+                    return false
+                },
+                onWindow: { [editorSession] window in
+                    editorSession.editorWindow = window
+                }
+            )
+        )
     }
 }
 

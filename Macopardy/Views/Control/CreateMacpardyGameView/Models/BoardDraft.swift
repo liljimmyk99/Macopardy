@@ -8,25 +8,33 @@ import Foundation
 /// Everything the game editor holds, separate from the view.
 ///
 /// "Create game" starts from the editor's blank defaults; "Edit game" starts
-/// from `init(boards:fallbackTitle:)`. `makeBoards()` turns a draft back into
-/// the three boards the game plays.
-struct BoardDraft {
+/// from `init(boards:gameTitle:fallbackTitle:)`. `makeBoards()` turns a draft
+/// back into the three boards the game plays.
+struct BoardDraft: Equatable {
 
-    /// Suffixes the editor appends to the game title for each board.
-    static let macpardySuffix = " - Macpardy"
-    static let doubleMacpardySuffix = " - Double Macpardy"
-    static let finalMacpardySuffix = " - Final Macpardy"
+    /// The editor's grid: categories per round and clues per category.
+    static let categoriesPerRound = 6
+    static let cluesPerCategory = 5
 
+    /// The board-title suffix older versions of the editor added to the game
+    /// title (e.g. "Trivia Night - Macpardy"). Only used to recover a game
+    /// title from files saved before games had their own.
+    static let legacyMacpardySuffix = " - Macpardy"
+
+    /// The game's name, saved in the file alongside the boards.
     var title: String
 
+    var round1Title: String
     var round1Categories: [DraftCategory]
     /// Point value of each row in round 1, top to bottom.
     var round1Values: [Int]
 
+    var round2Title: String
     var round2Categories: [DraftCategory]
     /// Point value of each row in round 2, top to bottom.
     var round2Values: [Int]
 
+    var finalTitle: String
     var finalMacpardy: DraftFinalMacpardy
 
     var trimmedTitle: String {
@@ -41,25 +49,29 @@ struct BoardDraft {
         }
     }
 
-    /// The game's three boards. Text is trimmed and blank category names get
-    /// a default. Expects a non-empty title.
+    /// The title a round gets when the user leaves it blank.
+    static func defaultTitle(for round: MacpardyRound) -> String {
+        round.displayName
+    }
+
+    /// The game's three boards. Text is trimmed; blank round and category
+    /// names get a default.
     func makeBoards() -> [MacpardyBoard] {
-        let gameTitle = trimmedTitle
         let finalCategory = finalMacpardy.category.trimmingCharacters(in: .whitespacesAndNewlines)
 
         return [
             MacpardyBoard(
-                title: gameTitle + Self.macpardySuffix,
+                title: Self.boardTitle(round1Title, round: .macpardy),
                 round: .macpardy,
                 categories: Self.makeCategories(from: round1Categories)
             ),
             MacpardyBoard(
-                title: gameTitle + Self.doubleMacpardySuffix,
+                title: Self.boardTitle(round2Title, round: .doubleMacpardy),
                 round: .doubleMacpardy,
                 categories: Self.makeCategories(from: round2Categories)
             ),
             MacpardyBoard(
-                title: gameTitle + Self.finalMacpardySuffix,
+                title: Self.boardTitle(finalTitle, round: .finalMacpardy),
                 round: .finalMacpardy,
                 categories: [
                     Category(
@@ -75,6 +87,11 @@ struct BoardDraft {
                 ]
             ),
         ]
+    }
+
+    private static func boardTitle(_ title: String, round: MacpardyRound) -> String {
+        let trimmed = title.trimmingCharacters(in: .whitespacesAndNewlines)
+        return trimmed.isEmpty ? defaultTitle(for: round) : trimmed
     }
 
     private static func makeCategories(from drafts: [DraftCategory]) -> [Category] {
@@ -101,14 +118,16 @@ struct BoardDraft {
 extension BoardDraft {
 
     /// Why a set of boards can't be shown in the editor. The editor has a
-    /// fixed layout: one Macpardy round, one Double Macpardy round (each a
-    /// grid where every category has the same point values), and one Final
-    /// Macpardy clue.
+    /// fixed layout: one Macpardy round and one Double Macpardy round, each
+    /// 6 categories × 5 clues where every category has the same point
+    /// values, and one Final Macpardy clue.
     enum ShapeError: Error, Equatable {
         case missingRound(MacpardyRound)
         case duplicateRound(MacpardyRound)
-        case emptyRound(MacpardyRound)
-        case emptyCategory(round: MacpardyRound, category: String)
+        /// The round doesn't have `categoriesPerRound` categories.
+        case wrongCategoryCount(round: MacpardyRound, found: Int)
+        /// The category doesn't have `cluesPerCategory` clues.
+        case wrongClueCount(round: MacpardyRound, category: String, found: Int)
         /// A category's values (sorted) differ from the round's first category.
         case mismatchedValues(round: MacpardyRound, category: String, expected: [Int], found: [Int])
         /// Final Macpardy must be exactly one category with one clue.
@@ -117,12 +136,13 @@ extension BoardDraft {
 
     /// Builds a draft from a saved game so it can be edited.
     ///
-    /// The game title comes from the Macpardy board's title with the
-    /// editor's " - Macpardy" suffix removed. Boards saved some other way
-    /// don't have it, so `fallbackTitle` (the file name) is used instead.
+    /// `gameTitle` is the title saved in the file. Files saved before games
+    /// had their own title don't have one; the title is then the Macpardy
+    /// board's title without the old " - Macpardy" suffix, or failing that
+    /// `fallbackTitle` (the file name).
     ///
     /// - Throws: `ShapeError` if the boards don't fit the editor.
-    init(boards: [MacpardyBoard], fallbackTitle: String) throws {
+    init(boards: [MacpardyBoard], gameTitle: String?, fallbackTitle: String) throws {
         let single = try Self.board(for: .macpardy, in: boards)
         let double = try Self.board(for: .doubleMacpardy, in: boards)
         let final = try Self.board(for: .finalMacpardy, in: boards)
@@ -140,12 +160,19 @@ extension BoardDraft {
             )
         }
 
+        let savedTitle = gameTitle?.trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
+
         self.init(
-            title: Self.gameTitle(fromBoardTitle: single.title, fallback: fallbackTitle),
+            title: savedTitle.isEmpty
+                ? Self.gameTitle(fromBoardTitle: single.title, fallback: fallbackTitle)
+                : savedTitle,
+            round1Title: single.title,
             round1Categories: round1.categories,
             round1Values: round1.values,
+            round2Title: double.title,
             round2Categories: round2.categories,
             round2Values: round2.values,
+            finalTitle: final.title,
             finalMacpardy: DraftFinalMacpardy(
                 category: finalCategory.title,
                 clue: finalQuestion.clue,
@@ -154,10 +181,11 @@ extension BoardDraft {
         )
     }
 
+    /// Recovers a game title for a file that didn't save one.
     static func gameTitle(fromBoardTitle boardTitle: String, fallback: String) -> String {
         let trimmed = boardTitle.trimmingCharacters(in: .whitespacesAndNewlines)
-        if trimmed.hasSuffix(macpardySuffix) {
-            let stripped = String(trimmed.dropLast(macpardySuffix.count))
+        if trimmed.hasSuffix(legacyMacpardySuffix) {
+            let stripped = String(trimmed.dropLast(legacyMacpardySuffix.count))
                 .trimmingCharacters(in: .whitespacesAndNewlines)
             if !stripped.isEmpty { return stripped }
         }
@@ -174,14 +202,16 @@ extension BoardDraft {
 
     /// One editor column per category, rows ordered by value.
     private static func draftCategories(from board: MacpardyBoard) throws -> (categories: [DraftCategory], values: [Int]) {
-        guard !board.categories.isEmpty else { throw ShapeError.emptyRound(board.round) }
+        guard board.categories.count == categoriesPerRound else {
+            throw ShapeError.wrongCategoryCount(round: board.round, found: board.categories.count)
+        }
 
         var roundValues: [Int]?
         var drafts: [DraftCategory] = []
 
         for category in board.categories {
-            guard !category.questions.isEmpty else {
-                throw ShapeError.emptyCategory(round: board.round, category: category.title)
+            guard category.questions.count == cluesPerCategory else {
+                throw ShapeError.wrongClueCount(round: board.round, category: category.title, found: category.questions.count)
             }
 
             // Sort by value, keeping file order for equal values.

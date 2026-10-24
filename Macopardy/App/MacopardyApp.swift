@@ -5,11 +5,35 @@
 //  Created by Jimmy Kane on 7/15/26.
 //
 
+import AppKit
 import OSLog
 import SwiftUI
 
+/// Holds a quit while an edited board has unsaved changes, so the editor
+/// can ask whether to save first.
+final class MacopardyAppDelegate: NSObject, NSApplicationDelegate {
+
+    func applicationShouldTerminate(_ sender: NSApplication) -> NSApplication.TerminateReply {
+        let session = BoardEditorSession.shared
+        guard session.hasUnsavedEdits else { return .terminateNow }
+
+        // A prompt is already up (e.g. from closing the window); let the user answer it.
+        guard session.requestClose(.quitApp) else { return .terminateCancel }
+
+        session.onQuitDecision = { proceed in
+            sender.reply(toApplicationShouldTerminate: proceed)
+        }
+        session.editorWindow?.makeKeyAndOrderFront(nil)
+        sender.activate()
+        return .terminateLater
+    }
+}
+
 @main
 struct MacpardyApp: App {
+
+    @NSApplicationDelegateAdaptor(MacopardyAppDelegate.self)
+    private var appDelegate
 
     @State
     private var gameState = GameState()
@@ -21,7 +45,7 @@ struct MacpardyApp: App {
     private var buzzerState = BuzzerState()
 
     @State
-    private var editorSession = BoardEditorSession()
+    private var editorSession = BoardEditorSession.shared
 
     private var buzzerTeams: [BuzzerTeam] {
         gameState.game.teams.map(BuzzerTeam.init(team:))
