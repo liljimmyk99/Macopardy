@@ -10,6 +10,7 @@ import SwiftUI
 struct FinalMacpardyControlView: View {
 
     @Environment(GameState.self) var gameState
+    @Environment(BuzzerState.self) var buzzerState
 
     var body: some View {
         VStack(spacing: 20) {

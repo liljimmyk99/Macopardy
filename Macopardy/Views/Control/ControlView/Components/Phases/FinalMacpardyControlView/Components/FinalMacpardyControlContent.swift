@@ -19,6 +19,8 @@ extension FinalMacpardyControlView {
                 Button(role: .destructive) {
                     Task {
                         await GameSaveStore.shared.clear()
+                        // A finished game ends the session: new join code, phones dropped.
+                        await buzzerState.startServer()
                     }
                     gameState.phase = .setup
                 } label: {
