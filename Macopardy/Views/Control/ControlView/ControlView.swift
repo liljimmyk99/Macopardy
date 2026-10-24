@@ -11,12 +11,19 @@ struct ControlView: View {
 
     @Environment(GameState.self) var gameState
 
+    @State var selection: SidebarSelection? = .game
+
     var body: some View {
         NavigationSplitView {
-            SidebarView()
+            SidebarView(selection: $selection)
         } detail: {
             ScrollView {
-                detailContent
+                switch selection {
+                case .buzzer:
+                    BuzzerControlView()
+                case .game, nil:
+                    detailContent
+                }
             }
             .navigationTitle(navigationTitleText)
             .toolbar {
@@ -38,5 +45,6 @@ struct ControlView: View {
 #Preview {
     ControlView()
         .environment(GameState())
+        .environment(BuzzerState())
         .frame(width: 1200, height: 900)
 }
