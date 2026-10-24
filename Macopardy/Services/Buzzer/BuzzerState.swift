@@ -30,11 +30,36 @@ final class BuzzerState {
     /// Human-readable reason the server could not start (or stopped), if any.
     private(set) var startError: String?
 
+    /// Teams that currently have a phone attached.
+    private(set) var claimedTeamIDs: Set<UUID> = []
+
+    /// Teams that had a phone at some point this session but have none now.
+    /// Teams that never had a phone are not listed, so a game without buzzers
+    /// shows no warnings.
+    var disconnectedTeamIDs: Set<UUID> { everClaimedTeamIDs.subtracting(claimedTeamIDs) }
+
     // MARK: - Private
 
+    private var everClaimedTeamIDs: Set<UUID> = []
+    private var latestTeams: [BuzzerTeam] = []
     private var server: BuzzerServer?
     private var countObserverTask: Task<Void, Never>?
+    private var claimedObserverTask: Task<Void, Never>?
     private var failureObserverTask: Task<Void, Never>?
+
+    // MARK: - Teams
+
+    /// Pushes the app's current teams to the server (and remembers them for a
+    /// server that has not started yet).
+    func syncTeams(_ teams: [BuzzerTeam]) async {
+        latestTeams = teams
+        await server?.updateTeams(teams)
+    }
+
+    /// Frees a team's slot and disconnects its phone with "Removed by host".
+    func removePhone(forTeam teamID: UUID) async {
+        await server?.removePhone(forTeam: teamID)
+    }
 
     // MARK: - Lifecycle
 
@@ -65,6 +90,17 @@ final class BuzzerState {
             self.isRunning = true
             AppLogger.buzzer.info("Buzzer server started at \(urlString)")
 
+            await newServer.updateTeams(latestTeams)
+
+            // Track which teams have a phone attached.
+            claimedObserverTask = Task { [weak self, stream = newServer.claimedTeamsStream] in
+                for await claimed in stream {
+                    guard let self else { return }
+                    self.claimedTeamIDs = claimed
+                    self.everClaimedTeamIDs.formUnion(claimed)
+                }
+            }
+
             // Observe connected-client count changes from the server.
             countObserverTask = Task { [weak self, stream = newServer.connectedCountStream] in
                 for await count in stream {
@@ -91,12 +127,16 @@ final class BuzzerState {
     func stopServer() async {
         countObserverTask?.cancel()
         countObserverTask = nil
+        claimedObserverTask?.cancel()
+        claimedObserverTask = nil
         failureObserverTask?.cancel()
         failureObserverTask = nil
         await server?.stop()
         server = nil
         isRunning = false
         connectedClientCount = 0
+        claimedTeamIDs = []
+        everClaimedTeamIDs = []
     }
 
     /// Broadcasts the current game phase to all connected phones.
@@ -144,6 +184,13 @@ final class BuzzerState {
             }
         }
         return preferred ?? fallback
+    }
+}
+
+extension BuzzerTeam {
+    /// The phone-facing view of a game team. `claimed` is filled in by the server.
+    init(team: Team) {
+        self.init(id: team.id, name: team.name, color: team.color, claimed: false)
     }
 }
 

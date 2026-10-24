@@ -9,6 +9,10 @@ import SwiftUI
 
 extension ControlView {
     var navigationTitleText: LocalizedStringKey {
+        selection == .buzzer ? "control.nav_title.buzzer" : phaseNavigationTitle
+    }
+
+    private var phaseNavigationTitle: LocalizedStringKey {
         switch gameState.phase {
         case .setup: "control.nav_title.setup"
         case .board: "control.nav_title.board"

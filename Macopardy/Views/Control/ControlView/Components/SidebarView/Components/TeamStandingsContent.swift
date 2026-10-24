@@ -25,6 +25,12 @@ extension SidebarView {
             Text(team.name)
                 .font(.body)
 
+            if buzzerState.disconnectedTeamIDs.contains(team.id) {
+                Image(systemName: "iphone.slash")
+                    .foregroundStyle(.orange)
+                    .help("control.team.disconnected")
+            }
+
             Spacer()
 
             Text("$\(team.score)")

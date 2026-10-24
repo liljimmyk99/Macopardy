@@ -18,5 +18,16 @@ nonisolated enum BuzzerConstants {
     static let pingInterval: TimeInterval = 2.0
 
     /// Current wire-protocol version sent in joinAccepted messages.
-    static let protocolVersion = 1
+    static let protocolVersion = 2
+
+    /// Wrong join codes allowed from one address within `codeAttemptWindow`.
+    static let maxCodeAttempts = 5
+    static let codeAttemptWindow: TimeInterval = 60.0
+
+    /// Team claim attempts allowed from one address within `claimAttemptWindow`.
+    static let maxClaimAttempts = 10
+    static let claimAttemptWindow: TimeInterval = 10.0
+
+    /// How long an address stays blocked after exceeding an attempt limit.
+    static let rateLimitLockout: TimeInterval = 30.0
 }

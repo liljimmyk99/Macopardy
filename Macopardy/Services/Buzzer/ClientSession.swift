@@ -38,8 +38,18 @@ nonisolated final class ClientSession: Identifiable, @unchecked Sendable {
     /// Payload of an in-progress fragmented text message (opcode 0x1 without FIN).
     var fragmentBuffer: Data?
 
+    /// Remote address used to key rate limiting. Falls back to the session id
+    /// when the endpoint is not an IP host/port pair.
+    nonisolated let remoteKey: String
+
     nonisolated init(connection: NWConnection) {
         self.connection = connection
+        if case .hostPort(let host, _) = connection.endpoint {
+            // Strip any interface scope ("fe80::1%en0") so one device maps to one key.
+            self.remoteKey = "\(host)".split(separator: "%").first.map(String.init) ?? "\(host)"
+        } else {
+            self.remoteKey = id.uuidString
+        }
     }
 
     // MARK: - Sending

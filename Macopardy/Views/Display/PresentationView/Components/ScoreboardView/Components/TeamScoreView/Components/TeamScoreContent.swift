@@ -12,6 +12,12 @@ extension TeamScoreView {
                 .font(compact ? MacpardyTheme.scoreFont : .system(size: 40, weight: .bold))
                 .foregroundStyle(.white)
                 .monospacedDigit()
+
+            if isDisconnected {
+                Label("display.team.disconnected", systemImage: "iphone.slash")
+                    .font(compact ? .caption2 : .caption)
+                    .foregroundStyle(.orange)
+            }
         }
         .frame(maxWidth: .infinity)
     }

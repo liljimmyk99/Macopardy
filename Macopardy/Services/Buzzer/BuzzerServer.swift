@@ -39,8 +39,29 @@ actor BuzzerServer {
     private var sessions: [UUID: ClientSession] = [:]
     private var heartbeatTask: Task<Void, Never>?
 
+    /// Teams phones can pick from, as last pushed by the app. `claimed` is
+    /// ignored here; it is always derived from `claims`.
+    private var currentTeams: [BuzzerTeam] = []
+    private var claims = TeamClaimRegistry()
+    private var codeLimiter = AttemptRateLimiter(
+        maxAttempts: BuzzerConstants.maxCodeAttempts,
+        window: BuzzerConstants.codeAttemptWindow,
+        lockout: BuzzerConstants.rateLimitLockout
+    )
+    private var claimLimiter = AttemptRateLimiter(
+        maxAttempts: BuzzerConstants.maxClaimAttempts,
+        window: BuzzerConstants.claimAttemptWindow,
+        lockout: BuzzerConstants.rateLimitLockout
+    )
+
     /// The HTML payload loaded once from the bundle and cached.
     private let buzzerHTML: Data
+
+    // MARK: - Claimed-teams stream
+
+    /// Emits the set of team ids currently held by a phone whenever it changes.
+    private var claimedContinuation: AsyncStream<Set<UUID>>.Continuation?
+    nonisolated let claimedTeamsStream: AsyncStream<Set<UUID>>
 
     // MARK: - Connection-count stream
 
@@ -77,6 +98,10 @@ actor BuzzerServer {
         var continuation: AsyncStream<Int>.Continuation!
         self.connectedCountStream = AsyncStream { continuation = $0 }
         self.countContinuation = continuation
+
+        var claimedCont: AsyncStream<Set<UUID>>.Continuation!
+        self.claimedTeamsStream = AsyncStream { claimedCont = $0 }
+        self.claimedContinuation = claimedCont
 
         var failureCont: AsyncStream<String>.Continuation!
         self.listenerFailureStream = AsyncStream { failureCont = $0 }
@@ -147,9 +172,11 @@ actor BuzzerServer {
         heartbeatTask = nil
         sessions.values.forEach { $0.close() }
         sessions.removeAll()
+        claims = TeamClaimRegistry()
         listener?.cancel()
         listener = nil
         countContinuation?.finish()
+        claimedContinuation?.finish()
         failureContinuation?.finish()
         AppLogger.buzzer.info("BuzzerServer stopped")
     }
@@ -161,6 +188,45 @@ actor BuzzerServer {
         for session in sessions.values where session.isAuthenticated {
             session.send(message)
         }
+    }
+
+    // MARK: - Teams & claims
+
+    /// Replaces the team list phones pick from. Claims on teams that no longer
+    /// exist are dropped. Does nothing if the visible fields did not change.
+    func updateTeams(_ teams: [BuzzerTeam]) {
+        let normalized = teams.map {
+            BuzzerTeam(id: $0.id, name: $0.name, color: $0.color, claimed: false)
+        }
+        guard normalized != currentTeams else { return }
+        currentTeams = normalized
+        claims.prune(validTeamIDs: Set(normalized.map(\.id)))
+        claimsChanged()
+    }
+
+    /// Frees a team's slot and disconnects its phone, which shows "Removed by
+    /// host". The team and its score are untouched, so a new phone can claim it.
+    func removePhone(forTeam teamID: UUID) {
+        guard let sessionID = claims.remove(teamID: teamID) else { return }
+        if let session = sessions.removeValue(forKey: sessionID) {
+            session.send(.removed, closeAfterSending: true)
+            publishCount()
+            AppLogger.buzzer.info("[\(sessionID)] Removed by host from team \(teamID)")
+        }
+        claimsChanged()
+    }
+
+    /// Teams with their current claim flags.
+    private func teamsPayload() -> [BuzzerTeam] {
+        currentTeams.map {
+            BuzzerTeam(id: $0.id, name: $0.name, color: $0.color, claimed: claims.isClaimed($0.id))
+        }
+    }
+
+    /// Tells every phone and the host UI that claims or teams changed.
+    private func claimsChanged() {
+        broadcast(.teams(teamsPayload()))
+        claimedContinuation?.yield(claims.claimedTeamIDs)
     }
 
     // MARK: - Connection Handling
@@ -280,9 +346,13 @@ actor BuzzerServer {
         AppLogger.buzzer.info("[\(session.id)] Client connected (total: \(self.sessions.count))")
     }
 
+    /// Drops a session and frees the team it held, if any.
     private func removeSession(_ session: ClientSession) {
-        sessions.removeValue(forKey: session.id)
+        guard sessions.removeValue(forKey: session.id) != nil else { return }
         publishCount()
+        if claims.release(sessionID: session.id) != nil {
+            claimsChanged()
+        }
         AppLogger.buzzer.info("[\(session.id)] Client removed (total: \(self.sessions.count))")
     }
 
@@ -394,19 +464,62 @@ actor BuzzerServer {
                 return
             }
 
+            // A blocked address is refused even with the right code, otherwise
+            // the lockout would only slow down guessing, not stop it.
+            if codeLimiter.isBlocked(session.remoteKey) {
+                session.send(
+                    .joinRejected(reason: "Too many attempts. Try again shortly."),
+                    closeAfterSending: true
+                )
+                AppLogger.buzzer.warning("[\(session.id)] Rejected — code attempts rate limited")
+                removeSession(session)
+                return
+            }
+
             if code == joinCode {
                 session.isAuthenticated = true
                 session.lastPong = Date()
-                session.send(.joinAccepted(teamNames: []))
+                session.send(.joinAccepted(teams: teamsPayload()))
                 publishCount()
                 AppLogger.buzzer.info("[\(session.id)] Authenticated with code \(code)")
             } else {
+                let limited = codeLimiter.record(session.remoteKey)
                 session.send(
-                    .joinRejected(reason: "Invalid join code"),
+                    .joinRejected(reason: limited
+                        ? "Too many attempts. Try again shortly."
+                        : "Invalid join code"),
                     closeAfterSending: true
                 )
                 AppLogger.buzzer.warning("[\(session.id)] Rejected — wrong code '\(code)'")
                 removeSession(session)
+            }
+
+        case .claim(let teamID):
+            guard session.isAuthenticated else { return }
+
+            if claimLimiter.record(session.remoteKey) {
+                session.send(.claimRejected(reason: .rateLimited))
+                return
+            }
+
+            switch claims.claim(
+                teamID: teamID,
+                sessionID: session.id,
+                validTeamIDs: Set(currentTeams.map(\.id))
+            ) {
+            case .claimed:
+                session.send(.claimAccepted(teamID: teamID))
+                claimsChanged()
+                AppLogger.buzzer.info("[\(session.id)] Claimed team \(teamID)")
+            case .alreadyHeld:
+                session.send(.claimAccepted(teamID: teamID))
+            // Refresh the picker first so the rejection message isn't wiped by it.
+            case .taken:
+                session.send(.teams(teamsPayload()))
+                session.send(.claimRejected(reason: .taken))
+            case .invalidTeam:
+                session.send(.teams(teamsPayload()))
+                session.send(.claimRejected(reason: .invalidTeam))
             }
 
         case .pong:
@@ -430,7 +543,7 @@ actor BuzzerServer {
     private func heartbeatTick() {
         let ttl = BuzzerConstants.heartbeatTTL
         let now = Date()
-        var toRemove: [UUID] = []
+        var toRemove: [ClientSession] = []
 
         for (id, session) in sessions {
             if !session.isAuthenticated {
@@ -438,21 +551,22 @@ actor BuzzerServer {
                 if now.timeIntervalSince(session.connectedAt) > ttl {
                     AppLogger.buzzer.info("[\(id)] No join within TTL — disconnecting")
                     session.close()
-                    toRemove.append(id)
+                    toRemove.append(session)
                 }
             } else if now.timeIntervalSince(session.lastPong) > ttl {
                 AppLogger.buzzer.info("[\(id)] Heartbeat TTL exceeded — disconnecting")
                 session.close()
-                toRemove.append(id)
+                toRemove.append(session)
             } else {
                 session.send(.ping)
             }
         }
 
-        for id in toRemove {
-            sessions.removeValue(forKey: id)
-        }
-        if !toRemove.isEmpty { publishCount() }
+        // Removing a session also frees the team it held.
+        toRemove.forEach(removeSession)
+
+        codeLimiter.prune(now: now)
+        claimLimiter.prune(now: now)
     }
 
     // MARK: - Helpers

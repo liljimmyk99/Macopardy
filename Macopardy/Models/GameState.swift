@@ -211,6 +211,7 @@ final class GameState {
     }
 
     func addTeam(name: String = "", color: String = "blue") {
+        guard game.teams.count < Team.maxCount else { return }
         let count = game.teams.count + 1
         let teamName = name.isEmpty ? String(localized: "team.default_name \(count)") : name
         let availableColors = ["blue", "red", "green", "yellow", "purple", "orange"]

@@ -10,6 +10,7 @@ import SwiftUI
 struct TeamEditorView: View {
 
     @Environment(GameState.self) var gameState
+    @Environment(BuzzerState.self) var buzzerState
 
     let colorOptions = ["blue", "red", "green", "yellow", "purple", "orange"]
 
@@ -25,6 +26,7 @@ struct TeamEditorView: View {
 #Preview {
     TeamEditorView()
         .environment(GameState())
+        .environment(BuzzerState())
         .padding()
         .frame(width: 500)
 }

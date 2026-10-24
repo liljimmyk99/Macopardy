@@ -9,6 +9,7 @@ struct TeamScoreView: View {
 
     let team: Team
     var compact: Bool = false
+    var isDisconnected: Bool = false
 
     var body: some View {
         teamScoreContent()
