@@ -1,4 +1,4 @@
-# Macpardy! Buzzer WebSocket Protocol — v3
+# Macpardy! Buzzer WebSocket Protocol — v4
 
 All WebSocket messages are JSON objects with a required top-level `type` string field
 and an optional `payload` object. Unknown `type` values should be silently ignored by
@@ -36,7 +36,7 @@ and closes the connection.
 
 | Field     | Type   | Description                                              |
 |-----------|--------|----------------------------------------------------------|
-| `version` | int    | Required. Protocol version the client speaks. Currently always `3`. A missing version is not decodable and the message is ignored. |
+| `version` | int    | Required. Protocol version the client speaks. Currently always `4`. A missing version is not decodable and the message is ignored. |
 | `code`    | string | The 6-character join code shown on the host's screen.    |
 
 ---
@@ -79,6 +79,18 @@ The server decides the result and answers with `buzzerState`. Buzzes received wi
 
 ---
 
+### `submitWager`
+
+A Final Macpardy wager. Only valid after a successful `claim` and while wagering is
+open. Only the first valid submission counts; after that only the host can change it.
+Answered with `wagerLocked` or `wagerRejected`.
+
+```json
+{ "type": "submitWager", "amount": 500 }
+```
+
+---
+
 ## Server → Client messages
 
 These messages are sent by the Macpardy app to one or all phone browsers.
@@ -101,7 +113,7 @@ Sent to the joining phone after a valid join code is received.
 
 | Payload field | Type     | Description                                                     |
 |---------------|----------|-----------------------------------------------------------------|
-| `version`     | int      | Protocol version the server is speaking. Currently always `3`.  |
+| `version`     | int      | Protocol version the server is speaking. Currently always `4`.  |
 | `teams`       | object[] | Teams in display order (at most 4). `claimed` is true while a phone holds the team; the phone disables that team's Join button. `color` is one of `blue`, `red`, `green`, `yellow`, `purple`, `orange`. |
 
 ---
@@ -293,6 +305,54 @@ after `claimAccepted`.
 
 ---
 
+## Final Macpardy wagers
+
+Wagering is open while the Final category is displayed. The host decides when to move
+on; teams that haven't wagered then bet everything they have. A team's wager is only
+ever sent to that team's own phone.
+
+### `wagerInfo`
+
+Sent to a single phone when wagering opens, after `claimAccepted` while it is open, and
+when the host clears the team's wager.
+
+```json
+{ "type": "wagerInfo", "payload": { "eligible": true, "max": 1200 } }
+```
+
+| Field      | Type | Description                                                                  |
+|------------|------|------------------------------------------------------------------------------|
+| `eligible` | bool | False when the team's score is zero or less: it cannot wager or win points.  |
+| `max`      | int  | Highest wager allowed (the team's score; 0 when not eligible).               |
+| `wager`    | int  | Present only if a wager is already locked in (e.g. after a reconnect).       |
+
+### `wagerLocked`
+
+The wager is locked in, either submitted by the phone or set/edited by the host.
+
+```json
+{ "type": "wagerLocked", "payload": { "wager": 500 } }
+```
+
+### `wagerRejected`
+
+A `submitWager` was refused. `reason` is one of `notOpen`, `notEligible`, `locked`,
+`negative`, `overMax`.
+
+```json
+{ "type": "wagerRejected", "payload": { "reason": "overMax" } }
+```
+
+### `wagerClosed`
+
+Wagering is over; the phone returns to the buzzer.
+
+```json
+{ "type": "wagerClosed" }
+```
+
+---
+
 ## Version history
 
 | Version | Changes                          |
@@ -300,3 +360,4 @@ after `claimAccepted`.
 | 1       | Initial release (issue #28). Introduces `join`, `joinRejected`, `joinAccepted`, `ping`, `pong`, `state`. |
 | 2       | Issue #29. `joinAccepted.teams` is now an array of `{id, name, color, claimed}` objects. Adds `claim`, `teams`, `claimAccepted`, `claimRejected`, `removed` and rate limiting. |
 | 3       | Issue #30. Adds `buzz` and `buzzerState`. |
+| 4       | Issue #31. Adds `submitWager`, `wagerInfo`, `wagerLocked`, `wagerRejected` and `wagerClosed`. |

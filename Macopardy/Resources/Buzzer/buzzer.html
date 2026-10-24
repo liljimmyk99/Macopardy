@@ -164,6 +164,18 @@
     .buzzer.buzz-first     { background: var(--gold); }
     .buzzer.buzz-lockedOut { background: var(--red); color: var(--white); }
     .buzzer.buzz-tooEarly  { background: var(--red); color: var(--white); font-size: 1.4rem; }
+    .wager { display: none; flex-direction: column; gap: 12px; width: 100%; text-align: center; }
+    .wager-max, .wager-note { font-size: 1rem; opacity: 0.85; }
+    .wager-input {
+      font: inherit; font-size: 2rem; font-weight: 800; text-align: center;
+      padding: 12px; border: 0; border-radius: 16px; width: 100%;
+    }
+    .wager-submit {
+      font: inherit; font-size: 1.4rem; font-weight: 800; padding: 16px;
+      border: 0; border-radius: 16px; background: var(--gold); color: #1a1a1a;
+    }
+    .wager-submit:disabled { opacity: 0.45; }
+    .wager-error { color: var(--red); min-height: 1.2em; }
   </style>
 </head>
 <body>
@@ -177,6 +189,7 @@
     <div class="status-sub"  id="statusSub"></div>
     <div class="teams" id="teams"></div>
     <button class="buzzer" id="buzzer" type="button"></button>
+    <div class="wager" id="wager"></div>
     <div class="reconnect-bar" id="reconnectBar" style="display:none">
       <div class="reconnect-bar-fill" id="reconnectFill" style="width:100%"></div>
     </div>
@@ -185,7 +198,7 @@
 
 <script>
   // ─── Config ──────────────────────────────────────────────────────────────
-  const PROTOCOL_VERSION = 3;
+  const PROTOCOL_VERSION = 4;
   const MAX_BACKOFF_MS   = 10_000;
   const WATCHDOG_MS      = 5_000;   // server pings every 2s; silence this long = lost
   const CODE             = new URLSearchParams(location.search).get("code") ?? "";
@@ -203,6 +216,8 @@
   let myTeamId     = null;    // team this phone holds, if any
   let buzzState    = "waiting";   // what the buzzer button shows, set by the server
   let tooEarlyTid  = null;
+  let wagerInfo    = null;    // Final wager screen state from the server, null when closed
+  let wagerError   = "";
 
   // ─── DOM refs ────────────────────────────────────────────────────────────
   const card          = document.getElementById("card");
@@ -214,6 +229,7 @@
   const reconnectFill = document.getElementById("reconnectFill");
   const teamsEl       = document.getElementById("teams");
   const buzzerEl      = document.getElementById("buzzer");
+  const wagerEl       = document.getElementById("wager");
 
   const BUZZ_LABELS = {
     waiting:     "Waiting for the question\u2026",
@@ -240,6 +256,7 @@
     reconnectBar.style.display  = state === "lost"       ? "block" : "none";
     if (state !== "connected") teamsEl.style.display = "none";
     if (state !== "connected") buzzerEl.style.display = "none";
+    if (state !== "connected") wagerEl.style.display = "none";
   }
 
   function renderBuzzer() {
@@ -250,6 +267,64 @@
     buzzerEl.style.display = "block";
   }
 
+  const WAGER_ERRORS = {
+    overMax:     "That is more than you can wager.",
+    negative:    "Wagers can\u2019t be negative.",
+    locked:      "Your wager is already locked in.",
+    notEligible: "Your team can\u2019t wager.",
+    notOpen:     "Wagering isn\u2019t open.",
+  };
+
+  // Final wager screen: input until locked, then a read-only confirmation.
+  // Teams with no points left only see the sorry message.
+  function renderWager() {
+    buzzerEl.style.display = "none";
+    const note = text => {
+      const el = document.createElement("div");
+      el.className = "wager-note";
+      el.textContent = text;
+      return el;
+    };
+
+    if (!wagerInfo.eligible) {
+      wagerEl.replaceChildren(note(
+        "Sorry team, you can still enter an answer but sadly you can\u2019t win any points"));
+    } else if (wagerInfo.wager != null) {
+      wagerEl.replaceChildren(note(`Wager locked: $${wagerInfo.wager}`));
+    } else {
+      const max = document.createElement("div");
+      max.className = "wager-max";
+      max.textContent = `Your wager (max $${wagerInfo.max})`;
+
+      const input = document.createElement("input");
+      input.className = "wager-input";
+      input.type = "number";
+      input.inputMode = "numeric";
+      input.min = 0;
+      input.max = wagerInfo.max;
+      input.placeholder = "0";
+
+      const submit = document.createElement("button");
+      submit.className = "wager-submit";
+      submit.type = "button";
+      submit.textContent = "Lock in wager";
+      submit.addEventListener("click", () => {
+        const amount = Number.parseInt(input.value, 10);
+        if (Number.isNaN(amount)) { wagerError = "Enter a number."; renderTeams(); return; }
+        wagerError = "";
+        send({ type: "submitWager", amount });
+      });
+
+      const error = document.createElement("div");
+      error.className = "wager-error";
+      error.textContent = wagerError;
+
+      wagerEl.replaceChildren(max, input, submit, error, note(
+        "If you don\u2019t enter a wager, you bet everything."));
+    }
+    wagerEl.style.display = "flex";
+  }
+
   // Shows the team picker, or the held team's status once this phone has one.
   function renderTeams() {
     const mine = teams.find(t => t.id === myTeamId);
@@ -257,7 +332,12 @@
 
     if (mine) {
       setState("connected", `You\u2019re ${mine.name}`);
-      renderBuzzer();
+      if (wagerInfo) {
+        renderWager();
+      } else {
+        wagerEl.style.display = "none";
+        renderBuzzer();
+      }
       // setState keeps the list visible in the connected state, so hide it here.
       teamsEl.replaceChildren();
       teamsEl.style.display = "none";
@@ -318,6 +398,7 @@
     socket.addEventListener("open", () => {
       if (socket !== ws) return;
       myTeamId = null;     // a new connection never holds a team yet
+      wagerInfo = null;
       buzzState = "waiting";
       // Send join immediately.
       send({ type: "join", version: PROTOCOL_VERSION, code: CODE });
@@ -353,6 +434,29 @@
           statusSub.textContent = reasons[msg.payload?.reason] ?? "Couldn\u2019t join that team.";
           break;
         }
+
+        case "wagerInfo":
+          wagerInfo = msg.payload ?? null;
+          wagerError = "";
+          if (myTeamId) renderTeams();
+          break;
+
+        case "wagerLocked":
+          if (wagerInfo) wagerInfo.wager = msg.payload?.wager ?? 0;
+          wagerError = "";
+          if (myTeamId) renderTeams();
+          break;
+
+        case "wagerRejected":
+          wagerError = WAGER_ERRORS[msg.payload?.reason] ?? "Couldn\u2019t submit that wager.";
+          if (myTeamId) renderTeams();
+          break;
+
+        case "wagerClosed":
+          wagerInfo = null;
+          wagerError = "";
+          if (myTeamId) renderTeams();
+          break;
 
         case "removed":
           rejected = true;

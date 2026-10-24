@@ -45,6 +45,7 @@ actor BuzzerServer {
     private var claims = TeamClaimRegistry()
     private var scores: [UUID: Int] = [:]
     private var engine = BuzzerEngine()
+    private var wagerBook = FinalWagerBook()
     private var tieWindowTask: Task<Void, Never>?
     private var codeLimiter = AttemptRateLimiter(
         maxAttempts: BuzzerConstants.maxCodeAttempts,
@@ -71,6 +72,12 @@ actor BuzzerServer {
     /// Emits the team that is answering after a buzz, or nil when none is.
     private var firstBuzzContinuation: AsyncStream<UUID?>.Continuation?
     nonisolated let firstBuzzStream: AsyncStream<UUID?>
+
+    // MARK: - Wager stream
+
+    /// Emits each wager a phone submits, so the app can store it.
+    private var wagerContinuation: AsyncStream<WagerSubmission>.Continuation?
+    nonisolated let wagerStream: AsyncStream<WagerSubmission>
 
     // MARK: - Connection-count stream
 
@@ -115,6 +122,10 @@ actor BuzzerServer {
         var firstBuzzCont: AsyncStream<UUID?>.Continuation!
         self.firstBuzzStream = AsyncStream { firstBuzzCont = $0 }
         self.firstBuzzContinuation = firstBuzzCont
+
+        var wagerCont: AsyncStream<WagerSubmission>.Continuation!
+        self.wagerStream = AsyncStream { wagerCont = $0 }
+        self.wagerContinuation = wagerCont
 
         var failureCont: AsyncStream<String>.Continuation!
         self.listenerFailureStream = AsyncStream { failureCont = $0 }
@@ -193,6 +204,7 @@ actor BuzzerServer {
         countContinuation?.finish()
         claimedContinuation?.finish()
         firstBuzzContinuation?.finish()
+        wagerContinuation?.finish()
         failureContinuation?.finish()
         AppLogger.buzzer.info("BuzzerServer stopped")
     }
@@ -258,6 +270,59 @@ actor BuzzerServer {
         tieWindowTask = nil
         engine.markCorrect()
         buzzerChanged()
+    }
+
+    // MARK: - Final Macpardy wagers
+
+    /// Opens wagering and tells every claimed phone what it can wager.
+    /// `limits` maps each team to its max wager; teams at zero or below are excluded.
+    func openWagering(limits: [UUID: Int], wagers: [UUID: Int]) {
+        wagerBook.open(limits: limits, wagers: wagers)
+        for teamID in claims.claimedTeamIDs {
+            sendWagerInfo(toTeam: teamID)
+        }
+    }
+
+    func closeWagering() {
+        guard wagerBook.isOpen else { return }
+        wagerBook.close()
+        for teamID in claims.claimedTeamIDs {
+            send(.wagerClosed, toTeam: teamID)
+        }
+    }
+
+    /// The host entered or edited a wager; the team's phone shows it as locked.
+    func setWager(teamID: UUID, amount: Int?) {
+        if let amount {
+            guard let stored = wagerBook.hostSet(teamID: teamID, amount: amount) else { return }
+            send(.wagerLocked(wager: stored), toTeam: teamID)
+        } else {
+            wagerBook.hostClear(teamID: teamID)
+            sendWagerInfo(toTeam: teamID)
+        }
+    }
+
+    private func sendWagerInfo(toTeam teamID: UUID) {
+        guard let info = wagerBook.info(for: teamID) else { return }
+        send(.wagerInfo(info), toTeam: teamID)
+    }
+
+    private func send(_ message: ServerMessage, toTeam teamID: UUID) {
+        guard let sessionID = claims.sessionID(for: teamID),
+              let session = sessions[sessionID] else { return }
+        session.send(message)
+    }
+
+    private func handleSubmitWager(_ amount: Int, from session: ClientSession) {
+        guard let teamID = claims.teamID(for: session.id) else { return }
+        switch wagerBook.submit(teamID: teamID, amount: amount) {
+        case .accepted(let wager):
+            session.send(.wagerLocked(wager: wager))
+            wagerContinuation?.yield(WagerSubmission(teamID: teamID, amount: wager))
+            AppLogger.buzzer.info("Team \(teamID) submitted a Final wager")
+        case .rejected(let reason):
+            session.send(.wagerRejected(reason))
+        }
     }
 
     private func handleBuzz(from session: ClientSession) {
@@ -596,11 +661,13 @@ actor BuzzerServer {
             case .claimed:
                 session.send(.claimAccepted(teamID: teamID))
                 sendBuzzerState(toTeam: teamID)
+                sendWagerInfo(toTeam: teamID)
                 claimsChanged()
                 AppLogger.buzzer.info("[\(session.id)] Claimed team \(teamID)")
             case .alreadyHeld:
                 session.send(.claimAccepted(teamID: teamID))
                 sendBuzzerState(toTeam: teamID)
+                sendWagerInfo(toTeam: teamID)
             // Refresh the picker first so the rejection message isn't wiped by it.
             case .taken:
                 session.send(.teams(teamsPayload()))
@@ -616,6 +683,10 @@ actor BuzzerServer {
         case .buzz:
             guard session.isAuthenticated else { return }
             handleBuzz(from: session)
+
+        case .submitWager(let amount):
+            guard session.isAuthenticated else { return }
+            handleSubmitWager(amount, from: session)
         }
     }
 
