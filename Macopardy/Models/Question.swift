@@ -20,13 +20,17 @@ struct Question: Identifiable, Codable, Equatable {
 
     var isDailyDouble: Bool = false
 
+    /// Optional picture shown with the clue on the display screen only.
+    var image: QuestionImage? = nil
+
     init(
         id: UUID = UUID(),
         value: Int,
         clue: String,
         response: String,
         hasBeenPlayed: Bool = false,
-        isDailyDouble: Bool = false
+        isDailyDouble: Bool = false,
+        image: QuestionImage? = nil
     ) {
         self.id = id
         self.value = value
@@ -34,5 +38,6 @@ struct Question: Identifiable, Codable, Equatable {
         self.response = response
         self.hasBeenPlayed = hasBeenPlayed
         self.isDailyDouble = isDailyDouble
+        self.image = image
     }
 }

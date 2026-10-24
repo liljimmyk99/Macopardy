@@ -11,6 +11,7 @@ struct QuestionTileButtonView: View {
     let value: Int
     let isComplete: Bool
     var isDailyDouble: Bool = false
+    var hasImage: Bool = false
     let action: () -> Void
 
     var body: some View {
@@ -25,6 +26,12 @@ struct QuestionTileButtonView: View {
                     )
 
                 HStack(spacing: 4) {
+                    if hasImage {
+                        Image(systemName: "photo.fill")
+                            .foregroundStyle(MacpardyTheme.gold)
+                            .font(.caption)
+                            .accessibilityLabel(Text("create.board.tile_has_image"))
+                    }
                     if isDailyDouble {
                         Image(systemName: "star.fill")
                             .foregroundStyle(MacpardyTheme.gold)

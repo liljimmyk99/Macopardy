@@ -5,6 +5,7 @@
 //  Created by Jimmy Kane on 7/15/26.
 //
 
+import OSLog
 import SwiftUI
 
 @main
@@ -49,16 +50,40 @@ struct MacpardyApp: App {
         }
     }
 
+    /// Loads a board opened from Finder. Ignored while a game is in progress
+    /// so an accidental double-click can't wipe it out.
+    private func openBoard(at url: URL) {
+        guard !hasSelectedGame else {
+            AppLogger.control.info("Ignoring \(url.lastPathComponent, privacy: .public): a game is in progress")
+            return
+        }
+        Task {
+            do {
+                let boards = try await FileManagerService().readBoards(from: url)
+                gameState.loadGame(boards: boards)
+                hasSelectedGame = true
+            } catch {
+                AppLogger.control.error("Failed to open board \(url.lastPathComponent, privacy: .public): \(error.localizedDescription)")
+            }
+        }
+    }
+
     var body: some Scene {
 
         Window("Control", id: "control") {
-            if hasSelectedGame {
-                ControlView()
-                    .environment(gameState)
-                    .environment(buzzerState)
-            } else {
-                LaunchScreenView(hasSelectedGame: $hasSelectedGame, gameState: $gameState)
-                    .environment(buzzerState)
+            Group {
+                if hasSelectedGame {
+                    ControlView()
+                        .environment(gameState)
+                        .environment(buzzerState)
+                } else {
+                    LaunchScreenView(hasSelectedGame: $hasSelectedGame, gameState: $gameState)
+                        .environment(buzzerState)
+                }
+            }
+            // Double-clicking a .macpardy board in Finder opens it here.
+            .onOpenURL { url in
+                openBoard(at: url)
             }
         }
         .defaultSize(width: 1200, height: 900)

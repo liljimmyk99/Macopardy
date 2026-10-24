@@ -25,6 +25,19 @@ extension CreateMacpardyGameView {
         }
     }
 
+    /// Sets or clears (`nil`) the image on a question in the current round.
+    func updateImage(categoryIndex: Int, questionIndex: Int, image: QuestionImage?) {
+        if currentRound == 0 {
+            guard round1Categories.indices.contains(categoryIndex),
+                  round1Categories[categoryIndex].questions.indices.contains(questionIndex) else { return }
+            round1Categories[categoryIndex].questions[questionIndex].image = image
+        } else if currentRound == 1 {
+            guard round2Categories.indices.contains(categoryIndex),
+                  round2Categories[categoryIndex].questions.indices.contains(questionIndex) else { return }
+            round2Categories[categoryIndex].questions[questionIndex].image = image
+        }
+    }
+
     func saveGame() {
         let trimmedTitle = title.trimmingCharacters(in: .whitespacesAndNewlines)
 
@@ -46,7 +59,8 @@ extension CreateMacpardyGameView {
                             value: question.value,
                             clue: question.clue.trimmingCharacters(in: .whitespacesAndNewlines),
                             response: question.response.trimmingCharacters(in: .whitespacesAndNewlines),
-                            isDailyDouble: question.isDailyDouble
+                            isDailyDouble: question.isDailyDouble,
+                            image: question.image
                         )
                     }
                 )
@@ -65,7 +79,8 @@ extension CreateMacpardyGameView {
                             value: question.value,
                             clue: question.clue.trimmingCharacters(in: .whitespacesAndNewlines),
                             response: question.response.trimmingCharacters(in: .whitespacesAndNewlines),
-                            isDailyDouble: question.isDailyDouble
+                            isDailyDouble: question.isDailyDouble,
+                            image: question.image
                         )
                     }
                 )

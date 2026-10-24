@@ -20,6 +20,9 @@ struct QuestionEditorView: View {
     @Binding
     var isDailyDouble: Bool
 
+    @Binding
+    var image: QuestionImage?
+
     let onDone: () -> Void
 
     private enum Field: Hashable {
@@ -86,6 +89,8 @@ struct QuestionEditorView: View {
                         return .ignored
                     }
             }
+
+            QuestionImageEditor(image: $image)
         }
         .padding(20)
         .frame(minWidth: 520, minHeight: 360)

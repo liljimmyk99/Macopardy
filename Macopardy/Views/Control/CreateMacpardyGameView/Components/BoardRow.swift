@@ -19,6 +19,7 @@ struct BoardRow: View {
                 value: value,
                 isComplete: question.isComplete,
                 isDailyDouble: question.isDailyDouble,
+                hasImage: question.image != nil,
                 action: {
                     selectedQuestion = EditingQuestion(
                         categoryIndex: categoryIndex,

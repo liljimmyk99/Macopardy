@@ -19,6 +19,7 @@ struct DraftQuestion {
     var clue: String
     var response: String
     var isDailyDouble: Bool = false
+    var image: QuestionImage?
 
     var isComplete: Bool {
         !clue.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty

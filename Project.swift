@@ -2,6 +2,12 @@ import ProjectDescription
 
 let project = Project(
     name: "Macopardy",
+    packages: [
+        .remote(
+            url: "https://github.com/weichsel/ZIPFoundation",
+            requirement: .upToNextMinor(from: "0.9.19")
+        ),
+    ],
     targets: [
         .target(
             name: "Macopardy",
@@ -9,12 +15,35 @@ let project = Project(
             product: .app,
             bundleId: "jbkiv.Macopardy",
             deploymentTargets: .macOS("26.3"),
-            infoPlist: .default,
+            infoPlist: .extendingDefault(with: [
+                // Board packages (.macpardy): a zip with board.json and images/.
+                "UTExportedTypeDeclarations": [
+                    [
+                        "UTTypeIdentifier": "jbkiv.macopardy.board",
+                        "UTTypeDescription": "Macopardy Board",
+                        "UTTypeConformsTo": ["public.data", "public.archive"],
+                        "UTTypeTagSpecification": [
+                            "public.filename-extension": ["macpardy"],
+                        ],
+                    ],
+                ],
+                "CFBundleDocumentTypes": [
+                    [
+                        "CFBundleTypeName": "Macopardy Board",
+                        "CFBundleTypeRole": "Editor",
+                        "LSHandlerRank": "Owner",
+                        "LSItemContentTypes": ["jbkiv.macopardy.board"],
+                    ],
+                ],
+            ]),
             sources: ["Macopardy/**/*.swift"],
             resources: [
                 "Macopardy/Assets.xcassets",
                 "Macopardy/Localizable.xcstrings",
                 "Macopardy/Resources/Buzzer/**",
+            ],
+            dependencies: [
+                .package(product: "ZIPFoundation"),
             ],
             settings: .settings(
                 base: [

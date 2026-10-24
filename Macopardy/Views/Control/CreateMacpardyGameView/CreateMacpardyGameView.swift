@@ -92,7 +92,7 @@ struct CreateMacpardyGameView: View {
         .fileExporter(
             isPresented: $showFileExporter,
             document: exportDocument,
-            contentType: .json,
+            contentType: .macpardyBoard,
             defaultFilename: exportDocument.map { _ in
                 FileManagerService().defaultFilename(for: title)
             }
@@ -160,11 +160,27 @@ struct CreateMacpardyGameView: View {
                         )
                     }
                 ),
+                image: Binding(
+                    get: {
+                        if currentRound == 0 {
+                            return round1Categories[question.categoryIndex].questions[question.questionIndex].image
+                        } else {
+                            return round2Categories[question.categoryIndex].questions[question.questionIndex].image
+                        }
+                    },
+                    set: { newValue in
+                        updateImage(
+                            categoryIndex: question.categoryIndex,
+                            questionIndex: question.questionIndex,
+                            image: newValue
+                        )
+                    }
+                ),
                 onDone: {
                     selectedQuestion = nil
                 }
             )
-            .frame(minWidth: 540, minHeight: 360)
+            .frame(minWidth: 540, minHeight: 520)
         }
     }
 }
