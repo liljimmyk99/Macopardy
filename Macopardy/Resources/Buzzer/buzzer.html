@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Macpardy! Buzzer</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #060ce9;
+      --gold: #f5c518;
+      --white: #ffffff;
+      --red: #e94040;
+      --font: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    html, body {
+      height: 100%;
+      background: var(--bg);
+      color: var(--white);
+      font-family: var(--font);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 24px;
+    }
+
+    #app {
+      width: 100%;
+      max-width: 420px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 24px;
+    }
+
+    .title {
+      font-size: 2rem;
+      font-weight: 800;
+      color: var(--gold);
+      letter-spacing: 0.04em;
+    }
+
+    .status-card {
+      width: 100%;
+      background: rgba(255,255,255,0.08);
+      border-radius: 20px;
+      padding: 32px 24px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .status-icon {
+      font-size: 3rem;
+      line-height: 1;
+    }
+
+    .status-text {
+      font-size: 1.4rem;
+      font-weight: 700;
+      line-height: 1.2;
+    }
+
+    .status-sub {
+      font-size: 0.95rem;
+      opacity: 0.7;
+      line-height: 1.4;
+    }
+
+    /* State-specific colours */
+    .state-connecting  .status-icon::before { content: "⏳"; }
+    .state-connected   .status-icon::before { content: "✅"; }
+    .state-rejected    .status-icon::before { content: "🚫"; }
+    .state-lost        .status-icon::before { content: "⚠️"; }
+    .state-lost        .status-card         { border: 2px solid var(--red); }
+
+    /* Spinner for connecting state */
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .spinner {
+      width: 40px; height: 40px;
+      border: 4px solid rgba(255,255,255,0.2);
+      border-top-color: var(--gold);
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+    }
+
+    .reconnect-bar {
+      width: 100%;
+      height: 4px;
+      background: rgba(255,255,255,0.15);
+      border-radius: 2px;
+      overflow: hidden;
+    }
+    .reconnect-bar-fill {
+      height: 100%;
+      background: var(--gold);
+      border-radius: 2px;
+      transition: width 1s linear;
+    }
+  </style>
+</head>
+<body>
+<div id="app">
+  <div class="title">Macpardy!</div>
+
+  <div class="status-card" id="card">
+    <div class="spinner" id="spinner"></div>
+    <div class="status-icon" id="icon" style="display:none"></div>
+    <div class="status-text" id="statusText">Connecting…</div>
+    <div class="status-sub"  id="statusSub"></div>
+    <div class="reconnect-bar" id="reconnectBar" style="display:none">
+      <div class="reconnect-bar-fill" id="reconnectFill" style="width:100%"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+  // ─── Config ──────────────────────────────────────────────────────────────
+  const PROTOCOL_VERSION = 1;
+  const MAX_BACKOFF_MS   = 10_000;
+  const WATCHDOG_MS      = 5_000;   // server pings every 2s; silence this long = lost
+  const CODE             = new URLSearchParams(location.search).get("code") ?? "";
+  const WS_URL           = `ws://${location.hostname}:${location.port}/ws`;
+
+  // ─── State ───────────────────────────────────────────────────────────────
+  let ws           = null;
+  let backoffMs    = 1_000;
+  let reconnectTid = null;
+  let countdownTid = null;
+  let watchdogTid  = null;
+  let lastServerMsgAt = 0;
+  let rejected     = false;   // permanent — don't reconnect after joinRejected
+
+  // ─── DOM refs ────────────────────────────────────────────────────────────
+  const card          = document.getElementById("card");
+  const spinner       = document.getElementById("spinner");
+  const icon          = document.getElementById("icon");
+  const statusText    = document.getElementById("statusText");
+  const statusSub     = document.getElementById("statusSub");
+  const reconnectBar  = document.getElementById("reconnectBar");
+  const reconnectFill = document.getElementById("reconnectFill");
+
+  // ─── UI helpers ──────────────────────────────────────────────────────────
+  function setState(state, text, sub = "") {
+    card.className = `status-card state-${state}`;
+    statusText.textContent = text;
+    statusSub.textContent  = sub;
+    spinner.style.display       = state === "connecting" ? "block" : "none";
+    icon.style.display          = state !== "connecting" ? "block" : "none";
+    reconnectBar.style.display  = state === "lost"       ? "block" : "none";
+  }
+
+  function startCountdownBar(seconds) {
+    reconnectFill.style.transition = "none";
+    reconnectFill.style.width      = "100%";
+    // Force a reflow so the transition resets.
+    reconnectFill.getBoundingClientRect();
+    reconnectFill.style.transition = `width ${seconds}s linear`;
+    reconnectFill.style.width      = "0%";
+  }
+
+  // ─── Connection ──────────────────────────────────────────────────────────
+  function connect() {
+    if (rejected) return;
+    setState("connecting", "Connecting\u2026");
+
+    const socket = new WebSocket(WS_URL);
+    ws = socket;
+
+    socket.addEventListener("open", () => {
+      if (socket !== ws) return;
+      // Send join immediately.
+      send({ type: "join", version: PROTOCOL_VERSION, code: CODE });
+      backoffMs = 1_000;   // reset back-off on success
+      startWatchdog(socket);
+    });
+
+    socket.addEventListener("message", ({ data }) => {
+      if (socket !== ws) return;
+      lastServerMsgAt = Date.now();
+      let msg;
+      try { msg = JSON.parse(data); } catch { return; }
+
+      switch (msg.type) {
+        case "joinAccepted":
+          setState("connected", "Waiting for game\u2026",
+                   "You\u2019re in! The host will start the game soon.");
+          break;
+
+        case "joinRejected":
+          rejected = true;
+          stopWatchdog();
+          setState("rejected", msg.payload?.reason ?? "Unable to join",
+                   "Ask the host to check the connection details.");
+          socket.close();
+          break;
+
+        case "ping":
+          send({ type: "pong" });
+          break;
+
+        case "state":
+          // Future sub-issues will act on game state here.
+          break;
+      }
+    });
+
+    // Both events fire on a failed connection; handleDisconnect is idempotent.
+    socket.addEventListener("close", () => handleDisconnect(socket));
+    socket.addEventListener("error", () => handleDisconnect(socket));
+  }
+
+  // If the network drops silently no close/error event fires, so treat a long
+  // silence from the server as a lost connection.
+  function startWatchdog(socket) {
+    stopWatchdog();
+    lastServerMsgAt = Date.now();
+    watchdogTid = setInterval(() => {
+      if (socket !== ws) { stopWatchdog(); return; }
+      if (Date.now() - lastServerMsgAt > WATCHDOG_MS) {
+        socket.close();
+        handleDisconnect(socket);
+      }
+    }, 1_000);
+  }
+
+  function stopWatchdog() {
+    clearInterval(watchdogTid);
+    watchdogTid = null;
+  }
+
+  function handleDisconnect(socket) {
+    if (rejected || socket !== ws || reconnectTid !== null) return;
+    stopWatchdog();
+    scheduleReconnect();
+  }
+
+  function scheduleReconnect() {
+    clearTimeout(reconnectTid);
+    clearInterval(countdownTid);
+
+    const seconds = Math.round(backoffMs / 1_000);
+    setState("lost", "Unable to find client",
+             `Reconnecting in ${seconds}s\u2026`);
+    startCountdownBar(seconds);
+
+    reconnectTid = setTimeout(() => {
+      reconnectTid = null;
+      clearInterval(countdownTid);
+      connect();
+    }, backoffMs);
+
+    // Update the countdown text every second.
+    let remaining = seconds;
+    countdownTid = setInterval(() => {
+      remaining -= 1;
+      if (remaining <= 0) {
+        clearInterval(countdownTid);
+      } else {
+        statusSub.textContent = `Reconnecting in ${remaining}s\u2026`;
+      }
+    }, 1_000);
+
+    // Exponential back-off, capped at MAX_BACKOFF_MS.
+    backoffMs = Math.min(backoffMs * 2, MAX_BACKOFF_MS);
+  }
+
+  function send(obj) {
+    if (ws && ws.readyState === WebSocket.OPEN) {
+      ws.send(JSON.stringify(obj));
+    }
+  }
+
+  // ─── Boot ─────────────────────────────────────────────────────────────────
+  connect();
+</script>
+</body>
+</html>

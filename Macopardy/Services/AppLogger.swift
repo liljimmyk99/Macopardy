@@ -10,10 +10,12 @@ import OSLog
 
 public enum AppLogger {
     // Dynamically fetch your bundle ID to use as the subsystem
-    private static let subsystem = Bundle.main.bundleIdentifier ?? "com.app.default"
+    private nonisolated static let subsystem = Bundle.main.bundleIdentifier ?? "com.app.default"
 
-    // Static immutable Logger instances are implicitly Sendable and thread-safe
-    public static let control = Logger(subsystem: subsystem, category: "Control")
-    public static let display = Logger(subsystem: subsystem, category: "Display")
-    public static let database = Logger(subsystem: subsystem, category: "Storage")
+    // Static immutable Logger instances are implicitly Sendable and thread-safe.
+    // Marked nonisolated so they can be accessed from any actor context.
+    public nonisolated static let control = Logger(subsystem: subsystem, category: "Control")
+    public nonisolated static let display = Logger(subsystem: subsystem, category: "Display")
+    public nonisolated static let database = Logger(subsystem: subsystem, category: "Storage")
+    public nonisolated static let buzzer = Logger(subsystem: subsystem, category: "Buzzer")
 }

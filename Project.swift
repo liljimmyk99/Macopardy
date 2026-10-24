@@ -13,7 +13,8 @@ let project = Project(
             sources: ["Macopardy/**/*.swift"],
             resources: [
                 "Macopardy/Assets.xcassets",
-                "Macopardy/Localizable.xcstrings"
+                "Macopardy/Localizable.xcstrings",
+                "Macopardy/Resources/Buzzer/**",
             ],
             settings: .settings(
                 base: [
@@ -24,7 +25,7 @@ let project = Project(
                     "COMBINE_HIDPI_IMAGES": "YES",
                     "CURRENT_PROJECT_VERSION": "1",
                     "ENABLE_APP_SANDBOX": "YES",
-                    "ENABLE_INCOMING_NETWORK_CONNECTIONS": "NO",
+                    "ENABLE_INCOMING_NETWORK_CONNECTIONS": "YES",
                     "ENABLE_OUTGOING_NETWORK_CONNECTIONS": "NO",
                     "ENABLE_PREVIEWS": "YES",
                     "ENABLE_RESOURCE_ACCESS_AUDIO_INPUT": "NO",
@@ -78,6 +79,23 @@ let project = Project(
                     ),
                 ],
                 defaultSettings: .recommended
+            )
+        ),
+        .target(
+            name: "MacopardyTests",
+            destinations: [.mac],
+            product: .unitTests,
+            bundleId: "jbkiv.MacopardyTests",
+            deploymentTargets: .macOS("26.3"),
+            infoPlist: .default,
+            sources: ["MacopardyTests/**/*.swift"],
+            dependencies: [.target(name: "Macopardy")],
+            settings: .settings(
+                base: [
+                    "SWIFT_VERSION": "5.0",
+                    "SWIFT_DEFAULT_ACTOR_ISOLATION": "MainActor",
+                    "GENERATE_INFOPLIST_FILE": "YES",
+                ]
             )
         ),
     ]
