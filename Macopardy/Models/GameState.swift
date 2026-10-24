@@ -157,14 +157,55 @@ final class GameState {
             currentQuestion = Question(value: 0, clue: "Final Macpardy Clue", response: "Final Macpardy Response")
         }
 
-        // Initialize team wagers with 0
-        finalMacpardyWagers = Dictionary(uniqueKeysWithValues: game.teams.map { ($0.id, 0) })
+        // No wagers yet; a missing wager means the team hasn't bet.
+        finalMacpardyWagers = [:]
         phase = .finalMacpardyCategory
         timer.reset()
         triggerSave()
     }
 
+    /// Teams at zero or below can't win points, so they can't wager.
+    func isFinalEligible(_ team: Team) -> Bool {
+        team.score > 0
+    }
+
+    func maxFinalWager(for team: Team) -> Int {
+        max(0, team.score)
+    }
+
+    /// Max wager per team (its score), used to validate wagers from phones.
+    var finalWagerLimits: [UUID: Int] {
+        Dictionary(uniqueKeysWithValues: game.teams.map { ($0.id, maxFinalWager(for: $0)) })
+    }
+
+    /// Sets a wager, clamped to the team's range. Ignored for excluded teams.
+    @discardableResult
+    func setFinalWager(teamID: UUID, amount: Int) -> Int? {
+        guard let team = game.teams.first(where: { $0.id == teamID }), isFinalEligible(team) else { return nil }
+        let clamped = min(max(0, amount), maxFinalWager(for: team))
+        finalMacpardyWagers[teamID] = clamped
+        triggerSave()
+        return clamped
+    }
+
+    func clearFinalWager(teamID: UUID) {
+        finalMacpardyWagers[teamID] = nil
+        triggerSave()
+    }
+
+    /// Teams that didn't wager bet everything they have; excluded teams bet 0.
+    func applyFinalWagerDefaults() {
+        for team in game.teams {
+            if !isFinalEligible(team) {
+                finalMacpardyWagers[team.id] = 0
+            } else if finalMacpardyWagers[team.id] == nil {
+                finalMacpardyWagers[team.id] = maxFinalWager(for: team)
+            }
+        }
+    }
+
     func revealFinalMacpardyQuestion() {
+        applyFinalWagerDefaults()
         phase = .finalMacpardyQuestion
         timer.reset()
         triggerSave()

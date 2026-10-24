@@ -61,6 +61,19 @@ nonisolated enum ServerMessage {
 
     /// What the phone's buzzer button should show. Sent to a single phone.
     case buzzerState(BuzzerPhoneState)
+
+    /// Final Macpardy wagering is open; sent to a single phone. Ineligible
+    /// teams get `eligible: false` and cannot wager.
+    case wagerInfo(WagerInfo)
+
+    /// A submitted wager was refused. The phone stays on the wager screen.
+    case wagerRejected(WagerRejectReason)
+
+    /// The team's wager is locked in (submitted, or set by the host).
+    case wagerLocked(wager: Int)
+
+    /// Wagering is over; the phone returns to the buzzer.
+    case wagerClosed
 }
 
 extension ServerMessage: Encodable {
@@ -112,11 +125,31 @@ extension ServerMessage: Encodable {
             try container.encode("buzzerState", forKey: .type)
             var payload = container.nestedContainer(keyedBy: PayloadKeys.self, forKey: .payload)
             try payload.encode(state, forKey: .state)
+
+        case .wagerInfo(let info):
+            try container.encode("wagerInfo", forKey: .type)
+            var payload = container.nestedContainer(keyedBy: PayloadKeys.self, forKey: .payload)
+            try payload.encode(info.eligible, forKey: .eligible)
+            try payload.encode(info.max, forKey: .max)
+            try payload.encodeIfPresent(info.wager, forKey: .wager)
+
+        case .wagerRejected(let reason):
+            try container.encode("wagerRejected", forKey: .type)
+            var payload = container.nestedContainer(keyedBy: PayloadKeys.self, forKey: .payload)
+            try payload.encode(reason, forKey: .reason)
+
+        case .wagerLocked(let wager):
+            try container.encode("wagerLocked", forKey: .type)
+            var payload = container.nestedContainer(keyedBy: PayloadKeys.self, forKey: .payload)
+            try payload.encode(wager, forKey: .wager)
+
+        case .wagerClosed:
+            try container.encode("wagerClosed", forKey: .type)
         }
     }
 
     private enum PayloadKeys: String, CodingKey {
-        case teams, version, reason, phase, teamID, state
+        case teams, version, reason, phase, teamID, state, eligible, max, wager
     }
 }
 
@@ -136,11 +169,14 @@ nonisolated enum ClientMessage {
 
     /// The phone's buzzer button was pressed. Only valid once a team is claimed.
     case buzz
+
+    /// Final Macpardy wager. Only the first valid submission counts.
+    case submitWager(amount: Int)
 }
 
 extension ClientMessage: Decodable {
     private enum CodingKeys: String, CodingKey {
-        case type, code, version, teamID
+        case type, code, version, teamID, amount
     }
 
     init(from decoder: Decoder) throws {
@@ -157,6 +193,8 @@ extension ClientMessage: Decodable {
             self = .pong
         case "buzz":
             self = .buzz
+        case "submitWager":
+            self = .submitWager(amount: try container.decode(Int.self, forKey: .amount))
         default:
             throw DecodingError.dataCorruptedError(
                 forKey: .type,

@@ -38,17 +38,22 @@ extension FinalMacpardyCategoryControlView {
                             .font(.subheadline)
                             .foregroundStyle(.secondary)
 
-                        HStack {
-                            Text("$")
-                                .foregroundStyle(.secondary)
+                        wagerStatus(for: team)
 
-                            TextField("control.daily_double.wager_placeholder", text: Binding(
-                                get: { wagers[team.id] ?? "" },
-                                set: { wagers[team.id] = $0 }
-                            ))
-                            .textFieldStyle(.roundedBorder)
-                            .frame(width: 100)
-                            .font(.monospacedDigit(.body)())
+                        if gameState.isFinalEligible(team) {
+                            HStack {
+                                Text("$")
+                                    .foregroundStyle(.secondary)
+
+                                TextField("control.daily_double.wager_placeholder", text: Binding(
+                                    get: { wagers[team.id] ?? "" },
+                                    set: { wagers[team.id] = $0 }
+                                ))
+                                .textFieldStyle(.roundedBorder)
+                                .frame(width: 100)
+                                .font(.monospacedDigit(.body)())
+                                .onSubmit { commitWager(for: team) }
+                            }
                         }
                     }
                     .padding(.vertical, 4)
@@ -59,6 +64,20 @@ extension FinalMacpardyCategoryControlView {
         .frame(maxWidth: 600)
     }
 
+    func wagerStatus(for team: Team) -> some View {
+        Group {
+            if !gameState.isFinalEligible(team) {
+                Text("control.final_macpardy.wager_status.excluded")
+            } else if let wager = gameState.finalMacpardyWagers[team.id] {
+                Text("control.final_macpardy.wager_status.submitted \(wager)")
+            } else {
+                Text("control.final_macpardy.wager_status.waiting")
+            }
+        }
+        .font(.subheadline)
+        .foregroundStyle(.secondary)
+    }
+
     func revealQuestionButton() -> some View {
         LargeButton(
             title: "control.final_macpardy.button.reveal_question",
@@ -66,20 +85,36 @@ extension FinalMacpardyCategoryControlView {
             tint: MacpardyTheme.gold
         ) {
             for team in gameState.game.teams {
-                let text = wagers[team.id] ?? ""
-                let parsed = Int(text) ?? 0
-                let maxAllowed = max(0, team.score)
-                gameState.finalMacpardyWagers[team.id] = min(max(0, parsed), maxAllowed)
+                commitWager(for: team)
             }
+            // Teams without a wager go all-in.
             gameState.revealFinalMacpardyQuestion()
         }
         .frame(maxWidth: 300)
     }
 
+    /// Stores the host's entry (also pushing it to the team's phone). A blank
+    /// entry clears the wager, so the team defaults to all-in.
+    func commitWager(for team: Team) {
+        guard gameState.isFinalEligible(team) else { return }
+        let text = (wagers[team.id] ?? "").trimmingCharacters(in: .whitespaces)
+        if let parsed = Int(text) {
+            let stored = gameState.setFinalWager(teamID: team.id, amount: parsed)
+            wagers[team.id] = stored.map(String.init) ?? ""
+            Task { await buzzerState.hostSetWager(teamID: team.id, amount: stored) }
+        } else if gameState.finalMacpardyWagers[team.id] != nil, text.isEmpty {
+            gameState.clearFinalWager(teamID: team.id)
+            Task { await buzzerState.hostSetWager(teamID: team.id, amount: nil) }
+        }
+    }
+
     func syncWagersFromGameState() {
+        // Only stored wagers overwrite the fields, so a half-typed entry survives
+        // another team's wager arriving.
         for team in gameState.game.teams {
-            let existing = gameState.finalMacpardyWagers[team.id] ?? 0
-            wagers[team.id] = "\(existing)"
+            if let wager = gameState.finalMacpardyWagers[team.id] {
+                wagers[team.id] = String(wager)
+            }
         }
     }
 }

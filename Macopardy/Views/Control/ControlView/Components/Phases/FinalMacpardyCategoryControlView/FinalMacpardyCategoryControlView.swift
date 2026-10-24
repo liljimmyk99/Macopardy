@@ -10,6 +10,7 @@ import SwiftUI
 struct FinalMacpardyCategoryControlView: View {
 
     @Environment(GameState.self) var gameState
+    @Environment(BuzzerState.self) var buzzerState
     @State var wagers: [UUID: String] = [:]
 
     var body: some View {
@@ -23,6 +24,10 @@ struct FinalMacpardyCategoryControlView: View {
         .onAppear {
             syncWagersFromGameState()
         }
+        // Wagers arriving from phones show up in the fields.
+        .onChange(of: gameState.finalMacpardyWagers) { _, _ in
+            syncWagersFromGameState()
+        }
     }
 }
 
@@ -32,4 +37,5 @@ struct FinalMacpardyCategoryControlView: View {
 
     return FinalMacpardyCategoryControlView()
         .environment(gameState)
+        .environment(BuzzerState())
 }

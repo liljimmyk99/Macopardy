@@ -623,6 +623,42 @@
         }
       }
     },
+    "control.final_macpardy.wager_status.waiting" : {
+      "comment" : "Final wager status: team has not wagered yet; blank means all-in",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No wager (all-in)"
+          }
+        }
+      }
+    },
+    "control.final_macpardy.wager_status.excluded" : {
+      "comment" : "Final wager status: team has zero or negative score",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Excluded"
+          }
+        }
+      }
+    },
+    "control.final_macpardy.wager_status.submitted %lld" : {
+      "comment" : "Final wager status: team's wager amount",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wagered $%lld"
+          }
+        }
+      }
+    },
     "control.final_macpardy.button.complete_game" : {
       "comment" : "Button to finish game after final macpardy",
       "extractionState" : "manual",

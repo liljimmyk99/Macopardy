@@ -37,6 +37,18 @@ struct MacpardyApp: App {
         }
     }
 
+    /// Opens wagering on the phones while the Final category is shown, closes it otherwise.
+    private func syncWagering() async {
+        if gameState.phase == .finalMacpardyCategory {
+            await buzzerState.openWagering(
+                limits: gameState.finalWagerLimits,
+                wagers: gameState.finalMacpardyWagers
+            )
+        } else {
+            await buzzerState.closeWagering()
+        }
+    }
+
     var body: some Scene {
 
         Window("Control", id: "control") {
@@ -56,6 +68,10 @@ struct MacpardyApp: App {
                     await buzzerState.syncTeams(buzzerTeams)
                     await buzzerState.syncScores(teamScores)
                     await buzzerState.setMode(buzzerMode)
+                    await syncWagering()
+                    buzzerState.onWagerSubmitted = { submission in
+                        gameState.setFinalWager(teamID: submission.teamID, amount: submission.amount)
+                    }
                     await buzzerState.startServer()
                 }
             } else {
@@ -67,10 +83,18 @@ struct MacpardyApp: App {
             Task { await buzzerState.syncTeams(teams) }
         }
         .onChange(of: teamScores) { _, scores in
-            Task { await buzzerState.syncScores(scores) }
+            Task {
+                await buzzerState.syncScores(scores)
+                // Max wagers follow scores while the Final category is up.
+                if gameState.phase == .finalMacpardyCategory { await syncWagering() }
+            }
         }
         .onChange(of: buzzerMode) { _, mode in
             Task { await buzzerState.setMode(mode) }
+        }
+        // Wagering is open exactly while the Final category is displayed.
+        .onChange(of: gameState.phase) { _, _ in
+            Task { await syncWagering() }
         }
 
         Window("Display", id: "display") {
