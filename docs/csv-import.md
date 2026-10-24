@@ -57,3 +57,24 @@ Rows can be in any order; clues are sorted by value. Completely empty rows are s
 - `Services/CSVImport/CSVBoardImporter.swift` — schema, validation, conversion to `MacpardyBoard`.
 - `Services/CSVImport/CSVBoardTemplate.swift` — the downloadable template.
 - `Views/Control/NewGameView/NewGameView.swift` — the New Game sheet.
+
+## Future enhancements
+
+### Round titles in CSV (not started)
+
+Since #34, games have their own title (`"title"` in the board file) and each round has its own
+title, set in the editor. CSV has no way to set either, so a CSV import names the rounds
+`<file name> - Macpardy`, `<file name> - Double Macpardy` and `<file name> - Final Macpardy`
+(see `CSVBoardImporter.importBoards`). The user can rename them after opening the CSV with
+"Edit Existing Game". Decided as out of scope for #34.
+
+To pick this up:
+- Add an optional column (e.g. `round_title`) to `CSVBoardImporter.Column` and the template.
+  Older CSVs without it must still import, so it can't be required like the current columns.
+- Decide how it's filled in: on every row of a round (then report rows in the same round that
+  disagree, with row/column like other CSV errors) or only on the round's first row.
+- A blank or missing round title should fall back to the round's name, matching the editor
+  (`BoardDraft.defaultTitle(for:)`), rather than `<file name> - …`.
+- Optionally let the CSV set the game title too; today it's the file name.
+- Update `docs/csv-import.md`, `docs/csv-import-example.csv`, `CSVBoardTemplate`, and the CSV
+  tests (`CSVBoardImporterTests`, plus the CSV cases in `BoardLoaderTests`).
