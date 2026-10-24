@@ -1,0 +1,171 @@
+# Architecture
+
+How the app is put together. For what it does, see [features.md](features.md); for where files
+live, see [file-structure.md](file-structure.md).
+
+## Big picture
+
+```
+                         ┌──────────────────────── MacpardyApp (App) ────────────────────────┐
+                         │  owns:  GameState   BuzzerState   BoardEditorSession.shared       │
+                         │  keeps BuzzerState in sync with GameState via .onChange(…)        │
+                         └──────┬───────────────────────┬──────────────────────┬─────────────┘
+                                │                       │                      │
+                    Window "control"         Window "display"      Window "create-macpardy"
+              LaunchScreenView → ControlView   PresentationView     CreateMacpardyGameView
+                   (host)                       (TV / projector)        (board editor)
+                                │
+          ┌─────────────────────┼─────────────────────────────┐
+          ▼                     ▼                             ▼
+   Board files            GameSaveStore (actor)          BuzzerServer (actor)
+   BoardPackage           Application Support/           Network.framework, port 8472
+   BoardLoader            saved_game.json                HTTP GET / → buzzer.html
+   CSVBoardImporter                                      WebSocket /ws ⇄ phones
+   ImageImporter
+```
+
+Everything runs in one process on the host's Mac. There is no backend and no outgoing
+network access.
+
+## Windows (scenes)
+
+Defined in `App/MacopardyApp.swift`:
+
+| Window id | Default | Content |
+|---|---|---|
+| `control` | Opens at launch | `LaunchScreenView` until a game is chosen (`hasSelectedGame`), then `ControlView` |
+| `display` | Suppressed; opened from the board screen | `PresentationView`, only when a game is loaded |
+| `create-macpardy` | Suppressed; opened from New Game / Edit | `CreateMacpardyGameView` |
+
+`MacopardyAppDelegate` intercepts quit (`applicationShouldTerminate`) so the editor can ask
+to save unsaved edits. `Views/Shared/WindowCloseGuard` does the same for closing the editor
+window, since SwiftUI has no close hook outside document apps.
+
+## State
+
+### `GameState` (`Models/GameState.swift`)
+The single source of truth for a game in progress. `@Observable`, main-actor, injected with
+`.environment(gameState)` into the Control and Display windows.
+
+- `game: Game` — the rounds (`[MacpardyBoard]`), `currentRound`, and `teams`.
+- `phase: GamePhase` — which screen is up (see below).
+- Per-clue state: `currentQuestion`, `currentCategoryTitle`, `dailyDoubleTeamID`,
+  `dailyDoubleWager`, `finalMacpardyWagers`, and a `GameTimer` (15 s).
+- All game actions are methods on `GameState` (`selectQuestion`, `revealAnswer`,
+  `adjustScore`, `advanceRound`, `setFinalWager`, …). Views call these; they don't mutate
+  `game` directly. Each action ends with `triggerSave()`.
+
+### Data model (`Models/`)
+
+```
+Game
+ ├─ rounds: [MacpardyBoard]        id, title (round title), round: MacpardyRound
+ │    └─ categories: [Category]    id, title
+ │         └─ questions: [Question] id, value, clue, response,
+ │                                  hasBeenPlayed, isDailyDouble, image: QuestionImage?
+ ├─ currentRound: Int
+ └─ teams: [Team]                   id, name, score, color   (max 4)
+```
+
+`MacpardyRound` is `macpardy | doubleMacpardy | finalMacpardy`. A board file's game title is
+stored next to the boards, not on them (see [board-format.md](board-format.md)).
+
+### Game phases (`Models/GamePhase.swift`)
+
+```
+ setup ──startGame──▶ board ──selectQuestion──▶ question ──revealAnswer──▶ answer
+                       ▲  │                        ▲                         │
+                       │  └──(Daily Double)──▶ dailyDouble ─submitWager─┘    │
+                       └────────────────────── showBoard ◀───────────────────┘
+
+ board ──advanceRound (next is Final)──▶ finalMacpardyCategory  (phones wager)
+        ──revealFinalMacpardyQuestion──▶ finalMacpardyQuestion
+        ──revealAnswer──▶ finalMacpardyAnswer ──Complete Game──▶ setup
+```
+
+Both the Control detail pane (`ControlView+Extension`, `ControlViewContent`) and the Display
+(`PresentationView+Extension.phaseContent`) switch on `phase`. Adding a phase means updating
+both switches, the localized phase names, and `MacpardyApp.buzzerMode`.
+
+### `BoardEditorSession` (`Models/BoardEditorSession.swift`)
+A shared `@Observable` mailbox between the launch screen, the editor window, and the app:
+a loaded `BoardDraft` waiting to be edited, boards the user chose to **Play Now**, and
+"save before closing?" requests. It's a singleton because the app delegate needs it on quit.
+
+The editor's own state is `BoardDraft` (`Views/Control/CreateMacpardyGameView/Models/`),
+a plain value type. `BoardDraft(boards:…)` loads a board into it (validating the 6 × 5 shape)
+and `makeBoards()` turns it back into `[MacpardyBoard]`.
+
+## Board files
+
+| Type | Role |
+|---|---|
+| `BoardPackage` | Read/write `.macpardy` zip packages (`board.json` + `images/`), plain format-2 JSON, and legacy format-1 JSON. Guards against zip bombs and path traversal. |
+| `MacpardyBoardsDocument`, `MacpardyJSONBoardDocument` | SwiftUI `FileDocument`s used by save panels |
+| `FileManagerService` | Security-scoped reads of user-picked files, default file names |
+| `BoardLoader` | "Edit Existing Game": picks a reader by extension (`.json`, `.macpardy`/`.zip`, `.csv`), returns a `BoardDraft` or a `LoadError` that pinpoints the problem |
+| `CSVBoardImporter`, `CSVParser`, `CSVBoardTemplate` | CSV → boards, collecting every issue with its row/column |
+| `ImageImporter` | Validates, downscales, and re-encodes question pictures |
+
+Formats and limits: [board-format.md](board-format.md), [csv-import.md](csv-import.md).
+
+## Persistence (auto-save)
+
+```
+GameState action ─▶ triggerSave() ─▶ GameSnapshot(from: self)
+                                        │  debounce 300 ms (cancel previous Task)
+                                        ▼
+                         GameSaveStore.shared.save(snapshot)   (actor; atomic write)
+                         Application Support/Macopardy/saved_game.json
+```
+
+- Nothing is saved during `setup`.
+- `GameSnapshot` carries `schemaVersion`; a mismatched or corrupt save is discarded on load.
+- Pictures are embedded as base64, so a resumed game doesn't need the original board file.
+- "Open Existing Game" checks for a save first and offers to resume (`GameState.restore`).
+- **Complete Game** clears the save.
+
+## Phone buzzers
+
+Code: `Services/Buzzer/`. Protocol: [buzzer-protocol.md](buzzer-protocol.md).
+
+```
+ MacpardyApp ──syncTeams / syncScores / setMode / openWagering──▶ BuzzerState (@Observable, main actor)
+      ▲                                                                │ owns
+      │  onWagerSubmitted, firstBuzzTeamID,                            ▼
+      │  claimed/disconnected teams              BuzzerServer (actor, NWListener on :8472)
+      └─────────────── AsyncStreams ◀──────────   ├─ ClientSession per connection
+                                                  ├─ WebSocketFrameParser (hand-rolled RFC 6455)
+                                                  ├─ TeamClaimRegistry   who holds which team
+                                                  ├─ BuzzerEngine        armed/locked-out/answering
+                                                  │    └─ BuzzTieResolver  75 ms window, low score wins
+                                                  ├─ FinalWagerBook      Final wagers & limits
+                                                  └─ AttemptRateLimiter  join code / claim attempts
+```
+
+- **Server lifecycle:** started when a game is selected, stopped when the app returns to the
+  launch screen, restarted (new join code) on Complete Game or resume. `BuzzerState` resolves
+  the Mac's local IPv4 address and builds the join URL / QR code.
+- **App → server:** `MacpardyApp` watches `GameState` and pushes teams, scores, the buzzer
+  mode (`armed` on a normal question, `unavailable` on Daily Double, `disabled` otherwise), and
+  Final wagering open/closed (open exactly while `phase == .finalMacpardyCategory`).
+- **Server → app:** async streams for claimed teams, the first buzz, wager submissions,
+  connection count, and listener failures, surfaced as `BuzzerState` properties.
+- **Host actions:** score buttons call `teamAnsweredWrong` / `teamAnsweredCorrect` on normal
+  clues; the Buzzer sidebar screen can remove a team's phone.
+- **Pure logic is separated from I/O:** `BuzzerEngine`, `TeamClaimRegistry`,
+  `FinalWagerBook`, `BuzzTieResolver`, `AttemptRateLimiter`, and `WebSocketFrameParser` are
+  `nonisolated` value types with unit tests; `BuzzerServer` wires them to the network.
+- Constants (port, heartbeat, tie window, rate limits) are in `BuzzerConstants`.
+- The phone UI is a single self-contained page, `Resources/Buzzer/buzzer.html`, served from
+  the app bundle.
+
+## Cross-cutting
+
+- **Concurrency:** default isolation is `MainActor`; pure logic is `nonisolated`; I/O lives
+  in actors. See [AGENTS.md](../AGENTS.md#conventions).
+- **Localization:** String Catalog `Localizable.xcstrings`, dotted keys per screen.
+- **Logging:** `AppLogger` categories `control`, `display`, `database`, `buzzer`.
+- **Sandbox:** user-selected file read/write and incoming network only.
+- **Build:** Tuist (`Project.swift`) generates the Xcode project; `scripts/export.sh` makes
+  a shareable build.

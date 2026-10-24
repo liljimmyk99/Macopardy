@@ -1,0 +1,39 @@
+# Macopardy
+
+A macOS app for hosting a Jeopardy-style trivia night ("Macpardy!"). The host runs the game
+from a control window, the room watches a full-screen display on a TV or projector, and teams
+can buzz in from their phones over the local network. No accounts, no server, no internet.
+
+## Features
+
+- Build a game in the editor (6 × 5 boards for two rounds, plus Final Macpardy), with Daily
+  Doubles and optional pictures on clues
+- Or fill in a CSV template in any spreadsheet app and import it
+- Open, edit, and re-save existing games (`.macpardy` packages, `.json`, `.csv`)
+- Separate host and audience windows, with timer, scores, Daily Double and Final wagers
+- Phone buzzers: scan a QR code, pick a team, buzz; fair tie-breaking and wrong-answer lockout
+- Auto-save, so a game can be resumed after a quit or crash
+
+Full walkthrough: [docs/features.md](docs/features.md).
+
+## Quick start
+
+Requires macOS 26.3+, Xcode 26, and [Tuist](https://tuist.io).
+
+```sh
+tuist generate   # generates and opens Macopardy.xcodeproj
+```
+
+Run the **Macopardy** scheme. To make a shareable build, see [EXPORTING.md](EXPORTING.md).
+
+## Docs
+
+| | |
+|---|---|
+| [AGENTS.md](AGENTS.md) | Build, test, conventions, and workflow for contributors and coding agents |
+| [docs/features.md](docs/features.md) | What the app does and how a game flows |
+| [docs/architecture.md](docs/architecture.md) | State, windows, phases, persistence, buzzer subsystem |
+| [docs/file-structure.md](docs/file-structure.md) | Where everything lives |
+| [docs/board-format.md](docs/board-format.md) | Board file formats |
+| [docs/csv-import.md](docs/csv-import.md) | Creating a game from CSV |
+| [docs/buzzer-protocol.md](docs/buzzer-protocol.md) | Phone ⇄ app WebSocket protocol |
