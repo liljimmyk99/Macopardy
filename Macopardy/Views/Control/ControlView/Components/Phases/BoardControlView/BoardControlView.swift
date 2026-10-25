@@ -7,22 +7,29 @@
 
 import SwiftUI
 
+/// The host's copy of the Display board: same layout, plus Daily Double and
+/// picture markers only the host sees. Clicking a tile opens that clue.
 struct BoardControlView: View {
 
-    @Environment(\.openWindow) var openWindow
     @Environment(GameState.self) var gameState
 
     var body: some View {
-        VStack(spacing: 20) {
-            boardActionBar()
-            QuestionPickerView()
-            Spacer()
+        if let board = gameState.game.currentBoard {
+            boardGrid(board)
+        } else {
+            Text("control.board.no_board_available")
+                .foregroundStyle(.secondary)
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
         }
-        .padding()
     }
 }
 
 #Preview {
-    BoardControlView()
-        .environment(GameState())
+    let gameState = GameState()
+    gameState.loadGame(boards: [MacpardyBoard.sample])
+
+    return BoardControlView()
+        .environment(gameState)
+        .background(MacpardyTheme.boardBlue)
+        .frame(width: 1100, height: 640)
 }

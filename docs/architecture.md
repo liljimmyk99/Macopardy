@@ -103,7 +103,7 @@ and `makeBoards()` turns it back into `[MacpardyBoard]`.
 | `BoardPackage` | Read/write `.macpardy` zip packages (`board.json` + `images/`), plain format-2 JSON, and legacy format-1 JSON. Guards against zip bombs and path traversal. |
 | `MacpardyBoardsDocument`, `MacpardyJSONBoardDocument` | SwiftUI `FileDocument`s used by save panels |
 | `FileManagerService` | Security-scoped reads of user-picked files, default file names |
-| `BoardLoader` | "Edit Existing Game": picks a reader by extension (`.json`, `.macpardy`/`.zip`, `.csv`), returns a `BoardDraft` or a `LoadError` that pinpoints the problem |
+| `BoardLoader` | "Edit Board": picks a reader by extension (`.json`, `.macpardy`/`.zip`, `.csv`), returns a `BoardDraft` or a `LoadError` that pinpoints the problem |
 | `CSVBoardImporter`, `CSVParser`, `CSVBoardTemplate` | CSV → boards, collecting every issue with its row/column |
 | `ImageImporter` | Validates, downscales, and re-encodes question pictures |
 
@@ -122,7 +122,7 @@ GameState action ─▶ triggerSave() ─▶ GameSnapshot(from: self)
 - Nothing is saved during `setup`.
 - `GameSnapshot` carries `schemaVersion`; a mismatched or corrupt save is discarded on load.
 - Pictures are embedded as base64, so a resumed game doesn't need the original board file.
-- "Open Existing Game" checks for a save first and offers to resume (`GameState.restore`).
+- "Play" checks for a save first and offers to resume (`GameState.restore`).
 - **Complete Game** clears the save.
 
 ## Phone buzzers
@@ -152,7 +152,7 @@ Code: `Services/Buzzer/`. Protocol: [buzzer-protocol.md](buzzer-protocol.md).
 - **Server → app:** async streams for claimed teams, the first buzz, wager submissions,
   connection count, and listener failures, surfaced as `BuzzerState` properties.
 - **Host actions:** score buttons call `teamAnsweredWrong` / `teamAnsweredCorrect` on normal
-  clues; the Buzzer sidebar screen can remove a team's phone.
+  clues; the toolbar's Buzzers popover can remove a team's phone.
 - **Pure logic is separated from I/O:** `BuzzerEngine`, `TeamClaimRegistry`,
   `FinalWagerBook`, `BuzzTieResolver`, `AttemptRateLimiter`, and `WebSocketFrameParser` are
   `nonisolated` value types with unit tests; `BuzzerServer` wires them to the network.

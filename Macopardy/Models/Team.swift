@@ -24,14 +24,21 @@ struct Team: Identifiable, Equatable, Codable {
         self.color = color
     }
 
+    /// Color names a team can pick, in picker order.
+    static let colorOptions = ["blue", "red", "green", "yellow", "purple", "orange"]
+
     var displayColor: Color {
+        Team.displayColor(for: color)
+    }
+
+    static func displayColor(for color: String) -> Color {
         switch color.lowercased() {
-        case "blue": Color(red: 0.2, green: 0.45, blue: 0.95)
-        case "red": Color(red: 0.9, green: 0.25, blue: 0.25)
-        case "green": Color(red: 0.2, green: 0.75, blue: 0.35)
-        case "yellow": Color(red: 0.95, green: 0.85, blue: 0.2)
-        case "purple": Color(red: 0.6, green: 0.3, blue: 0.85)
-        case "orange": Color(red: 0.95, green: 0.55, blue: 0.15)
+        case "blue": MacopardyAsset.teamBlue.swiftUIColor
+        case "red": MacopardyAsset.teamRed.swiftUIColor
+        case "green": MacopardyAsset.teamGreen.swiftUIColor
+        case "yellow": MacopardyAsset.teamYellow.swiftUIColor
+        case "purple": MacopardyAsset.teamPurple.swiftUIColor
+        case "orange": MacopardyAsset.teamOrange.swiftUIColor
         default: .gray
         }
     }

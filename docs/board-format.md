@@ -21,7 +21,7 @@ images/<file>   one file per question image
 ## Legacy boards
 
 Format 1 is a plain `.json` file containing `[MacpardyBoard]`. These still open from
-"Open Existing Game", as does a bare `board.json` in the format 2 shape. New boards are
+"Play", as does a bare `board.json` in the format 2 shape. New boards are
 always saved as packages (edited boards are the exception, see below).
 
 ## Images
@@ -50,7 +50,7 @@ in the format 2 shape (`{ "formatVersion": 2, "boards": [...] }`), since they ha
 
 ## Editing an existing board
 
-"Edit Existing Game" on the start screen opens a `.json`, `.macpardy` (or `.zip`), or `.csv`
+"Edit Board" on the start screen opens a `.json`, `.macpardy` (or `.zip`), or `.csv`
 board in the same editor as "Create Game", filled in. Loading goes through `BoardLoader`, which
 picks the reader by file extension and reuses the readers above and the CSV importer.
 

@@ -6,7 +6,7 @@
    (same as [`csv-import-example.csv`](csv-import-example.csv)).
 2. Edit it in any spreadsheet app and export it as **CSV (UTF-8)**.
 3. Click **Upload CSV**. If the file is valid, click **Save and Play** to save the game as a
-   `.json` board (keep it; it reopens from **Open Existing Game**) and start playing.
+   `.json` board (keep it; it reopens from **Play**) and start playing.
 
 If anything is wrong, nothing is imported and every problem is listed with its row and
 column. The game's title comes from the CSV's file name.
@@ -66,7 +66,7 @@ Since #34, games have their own title (`"title"` in the board file) and each rou
 title, set in the editor. CSV has no way to set either, so a CSV import names the rounds
 `<file name> - Macpardy`, `<file name> - Double Macpardy` and `<file name> - Final Macpardy`
 (see `CSVBoardImporter.importBoards`). The user can rename them after opening the CSV with
-"Edit Existing Game". Decided as out of scope for #34.
+"Edit Board". Decided as out of scope for #34.
 
 To pick this up:
 - Add an optional column (e.g. `round_title`) to `CSVBoardImporter.Column` and the template.

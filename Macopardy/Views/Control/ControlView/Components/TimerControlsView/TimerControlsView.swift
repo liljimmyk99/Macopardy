@@ -5,19 +5,19 @@
 
 import SwiftUI
 
+/// Countdown ring with −5 s, start/pause, reset and +5 s.
 struct TimerControlsView: View {
 
     @Environment(GameState.self) var gameState
 
     var body: some View {
-        GroupBox("Timer") {
-            VStack(spacing: 12) {
-                timerDisplayRow()
-                timerPlaybackControls()
-                timerAdjustmentControls()
-            }
-            .padding(.vertical, 4)
+        VStack(spacing: 16) {
+            timerDisplayRow()
+            timerPlaybackControls()
         }
+        .padding(16)
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .background(MacpardyTheme.panelBlue)
     }
 }
 
@@ -25,5 +25,5 @@ struct TimerControlsView: View {
     TimerControlsView()
         .environment(GameState())
         .padding()
-        .frame(width: 400)
+        .frame(width: 320, height: 320)
 }
