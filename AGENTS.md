@@ -106,8 +106,10 @@ Use `AppLogger` (`Services/AppLogger.swift`) with the matching category: `contro
 - `TestImages.swift` has helpers for building image fixtures.
 
 ### Sandbox and entitlements
-The app is sandboxed with only: user-selected file read/write, and **incoming** network
-connections (for the buzzer server). Outgoing network is off. Don't add features that need
+The app is sandboxed with only: user-selected file read/write, and network server + client
+(for the buzzer server). The client entitlement is there only because a sandboxed
+`NWListener` can't accept connections from other devices without it; the app doesn't make
+outgoing connections, so don't add features that do. Don't add features that need
 new entitlements without calling it out in the PR; `scripts/export.sh` checks the exact set.
 Files the user picks must be read with security-scoped access (see `FileManagerService`).
 

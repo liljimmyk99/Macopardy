@@ -12,7 +12,7 @@ how the pieces fit together.
 ├── EXPORTING.md              Building a shareable .app / .dmg
 ├── Project.swift             Tuist manifest: targets, settings, Info.plist, ZIPFoundation
 ├── Config/
-│   └── Macopardy.entitlements    Sandbox, user-selected files, incoming network
+│   └── Macopardy.entitlements    Sandbox, user-selected files, network server + client
 ├── Macopardy/                App target sources and resources
 ├── MacopardyTests/           Unit tests (XCTest)
 ├── docs/                     Design and format docs
