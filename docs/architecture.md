@@ -24,8 +24,8 @@ live, see [file-structure.md](file-structure.md).
    ImageImporter
 ```
 
-Everything runs in one process on the host's Mac. There is no backend and no outgoing
-network access.
+Everything runs in one process on the host's Mac. There is no backend, and the app never
+opens outgoing connections.
 
 ## Windows (scenes)
 
@@ -166,6 +166,8 @@ Code: `Services/Buzzer/`. Protocol: [buzzer-protocol.md](buzzer-protocol.md).
   in actors. See [AGENTS.md](../AGENTS.md#conventions).
 - **Localization:** String Catalog `Localizable.xcstrings`, dotted keys per screen.
 - **Logging:** `AppLogger` categories `control`, `display`, `database`, `buzzer`.
-- **Sandbox:** user-selected file read/write and incoming network only.
+- **Sandbox:** user-selected file read/write and network server + client. The client
+  entitlement is only for accepting buzzer connections (see
+  [buzzer-protocol.md](buzzer-protocol.md#sandbox-entitlements)).
 - **Build:** Tuist (`Project.swift`) generates the Xcode project; `scripts/export.sh` makes
   a shareable build.

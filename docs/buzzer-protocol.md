@@ -230,6 +230,26 @@ Future sub-issues extend the payload to carry additional game context.
 
 ---
 
+## Sandbox entitlements
+
+The server needs both `com.apple.security.network.server` and
+`com.apple.security.network.client`. With only `network.server`, a sandboxed `NWListener`
+starts and serves the Mac itself (loopback), but every connection from another device is
+dropped before `newConnectionHandler` runs. Network.framework handles TCP inside the app,
+and the sandbox refuses to register the new connection with the kernel:
+
+```
+nw_path_evaluator_create_flow_inner NECP_CLIENT_ACTION_ADD_FLOW … [1: Operation not permitted]
+nw_connection_create_from_protocol_on_nw_queue [C33] Failed to create connection from listener
+```
+
+These connections never appear in `netstat`, so the only sign is phones timing out. The app
+doesn't open outgoing connections; `network.client` is there only for this.
+macOS Local Network privacy doesn't apply here: accepting incoming TCP connections doesn't
+require it, so no permission prompt appears.
+
+---
+
 ## Heartbeat sequence
 
 ```

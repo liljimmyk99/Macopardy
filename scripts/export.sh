@@ -72,6 +72,7 @@ SIGNED_ENTITLEMENTS="$(codesign -d --entitlements :- "$STAGED_APP" 2>/dev/null)"
 for entitlement in \
     com.apple.security.app-sandbox \
     com.apple.security.files.user-selected.read-write \
+    com.apple.security.network.client \
     com.apple.security.network.server; do
     if ! grep -Fq "<key>$entitlement</key><true/>" <<< "$SIGNED_ENTITLEMENTS"; then
         printf 'Expected entitlement missing from %s: %s\n' "$STAGED_APP" "$entitlement" >&2

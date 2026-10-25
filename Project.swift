@@ -55,7 +55,9 @@ let project = Project(
                     "CURRENT_PROJECT_VERSION": "1",
                     "ENABLE_APP_SANDBOX": "YES",
                     "ENABLE_INCOMING_NETWORK_CONNECTIONS": "YES",
-                    "ENABLE_OUTGOING_NETWORK_CONNECTIONS": "NO",
+                    // NWListener needs network.client to accept connections from other devices
+                    // in the sandbox; the app itself never connects out. See buzzer-protocol.md.
+                    "ENABLE_OUTGOING_NETWORK_CONNECTIONS": "YES",
                     "ENABLE_PREVIEWS": "YES",
                     "ENABLE_RESOURCE_ACCESS_AUDIO_INPUT": "NO",
                     "ENABLE_RESOURCE_ACCESS_BLUETOOTH": "NO",
@@ -74,7 +76,7 @@ let project = Project(
                         "@executable_path/../Frameworks",
                     ],
                     "MACOSX_DEPLOYMENT_TARGET": "26.3",
-                    "MARKETING_VERSION": "0.2.0",
+                    "MARKETING_VERSION": "0.2.1",
                     "PRODUCT_BUNDLE_IDENTIFIER": "jbkiv.Macopardy",
                     "REGISTER_APP_GROUPS": "YES",
                     "STRING_CATALOG_GENERATE_SYMBOLS": "YES",
