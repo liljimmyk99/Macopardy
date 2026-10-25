@@ -8,8 +8,64 @@
 import SwiftUI
 
 extension ControlView {
-    var navigationTitleText: LocalizedStringKey {
-        selection == .buzzer ? "control.nav_title.buzzer" : phaseNavigationTitle
+    /// The current round's title, e.g. "General Categories".
+    var navigationTitleText: Text {
+        if let board = gameState.game.currentBoard {
+            Text(board.title)
+        } else {
+            Text(phaseNavigationTitle)
+        }
+    }
+
+    /// Round progress on the board, the clue on a question, the phase everywhere else.
+    var navigationSubtitleText: Text {
+        switch gameState.phase {
+        case .board:
+            if let board = gameState.game.currentBoard {
+                let cluesLeft = board.categories.reduce(0) { total, category in
+                    total + category.questions.filter { !$0.hasBeenPlayed }.count
+                }
+                return Text("control.subtitle.board \(gameState.game.currentRound + 1) \(gameState.game.rounds.count) \(cluesLeft)")
+            }
+        case .question, .answer:
+            if let question = gameState.currentQuestion {
+                let category = gameState.currentCategoryTitle ?? ""
+                if gameState.dailyDoubleTeamID != nil {
+                    return Text("control.subtitle.daily_double \(category) \(gameState.dailyDoubleWager)")
+                }
+                return Text("control.subtitle.question \(category) \(question.value)")
+            }
+        default:
+            break
+        }
+        return Text(phaseNavigationTitle)
+    }
+
+    /// What the bottom team strip offers, or nil to hide it where the phase has
+    /// its own team controls.
+    var teamStripMode: TeamScoreStripMode? {
+        switch gameState.phase {
+        case .board:
+            .manual
+        case .question, .answer:
+            if gameState.dailyDoubleTeamID != nil {
+                .clue(amount: gameState.dailyDoubleWager, dailyDoubleTeamID: gameState.dailyDoubleTeamID)
+            } else {
+                .clue(amount: gameState.currentQuestion?.value ?? 0, dailyDoubleTeamID: nil)
+            }
+        case .dailyDouble, .finalMacpardyCategory:
+            .readOnly
+        case .setup, .finalMacpardyQuestion, .finalMacpardyAnswer:
+            nil
+        }
+    }
+
+    /// Phases laid out to fill the window; the rest scroll.
+    var fillsWindow: Bool {
+        switch gameState.phase {
+        case .setup, .board, .question, .answer: true
+        case .dailyDouble, .finalMacpardyCategory, .finalMacpardyQuestion, .finalMacpardyAnswer: false
+        }
     }
 
     private var phaseNavigationTitle: LocalizedStringKey {
@@ -20,19 +76,6 @@ extension ControlView {
         case .dailyDouble: "control.nav_title.daily_double"
         case .finalMacpardyCategory: "control.nav_title.final_macpardy_category"
         case .finalMacpardyQuestion, .finalMacpardyAnswer: "control.nav_title.final_macpardy_question"
-        }
-    }
-
-    var phaseIndicator: LocalizedStringKey {
-        switch gameState.phase {
-        case .setup: "control.phase_indicator.setup"
-        case .board: "control.phase_indicator.board"
-        case .question: "control.phase_indicator.question"
-        case .answer: "control.phase_indicator.answer"
-        case .dailyDouble: "control.phase_indicator.daily_double"
-        case .finalMacpardyCategory: "control.phase_indicator.final_macpardy_category"
-        case .finalMacpardyQuestion: "control.phase_indicator.final_macpardy_question"
-        case .finalMacpardyAnswer: "control.phase_indicator.final_macpardy_answer"
         }
     }
 }

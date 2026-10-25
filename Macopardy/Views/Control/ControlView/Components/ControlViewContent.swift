@@ -7,8 +7,20 @@
 import SwiftUI
 
 extension ControlView {
+    /// Setup, the board and the clue fill the window like the Display does; other phases scroll.
     @ViewBuilder
     var detailContent: some View {
+        if fillsWindow {
+            phaseContent
+        } else {
+            ScrollView {
+                phaseContent
+            }
+        }
+    }
+
+    @ViewBuilder
+    private var phaseContent: some View {
         switch gameState.phase {
         case .setup:
             SetupControlView()

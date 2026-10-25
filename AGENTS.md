@@ -22,7 +22,7 @@ web page the app serves on the local network.
 | [`docs/features.md`](docs/features.md) | Figuring out what the app does and how a game flows, from the host's side |
 | [`docs/architecture.md`](docs/architecture.md) | Changing state, windows, phases, persistence, or how pieces talk to each other |
 | [`docs/file-structure.md`](docs/file-structure.md) | Looking for where something lives or where a new file should go |
-| [`docs/board-format.md`](docs/board-format.md) | Touching `.macpardy` / `.json` boards, images, auto-save, or "Edit Existing Game" |
+| [`docs/board-format.md`](docs/board-format.md) | Touching `.macpardy` / `.json` boards, images, auto-save, or "Edit Board" |
 | [`docs/csv-import.md`](docs/csv-import.md) | Touching CSV import or the CSV template |
 | [`docs/buzzer-protocol.md`](docs/buzzer-protocol.md) | Touching the phone buzzer server, `buzzer.html`, or any WebSocket message |
 | [`EXPORTING.md`](EXPORTING.md) | Building a shareable `.app` / `.dmg` |
@@ -77,7 +77,10 @@ SomeView/
 ```
 
 Put new screens and subviews in this shape. Shared pieces go in `Views/Shared/`. Colors and
-fonts come from `MacpardyTheme`, not literals.
+fonts come from `MacpardyTheme`, not literals. Colors are defined as color sets in
+`Assets.xcassets` (`Theme/`, `Team/`) and read through the Tuist-generated `MacopardyAsset`;
+add a new color there, then expose it on `MacpardyTheme`. Fonts are SF Pro (the system font),
+so they're sizes/weights on `MacpardyTheme`, not bundled files.
 
 ### Strings and localization
 - **All user-facing text goes in `Macopardy/Localizable.xcstrings`.** Use dotted keys scoped

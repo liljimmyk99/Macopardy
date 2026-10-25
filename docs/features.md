@@ -16,22 +16,25 @@ A game is three rounds, like the TV show: **Macpardy** (6 categories × 5 clues)
 
 ## 1. Getting a game
 
-The start screen (Control window) has three ways in:
+The start screen (Control window) uses the board's look: three tiles styled like board
+columns — **Play** (⌘O), **New Board** (⌘N), and **Edit Board** (⌘E). If an auto-saved game
+exists, a banner below them shows its round and team count with **Resume** and **Discard**
+(Discard asks first).
 
-### Open Existing Game
+### Play
 - Pick a `.macpardy` package or a `.json` board and play it.
 - If an auto-saved game exists, the app first asks: **Resume** it, start a **New Game**
   (discards the save), or cancel.
 - Double-clicking a `.macpardy` file in Finder also opens it (ignored while a game is in progress).
 
-### New Game
+### New Board
 A sheet with two options:
 - **Build in the editor** — opens the *Create Macpardy Game* window (see §2).
 - **Import from CSV** — download a template, fill it in a spreadsheet, upload it. Valid files
   are saved as a `.json` board and the game starts. Every problem is listed by row and column;
   nothing is partly imported. Details: [csv-import.md](csv-import.md).
 
-### Edit Existing Game
+### Edit Board
 - Opens a `.json`, `.macpardy` / `.zip`, or `.csv` board in the same editor as New Game,
   pre-filled.
 - A file that doesn't fit the editor (not 6 × 5, missing Final, broken JSON, …) shows a sheet
@@ -52,17 +55,24 @@ A sheet with two options:
 
 ## 3. Running a game (Control + Display)
 
-The Control window is a sidebar (Game / Buzzer, current phase, round, team standings) plus a
-detail pane for the current phase. The Display window is opened from the board screen with
-**Show/Hide Board** and mirrors the phase full-screen with a scoreboard along the bottom.
+The Control window uses the Display's board look. Its toolbar shows the round title and
+progress, a **Buzzers** button, **Show Display**, and on the board **Final Macpardy** and
+**Next Round**. On the board phase the host picks clues from a copy of the Display board; Daily
+Doubles (a gold **DD** badge) and clues with pictures are marked for the host only. Team scores
+run along the bottom with ±100 buttons (right-click a team to reset its score).
+
+The **Buzzers** button shows the join code and how many teams have a phone; its dot turns orange
+when a phone stops responding. It opens a popover with the QR code, join code, copyable URL, and
+each team's phone status with **Remove phone**. The Display window, opened with
+**Show Display**, mirrors the phase full-screen with a scoreboard along the bottom.
 
 | Phase | Host (Control) | Display |
 |---|---|---|
-| **Setup** | Add/rename/recolor/remove teams (max 4); see the buzzer join code, QR code, and URL; **Start Game** | "Waiting to start game…" |
+| **Setup** | Team cards (max 4): rename, pick a color swatch, remove, **Add Team**; buzzer panel with QR code, join code, URL, and how many teams have a phone; **Start Game** | "Waiting to start game…" |
 | **Board** | Pick a clue from the board; **Next Round**; show/hide the Display window | The board, played tiles blanked |
 | **Daily Double** | Pick the team and wager (quick-wager buttons), **Show Question** | Daily Double splash |
-| **Question** | See clue + correct response, 15 s timer (start/pause/reset/±5 s), which team buzzed first, score buttons, **Reveal Answer** | Clue (and picture, if any), timer |
-| **Answer** | Score buttons, **Return to Board** | Correct response |
+| **Question** | Clue as a big tile, correct response (host only) with **Reveal Answer**, who buzzed first (or the Daily Double team and wager), 15 s timer ring (start/pause/reset/±5 s), ✓/✗ score buttons on each team card (only the Daily Double team's on a Daily Double), **Return to Board** in the toolbar | Clue (and picture, if any), timer |
+| **Answer** | Same screen, answer revealed; score buttons, **Return to Board** | Correct response |
 | **Final – Category** | Watch each team's wager status, enter or edit wagers, **Reveal Question** | Final category |
 | **Final – Question / Answer** | Reveal answer, adjust scores, **Complete Game** | Final clue, then response |
 
@@ -101,7 +111,7 @@ Wire details: [buzzer-protocol.md](buzzer-protocol.md).
 - Once play starts, every game action auto-saves (debounced 300 ms) to `saved_game.json` in
   the app's Application Support folder (sandboxed:
   `~/Library/Containers/jbkiv.Macopardy/Data/Library/Application Support/Macopardy/`).
-  Pictures are embedded, so a crash or quit can be resumed from **Open Existing Game** even if
+  Pictures are embedded, so a crash or quit can be resumed from **Play** even if
   the board file moved.
 - Resuming starts a new buzzer session; phones drop and rejoin with the new code.
 - A save that's corrupt or from a different schema version is discarded, not migrated.

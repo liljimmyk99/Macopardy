@@ -48,7 +48,7 @@ Macopardy/
 │   ├── GameSaveStore.swift       actor: auto-save read/write/clear
 │   ├── FileManagerService.swift  FileDocument for boards, security-scoped reads, file names
 │   ├── BoardPackage.swift        .macpardy zip + JSON read/write, UTType
-│   ├── BoardLoader.swift         "Edit Existing Game" loader → BoardDraft or LoadError
+│   ├── BoardLoader.swift         "Edit Board" loader → BoardDraft or LoadError
 │   ├── BoardLoader+Messages.swift  Localized error text for load failures
 │   ├── ImageImporter.swift       Question picture validation/downscale/re-encode
 │   ├── CSVImport/
@@ -72,7 +72,7 @@ Macopardy/
 │       ├── QRCodeGenerator.swift     Join URL → QR image
 │       └── BuzzerConstants.swift     Port, timeouts, tie window, limits, protocol version
 ├── Views/
-│   ├── LaunchScreenView.swift    Start screen: Open / Edit / New Game, resume prompt
+│   ├── LaunchScreenView/         Start screen: Play / New Board / Edit Board tiles, resume banner
 │   ├── BoardLoadErrorView.swift  Sheet listing problems with a file
 │   ├── Control/                  Host-facing (Control and editor windows)
 │   │   ├── ControlView/              Main host screen (see below)
@@ -86,7 +86,7 @@ Macopardy/
 │   └── Shared/                   Theme, buttons, headers, image placeholder, WindowCloseGuard
 ├── Resources/
 │   └── Buzzer/buzzer.html        Phone buzzer page (HTML + CSS + JS in one file)
-├── Assets.xcassets               App icon, accent color
+├── Assets.xcassets               App icon, accent color, Theme/ and Team/ color sets
 └── Localizable.xcstrings         All UI strings (String Catalog)
 ```
 
@@ -94,21 +94,22 @@ Macopardy/
 
 ```
 ControlView/
-├── ControlView.swift             NavigationSplitView: sidebar + detail
-├── Extensions/                   Nav title, phase indicator
+├── ControlView.swift             Phase content + team score strip, board-blue, window toolbar
+├── Extensions/                   Window title/subtitle, when the score strip shows
 └── Components/
-    ├── ControlViewContent.swift  Switches the detail pane on GamePhase
-    ├── SidebarView/              Game / Buzzer selection, phase, round, team standings
+    ├── ControlViewContent.swift  Switches the content on GamePhase
+    ├── ControlToolbar.swift      Buzzers, Show Display, Final Macpardy, Next Round
+    ├── BuzzerStatusButton/       Toolbar button + popover: join info, phone per team, remove phone
+    ├── TeamScoreStripView/       Team scores along the bottom: ±100 on the board, ✓/✗ on a clue, reset via context menu
     ├── Phases/                   One folder per phase
-    │   ├── SetupControlView/         Team editor, buzzer join info, Start Game
-    │   ├── BoardControlView/         Question picker, Next Round, Show/Hide Board
-    │   ├── QuestionControlView/      Clue + response, Reveal Answer, Return to Board
+    │   ├── SetupControlView/         Team cards (name, color swatches), buzzer join panel, Start Game
+    │   ├── BoardControlView/         Host copy of the Display board; click a tile to open it
+    │   ├── QuestionControlView/      Clue tile, host-only response + Reveal Answer, buzz status, timer
     │   ├── DailyDoubleControlView/   Team picker, wager input, quick wagers
     │   ├── FinalMacpardyCategoryControlView/  Wager status per team
     │   └── FinalMacpardyControlView/ Final clue/answer, Complete Game
-    ├── ScoreControlsView/        Correct / wrong / manual score buttons per team
-    ├── TimerControlsView/        Start, pause, reset, ±5 s
-    └── BuzzerControlView/        Connected phones per team, remove phone, join info
+    ├── ScoreControlsView/        Final Macpardy correct / wrong buttons per team
+    └── TimerControlsView/        Countdown ring; start/pause, reset, ±5 s
 ```
 
 ### View folder pattern
@@ -130,7 +131,7 @@ One `<Type>Tests.swift` per type under test:
 | File | Covers |
 |---|---|
 | `BoardPackageTests` | Package read/write, legacy JSON, limits, path safety |
-| `BoardLoaderTests` | Edit Existing Game loading and error locations |
+| `BoardLoaderTests` | Edit Board loading and error locations |
 | `CSVParserTests`, `CSVBoardImporterTests` | CSV parsing and import validation |
 | `ImageImporterTests` | Formats, size limits, downscaling, re-encoding |
 | `QuestionImageAutoSaveTests` | Images embedded in auto-saves |

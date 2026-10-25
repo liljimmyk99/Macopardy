@@ -7,14 +7,18 @@ import SwiftUI
 
 enum MacpardyTheme {
 
-    static let boardBlue = Color(red: 0.04, green: 0.12, blue: 0.38)
-    static let tileBlue = Color(red: 0.06, green: 0.18, blue: 0.48)
-    static let tilePlayed = Color(red: 0.04, green: 0.12, blue: 0.38)
-    static let gold = Color(red: 0.88, green: 0.75, blue: 0.22)
-    static let clueBackground = Color(red: 0.04, green: 0.12, blue: 0.38)
+    // Colors live in Assets.xcassets (Theme/ and Team/); Tuist generates `MacopardyAsset`.
+    static let boardBlue = MacopardyAsset.boardBlue.swiftUIColor
+    static let tileBlue = MacopardyAsset.tileBlue.swiftUIColor
+    static let tileHover = MacopardyAsset.tileHover.swiftUIColor
+    static let tilePlayed = MacopardyAsset.tilePlayed.swiftUIColor
+    static let panelBlue = MacopardyAsset.panelBlue.swiftUIColor
+    static let gold = MacopardyAsset.gold.swiftUIColor
+    static let mutedText = MacopardyAsset.mutedText.swiftUIColor
+    static let clueBackground = MacopardyAsset.clueBackground.swiftUIColor
     static let controlBackground = Color(nsColor: .windowBackgroundColor)
-    static let sidebarBackground = Color(nsColor: .controlBackgroundColor)
 
+    // SF Pro is the system font, so there are no font files to bundle; sizes live here.
     static let categoryFont = Font.system(size: 22, weight: .bold, design: .default)
     static let valueFont = Font.system(size: 36, weight: .bold, design: .default)
     static let clueFont = Font.system(size: 48, weight: .regular, design: .default)
@@ -23,4 +27,20 @@ enum MacpardyTheme {
     static let scoreFont = Font.system(size: 28, weight: .bold, design: .default)
     static let timerFont = Font.system(size: 72, weight: .bold, design: .monospaced)
     static let dailyDoubleFont = Font.system(size: 96, weight: .bold, design: .default)
+
+    // Control window
+    static let controlCategoryFont = Font.system(size: 16, weight: .heavy, design: .default)
+    static let controlValueFont = Font.system(size: 34, weight: .heavy, design: .default)
+    static let controlTeamScoreFont = Font.system(size: 28, weight: .heavy, design: .default).monospacedDigit()
+    static let badgeFont = Font.system(size: 10, weight: .heavy, design: .default)
+    static let joinCodeFont = Font.system(size: 30, weight: .heavy, design: .monospaced)
+    static let setupJoinCodeFont = Font.system(size: 48, weight: .black, design: .monospaced)
+    static let controlClueFont = Font.system(size: 32, weight: .semibold, design: .default)
+    static let controlResponseFont = Font.system(size: 22, weight: .heavy, design: .default)
+    static let controlTimerFont = Font.system(size: 48, weight: .bold, design: .monospaced)
+
+    // Start screen
+    static let launchTitleFont = Font.system(size: 88, weight: .black, design: .default)
+    static let launchTileIconFont = Font.system(size: 40, weight: .semibold, design: .default)
+    static let shortcutFont = Font.system(size: 12, weight: .semibold, design: .monospaced)
 }

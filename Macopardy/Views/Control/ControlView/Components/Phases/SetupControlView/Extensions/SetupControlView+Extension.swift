@@ -1,34 +1,103 @@
-import AppKit
 import SwiftUI
 
 extension SetupControlView {
-    func setupHeader() -> some View {
-        VStack(spacing: 8) {
-            Text("control.setup.heading")
-                .font(.title2.bold())
 
-            Text("control.setup.subheading")
-                .font(.subheadline)
-                .foregroundStyle(.secondary)
+    /// One cell of the 2 × 2 team grid.
+    private enum TeamSlot: Identifiable {
+        case team(Team)
+        case add
+        case empty(Int)
+
+        var id: String {
+            switch self {
+            case .team(let team): team.id.uuidString
+            case .add: "add"
+            case .empty(let index): "empty-\(index)"
+            }
         }
-        .padding(.top, 10)
+    }
+
+    /// Teams, then an Add Team card while there's room, padded to a full grid
+    /// so cards keep the same size as teams come and go.
+    private var teamSlots: [TeamSlot] {
+        var slots = gameState.game.teams.map(TeamSlot.team)
+        if slots.count < Team.maxCount {
+            slots.append(.add)
+        }
+        while slots.count < Team.maxCount {
+            slots.append(.empty(slots.count))
+        }
+        return slots
+    }
+
+    func sectionHeader(_ title: LocalizedStringKey) -> some View {
+        Text(title)
+            .textCase(.uppercase)
+            .font(MacpardyTheme.controlCategoryFont)
+            .foregroundStyle(.white)
+            .frame(maxWidth: .infinity)
+            .frame(height: 64)
+            .background(MacpardyTheme.tileBlue)
+    }
+
+    func teamGrid() -> some View {
+        let slots = teamSlots
+        let rows = stride(from: 0, to: slots.count, by: 2).map { Array(slots[$0..<min($0 + 2, slots.count)]) }
+
+        return VStack(spacing: 4) {
+            ForEach(rows.indices, id: \.self) { rowIndex in
+                HStack(spacing: 4) {
+                    ForEach(rows[rowIndex]) { slot in
+                        teamSlotView(slot)
+                            .frame(maxWidth: .infinity, maxHeight: .infinity)
+                    }
+                }
+            }
+        }
+    }
+
+    @ViewBuilder
+    private func teamSlotView(_ slot: TeamSlot) -> some View {
+        switch slot {
+        case .team(let team):
+            TeamSetupCard(team: team)
+        case .add:
+            Button {
+                gameState.addTeam()
+            } label: {
+                VStack(spacing: 10) {
+                    Image(systemName: "plus")
+                        .font(.system(size: 32, weight: .semibold))
+                        .foregroundStyle(MacpardyTheme.gold)
+                    Text("control.setup.button.add_team")
+                        .font(.headline)
+                        .foregroundStyle(MacpardyTheme.mutedText)
+                }
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
+                .contentShape(Rectangle())
+                .overlay(
+                    Rectangle()
+                        .strokeBorder(MacpardyTheme.tileHover, style: StrokeStyle(lineWidth: 2, dash: [8, 6]))
+                )
+            }
+            .buttonStyle(.plain)
+        case .empty:
+            Color.clear
+        }
     }
 
     func startGameButton() -> some View {
-        LargeButton(
-            title: "control.setup.button.start_game",
-            systemImage: "play.circle.fill",
-            tint: .green
-        ) {
+        Button {
             gameState.startGame()
+        } label: {
+            Label("control.setup.button.start_game", systemImage: "play.fill")
+                .font(.title3.bold())
+                .frame(maxWidth: .infinity)
+                .padding(.vertical, 6)
         }
-        .frame(maxWidth: 300)
-        .padding(.top, 8)
-    }
-
-    // MARK: - Buzzer Section
-
-    func buzzerSection() -> some View {
-        BuzzerJoinInfoView()
+        .buttonStyle(.borderedProminent)
+        .tint(MacpardyTheme.gold)
+        .foregroundStyle(MacpardyTheme.boardBlue)
+        .controlSize(.extraLarge)
     }
 }
