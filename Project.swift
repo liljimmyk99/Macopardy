@@ -74,7 +74,7 @@ let project = Project(
                         "@executable_path/../Frameworks",
                     ],
                     "MACOSX_DEPLOYMENT_TARGET": "26.3",
-                    "MARKETING_VERSION": "0.1.0",
+                    "MARKETING_VERSION": "0.2.0",
                     "PRODUCT_BUNDLE_IDENTIFIER": "jbkiv.Macopardy",
                     "REGISTER_APP_GROUPS": "YES",
                     "STRING_CATALOG_GENERATE_SYMBOLS": "YES",
