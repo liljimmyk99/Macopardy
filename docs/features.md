@@ -121,6 +121,28 @@ Wire details: [buzzer-protocol.md](buzzer-protocol.md).
 `scripts/export.sh` builds an ad-hoc signed `.app` and `.dmg` for trusted sharing (not
 notarized). See [EXPORTING.md](../EXPORTING.md).
 
+## 7. Keyboard shortcuts
+
+Shortcuts work only while their button is on screen, so most depend on the window and phase.
+
+| Where | Shortcut | Action |
+|---|---|---|
+| Start screen | ⌘O | **Play** (open a board) |
+| Start screen | ⌘N | **New Board** |
+| Start screen | ⌘E | **Edit Board** |
+| New Board sheet | Esc | Cancel |
+| Board error sheet | Return | OK |
+| Editor window | ⌘S | **Save Game** |
+| Editor window | Tab / ⇧Tab | Move between the clue and response fields (and the Final category) |
+| Control, any phase in a game | ⌘⇧B | Open the **Buzzers** popover |
+| Control, any phase in a game | ⌘D | **Show Display** |
+| Control, Board | ⌘F | **Final Macpardy** |
+| Control, Board | ⌘→ | **Next Round** |
+| Control, Question / Answer | ⌘B | **Return to Board** |
+| Control, Question / Final | ⌘S | Start / pause the timer |
+| Control, Question / Final | ⌘← | Reset the timer |
+| Control, Question / Final | ⌘− / ⌘+ | Timer −5 s / +5 s |
+
 ## Not built yet
 
 Open issues at the time of writing: sounds (#27), animations (#25), and a fix for the control

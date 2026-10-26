@@ -30,6 +30,7 @@ struct BuzzerStatusButton: View {
         .popover(isPresented: $isPresented, arrowEdge: .bottom) {
             popoverContent()
         }
+        .keyboardShortcut("b", modifiers: [.command, .shift])
     }
 }
 

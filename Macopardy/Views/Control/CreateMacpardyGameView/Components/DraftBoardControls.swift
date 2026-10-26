@@ -33,6 +33,7 @@ struct DraftBoardControls: View {
                 saveGame()
             }
             .buttonStyle(.borderedProminent)
+            .keyboardShortcut("s", modifiers: .command)
             .controlSize(.large)
         }
     }
