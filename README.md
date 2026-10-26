@@ -16,6 +16,22 @@ can buzz in from their phones over the local network. No accounts, no server, no
 
 Full walkthrough: [docs/features.md](docs/features.md).
 
+## Keyboard shortcuts
+
+| Shortcut | Action |
+|---|---|
+| ⌘O / ⌘N / ⌘E | Start screen: **Play**, **New Board**, **Edit Board** |
+| ⌘S | Editor: **Save Game** · Control: start / pause the timer |
+| ⌘D | **Show Display** |
+| ⌘B | **Return to Board** (on a clue) |
+| ⌘⇧B | **Buzzers** popover |
+| ⌘F | **Final Macpardy** (from the board) |
+| ⌘→ | **Next Round** (from the board) |
+| ⌘← | Reset the timer |
+| ⌘− / ⌘+ | Timer −5 s / +5 s |
+
+Where each one applies: [docs/features.md §7](docs/features.md#7-keyboard-shortcuts).
+
 ## Quick start
 
 Requires macOS 26.3+, Xcode 26, and [Tuist](https://tuist.io).

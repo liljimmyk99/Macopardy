@@ -82,6 +82,9 @@ fonts come from `MacpardyTheme`, not literals. Colors are defined as color sets 
 add a new color there, then expose it on `MacpardyTheme`. Fonts are SF Pro (the system font),
 so they're sizes/weights on `MacpardyTheme`, not bundled files.
 
+When you add or change a `.keyboardShortcut`, update the shortcut tables in
+`docs/features.md` (§7) and `README.md`.
+
 ### Strings and localization
 - **All user-facing text goes in `Macopardy/Localizable.xcstrings`.** Use dotted keys scoped
   by screen: `launch.button.new_game`, `control.question.button.reveal_answer`,
