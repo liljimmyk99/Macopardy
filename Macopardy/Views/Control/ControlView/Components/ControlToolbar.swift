@@ -16,6 +16,7 @@ extension ControlView {
                     gameState.showBoard()
                 }
                 .labelStyle(.titleAndIcon)
+                .keyboardShortcut("b", modifiers: .command)
             }
         }
 
@@ -28,6 +29,7 @@ extension ControlView {
                 openWindow(id: "display")
             }
             .labelStyle(.titleAndIcon)
+            .keyboardShortcut("d", modifiers: .command)
             .help("control.toolbar.show_display.help")
         }
 
@@ -39,6 +41,7 @@ extension ControlView {
                     gameState.showFinalMacpardy()
                 }
                 .labelStyle(.titleAndIcon)
+                .keyboardShortcut("f", modifiers: .command)
                 .foregroundStyle(MacpardyTheme.gold)
             }
 
@@ -49,6 +52,7 @@ extension ControlView {
                 .labelStyle(.titleAndIcon)
                 .buttonStyle(.borderedProminent)
                 .tint(MacpardyTheme.gold)
+                .keyboardShortcut(.rightArrow, modifiers: .command)
                 .foregroundStyle(MacpardyTheme.boardBlue)
             }
         }
