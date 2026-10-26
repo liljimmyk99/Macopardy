@@ -2555,6 +2555,66 @@
         }
       }
     },
+    "display.setup.buzzer.join_code" : {
+      "comment" : "Display setup screen: label above the buzzer join code",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Join code"
+          }
+        }
+      }
+    },
+    "display.setup.buzzer.or_visit" : {
+      "comment" : "Display setup screen: label above the buzzer URL",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Or open this link on your phone"
+          }
+        }
+      }
+    },
+    "display.setup.buzzer.scan" : {
+      "comment" : "Display setup screen: heading next to the buzzer QR code",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Scan to grab a buzzer"
+          }
+        }
+      }
+    },
+    "display.setup.team.connected" : {
+      "comment" : "Display setup screen: a team has a buzzer phone connected",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Connected"
+          }
+        }
+      }
+    },
+    "display.setup.team.not_connected" : {
+      "comment" : "Display setup screen: a team has no buzzer phone yet",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Not connected"
+          }
+        }
+      }
+    },
     "display.setup.waiting" : {
       "comment" : "Status message on presentation screen before game is started",
       "extractionState" : "manual",

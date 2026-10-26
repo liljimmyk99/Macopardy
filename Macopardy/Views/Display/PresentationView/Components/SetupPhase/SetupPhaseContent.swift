@@ -2,14 +2,24 @@ import SwiftUI
 
 extension PresentationView {
     func setupPhaseContent() -> some View {
-        VStack(spacing: 20) {
+        VStack(spacing: 32) {
             Spacer()
             GameTitleView(title: "Macpardy!")
-            Text("display.setup.waiting")
-                .font(.title2)
-                .foregroundStyle(.white.opacity(0.8))
+
+            if buzzerState.isRunning, let url = buzzerState.serverURL {
+                DisplayBuzzerJoinPanel(url: url, joinCode: buzzerState.joinCode)
+                DisplayTeamConnectionRow(
+                    teams: gameState.game.teams,
+                    connectedTeamIDs: buzzerState.claimedTeamIDs
+                )
+            } else {
+                Text("display.setup.waiting")
+                    .font(.title2)
+                    .foregroundStyle(.white.opacity(0.8))
+            }
             Spacer()
         }
+        .padding(.horizontal, 40)
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background(MacpardyTheme.boardBlue)
     }
