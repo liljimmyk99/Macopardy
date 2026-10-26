@@ -68,7 +68,7 @@ each team's phone status with **Remove phone**. The Display window, opened with
 
 | Phase | Host (Control) | Display |
 |---|---|---|
-| **Setup** | Team cards (max 4): rename, pick a color swatch, remove, **Add Team**; buzzer panel with QR code, join code, URL, and how many teams have a phone; **Start Game** | "Waiting to start game…" |
+| **Setup** | Team cards (max 4): rename, pick a color swatch, remove, **Add Team**; buzzer panel with QR code, join code, URL, and how many teams have a phone; **Start Game** | Buzzer QR code, join URL, and join code, with a card per team showing **Connected** / **Not connected**; "Waiting to start game…" if the buzzer server isn't running |
 | **Board** | Pick a clue from the board; **Next Round**; show/hide the Display window | The board, played tiles blanked |
 | **Daily Double** | Pick the team and wager (quick-wager buttons), **Show Question** | Daily Double splash |
 | **Question** | Clue as a big tile, correct response (host only) with **Reveal Answer**, who buzzed first (or the Daily Double team and wager), 15 s timer ring (start/pause/reset/±5 s), ✓/✗ score buttons on each team card (only the Daily Double team's on a Daily Double), **Return to Board** in the toolbar | Clue (and picture, if any), timer |

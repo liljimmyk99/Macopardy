@@ -27,6 +27,8 @@ enum MacpardyTheme {
     static let scoreFont = Font.system(size: 28, weight: .bold, design: .default)
     static let timerFont = Font.system(size: 72, weight: .bold, design: .monospaced)
     static let dailyDoubleFont = Font.system(size: 96, weight: .bold, design: .default)
+    static let displayJoinCodeFont = Font.system(size: 72, weight: .black, design: .monospaced)
+    static let displayJoinURLFont = Font.system(size: 28, weight: .semibold, design: .monospaced)
 
     // Control window
     static let controlCategoryFont = Font.system(size: 16, weight: .heavy, design: .default)
