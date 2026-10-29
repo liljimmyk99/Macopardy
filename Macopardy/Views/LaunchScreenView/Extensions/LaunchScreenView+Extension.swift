@@ -32,7 +32,7 @@ extension LaunchScreenView {
                 title: "launch.tile.play",
                 caption: "launch.tile.play.caption",
                 systemImage: "play.fill",
-                shortcut: .play
+                shortcut: .importBoard
             ) {
                 handleOpenExistingGame()
             }
@@ -50,7 +50,7 @@ extension LaunchScreenView {
                 title: "launch.tile.edit",
                 caption: "launch.tile.edit.caption",
                 systemImage: "square.and.pencil",
-                shortcut: .editBoard
+                shortcut: nil
             ) {
                 openPicker(.edit)
             }
@@ -155,6 +155,7 @@ extension LaunchScreenView {
                 let data = try FileManagerService().readData(from: url)
                 let draft = try BoardLoader.load(data: data, fileName: url.lastPathComponent)
                 AppLogger.database.info("Opened \(url.lastPathComponent, privacy: .public) for editing")
+                recents.note(url)
                 editorSession.edit(draft)
                 openWindow(id: "create-macpardy")
             } catch {
@@ -170,6 +171,7 @@ extension LaunchScreenView {
         Task {
             do {
                 let boards = try await FileManagerService().readBoards(from: url)
+                recents.note(url)
                 gameState.loadGame(boards: boards)
                 hasSelectedGame = true
             } catch {

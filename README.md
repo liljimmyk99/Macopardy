@@ -20,7 +20,7 @@ Full walkthrough: [docs/features.md](docs/features.md).
 
 | Shortcut | Action |
 |---|---|
-| ⌘O / ⌘N / ⌘E | Start screen: **Play**, **New Board**, **Edit Board** |
+| ⌘O / ⌘N | File menu: **Import Board…** (play or edit), **New Board**; **Open Recent** lists the last 10 boards |
 | ⌘S | Editor: **Save Game** |
 | ⌘T | Start / pause the timer |
 | ⌘R | **Reveal Answer** |

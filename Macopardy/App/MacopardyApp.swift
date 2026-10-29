@@ -47,6 +47,9 @@ struct MacpardyApp: App {
     @State
     private var editorSession = BoardEditorSession.shared
 
+    @State
+    private var boardOpenCoordinator = BoardOpenCoordinator()
+
     private var buzzerTeams: [BuzzerTeam] {
         gameState.game.teams.map(BuzzerTeam.init(team:))
     }
@@ -77,21 +80,23 @@ struct MacpardyApp: App {
         }
     }
 
-    /// Loads a board opened from Finder. Ignored while a game is in progress
-    /// so an accidental double-click can't wipe it out.
-    private func openBoard(at url: URL) {
-        guard !hasSelectedGame else {
-            AppLogger.control.info("Ignoring \(url.lastPathComponent, privacy: .public): a game is in progress")
+    /// Starts a game from `boards`, ending the one in progress first: the
+    /// buzzer server and sounds stop exactly as when a game is left, then
+    /// the server restarts for the new game.
+    private func startGame(with boards: [MacpardyBoard]) {
+        guard hasSelectedGame else {
+            gameState.loadGame(boards: boards)
+            hasSelectedGame = true
             return
         }
         Task {
-            do {
-                let boards = try await FileManagerService().readBoards(from: url)
-                gameState.loadGame(boards: boards)
-                hasSelectedGame = true
-            } catch {
-                AppLogger.control.error("Failed to open board \(url.lastPathComponent, privacy: .public): \(error.localizedDescription)")
-            }
+            hasSelectedGame = false
+            SoundPlayer.shared.stopAll()
+            await buzzerState.stopServer()
+            // Let the change to `hasSelectedGame` reach its handler before the game starts again.
+            await Task.yield()
+            gameState.loadGame(boards: boards)
+            hasSelectedGame = true
         }
     }
 
@@ -120,9 +125,14 @@ struct MacpardyApp: App {
                         .environment(editorSession)
                 }
             }
+            .boardOpenDialogs(boardOpenCoordinator)
+            .onAppear {
+                boardOpenCoordinator.isGameRunning = { hasSelectedGame }
+                boardOpenCoordinator.startGame = { boards in startGame(with: boards) }
+            }
             // Double-clicking a .macpardy board in Finder opens it here.
             .onOpenURL { url in
-                openBoard(at: url)
+                boardOpenCoordinator.open(url: url)
             }
         }
         .defaultSize(width: 1200, height: 900)
@@ -178,6 +188,7 @@ struct MacpardyApp: App {
             SoundPlayer.shared.handle(phase: phase)
         }
         .commands {
+            FileCommands(coordinator: boardOpenCoordinator)
             GameCommands(gameState: gameState, buzzerState: buzzerState, hasSelectedGame: hasSelectedGame)
         }
 

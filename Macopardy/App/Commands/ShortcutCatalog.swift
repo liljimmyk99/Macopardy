@@ -15,8 +15,8 @@ nonisolated enum ShortcutArea: String, CaseIterable {
 
 nonisolated enum AppShortcut: String, CaseIterable, Identifiable {
 
-    // Start screen
-    case play, newBoard, editBoard
+    // File
+    case newBoard, importBoard
     // Editor
     case saveGame
     // Game
@@ -29,9 +29,8 @@ nonisolated enum AppShortcut: String, CaseIterable, Identifiable {
     /// Localization key of the action's title.
     var titleKey: String {
         switch self {
-        case .play: "launch.tile.play"
-        case .newBoard: "launch.tile.new"
-        case .editBoard: "launch.tile.edit"
+        case .newBoard: "menu.file.new_board"
+        case .importBoard: "menu.file.import_board"
         case .saveGame: "create.button.save_game"
         case .returnToBoard: "control.question.button.return_to_board"
         case .nextRound: "control.board.button.next_round"
@@ -48,9 +47,8 @@ nonisolated enum AppShortcut: String, CaseIterable, Identifiable {
 
     var key: KeyEquivalent {
         switch self {
-        case .play: "o"
         case .newBoard: "n"
-        case .editBoard: "e"
+        case .importBoard: "o"
         case .saveGame: "s"
         case .returnToBoard, .buzzers: "b"
         case .nextRound: .rightArrow
@@ -73,7 +71,7 @@ nonisolated enum AppShortcut: String, CaseIterable, Identifiable {
 
     var area: ShortcutArea {
         switch self {
-        case .play, .newBoard, .editBoard: .start
+        case .newBoard, .importBoard: .file
         case .saveGame: .editor
         case .returnToBoard, .nextRound, .finalMacpardy, .revealAnswer, .showDisplay, .buzzers: .game
         case .toggleTimer, .resetTimer, .timerMinus5, .timerPlus5: .timer

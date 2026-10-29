@@ -3846,6 +3846,186 @@
           }
         }
       }
+    },
+    "menu.file.new_board" : {
+      "comment" : "Title of File > New Board",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "New Board"
+          }
+        }
+      }
+    },
+    "menu.file.import_board" : {
+      "comment" : "Title of File > Import Board…",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Import Board…"
+          }
+        }
+      }
+    },
+    "menu.file.open_recent" : {
+      "comment" : "Title of the File > Open Recent submenu",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Open Recent"
+          }
+        }
+      }
+    },
+    "menu.file.no_recent_boards" : {
+      "comment" : "Disabled item shown when no boards were opened recently",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No Recent Boards"
+          }
+        }
+      }
+    },
+    "menu.file.clear_menu" : {
+      "comment" : "Clears the Open Recent list",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Clear Menu"
+          }
+        }
+      }
+    },
+    "board_open.choice.title" : {
+      "comment" : "Title of the Play / Edit choice after a board file is picked",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "What would you like to do?"
+          }
+        }
+      }
+    },
+    "board_open.choice.message %@" : {
+      "comment" : "Message of the Play / Edit choice. The argument is the file name.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Open “%@” to play it or to edit it."
+          }
+        }
+      }
+    },
+    "board_open.choice.play" : {
+      "comment" : "Play button in the open-board choice",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Play"
+          }
+        }
+      }
+    },
+    "board_open.choice.edit" : {
+      "comment" : "Edit button in the open-board choice",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Edit"
+          }
+        }
+      }
+    },
+    "board_open.replace.title" : {
+      "comment" : "Title shown when opening a board would end the game in progress",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "End the current game and open this board?"
+          }
+        }
+      }
+    },
+    "board_open.replace.message" : {
+      "comment" : "Explains that the old game is only kept until the new one moves past setup",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The current game ends. It is auto-saved, so you can resume it from the start screen until the new game moves past setup. After that, the auto-save is replaced."
+          }
+        }
+      }
+    },
+    "board_open.replace.confirm" : {
+      "comment" : "Confirms ending the game to open a board",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "End Game and Open"
+          }
+        }
+      }
+    },
+    "board_open.discard_edits.title" : {
+      "comment" : "Title shown when opening a board for editing would replace unsaved editor changes",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Replace unsaved changes in the editor?"
+          }
+        }
+      }
+    },
+    "board_open.discard_edits.message" : {
+      "comment" : "Explains unsaved editor changes are lost",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The board editor has unsaved changes. Opening this board replaces them."
+          }
+        }
+      }
+    },
+    "board_open.discard_edits.confirm" : {
+      "comment" : "Confirms replacing unsaved editor changes",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Replace Changes"
+          }
+        }
+      }
     }
   },
   "version" : "1.1"
