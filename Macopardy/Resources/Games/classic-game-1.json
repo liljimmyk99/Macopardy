@@ -1,0 +1,593 @@
+{
+  "boards" : [
+    {
+      "categories" : [
+        {
+          "id" : "D8BD0D94-1980-4D7C-BA96-AD989921477C",
+          "questions" : [
+            {
+              "clue" : "The largest land animal, it drinks by sucking water into its trunk.",
+              "hasBeenPlayed" : false,
+              "id" : "A6EE8ADD-4C48-40AC-B553-06E4D4F27978",
+              "isDailyDouble" : false,
+              "response" : "What is the elephant?",
+              "value" : 200
+            },
+            {
+              "clue" : "A group of lions is called this.",
+              "hasBeenPlayed" : false,
+              "id" : "9298605A-FE93-4210-987B-48C7D802C09D",
+              "isDailyDouble" : false,
+              "response" : "What is a pride?",
+              "value" : 400
+            },
+            {
+              "clue" : "The only mammal capable of true, sustained flight.",
+              "hasBeenPlayed" : false,
+              "id" : "68771A83-46F2-47CF-85AA-C1F045E986ED",
+              "isDailyDouble" : false,
+              "response" : "What is the bat?",
+              "value" : 600
+            },
+            {
+              "clue" : "Tardigrades, tiny animals that can survive the vacuum of space, are nicknamed this.",
+              "hasBeenPlayed" : false,
+              "id" : "4BE276E6-8166-4D6E-9876-CB066EACB2A1",
+              "isDailyDouble" : false,
+              "response" : "What are water bears?",
+              "value" : 800
+            },
+            {
+              "clue" : "The axolotl, a salamander that keeps its larval gills as an adult, is native to lakes in and around this city.",
+              "hasBeenPlayed" : false,
+              "id" : "54BAECD6-A501-4765-B21C-B8EACA169E35",
+              "isDailyDouble" : false,
+              "response" : "What is Mexico City?",
+              "value" : 1000
+            }
+          ],
+          "title" : "Animal Kingdom"
+        },
+        {
+          "id" : "F317364D-61CB-4ED0-A1E7-8472781A6AEF",
+          "questions" : [
+            {
+              "clue" : "This president appears on the $5 bill.",
+              "hasBeenPlayed" : false,
+              "id" : "706802E6-FD86-4846-8D6B-43DDB81224B0",
+              "isDailyDouble" : false,
+              "response" : "Who is Abraham Lincoln?",
+              "value" : 200
+            },
+            {
+              "clue" : "This president launched the New Deal during the Great Depression.",
+              "hasBeenPlayed" : false,
+              "id" : "4179F5D2-FB5D-4996-89E8-3DFD236C212B",
+              "isDailyDouble" : false,
+              "response" : "Who is Franklin D. Roosevelt?",
+              "value" : 400
+            },
+            {
+              "clue" : "In 1974, he became the only president to resign from office.",
+              "hasBeenPlayed" : false,
+              "id" : "7A31BA78-5A8C-48FE-A80D-DC489292DCD3",
+              "isDailyDouble" : false,
+              "response" : "Who is Richard Nixon?",
+              "value" : 600
+            },
+            {
+              "clue" : "The only person to serve as both president and Chief Justice of the United States.",
+              "hasBeenPlayed" : false,
+              "id" : "EA732CD1-250B-4A24-A170-C0F51BC83760",
+              "isDailyDouble" : true,
+              "response" : "Who is William Howard Taft?",
+              "value" : 800
+            },
+            {
+              "clue" : "The 9th president, he died just 31 days after his inauguration.",
+              "hasBeenPlayed" : false,
+              "id" : "C214A4E2-6CCB-459D-A638-1D55227F0E76",
+              "isDailyDouble" : false,
+              "response" : "Who is William Henry Harrison?",
+              "value" : 1000
+            }
+          ],
+          "title" : "U.S. Presidents"
+        },
+        {
+          "id" : "030A0728-3A7D-4F33-86E9-36FD9D34B2EB",
+          "questions" : [
+            {
+              "clue" : "The main ingredient in guacamole.",
+              "hasBeenPlayed" : false,
+              "id" : "1B6FDB7B-AE07-44F0-B6C3-C23505DE0425",
+              "isDailyDouble" : false,
+              "response" : "What is avocado?",
+              "value" : 200
+            },
+            {
+              "clue" : "This soft Italian cheese is the classic topping on a Margherita pizza.",
+              "hasBeenPlayed" : false,
+              "id" : "BDD4CC61-DED7-4E3D-BC9E-2720DA842054",
+              "isDailyDouble" : false,
+              "response" : "What is mozzarella?",
+              "value" : 400
+            },
+            {
+              "clue" : "Sushi rice is seasoned with this type of vinegar.",
+              "hasBeenPlayed" : false,
+              "id" : "4B53ADB9-A6BA-4749-B916-756D4AF1FE7F",
+              "isDailyDouble" : false,
+              "response" : "What is rice vinegar?",
+              "value" : 600
+            },
+            {
+              "clue" : "Harvested from the stigmas of a crocus flower, it's the world's most expensive spice by weight.",
+              "hasBeenPlayed" : false,
+              "id" : "67DB2C26-773E-4A32-B25E-9466E7FB74A9",
+              "isDailyDouble" : false,
+              "response" : "What is saffron?",
+              "value" : 800
+            },
+            {
+              "clue" : "This Hungarian paprika stew takes its name from the word for a cattle herdsman.",
+              "hasBeenPlayed" : false,
+              "id" : "6FBC3A2F-C622-4E3A-917A-34EE20CF3B8E",
+              "isDailyDouble" : false,
+              "response" : "What is goulash?",
+              "value" : 1000
+            }
+          ],
+          "title" : "Food & Drink"
+        },
+        {
+          "id" : "6EC039F8-E3D0-46E0-B809-0EAAFA155A9A",
+          "questions" : [
+            {
+              "clue" : "The number of players each soccer team has on the field.",
+              "hasBeenPlayed" : false,
+              "id" : "B4767CD3-E585-422B-BF50-60BAF618E6CD",
+              "isDailyDouble" : false,
+              "response" : "What is 11?",
+              "value" : 200
+            },
+            {
+              "clue" : "Wimbledon is one of the four Grand Slam tournaments in this sport.",
+              "hasBeenPlayed" : false,
+              "id" : "64C368C1-8153-4347-BAD6-FC3C0779EF11",
+              "isDailyDouble" : false,
+              "response" : "What is tennis?",
+              "value" : 400
+            },
+            {
+              "clue" : "In bowling, three strikes in a row earns this bird-themed name.",
+              "hasBeenPlayed" : false,
+              "id" : "8EB6F854-D7EB-46F6-87A5-85F8ED189C95",
+              "isDailyDouble" : false,
+              "response" : "What is a turkey?",
+              "value" : 600
+            },
+            {
+              "clue" : "This country has won the most FIFA men's World Cups.",
+              "hasBeenPlayed" : false,
+              "id" : "25F9B0DA-EFFF-49BC-9846-95613B220E0B",
+              "isDailyDouble" : false,
+              "response" : "What is Brazil?",
+              "value" : 800
+            },
+            {
+              "clue" : "The term \"hat trick\" was first used in this sport, not hockey.",
+              "hasBeenPlayed" : false,
+              "id" : "8AE3AB4A-844B-497A-8718-42C1974DF7A4",
+              "isDailyDouble" : false,
+              "response" : "What is cricket?",
+              "value" : 1000
+            }
+          ],
+          "title" : "Sports"
+        },
+        {
+          "id" : "75B7F146-3828-46F4-B064-A10704C1985C",
+          "questions" : [
+            {
+              "clue" : "This company makes the iPhone.",
+              "hasBeenPlayed" : false,
+              "id" : "9A28A733-292C-4FB5-B5EE-97F58ACF52DC",
+              "isDailyDouble" : false,
+              "response" : "What is Apple?",
+              "value" : 200
+            },
+            {
+              "clue" : "The \"WWW\" in a web address stands for this.",
+              "hasBeenPlayed" : false,
+              "id" : "5AA0EDE2-6D0E-4657-AEED-777794D4D374",
+              "isDailyDouble" : false,
+              "response" : "What is the World Wide Web?",
+              "value" : 400
+            },
+            {
+              "clue" : "This programming language is named after a British comedy troupe, not a snake.",
+              "hasBeenPlayed" : false,
+              "id" : "F5458E9F-6CBA-461A-8365-C9D991339D11",
+              "isDailyDouble" : false,
+              "response" : "What is Python?",
+              "value" : 600
+            },
+            {
+              "clue" : "In 1950 this British mathematician proposed a test of whether a machine can think.",
+              "hasBeenPlayed" : false,
+              "id" : "25B38F5B-C27D-4C6C-83C3-E85C4247032C",
+              "isDailyDouble" : false,
+              "response" : "Who is Alan Turing?",
+              "value" : 800
+            },
+            {
+              "clue" : "Her notes on Charles Babbage's Analytical Engine make her widely considered the first computer programmer.",
+              "hasBeenPlayed" : false,
+              "id" : "2AE0CC62-5A0B-4D5B-9C3A-88A4AA16C698",
+              "isDailyDouble" : false,
+              "response" : "Who is Ada Lovelace?",
+              "value" : 1000
+            }
+          ],
+          "title" : "Technology"
+        },
+        {
+          "id" : "ABBED003-954C-4604-8EF4-FF4BFBA71A1B",
+          "questions" : [
+            {
+              "clue" : "A word that reads the same forward and backward, like \"racecar\".",
+              "hasBeenPlayed" : false,
+              "id" : "25EAC9A4-4234-4779-A19E-6F719BDC8CA7",
+              "isDailyDouble" : false,
+              "response" : "What is a palindrome?",
+              "value" : 200
+            },
+            {
+              "clue" : "A word that means the opposite of another word.",
+              "hasBeenPlayed" : false,
+              "id" : "940A7024-3600-4778-887D-8465B3EFCE7B",
+              "isDailyDouble" : false,
+              "response" : "What is an antonym?",
+              "value" : 400
+            },
+            {
+              "clue" : "A word formed from the first letters of other words, like NASA.",
+              "hasBeenPlayed" : false,
+              "id" : "7DD538BC-DD50-4465-B1F0-C3027FBC8D96",
+              "isDailyDouble" : false,
+              "response" : "What is an acronym?",
+              "value" : 600
+            },
+            {
+              "clue" : "Words like \"buzz\" and \"sizzle\" that imitate the sounds they describe.",
+              "hasBeenPlayed" : false,
+              "id" : "DB681726-E728-46CB-8734-963CD01ADAB0",
+              "isDailyDouble" : false,
+              "response" : "What is onomatopoeia?",
+              "value" : 800
+            },
+            {
+              "clue" : "Ironically, this extremely long word is a name for the fear of long words.",
+              "hasBeenPlayed" : false,
+              "id" : "D07EA67D-2B64-43AA-8E71-50B9AAC0ED1C",
+              "isDailyDouble" : false,
+              "response" : "What is hippopotomonstrosesquippedaliophobia?",
+              "value" : 1000
+            }
+          ],
+          "title" : "Words & Phrases"
+        }
+      ],
+      "id" : "14D1209A-0FCF-4480-86BC-F5A52C7830DA",
+      "round" : "macpardy",
+      "title" : "Macpardy"
+    },
+    {
+      "categories" : [
+        {
+          "id" : "DEDC0A40-C9D4-46B7-BC3A-D2F683A7FFE5",
+          "questions" : [
+            {
+              "clue" : "The planet nicknamed the Red Planet.",
+              "hasBeenPlayed" : false,
+              "id" : "C86A1D33-6C30-4A34-AB35-BA7F421773D1",
+              "isDailyDouble" : false,
+              "response" : "What is Mars?",
+              "value" : 400
+            },
+            {
+              "clue" : "In 1969, he became the first person to walk on the Moon.",
+              "hasBeenPlayed" : false,
+              "id" : "C73C1ED7-91F4-44A7-86A1-6CC6FA144CBD",
+              "isDailyDouble" : false,
+              "response" : "Who is Neil Armstrong?",
+              "value" : 800
+            },
+            {
+              "clue" : "In 2006, this former ninth planet was reclassified as a dwarf planet.",
+              "hasBeenPlayed" : false,
+              "id" : "3E0E121B-553D-4C9A-BB1D-E853E0CF3910",
+              "isDailyDouble" : false,
+              "response" : "What is Pluto?",
+              "value" : 1200
+            },
+            {
+              "clue" : "This moon of Saturn has a thick nitrogen atmosphere and lakes of liquid methane.",
+              "hasBeenPlayed" : false,
+              "id" : "727F9BBB-EDD7-4BB4-BA92-26CA0BF35E7D",
+              "isDailyDouble" : false,
+              "response" : "What is Titan?",
+              "value" : 1600
+            },
+            {
+              "clue" : "Voyager 1 crossed this boundary, where the solar wind gives way to interstellar space, in 2012.",
+              "hasBeenPlayed" : false,
+              "id" : "67C76E10-714E-4A69-A6C4-D063B800B2FA",
+              "isDailyDouble" : false,
+              "response" : "What is the heliopause?",
+              "value" : 2000
+            }
+          ],
+          "title" : "Space"
+        },
+        {
+          "id" : "BAB38E31-8813-4C09-9A1B-EF97200C2A0A",
+          "questions" : [
+            {
+              "clue" : "She wrote the Harry Potter series.",
+              "hasBeenPlayed" : false,
+              "id" : "E2BD888A-CFE5-4F61-B3C4-332E9A2F1821",
+              "isDailyDouble" : false,
+              "response" : "Who is J.K. Rowling?",
+              "value" : 400
+            },
+            {
+              "clue" : "This Russian author wrote \"War and Peace\".",
+              "hasBeenPlayed" : false,
+              "id" : "7015D5AC-40F0-42DE-B3F3-BBC75FCD2954",
+              "isDailyDouble" : false,
+              "response" : "Who is Leo Tolstoy?",
+              "value" : 800
+            },
+            {
+              "clue" : "Gabriel García Márquez's novel following seven generations of the Buendía family.",
+              "hasBeenPlayed" : false,
+              "id" : "B3DDEFB4-F7FA-41C2-A720-FA4480657DEF",
+              "isDailyDouble" : false,
+              "response" : "What is One Hundred Years of Solitude?",
+              "value" : 1200
+            },
+            {
+              "clue" : "This Nigerian author wrote \"Things Fall Apart\".",
+              "hasBeenPlayed" : false,
+              "id" : "FE398CF7-6766-4F15-AACE-10B4F94BFC2F",
+              "isDailyDouble" : false,
+              "response" : "Who is Chinua Achebe?",
+              "value" : 1600
+            },
+            {
+              "clue" : "Written by Murasaki Shikibu in the 11th century, it's often called the world's first novel.",
+              "hasBeenPlayed" : false,
+              "id" : "812A39D6-7FFD-43A8-B8F5-D0F90AA87EE9",
+              "isDailyDouble" : false,
+              "response" : "What is The Tale of Genji?",
+              "value" : 2000
+            }
+          ],
+          "title" : "World Literature"
+        },
+        {
+          "id" : "C2DCF231-4FFC-44BA-A6F6-6BB1CB0521C0",
+          "questions" : [
+            {
+              "clue" : "Thomas Edison patented a long-lasting version of this household item in 1879.",
+              "hasBeenPlayed" : false,
+              "id" : "532793EB-C177-4CBB-B6FB-E0B0CBCD1584",
+              "isDailyDouble" : false,
+              "response" : "What is the light bulb?",
+              "value" : 400
+            },
+            {
+              "clue" : "The Wright brothers made their first powered flight in 1903 near this North Carolina town.",
+              "hasBeenPlayed" : false,
+              "id" : "2B4F6A03-C490-4C9A-B041-0F9D896923A5",
+              "isDailyDouble" : false,
+              "response" : "What is Kitty Hawk?",
+              "value" : 800
+            },
+            {
+              "clue" : "Around 1440, Johannes Gutenberg developed this machine.",
+              "hasBeenPlayed" : false,
+              "id" : "95AECC2D-A1FE-4733-A623-A09E758E1C37",
+              "isDailyDouble" : false,
+              "response" : "What is the (movable-type) printing press?",
+              "value" : 1200
+            },
+            {
+              "clue" : "Percy Spencer invented this appliance after radar equipment melted a candy bar in his pocket.",
+              "hasBeenPlayed" : false,
+              "id" : "AE6762FE-E749-40C6-8E2C-31C2D6386806",
+              "isDailyDouble" : false,
+              "response" : "What is the microwave oven?",
+              "value" : 1600
+            },
+            {
+              "clue" : "In 1926, this Scottish engineer gave the first public demonstration of a working television.",
+              "hasBeenPlayed" : false,
+              "id" : "DF7C168C-DFA9-4002-A632-6B5D251AD524",
+              "isDailyDouble" : true,
+              "response" : "Who is John Logie Baird?",
+              "value" : 2000
+            }
+          ],
+          "title" : "Inventions"
+        },
+        {
+          "id" : "B261076C-D414-48D1-917B-3F0175E20A15",
+          "questions" : [
+            {
+              "clue" : "The king of the Greek gods.",
+              "hasBeenPlayed" : false,
+              "id" : "1FBB3256-72C9-4BB5-91BA-07A3452A11F8",
+              "isDailyDouble" : false,
+              "response" : "Who is Zeus?",
+              "value" : 400
+            },
+            {
+              "clue" : "The hammer-wielding Norse god of thunder.",
+              "hasBeenPlayed" : false,
+              "id" : "D0F4FF86-4201-4DA1-B334-AED9873AD36F",
+              "isDailyDouble" : false,
+              "response" : "Who is Thor?",
+              "value" : 800
+            },
+            {
+              "clue" : "This Greek hero slew the Minotaur in the labyrinth.",
+              "hasBeenPlayed" : false,
+              "id" : "948967F3-8829-483E-B715-A0134F6AEDB0",
+              "isDailyDouble" : false,
+              "response" : "Who is Theseus?",
+              "value" : 1200
+            },
+            {
+              "clue" : "This jackal-headed Egyptian god oversaw the weighing of the heart in the afterlife.",
+              "hasBeenPlayed" : false,
+              "id" : "CF998CAF-3246-4FE0-83C0-44093FEF6FD3",
+              "isDailyDouble" : true,
+              "response" : "Who is Anubis?",
+              "value" : 1600
+            },
+            {
+              "clue" : "In Norse myth, this great ash tree connects the nine worlds.",
+              "hasBeenPlayed" : false,
+              "id" : "AE26B794-5E00-4640-9056-4D581EE4418A",
+              "isDailyDouble" : false,
+              "response" : "What is Yggdrasil?",
+              "value" : 2000
+            }
+          ],
+          "title" : "Mythology"
+        },
+        {
+          "id" : "C6D6E00E-4276-4380-A01D-D95D9D60836C",
+          "questions" : [
+            {
+              "clue" : "This instrument usually has six strings and frets along its neck.",
+              "hasBeenPlayed" : false,
+              "id" : "3AAD5731-D29F-48E9-999F-09A1D0E02A96",
+              "isDailyDouble" : false,
+              "response" : "What is the guitar?",
+              "value" : 400
+            },
+            {
+              "clue" : "This performer was known as the \"King of Pop\".",
+              "hasBeenPlayed" : false,
+              "id" : "98379B84-04AB-40A5-A80C-80B65AA92FF4",
+              "isDailyDouble" : false,
+              "response" : "Who is Michael Jackson?",
+              "value" : 800
+            },
+            {
+              "clue" : "This composer wrote his Ninth Symphony after he had gone almost completely deaf.",
+              "hasBeenPlayed" : false,
+              "id" : "30000D7A-8664-4F99-94D3-50F6F4894EF3",
+              "isDailyDouble" : false,
+              "response" : "Who is Ludwig van Beethoven?",
+              "value" : 1200
+            },
+            {
+              "clue" : "The musical term for gradually getting louder.",
+              "hasBeenPlayed" : false,
+              "id" : "3C60C844-68B6-4079-A6D1-A1B638BD820A",
+              "isDailyDouble" : false,
+              "response" : "What is crescendo?",
+              "value" : 1600
+            },
+            {
+              "clue" : "The 1913 Paris premiere of his ballet \"The Rite of Spring\" nearly caused a riot.",
+              "hasBeenPlayed" : false,
+              "id" : "B23A47E3-E497-4764-AA28-2B706CDB6AB8",
+              "isDailyDouble" : false,
+              "response" : "Who is Igor Stravinsky?",
+              "value" : 2000
+            }
+          ],
+          "title" : "Music"
+        },
+        {
+          "id" : "2789BF63-7827-4583-8F0E-5EF386453394",
+          "questions" : [
+            {
+              "clue" : "The largest country in the world by area.",
+              "hasBeenPlayed" : false,
+              "id" : "34095E6B-759D-4710-887E-C5ABFB60C698",
+              "isDailyDouble" : false,
+              "response" : "What is Russia?",
+              "value" : 400
+            },
+            {
+              "clue" : "The Sahara Desert is on this continent.",
+              "hasBeenPlayed" : false,
+              "id" : "AF914F2E-179D-470F-AF86-BFAB7E1C31BF",
+              "isDailyDouble" : false,
+              "response" : "What is Africa?",
+              "value" : 800
+            },
+            {
+              "clue" : "This narrow strait separates Spain from Morocco.",
+              "hasBeenPlayed" : false,
+              "id" : "D55DFF58-18CE-4994-8308-9161F6A616EB",
+              "isDailyDouble" : false,
+              "response" : "What is the Strait of Gibraltar?",
+              "value" : 1200
+            },
+            {
+              "clue" : "This mountain kingdom is completely surrounded by South Africa.",
+              "hasBeenPlayed" : false,
+              "id" : "5AE33833-BBF4-4AD4-B18F-F7CEBF2AD10C",
+              "isDailyDouble" : false,
+              "response" : "What is Lesotho?",
+              "value" : 1600
+            },
+            {
+              "clue" : "La Paz is this country's seat of government, but Sucre is its constitutional capital.",
+              "hasBeenPlayed" : false,
+              "id" : "30BD7960-4049-41AA-AE93-28CA07382C28",
+              "isDailyDouble" : false,
+              "response" : "What is Bolivia?",
+              "value" : 2000
+            }
+          ],
+          "title" : "Geography"
+        }
+      ],
+      "id" : "AE35FD7B-29DD-4CA0-91E1-2E7A822CFDA2",
+      "round" : "doubleMacpardy",
+      "title" : "Double Macpardy"
+    },
+    {
+      "categories" : [
+        {
+          "id" : "723EEF99-3D57-4B54-B738-92FEB111909D",
+          "questions" : [
+            {
+              "clue" : "In 1953, these two men became the first confirmed to reach the summit of Mount Everest.",
+              "hasBeenPlayed" : false,
+              "id" : "1A12A494-33E1-411D-BA52-5B0F9D90FDCE",
+              "isDailyDouble" : false,
+              "response" : "Who are Edmund Hillary and Tenzing Norgay?",
+              "value" : 0
+            }
+          ],
+          "title" : "Famous Firsts"
+        }
+      ],
+      "id" : "FBFF5D86-8A0C-435D-872E-FCDCD3C395D4",
+      "round" : "finalMacpardy",
+      "title" : "Final Macpardy"
+    }
+  ],
+  "formatVersion" : 2,
+  "title" : "Classic Game 1"
+}

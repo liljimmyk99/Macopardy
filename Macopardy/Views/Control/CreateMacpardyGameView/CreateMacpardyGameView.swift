@@ -55,6 +55,8 @@ struct CreateMacpardyGameView: View {
 
     @State internal var exportDocument: MacpardyBoardsDocument?
     @State internal var exportContentType: UTType = .macpardyBoard
+    /// Overrides the default file name in the save panel (copies of built-in games).
+    @State internal var suggestedFilename: String?
     @State internal var showFileExporter = false
 
     @State internal var showPlayPrompt = false
@@ -165,15 +167,16 @@ struct CreateMacpardyGameView: View {
             document: exportDocument,
             contentType: exportContentType,
             defaultFilename: exportDocument.map { _ in
-                exportContentType == .json
+                suggestedFilename ?? (exportContentType == .json
                     ? FileManagerService().defaultJSONFilename(for: title)
-                    : FileManagerService().defaultFilename(for: title)
+                    : FileManagerService().defaultFilename(for: title))
             }
         ) { result in
             switch result {
             case .success(let url):
                 AppLogger.database.info("Saved boards to \(url.lastPathComponent, privacy: .public)")
                 savedDraft = draftBeingSaved
+                suggestedFilename = nil
                 if closeAfterSave != nil {
                     // Saved from the "save changes?" prompt: carry on closing.
                     closeAfterSave = nil

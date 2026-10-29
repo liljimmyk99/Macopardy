@@ -1,0 +1,593 @@
+{
+  "boards" : [
+    {
+      "categories" : [
+        {
+          "id" : "37829DFB-ED6A-4578-90C4-471E1128F36B",
+          "questions" : [
+            {
+              "clue" : "One a day of this fruit supposedly keeps the doctor away.",
+              "hasBeenPlayed" : false,
+              "id" : "5564AF3E-C125-4A65-A56C-87D4A685D6C6",
+              "isDailyDouble" : false,
+              "response" : "What is an apple?",
+              "value" : 200
+            },
+            {
+              "clue" : "Botanically a fruit, it's the main ingredient in ketchup.",
+              "hasBeenPlayed" : false,
+              "id" : "41CEB04F-6E31-419E-AF61-C931698E132E",
+              "isDailyDouble" : false,
+              "response" : "What is the tomato?",
+              "value" : 400
+            },
+            {
+              "clue" : "Called the \"king of fruits\", it's banned on some Asian transit systems for its smell.",
+              "hasBeenPlayed" : false,
+              "id" : "55EF89FC-07FE-4DB7-8CA9-39B0B47A2812",
+              "isDailyDouble" : false,
+              "response" : "What is durian?",
+              "value" : 600
+            },
+            {
+              "clue" : "Brussels sprouts are named after a city in this country.",
+              "hasBeenPlayed" : false,
+              "id" : "50E763DE-EB42-49DB-99C3-0306E79BB1F7",
+              "isDailyDouble" : false,
+              "response" : "What is Belgium?",
+              "value" : 800
+            },
+            {
+              "clue" : "This British name for the snow pea comes from French for \"eat it all\".",
+              "hasBeenPlayed" : false,
+              "id" : "0688A031-D33A-4541-A6A5-C7B3B72CF549",
+              "isDailyDouble" : false,
+              "response" : "What is mangetout?",
+              "value" : 1000
+            }
+          ],
+          "title" : "Fruits & Veggies"
+        },
+        {
+          "id" : "1B922497-5DC6-4175-951D-FE5B7DC31F3B",
+          "questions" : [
+            {
+              "clue" : "Nintendo's mustachioed plumber.",
+              "hasBeenPlayed" : false,
+              "id" : "18C851DB-DFBD-4451-AE8A-82E759CA9FAF",
+              "isDailyDouble" : false,
+              "response" : "Who is Mario?",
+              "value" : 200
+            },
+            {
+              "clue" : "Players mine blocks and build worlds in this best-selling game.",
+              "hasBeenPlayed" : false,
+              "id" : "548259DF-F24D-402B-AA0F-DBAFF41DFF8B",
+              "isDailyDouble" : false,
+              "response" : "What is Minecraft?",
+              "value" : 400
+            },
+            {
+              "clue" : "This falling-blocks puzzle game was created in the Soviet Union in 1984.",
+              "hasBeenPlayed" : false,
+              "id" : "1743ADE3-8AC0-44BC-A781-8D78C827A0BE",
+              "isDailyDouble" : false,
+              "response" : "What is Tetris?",
+              "value" : 600
+            },
+            {
+              "clue" : "Atari's 1972 table-tennis game that launched the arcade era.",
+              "hasBeenPlayed" : false,
+              "id" : "D32F26A3-C0E5-4594-9CD2-5EFDAB5883F4",
+              "isDailyDouble" : false,
+              "response" : "What is Pong?",
+              "value" : 800
+            },
+            {
+              "clue" : "Played on an oscilloscope in 1958, it's considered one of the first video games.",
+              "hasBeenPlayed" : false,
+              "id" : "2900DD3F-893F-450C-890A-AED74A9EDE84",
+              "isDailyDouble" : false,
+              "response" : "What is Tennis for Two?",
+              "value" : 1000
+            }
+          ],
+          "title" : "Video Games"
+        },
+        {
+          "id" : "D99D2548-B0A1-4F36-B2B6-A55762B22F62",
+          "questions" : [
+            {
+              "clue" : "In 1955 she refused to give up her bus seat in Montgomery, Alabama.",
+              "hasBeenPlayed" : false,
+              "id" : "F8FF51D2-2FAB-4529-B9F0-27A0A12295E7",
+              "isDailyDouble" : false,
+              "response" : "Who is Rosa Parks?",
+              "value" : 200
+            },
+            {
+              "clue" : "She was the first woman to win a Nobel Prize.",
+              "hasBeenPlayed" : false,
+              "id" : "EE03B115-E2F9-43A0-A899-5A6027EDC3EF",
+              "isDailyDouble" : false,
+              "response" : "Who is Marie Curie?",
+              "value" : 400
+            },
+            {
+              "clue" : "This aviator vanished over the Pacific in 1937 while flying around the world.",
+              "hasBeenPlayed" : false,
+              "id" : "FB538F94-29EC-45A9-9EB5-FEF9F9BAA362",
+              "isDailyDouble" : false,
+              "response" : "Who is Amelia Earhart?",
+              "value" : 600
+            },
+            {
+              "clue" : "At 17, she became the youngest-ever Nobel Peace Prize laureate.",
+              "hasBeenPlayed" : false,
+              "id" : "7DD5EE4A-5F9A-42D5-8E1F-5F12ABDE36DD",
+              "isDailyDouble" : false,
+              "response" : "Who is Malala Yousafzai?",
+              "value" : 800
+            },
+            {
+              "clue" : "Before his 1962 orbital flight, John Glenn asked this NASA mathematician to check the computer's numbers.",
+              "hasBeenPlayed" : false,
+              "id" : "7DC38BBA-4EE8-4C54-8E18-67B455B61FD9",
+              "isDailyDouble" : false,
+              "response" : "Who is Katherine Johnson?",
+              "value" : 1000
+            }
+          ],
+          "title" : "Trailblazing Women"
+        },
+        {
+          "id" : "CBC2FD6E-AA52-437A-9CE1-728E34C8EA13",
+          "questions" : [
+            {
+              "clue" : "This iron tower has stood in Paris since 1889.",
+              "hasBeenPlayed" : false,
+              "id" : "7EA7D0E3-0AE5-45F3-9CDB-19A6F7415AD4",
+              "isDailyDouble" : false,
+              "response" : "What is the Eiffel Tower?",
+              "value" : 200
+            },
+            {
+              "clue" : "A gift from France, she stands in New York Harbor.",
+              "hasBeenPlayed" : false,
+              "id" : "82A28F14-60AA-4AD0-B396-CD41D7408BD0",
+              "isDailyDouble" : false,
+              "response" : "What is the Statue of Liberty?",
+              "value" : 400
+            },
+            {
+              "clue" : "This white marble mausoleum in Agra was built by Shah Jahan.",
+              "hasBeenPlayed" : false,
+              "id" : "6BBC7532-5B54-485E-A92D-DC4630F9FEAC",
+              "isDailyDouble" : false,
+              "response" : "What is the Taj Mahal?",
+              "value" : 600
+            },
+            {
+              "clue" : "This Inca citadel sits high in the Andes of Peru.",
+              "hasBeenPlayed" : false,
+              "id" : "33FDD983-64D5-4635-9587-CD33D36AE757",
+              "isDailyDouble" : false,
+              "response" : "What is Machu Picchu?",
+              "value" : 800
+            },
+            {
+              "clue" : "This Cambodian temple complex is the largest religious monument in the world.",
+              "hasBeenPlayed" : false,
+              "id" : "E297EB63-3968-4F02-A3EA-63E03FCE1E30",
+              "isDailyDouble" : false,
+              "response" : "What is Angkor Wat?",
+              "value" : 1000
+            }
+          ],
+          "title" : "Landmarks"
+        },
+        {
+          "id" : "26BACACA-B505-4876-AE05-852C8D5316EC",
+          "questions" : [
+            {
+              "clue" : "The number of days in a leap year.",
+              "hasBeenPlayed" : false,
+              "id" : "B2A5FB40-38AC-4C01-8F82-AD30DB00922B",
+              "isDailyDouble" : false,
+              "response" : "What is 366?",
+              "value" : 200
+            },
+            {
+              "clue" : "The number of sides on a hexagon.",
+              "hasBeenPlayed" : false,
+              "id" : "51BCF613-BC2F-4070-AA82-25A886C5378D",
+              "isDailyDouble" : false,
+              "response" : "What is 6?",
+              "value" : 400
+            },
+            {
+              "clue" : "The Roman numeral L stands for this number.",
+              "hasBeenPlayed" : false,
+              "id" : "AD827A7C-819A-4C51-A5C2-83B9A54C9310",
+              "isDailyDouble" : false,
+              "response" : "What is 50?",
+              "value" : 600
+            },
+            {
+              "clue" : "Pi rounded to two decimal places.",
+              "hasBeenPlayed" : false,
+              "id" : "74283687-A8EA-4848-AB2B-6BE633961273",
+              "isDailyDouble" : false,
+              "response" : "What is 3.14?",
+              "value" : 800
+            },
+            {
+              "clue" : "Known as the Hardy–Ramanujan number, it's the smallest number expressible as the sum of two cubes in two different ways.",
+              "hasBeenPlayed" : false,
+              "id" : "7C5CBF81-29BD-4FFE-9A9C-69AF407BF307",
+              "isDailyDouble" : false,
+              "response" : "What is 1729?",
+              "value" : 1000
+            }
+          ],
+          "title" : "By the Numbers"
+        },
+        {
+          "id" : "AB50C9A8-8FE0-4CF0-935D-9147C5846EFE",
+          "questions" : [
+            {
+              "clue" : "Balls of ice that fall during thunderstorms.",
+              "hasBeenPlayed" : false,
+              "id" : "B68F44AB-3A85-4CD3-8C0B-89D29740C7E2",
+              "isDailyDouble" : false,
+              "response" : "What is hail?",
+              "value" : 200
+            },
+            {
+              "clue" : "This instrument measures air pressure.",
+              "hasBeenPlayed" : false,
+              "id" : "A2026A6A-3EFD-4664-B8C5-CDFA473BA208",
+              "isDailyDouble" : false,
+              "response" : "What is a barometer?",
+              "value" : 400
+            },
+            {
+              "clue" : "Spanish for \"the boy\", it's a periodic warming of Pacific Ocean waters.",
+              "hasBeenPlayed" : false,
+              "id" : "4744D77D-3931-42D7-A846-6CA2CFD72018",
+              "isDailyDouble" : false,
+              "response" : "What is El Niño?",
+              "value" : 600
+            },
+            {
+              "clue" : "This scale rates hurricanes from Category 1 to 5.",
+              "hasBeenPlayed" : false,
+              "id" : "EA7705FD-3FE0-441C-9ACB-29ED27460B69",
+              "isDailyDouble" : true,
+              "response" : "What is the Saffir-Simpson scale?",
+              "value" : 800
+            },
+            {
+              "clue" : "A rainbow produced by moonlight instead of sunlight.",
+              "hasBeenPlayed" : false,
+              "id" : "6A3E235B-016F-4171-B522-192B2DF0B8EB",
+              "isDailyDouble" : false,
+              "response" : "What is a moonbow (lunar rainbow)?",
+              "value" : 1000
+            }
+          ],
+          "title" : "Weather"
+        }
+      ],
+      "id" : "681528EE-0BC7-4F18-B664-CC32628BFDCC",
+      "round" : "macpardy",
+      "title" : "Macpardy"
+    },
+    {
+      "categories" : [
+        {
+          "id" : "A5D02957-AED8-485E-A6E2-F4C64D6F86E2",
+          "questions" : [
+            {
+              "clue" : "The process plants use to turn sunlight into food.",
+              "hasBeenPlayed" : false,
+              "id" : "7E92C6E3-DE1A-409F-98D4-6A0ACD6A931F",
+              "isDailyDouble" : false,
+              "response" : "What is photosynthesis?",
+              "value" : 400
+            },
+            {
+              "clue" : "This organelle is known as the powerhouse of the cell.",
+              "hasBeenPlayed" : false,
+              "id" : "A07D8C52-AB04-4CBA-8D7D-67C5D2AF066C",
+              "isDailyDouble" : false,
+              "response" : "What is the mitochondria?",
+              "value" : 800
+            },
+            {
+              "clue" : "His voyage on HMS Beagle helped him develop the theory of natural selection.",
+              "hasBeenPlayed" : false,
+              "id" : "82629350-A21F-49A3-A912-F46C3696D299",
+              "isDailyDouble" : false,
+              "response" : "Who is Charles Darwin?",
+              "value" : 1200
+            },
+            {
+              "clue" : "Gregor Mendel discovered the basics of heredity by experimenting on this plant.",
+              "hasBeenPlayed" : false,
+              "id" : "B1D50778-CBA1-4B28-9133-BCF01F8060D0",
+              "isDailyDouble" : false,
+              "response" : "What is the pea plant?",
+              "value" : 1600
+            },
+            {
+              "clue" : "Taken from Henrietta Lacks in 1951, these were the first human cells to keep dividing in a lab.",
+              "hasBeenPlayed" : false,
+              "id" : "7EF660D0-9453-48F8-B1DF-BAB434C1EB2B",
+              "isDailyDouble" : true,
+              "response" : "What are HeLa cells?",
+              "value" : 2000
+            }
+          ],
+          "title" : "Biology"
+        },
+        {
+          "id" : "9CC4A539-2399-4C20-B4FE-4850096D7CA6",
+          "questions" : [
+            {
+              "clue" : "This Danish prince asks, \"To be, or not to be?\"",
+              "hasBeenPlayed" : false,
+              "id" : "2432CAF7-4788-4D55-A035-52CD5F7C0FA1",
+              "isDailyDouble" : false,
+              "response" : "Who is Hamlet?",
+              "value" : 400
+            },
+            {
+              "clue" : "Superstitious actors call it \"the Scottish play\" rather than say its name.",
+              "hasBeenPlayed" : false,
+              "id" : "929A0349-B5BE-4C10-A901-3A929A2272B9",
+              "isDailyDouble" : false,
+              "response" : "What is Macbeth?",
+              "value" : 800
+            },
+            {
+              "clue" : "Shakespeare's theater in London, rebuilt near its original site in 1997.",
+              "hasBeenPlayed" : false,
+              "id" : "417B0830-0206-4225-AB80-5134AB699083",
+              "isDailyDouble" : false,
+              "response" : "What is the Globe Theatre?",
+              "value" : 1200
+            },
+            {
+              "clue" : "In \"The Tempest\", Prospero's airy spirit servant.",
+              "hasBeenPlayed" : false,
+              "id" : "1E0CD4B7-CCC6-41CC-AA26-6047B2948F92",
+              "isDailyDouble" : false,
+              "response" : "Who is Ariel?",
+              "value" : 1600
+            },
+            {
+              "clue" : "Shakespeare's wife shares her name with a modern Oscar-winning actress.",
+              "hasBeenPlayed" : false,
+              "id" : "4C248172-DE45-4239-95A4-D810F2EEE7E8",
+              "isDailyDouble" : false,
+              "response" : "Who is Anne Hathaway?",
+              "value" : 2000
+            }
+          ],
+          "title" : "Shakespeare"
+        },
+        {
+          "id" : "4473C5CF-B1C2-4783-8718-DF1BC2ADFD43",
+          "questions" : [
+            {
+              "clue" : "The currency of Japan.",
+              "hasBeenPlayed" : false,
+              "id" : "7992AF2D-E114-4003-A20F-EAB0337752D2",
+              "isDailyDouble" : false,
+              "response" : "What is the yen?",
+              "value" : 400
+            },
+            {
+              "clue" : "Created in 1913, it's the central bank of the United States.",
+              "hasBeenPlayed" : false,
+              "id" : "A1302771-2D55-426D-967C-952BFE9E5825",
+              "isDailyDouble" : false,
+              "response" : "What is the Federal Reserve?",
+              "value" : 800
+            },
+            {
+              "clue" : "This Scottish economist wrote \"The Wealth of Nations\" in 1776.",
+              "hasBeenPlayed" : false,
+              "id" : "EEDA8AE2-A15A-46E1-BA2E-F9D6E48CC17C",
+              "isDailyDouble" : false,
+              "response" : "Who is Adam Smith?",
+              "value" : 1200
+            },
+            {
+              "clue" : "In the 1630s, Dutch speculators drove the prices of these flower bulbs to absurd heights.",
+              "hasBeenPlayed" : false,
+              "id" : "D8C526E2-B264-40AB-8243-7AB9B337A21C",
+              "isDailyDouble" : false,
+              "response" : "What are tulips (tulip mania)?",
+              "value" : 1600
+            },
+            {
+              "clue" : "This economic principle states that \"bad money drives out good\".",
+              "hasBeenPlayed" : false,
+              "id" : "BF5C1C66-FE37-4BD6-88B0-4A40C2E0C8F9",
+              "isDailyDouble" : false,
+              "response" : "What is Gresham's law?",
+              "value" : 2000
+            }
+          ],
+          "title" : "Money Matters"
+        },
+        {
+          "id" : "3B76A40E-78B5-4EBB-8A1B-CD9408B6583F",
+          "questions" : [
+            {
+              "clue" : "This Italian city is home to a famously leaning bell tower.",
+              "hasBeenPlayed" : false,
+              "id" : "85BD9611-0EEF-4B8B-9E29-67C7382A630F",
+              "isDailyDouble" : false,
+              "response" : "What is Pisa?",
+              "value" : 400
+            },
+            {
+              "clue" : "This building's sail-shaped roof is the icon of an Australian harbor.",
+              "hasBeenPlayed" : false,
+              "id" : "F80C5FA9-76EF-40AB-8C75-7C5C4750C054",
+              "isDailyDouble" : false,
+              "response" : "What is the Sydney Opera House?",
+              "value" : 800
+            },
+            {
+              "clue" : "Begun in 1882, this Barcelona basilica is Antoni Gaudí's masterpiece.",
+              "hasBeenPlayed" : false,
+              "id" : "7BBEE6B3-CCF8-4726-8D55-401F1775BE90",
+              "isDailyDouble" : false,
+              "response" : "What is the Sagrada Família?",
+              "value" : 1200
+            },
+            {
+              "clue" : "This American architect designed Fallingwater, a house built over a waterfall.",
+              "hasBeenPlayed" : false,
+              "id" : "714542B2-6DD1-4AD1-A47D-BF0BCED500AC",
+              "isDailyDouble" : true,
+              "response" : "Who is Frank Lloyd Wright?",
+              "value" : 1600
+            },
+            {
+              "clue" : "This Roman temple still has the world's largest unreinforced concrete dome.",
+              "hasBeenPlayed" : false,
+              "id" : "2A01EBA3-C171-4CB6-BAD3-9F11D61D19BF",
+              "isDailyDouble" : false,
+              "response" : "What is the Pantheon?",
+              "value" : 2000
+            }
+          ],
+          "title" : "Architecture"
+        },
+        {
+          "id" : "4847E600-FE77-4281-B604-7AF43EB9273F",
+          "questions" : [
+            {
+              "clue" : "Its name means \"tyrant lizard king\", and its arms were famously tiny.",
+              "hasBeenPlayed" : false,
+              "id" : "1149D798-1A5F-42CB-A1CE-1585E2843FD5",
+              "isDailyDouble" : false,
+              "response" : "What is Tyrannosaurus rex?",
+              "value" : 400
+            },
+            {
+              "clue" : "Scientists who study fossils.",
+              "hasBeenPlayed" : false,
+              "id" : "71C9BDC0-4EC6-45C3-92CC-05AC7248F3EF",
+              "isDailyDouble" : false,
+              "response" : "What are paleontologists?",
+              "value" : 800
+            },
+            {
+              "clue" : "The crater from the asteroid that doomed the dinosaurs lies under this Mexican peninsula.",
+              "hasBeenPlayed" : false,
+              "id" : "39B8A908-598A-4C25-8CF9-7E1B89FB7D3E",
+              "isDailyDouble" : false,
+              "response" : "What is the Yucatán?",
+              "value" : 1200
+            },
+            {
+              "clue" : "Discovered in Germany in 1861, this feathered fossil links dinosaurs and birds.",
+              "hasBeenPlayed" : false,
+              "id" : "EDFD2040-23FA-4C99-AC79-BFA5B908DF27",
+              "isDailyDouble" : false,
+              "response" : "What is Archaeopteryx?",
+              "value" : 1600
+            },
+            {
+              "clue" : "As a girl in Lyme Regis, this fossil hunter helped uncover the first ichthyosaur skeleton to be correctly identified.",
+              "hasBeenPlayed" : false,
+              "id" : "CBB3E995-FE36-4E44-B72A-543DA36EB370",
+              "isDailyDouble" : false,
+              "response" : "Who is Mary Anning?",
+              "value" : 2000
+            }
+          ],
+          "title" : "Dinosaurs & Fossils"
+        },
+        {
+          "id" : "B094B7BD-F0F5-4EFC-9F28-B9E3C24FA7D6",
+          "questions" : [
+            {
+              "clue" : "The number of interlocking rings on the Olympic flag.",
+              "hasBeenPlayed" : false,
+              "id" : "944FA9CB-AEE4-47DF-BD4F-7794D100449F",
+              "isDailyDouble" : false,
+              "response" : "What is 5?",
+              "value" : 400
+            },
+            {
+              "clue" : "This American swimmer has won more Olympic medals than anyone else.",
+              "hasBeenPlayed" : false,
+              "id" : "E35DFF5C-E1C4-40E5-8366-7FE0FAF05801",
+              "isDailyDouble" : false,
+              "response" : "Who is Michael Phelps?",
+              "value" : 800
+            },
+            {
+              "clue" : "This city hosted the first modern Olympic Games in 1896.",
+              "hasBeenPlayed" : false,
+              "id" : "ACA921B9-33A4-4EA1-9174-5816FCB93D26",
+              "isDailyDouble" : false,
+              "response" : "What is Athens?",
+              "value" : 1200
+            },
+            {
+              "clue" : "Jesse Owens won four gold medals at the 1936 Games in this city.",
+              "hasBeenPlayed" : false,
+              "id" : "45BA8DA4-5BEF-4029-8B6F-D4B772680D5B",
+              "isDailyDouble" : false,
+              "response" : "What is Berlin?",
+              "value" : 1600
+            },
+            {
+              "clue" : "Milan shared hosting duties for the 2026 Winter Olympics with this Alpine resort town.",
+              "hasBeenPlayed" : false,
+              "id" : "F2733BD8-5CB8-41A6-91A4-2EE5887D02CB",
+              "isDailyDouble" : false,
+              "response" : "What is Cortina d'Ampezzo?",
+              "value" : 2000
+            }
+          ],
+          "title" : "The Olympics"
+        }
+      ],
+      "id" : "3F5F57C3-CF6A-4926-8908-70C42AD3001F",
+      "round" : "doubleMacpardy",
+      "title" : "Double Macpardy"
+    },
+    {
+      "categories" : [
+        {
+          "id" : "10BFD247-FE23-4BF0-82B9-AFDEEAC754A2",
+          "questions" : [
+            {
+              "clue" : "This word, coined for a 1920 Czech play, comes from a term meaning \"forced labor\".",
+              "hasBeenPlayed" : false,
+              "id" : "676AFC91-EDD0-4D9F-8257-1CDAA566B2C5",
+              "isDailyDouble" : false,
+              "response" : "What is robot?",
+              "value" : 0
+            }
+          ],
+          "title" : "Word Origins"
+        }
+      ],
+      "id" : "B5D15F83-B86F-4D3C-BD33-7264F9EE5253",
+      "round" : "finalMacpardy",
+      "title" : "Final Macpardy"
+    }
+  ],
+  "formatVersion" : 2,
+  "title" : "Classic Game 3"
+}

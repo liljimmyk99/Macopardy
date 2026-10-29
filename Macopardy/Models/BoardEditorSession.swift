@@ -28,6 +28,10 @@ final class BoardEditorSession {
     /// A loaded board waiting for the editor to pick it up.
     private(set) var pendingDraft: BoardDraft?
 
+    /// The file name to suggest when the pending draft is saved (set for
+    /// copies of built-in games).
+    private(set) var pendingSuggestedFilename: String?
+
     /// Goes up on every `edit(_:)` so an editor that's already open reloads.
     private(set) var editRequest = 0
 
@@ -51,8 +55,9 @@ final class BoardEditorSession {
     var onQuitDecision: ((Bool) -> Void)?
 
     /// Queues `draft` for the editor.
-    func edit(_ draft: BoardDraft) {
+    func edit(_ draft: BoardDraft, suggestedFilename: String? = nil) {
         pendingDraft = draft
+        pendingSuggestedFilename = suggestedFilename
         editRequest += 1
     }
 
@@ -60,6 +65,12 @@ final class BoardEditorSession {
     func takePendingDraft() -> BoardDraft? {
         defer { pendingDraft = nil }
         return pendingDraft
+    }
+
+    /// Hands the suggested file name for the draft just taken, once.
+    func takePendingSuggestedFilename() -> String? {
+        defer { pendingSuggestedFilename = nil }
+        return pendingSuggestedFilename
     }
 
     /// Asks the editor to prompt about unsaved edits. Returns `false` if a

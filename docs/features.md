@@ -22,9 +22,11 @@ exists, a banner below them shows its round and team count with **Resume** and *
 (Discard asks first).
 
 ### Play
-- Pick a `.macpardy` package or a `.json` board and play it.
+- Opens a picker listing the **built-in games** by title, with **Load my own file…** at the
+  bottom. Picking a built-in starts it the same way a loaded file does; **Load my own file…**
+  opens the file panel for a `.macpardy` package or a `.json` board.
 - If an auto-saved game exists, the app first asks: **Resume** it, start a **New Game**
-  (discards the save), or cancel.
+  (discards the save, then shows the picker), or cancel.
 - Double-clicking a `.macpardy` file in Finder also opens it (ignored while a game is in progress).
 
 ### New Board
@@ -34,7 +36,16 @@ A sheet with two options:
   are saved as a `.json` board and the game starts. Every problem is listed by row and column;
   nothing is partly imported. Details: [csv-import.md](csv-import.md).
 
+### Built-in games
+- Three complete, text-only games ship in the app (`Resources/Games/*.json`), in the same
+  format as user boards and loaded through the same parser (`BoardLoader`). A unit test
+  checks that every one is valid (6 × 5 rounds, 1 + 2 Daily Doubles, a Final clue).
+- Built-in content is English only and isn't localized.
+
 ### Edit Board
+- Shows the same picker: built-in games first, then **Load my own file…**. A built-in opens as a
+  **copy** (suggested name `<Game Title> copy.json`); saving always asks where to put a new
+  file, so the bundled originals are never changed.
 - Opens a `.json`, `.macpardy` / `.zip`, or `.csv` board in the same editor as New Game,
   pre-filled.
 - A file that doesn't fit the editor (not 6 × 5, missing Final, broken JSON, …) shows a sheet
@@ -121,7 +132,9 @@ Wire details: [buzzer-protocol.md](buzzer-protocol.md).
   the app's Application Support folder (sandboxed:
   `~/Library/Containers/jbkiv.Macopardy/Data/Library/Application Support/Macopardy/`).
   Pictures are embedded, so a crash or quit can be resumed from **Play** even if
-  the board file moved.
+  the board file moved. This holds for built-in games too: a save keeps the whole board and
+  doesn't refer to the bundled file, so it still resumes after an app update changes or
+  removes that game.
 - Resuming starts a new buzzer session; phones drop and rejoin with the new code.
 - A save that's corrupt or from a different schema version is discarded, not migrated.
 

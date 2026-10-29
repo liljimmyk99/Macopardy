@@ -49,6 +49,7 @@ Macopardy/
 │   ├── FileManagerService.swift  FileDocument for boards, security-scoped reads, file names
 │   ├── BoardPackage.swift        .macpardy zip + JSON read/write, UTType
 │   ├── BoardLoader.swift         "Edit Board" loader → BoardDraft or LoadError
+│   ├── BundledGameLibrary.swift  Lists/loads the built-in games from the app bundle
 │   ├── BoardLoader+Messages.swift  Localized error text for load failures
 │   ├── ImageImporter.swift       Question picture validation/downscale/re-encode
 │   ├── CSVImport/
@@ -86,7 +87,8 @@ Macopardy/
 │   │                             Double, Final, timer, scoreboard
 │   └── Shared/                   Theme, buttons, headers, image placeholder, WindowCloseGuard
 ├── Resources/
-│   └── Buzzer/buzzer.html        Phone buzzer page (HTML + CSS + JS in one file)
+│   ├── Buzzer/buzzer.html        Phone buzzer page (HTML + CSS + JS in one file)
+│   └── Games/*.json              Built-in games (board format; bundled as a folder)
 ├── Assets.xcassets               App icon, accent color, Theme/ and Team/ color sets
 └── Localizable.xcstrings         All UI strings (String Catalog)
 ```
@@ -133,6 +135,7 @@ One `<Type>Tests.swift` per type under test:
 |---|---|
 | `BoardPackageTests` | Package read/write, legacy JSON, limits, path safety |
 | `BoardLoaderTests` | Edit Board loading and error locations |
+| `BundledGameLibraryTests` | Every built-in game is valid; edit-copy filename; resume without the bundle |
 | `CSVParserTests`, `CSVBoardImporterTests` | CSV parsing and import validation |
 | `ImageImporterTests` | Formats, size limits, downscaling, re-encoding |
 | `QuestionImageAutoSaveTests` | Images embedded in auto-saves |

@@ -48,6 +48,12 @@ The auto-saved game (`Application Support/Macopardy/saved_game.json`) embeds ima
 Games imported from CSV (see [csv-import.md](csv-import.md)) are saved as a plain `.json` file
 in the format 2 shape (`{ "formatVersion": 2, "boards": [...] }`), since they have no images.
 
+## Built-in games
+
+The games in `Resources/Games/*.json` are plain `.json` boards in this same format, read by
+the same loader as user files. "Edit Board" opens one as a copy and saves a new file; the
+bundled file is never written. Auto-saves embed the whole board, so they don't depend on it.
+
 ## Editing an existing board
 
 "Edit Board" on the start screen opens a `.json`, `.macpardy` (or `.zip`), or `.csv`

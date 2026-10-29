@@ -52,7 +52,7 @@ extension LaunchScreenView {
                 systemImage: "square.and.pencil",
                 shortcut: "e"
             ) {
-                showEditImporter = true
+                openPicker(.edit)
             }
         }
         // Sizes every tile to the tallest, so captions that wrap differently don't change them.
@@ -68,8 +68,69 @@ extension LaunchScreenView {
                 pendingSavedSnapshot = saved
                 showResumeAlert = true
             } else {
-                showFileExporter = true
+                openPicker(.play)
             }
+        }
+    }
+
+    /// Offers the built-in games before the file picker. With none to offer,
+    /// goes straight to the file picker.
+    func openPicker(_ mode: GamePickerMode) {
+        if BundledGameLibrary.games().isEmpty {
+            openFilePicker(for: mode)
+        } else {
+            pickerMode = mode
+        }
+    }
+
+    func openFilePicker(for mode: GamePickerMode) {
+        switch mode {
+        case .play: showFileExporter = true
+        case .edit: showEditImporter = true
+        }
+    }
+
+    @ViewBuilder
+    func builtInPicker(for mode: GamePickerMode) -> some View {
+        BuiltInGamePicker(
+            title: mode == .play ? "launch.picker.play_title" : "launch.picker.edit_title",
+            games: BundledGameLibrary.games(),
+            onSelect: { game in
+                pickerMode = nil
+                switch mode {
+                case .play: playBuiltIn(game)
+                case .edit: editBuiltIn(game)
+                }
+            },
+            onLoadOwnFile: {
+                afterPickerDismiss = { openFilePicker(for: mode) }
+                pickerMode = nil
+            },
+            onCancel: { pickerMode = nil }
+        )
+    }
+
+    /// Starts a built-in game the same way a loaded file starts.
+    func playBuiltIn(_ game: BundledGame) {
+        do {
+            gameState.loadGame(boards: try BundledGameLibrary.boards(for: game))
+            hasSelectedGame = true
+        } catch {
+            AppLogger.database.error("Can't play built-in \(game.id, privacy: .public): \(String(describing: error), privacy: .public)")
+            loadErrorReport = BoardLoadReport(fileName: game.id, error: error)
+        }
+    }
+
+    /// Opens a copy of a built-in game in the editor. Saving always asks
+    /// where to put a new file, so the bundled original is never changed.
+    func editBuiltIn(_ game: BundledGame) {
+        do {
+            let draft = try BundledGameLibrary.draft(for: game)
+            editorSession.edit(draft, suggestedFilename: BundledGameLibrary.copyFilename(for: draft.trimmedTitle))
+            openWindow(id: "create-macpardy")
+        } catch {
+            AppLogger.database.error("Can't edit built-in \(game.id, privacy: .public): \(String(describing: error), privacy: .public)")
+            loadErrorReport = BoardLoadReport(fileName: game.id, error: error)
         }
     }
 
