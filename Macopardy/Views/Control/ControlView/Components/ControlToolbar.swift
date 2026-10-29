@@ -28,6 +28,13 @@ extension ControlView {
         }
 
         ToolbarItem(placement: .primaryAction) {
+            Button("shortcuts.toolbar", systemImage: "keyboard") {
+                openWindow(id: "shortcuts")
+            }
+            .help(Text("shortcuts.toolbar.help") + Text(verbatim: " (\(AppShortcut.keyboardShortcuts.glyph))"))
+        }
+
+        ToolbarItem(placement: .primaryAction) {
             Button("control.toolbar.show_display", systemImage: "display") {
                 openWindow(id: "display")
             }

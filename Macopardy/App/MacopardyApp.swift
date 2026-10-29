@@ -189,6 +189,7 @@ struct MacpardyApp: App {
         }
         .commands {
             FileCommands(coordinator: boardOpenCoordinator)
+            HelpCommands()
             GameCommands(gameState: gameState, buzzerState: buzzerState, hasSelectedGame: hasSelectedGame)
         }
 
@@ -205,6 +206,13 @@ struct MacpardyApp: App {
         Settings {
             SettingsView()
         }
+
+        Window("shortcuts.window.title", id: "shortcuts") {
+            KeyboardShortcutsView()
+                .windowFullScreenBehavior(.disabled)
+        }
+        .windowResizability(.contentSize)
+        .defaultLaunchBehavior(.suppressed)
 
         Window("Create Macpardy Game", id: "create-macpardy") {
             CreateMacpardyGameView()

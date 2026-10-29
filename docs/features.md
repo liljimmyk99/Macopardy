@@ -216,6 +216,11 @@ are remembered (`UserDefaults`, keys in `AppSettings`).
 
 ## 7. Keyboard shortcuts
 
+**Help > Keyboard Shortcuts** (⌘/), or the keyboard button in the Control toolbar, opens a window
+listing every shortcut by area (File, Edit, Game, Timer, Editor, View, Window, App, Help). It is
+built from the shortcut catalog, so it always matches the menus; the tables below add the keys
+that belong to individual screens.
+
 Game shortcuts live in the **Game** menu in the menu bar. Items are always listed and greyed out
 when they don't apply to the current phase. File-menu items work anywhere; the editor's ⌘S still belongs to its button, so it works only
 while the editor is up. Every shortcut is defined once in
@@ -230,6 +235,7 @@ while the editor is up. Every shortcut is defined once in
 | Editor window | ⌘S | **Save Game** |
 | Editor window | Tab / ⇧Tab | Move between the clue and response fields (and the Final category) |
 | Any window | ⌘, | Open **Settings** |
+| Any window | ⌘/ | Open **Keyboard Shortcuts** |
 | Control, any phase in a game | ⌘⇧B | Open the **Buzzers** popover |
 | Control, any phase in a game | ⌘D | **Show Display** |
 | Control, Board | ⌘F | **Final Macpardy** |
