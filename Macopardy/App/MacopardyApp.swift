@@ -177,6 +177,9 @@ struct MacpardyApp: App {
             Task { await syncWagering() }
             SoundPlayer.shared.handle(phase: phase)
         }
+        .commands {
+            GameCommands(gameState: gameState, buzzerState: buzzerState, hasSelectedGame: hasSelectedGame)
+        }
 
         Window("Display", id: "display") {
             if hasSelectedGame {
@@ -191,6 +194,7 @@ struct MacpardyApp: App {
         Window("Create Macpardy Game", id: "create-macpardy") {
             CreateMacpardyGameView()
                 .environment(editorSession)
+                .windowFullScreenBehavior(.disabled)
         }
         .defaultSize(width: 1400, height: 820)
         .defaultLaunchBehavior(.suppressed)

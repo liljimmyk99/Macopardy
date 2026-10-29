@@ -44,6 +44,9 @@ final class BuzzerState {
     /// Called on the main actor when a phone submits a valid Final wager.
     var onWagerSubmitted: ((WagerSubmission) -> Void)?
 
+    /// Whether the toolbar's Buzzers popover is open. Lives here so the Game menu can open it.
+    var isPopoverPresented = false
+
     // MARK: - Private
 
     private var wagerObserverTask: Task<Void, Never>?

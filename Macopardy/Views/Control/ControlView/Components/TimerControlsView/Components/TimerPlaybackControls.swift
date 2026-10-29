@@ -6,13 +6,13 @@ extension TimerControlsView {
             Button("control.timer.adjustment.minus_5") {
                 gameState.timer.addSeconds(-5)
             }
-            .keyboardShortcut("-", modifiers: .command)
+            .help(shortcutHelp("menu.game.timer.minus_5", .timerMinus5))
 
             if gameState.timer.isRunning {
                 iconButton(
                     "pause.fill",
                     label: "control.timer.pause",
-                    keyboardShortCut: .init("s", modifiers: .command)
+                    shortcut: .toggleTimer
                 ) {
                     gameState.timer.stop()
                 }
@@ -20,7 +20,7 @@ extension TimerControlsView {
                 iconButton(
                     "play.fill",
                     label: "control.timer.start",
-                    keyboardShortCut: .init("s", modifiers: .command)
+                    shortcut: .toggleTimer
                 ) {
                     gameState.timer.start()
                 }
@@ -29,7 +29,7 @@ extension TimerControlsView {
             iconButton(
                 "arrow.counterclockwise",
                 label: "control.timer.reset",
-                keyboardShortCut: .init(.leftArrow, modifiers: .command)
+                shortcut: .resetTimer
             ) {
                 gameState.timer.reset()
             }
@@ -37,7 +37,7 @@ extension TimerControlsView {
             Button("control.timer.adjustment.plus_5") {
                 gameState.timer.addSeconds(5)
             }
-            .keyboardShortcut("+", modifiers: .command)
+            .help(shortcutHelp("menu.game.timer.plus_5", .timerPlus5))
         }
         .buttonStyle(.bordered)
         .controlSize(.large)
@@ -46,7 +46,7 @@ extension TimerControlsView {
     private func iconButton(
         _ systemImage: String,
         label: LocalizedStringKey,
-        keyboardShortCut: KeyboardShortcut,
+        shortcut: AppShortcut,
         action: @escaping () -> Void
     ) -> some View {
         Button(action: action) {
@@ -54,7 +54,10 @@ extension TimerControlsView {
                 .frame(width: 28)
         }
         .accessibilityLabel(Text(label))
-        .keyboardShortcut(keyboardShortCut)
-        .help(Text(label))
+        .help(Text(label) + Text(verbatim: " (\(shortcut.glyph))"))
+    }
+
+    private func shortcutHelp(_ title: LocalizedStringKey, _ shortcut: AppShortcut) -> Text {
+        Text(title) + Text(verbatim: " (\(shortcut.glyph))")
     }
 }
