@@ -180,7 +180,7 @@ struct MacpardyApp: App {
         }
         // Phones count the response time down themselves from start / stop events.
         .onChange(of: gameState.answeringTeamID) { _, teamID in
-            Task { await buzzerState.setResponseTimer(teamID: teamID, seconds: GameState.responseSeconds) }
+            Task { await buzzerState.setResponseTimer(teamID: teamID, seconds: gameState.responseSeconds) }
         }
         // Wagering is open exactly while the Final category is displayed.
         .onChange(of: gameState.phase) { _, phase in
@@ -201,6 +201,10 @@ struct MacpardyApp: App {
         }
         .defaultSize(width: 1920, height: 1080)
         .defaultLaunchBehavior(.suppressed)
+
+        Settings {
+            SettingsView()
+        }
 
         Window("Create Macpardy Game", id: "create-macpardy") {
             CreateMacpardyGameView()

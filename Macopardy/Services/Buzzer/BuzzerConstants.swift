@@ -8,8 +8,8 @@
 import Foundation
 
 nonisolated enum BuzzerConstants {
-    /// TCP port the buzzer server listens on.
-    static let port: UInt16 = 8472
+    /// TCP port the buzzer server listens on unless the host changes it in Settings.
+    static let defaultPort = UInt16(AppSettings.defaultBuzzerPort)
 
     /// Seconds a client can go without sending a pong before being disconnected.
     static let heartbeatTTL: TimeInterval = 5.0

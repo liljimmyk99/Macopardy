@@ -18,7 +18,7 @@ live, see [file-structure.md](file-structure.md).
           ┌─────────────────────┼─────────────────────────────┐
           ▼                     ▼                             ▼
    Board files            GameSaveStore (actor)          BuzzerServer (actor)
-   BoardPackage           Application Support/           Network.framework, port 8472
+   BoardPackage           Application Support/           Network.framework, default port 8472
    BoardLoader            saved_game.json                HTTP GET / → buzzer.html
    CSVBoardImporter                                      WebSocket /ws ⇄ phones
    ImageImporter
@@ -158,7 +158,7 @@ Code: `Services/Buzzer/`. Protocol: [buzzer-protocol.md](buzzer-protocol.md).
  MacpardyApp ──syncTeams / syncScores / setMode / openWagering──▶ BuzzerState (@Observable, main actor)
       ▲                                                                │ owns
       │  onWagerSubmitted, firstBuzzTeamID,                            ▼
-      │  claimed/disconnected teams              BuzzerServer (actor, NWListener on :8472)
+      │  claimed/disconnected teams              BuzzerServer (actor, NWListener, default :8472)
       └─────────────── AsyncStreams ◀──────────   ├─ ClientSession per connection
                                                   ├─ WebSocketFrameParser (hand-rolled RFC 6455)
                                                   ├─ TeamClaimRegistry   who holds which team
@@ -186,7 +186,7 @@ Code: `Services/Buzzer/`. Protocol: [buzzer-protocol.md](buzzer-protocol.md).
 - **Pure logic is separated from I/O:** `BuzzerEngine`, `TeamClaimRegistry`,
   `FinalWagerBook`, `BuzzTieResolver`, `AttemptRateLimiter`, and `WebSocketFrameParser` are
   `nonisolated` value types with unit tests; `BuzzerServer` wires them to the network.
-- Constants (port, heartbeat, tie window, rate limits) are in `BuzzerConstants`.
+- Constants (default port, heartbeat, tie window, rate limits) are in `BuzzerConstants`; the port the host picked in Settings comes from `AppSettings.buzzerPort()`.
 - The phone UI is a single self-contained page, `Resources/Buzzer/buzzer.html`, served from
   the app bundle.
 

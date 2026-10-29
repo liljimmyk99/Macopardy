@@ -4026,6 +4026,174 @@
           }
         }
       }
+    },
+    "settings.tab.sound" : {
+      "comment" : "Settings tab title",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sound"
+          }
+        }
+      }
+    },
+    "settings.tab.game" : {
+      "comment" : "Settings tab title",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Game"
+          }
+        }
+      }
+    },
+    "settings.tab.buzzers" : {
+      "comment" : "Settings tab title",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Buzzers"
+          }
+        }
+      }
+    },
+    "settings.game.timers_header" : {
+      "comment" : "Settings section header",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Timers"
+          }
+        }
+      }
+    },
+    "settings.game.timers_footer" : {
+      "comment" : "Explains when timer changes take effect",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Timer changes apply the next time a timer starts."
+          }
+        }
+      }
+    },
+    "settings.game.timer %lld" : {
+      "comment" : "Stepper label: the question timer length in seconds",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Question timer: %lld s"
+          }
+        }
+      }
+    },
+    "settings.game.response %lld" : {
+      "comment" : "Stepper label: how long a team has to answer after buzzing in",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Answer time after a buzz: %lld s"
+          }
+        }
+      }
+    },
+    "settings.game.teams_header" : {
+      "comment" : "Settings section header",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "New Games"
+          }
+        }
+      }
+    },
+    "settings.game.teams_footer" : {
+      "comment" : "Explains when team changes take effect",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Applies to games started from now on. Leave a name empty to use “Team N”."
+          }
+        }
+      }
+    },
+    "settings.game.team_count %lld" : {
+      "comment" : "Stepper label: number of teams in a new game",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Starting teams: %lld"
+          }
+        }
+      }
+    },
+    "settings.game.team_name %lld" : {
+      "comment" : "Text field label for a team's default name. The argument is the team number.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Team %lld name"
+          }
+        }
+      }
+    },
+    "settings.buzzers.port" : {
+      "comment" : "Text field label for the buzzer server port",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Server port"
+          }
+        }
+      }
+    },
+    "settings.buzzers.port_footer %lld %lld" : {
+      "comment" : "Explains the port field. Arguments are the lowest and highest allowed port.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Phones connect to this port (%lld–%lld). A change applies to the next game; phones already connected keep working until it ends."
+          }
+        }
+      }
+    },
+    "control.buzzer.error.start_failed %lld %@" : {
+      "comment" : "Shown when the buzzer server can't start. Arguments are the port and the system's reason.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Couldn't start the buzzer server on port %lld: %@. Pick another port in Settings."
+          }
+        }
+      }
     }
   },
   "version" : "1.1"

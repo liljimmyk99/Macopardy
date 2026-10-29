@@ -72,7 +72,7 @@ Macopardy/
 │       ├── AttemptRateLimiter.swift  Join-code / claim rate limiting
 │       ├── JoinCodeGenerator.swift   6-char codes without look-alike characters
 │       ├── QRCodeGenerator.swift     Join URL → QR image
-│       └── BuzzerConstants.swift     Port, timeouts, tie window, limits, protocol version
+│       └── BuzzerConstants.swift     Default port, timeouts, tie window, limits, protocol version
 ├── Views/
 │   ├── LaunchScreenView/         Start screen: Play / New Board / Edit Board tiles, resume banner
 │   ├── BoardLoadErrorView.swift  Sheet listing problems with a file

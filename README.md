@@ -24,6 +24,7 @@ Full walkthrough: [docs/features.md](docs/features.md).
 | ⌘S | Editor: **Save Game** |
 | ⌘T | Start / pause the timer |
 | ⌘R | **Reveal Answer** |
+| ⌘, | **Settings** (sound, timers, starting teams, buzzer port) |
 | ⌘D | **Show Display** |
 | ⌘B | **Return to Board** (on a clue) |
 | ⌘⇧B | **Buzzers** popover |
