@@ -1,0 +1,593 @@
+{
+  "boards" : [
+    {
+      "categories" : [
+        {
+          "id" : "2421C380-5E5F-4196-9D16-7BAAE6DB9068",
+          "questions" : [
+            {
+              "clue" : "Simba is the lion cub at the heart of this 1994 Disney film.",
+              "hasBeenPlayed" : false,
+              "id" : "A586570E-2244-46AA-A75C-FE43A11A47AE",
+              "isDailyDouble" : false,
+              "response" : "What is The Lion King?",
+              "value" : 200
+            },
+            {
+              "clue" : "This director made both \"E.T.\" and \"Jurassic Park\".",
+              "hasBeenPlayed" : false,
+              "id" : "6D188B09-6AD0-44C1-91E0-385A347C1DBF",
+              "isDailyDouble" : false,
+              "response" : "Who is Steven Spielberg?",
+              "value" : 400
+            },
+            {
+              "clue" : "Dorothy's little dog in \"The Wizard of Oz\".",
+              "hasBeenPlayed" : false,
+              "id" : "EBE26876-DB02-4A63-81A3-2A89374EA99F",
+              "isDailyDouble" : false,
+              "response" : "Who is Toto?",
+              "value" : 600
+            },
+            {
+              "clue" : "This 2019 South Korean film was the first non-English-language winner of Best Picture.",
+              "hasBeenPlayed" : false,
+              "id" : "77A79BC5-396E-43EB-ACFC-8F19482A1E9B",
+              "isDailyDouble" : false,
+              "response" : "What is Parasite?",
+              "value" : 800
+            },
+            {
+              "clue" : "This World War I aviation film won the very first Academy Award for Best Picture.",
+              "hasBeenPlayed" : false,
+              "id" : "1D63D4CC-17FF-405E-ACC7-20D9157F2CC2",
+              "isDailyDouble" : false,
+              "response" : "What is Wings?",
+              "value" : 1000
+            }
+          ],
+          "title" : "At the Movies"
+        },
+        {
+          "id" : "87ABA385-8947-41A8-A54E-C22B8E38B826",
+          "questions" : [
+            {
+              "clue" : "This organ pumps blood through your body.",
+              "hasBeenPlayed" : false,
+              "id" : "C527F00C-43AA-452A-AFAA-396A0EA97FA9",
+              "isDailyDouble" : false,
+              "response" : "What is the heart?",
+              "value" : 200
+            },
+            {
+              "clue" : "The number of bones in a typical adult human skeleton.",
+              "hasBeenPlayed" : false,
+              "id" : "FCD7A13A-1CD8-4C03-86F2-AA696238340B",
+              "isDailyDouble" : false,
+              "response" : "What is 206?",
+              "value" : 400
+            },
+            {
+              "clue" : "The largest organ of the human body.",
+              "hasBeenPlayed" : false,
+              "id" : "1E14C85C-6199-49C0-B4FA-88AE82724D1C",
+              "isDailyDouble" : false,
+              "response" : "What is the skin?",
+              "value" : 600
+            },
+            {
+              "clue" : "Found in the middle ear, it's the smallest bone in the body.",
+              "hasBeenPlayed" : false,
+              "id" : "D1C7D908-A24F-4A9B-85DF-1B74EB81F4DA",
+              "isDailyDouble" : false,
+              "response" : "What is the stapes (stirrup)?",
+              "value" : 800
+            },
+            {
+              "clue" : "These cells in the pancreas's islets of Langerhans produce insulin.",
+              "hasBeenPlayed" : false,
+              "id" : "5B5B6652-9F7D-4385-855A-407C442AF2B5",
+              "isDailyDouble" : false,
+              "response" : "What are beta cells?",
+              "value" : 1000
+            }
+          ],
+          "title" : "The Human Body"
+        },
+        {
+          "id" : "DE7BF761-240A-4898-90CA-C695A962DF89",
+          "questions" : [
+            {
+              "clue" : "Jack-o'-lanterns and trick-or-treating mark this October 31 holiday.",
+              "hasBeenPlayed" : false,
+              "id" : "1BFC7DEE-2DE4-4E0B-BDD2-E596C4E1E454",
+              "isDailyDouble" : false,
+              "response" : "What is Halloween?",
+              "value" : 200
+            },
+            {
+              "clue" : "Americans celebrate this holiday on the fourth Thursday of November.",
+              "hasBeenPlayed" : false,
+              "id" : "6DD32C81-60F6-474F-A776-48214AEE948F",
+              "isDailyDouble" : false,
+              "response" : "What is Thanksgiving?",
+              "value" : 400
+            },
+            {
+              "clue" : "This Hindu festival of lights is celebrated with oil lamps called diyas.",
+              "hasBeenPlayed" : false,
+              "id" : "FC39A7EC-B4B3-4A68-B2AB-59FE9FCB1108",
+              "isDailyDouble" : false,
+              "response" : "What is Diwali?",
+              "value" : 600
+            },
+            {
+              "clue" : "Celebrated November 1–2, this Mexican holiday honors loved ones who have died.",
+              "hasBeenPlayed" : false,
+              "id" : "F9A06B6D-1F6D-40D9-9B60-786F4B9F1EC8",
+              "isDailyDouble" : false,
+              "response" : "What is Día de los Muertos (Day of the Dead)?",
+              "value" : 800
+            },
+            {
+              "clue" : "Bonfire Night recalls a 1605 plot to blow up this London building.",
+              "hasBeenPlayed" : false,
+              "id" : "6888A025-4B59-4127-8C8F-882D22E2A48C",
+              "isDailyDouble" : false,
+              "response" : "What is the Houses of Parliament (Palace of Westminster)?",
+              "value" : 1000
+            }
+          ],
+          "title" : "Holidays"
+        },
+        {
+          "id" : "160CC9FE-00B5-4C8A-B711-6107EDAE46C2",
+          "questions" : [
+            {
+              "clue" : "These enormous tombs at Giza were built for Egyptian pharaohs.",
+              "hasBeenPlayed" : false,
+              "id" : "F6E10A30-E846-4816-840E-C47A93672DE6",
+              "isDailyDouble" : false,
+              "response" : "What are the pyramids?",
+              "value" : 200
+            },
+            {
+              "clue" : "The language of ancient Rome.",
+              "hasBeenPlayed" : false,
+              "id" : "8DB59D36-B8FE-41EE-9EA3-47458786B9A0",
+              "isDailyDouble" : false,
+              "response" : "What is Latin?",
+              "value" : 400
+            },
+            {
+              "clue" : "This philosopher, condemned to drink hemlock, was Plato's teacher.",
+              "hasBeenPlayed" : false,
+              "id" : "553CAF44-607B-4B78-AB1B-84C3AC001B9A",
+              "isDailyDouble" : false,
+              "response" : "Who is Socrates?",
+              "value" : 600
+            },
+            {
+              "clue" : "This Macedonian king built an empire stretching to India before dying at 32.",
+              "hasBeenPlayed" : false,
+              "id" : "82FCBDF5-3EBD-4B37-9B5D-7741AA17655E",
+              "isDailyDouble" : true,
+              "response" : "Who is Alexander the Great?",
+              "value" : 800
+            },
+            {
+              "clue" : "This Babylonian king's law code is one of the oldest written legal codes ever found.",
+              "hasBeenPlayed" : false,
+              "id" : "6B1E48BD-D458-497E-8316-F2D1CA4EE8D0",
+              "isDailyDouble" : false,
+              "response" : "Who is Hammurabi?",
+              "value" : 1000
+            }
+          ],
+          "title" : "The Ancient World"
+        },
+        {
+          "id" : "5B1A1DA5-9C79-4671-8119-35AAE4206379",
+          "questions" : [
+            {
+              "clue" : "Mixing blue and yellow paint makes this color.",
+              "hasBeenPlayed" : false,
+              "id" : "4988AC3A-05DA-4752-AFF1-A040C809BAB9",
+              "isDailyDouble" : false,
+              "response" : "What is green?",
+              "value" : 200
+            },
+            {
+              "clue" : "The primary colors of light are red, green and this.",
+              "hasBeenPlayed" : false,
+              "id" : "C040194B-FF95-4905-859F-CB9AC9ED4043",
+              "isDailyDouble" : false,
+              "response" : "What is blue?",
+              "value" : 400
+            },
+            {
+              "clue" : "Tyrian dye, made from sea snails, made this color a symbol of royalty.",
+              "hasBeenPlayed" : false,
+              "id" : "ED50DA7B-D021-4D85-9F78-4B8D76A25F9D",
+              "isDailyDouble" : false,
+              "response" : "What is purple?",
+              "value" : 600
+            },
+            {
+              "clue" : "In web design, the hex code #FFFFFF stands for this color.",
+              "hasBeenPlayed" : false,
+              "id" : "F66A67AF-B041-4016-B352-FE0175A94F02",
+              "isDailyDouble" : false,
+              "response" : "What is white?",
+              "value" : 800
+            },
+            {
+              "clue" : "This deep blue pigment was originally made by grinding up lapis lazuli.",
+              "hasBeenPlayed" : false,
+              "id" : "9021F400-A412-416C-8030-C6B04807AFD2",
+              "isDailyDouble" : false,
+              "response" : "What is ultramarine?",
+              "value" : 1000
+            }
+          ],
+          "title" : "Colors"
+        },
+        {
+          "id" : "4A2D0A9B-A886-46B1-9CDC-B3BF24D934DD",
+          "questions" : [
+            {
+              "clue" : "This athletic company's logo is the \"swoosh\".",
+              "hasBeenPlayed" : false,
+              "id" : "A90A9BF7-ACA1-4F63-A54D-39E9FCA5D2A1",
+              "isDailyDouble" : false,
+              "response" : "What is Nike?",
+              "value" : 200
+            },
+            {
+              "clue" : "This company's name is a play on \"googol\", the number 1 followed by 100 zeros.",
+              "hasBeenPlayed" : false,
+              "id" : "AE84D04E-6A86-485A-B77C-092CCD95A161",
+              "isDailyDouble" : false,
+              "response" : "What is Google?",
+              "value" : 400
+            },
+            {
+              "clue" : "This Swedish furniture store's name combines its founder's initials with his farm and village.",
+              "hasBeenPlayed" : false,
+              "id" : "8E8E1970-ABD5-4637-A277-7252C403B5F6",
+              "isDailyDouble" : false,
+              "response" : "What is IKEA?",
+              "value" : 600
+            },
+            {
+              "clue" : "LEGO's name comes from the Danish \"leg godt\", meaning this.",
+              "hasBeenPlayed" : false,
+              "id" : "4AF1554B-32F1-439C-B8FF-849D7AA037A3",
+              "isDailyDouble" : false,
+              "response" : "What is \"play well\"?",
+              "value" : 800
+            },
+            {
+              "clue" : "Starbucks is named after the first mate of the Pequod in this novel.",
+              "hasBeenPlayed" : false,
+              "id" : "4EEF2199-2C37-463D-BFC5-53D4C56C2697",
+              "isDailyDouble" : false,
+              "response" : "What is Moby-Dick?",
+              "value" : 1000
+            }
+          ],
+          "title" : "Brand Names"
+        }
+      ],
+      "id" : "8D215528-EC4A-441D-8571-C0EA56A6DA20",
+      "round" : "macpardy",
+      "title" : "Macpardy"
+    },
+    {
+      "categories" : [
+        {
+          "id" : "1FE0DE4F-BAA4-4F09-A02F-5D0BF7CE7742",
+          "questions" : [
+            {
+              "clue" : "The ocean between the Americas and Europe and Africa.",
+              "hasBeenPlayed" : false,
+              "id" : "03FFD53B-7BA0-4999-8D68-4B51D47008C5",
+              "isDailyDouble" : false,
+              "response" : "What is the Atlantic Ocean?",
+              "value" : 400
+            },
+            {
+              "clue" : "This salty lake between Israel and Jordan lets swimmers float with ease.",
+              "hasBeenPlayed" : false,
+              "id" : "FEF593FD-77F7-4A6A-8904-C4F4FFD71064",
+              "isDailyDouble" : false,
+              "response" : "What is the Dead Sea?",
+              "value" : 800
+            },
+            {
+              "clue" : "Located in the Mariana Trench, it's the deepest known point in Earth's oceans.",
+              "hasBeenPlayed" : false,
+              "id" : "7D2504F6-01AB-4ECF-AAB4-057FD4CF76D0",
+              "isDailyDouble" : false,
+              "response" : "What is Challenger Deep?",
+              "value" : 1200
+            },
+            {
+              "clue" : "The Great Barrier Reef lies in this sea off northeastern Australia.",
+              "hasBeenPlayed" : false,
+              "id" : "D3B1A49C-A048-4D5C-938E-B4805CC6E00C",
+              "isDailyDouble" : false,
+              "response" : "What is the Coral Sea?",
+              "value" : 1600
+            },
+            {
+              "clue" : "Bounded only by ocean currents, this North Atlantic sea has no coastline at all.",
+              "hasBeenPlayed" : false,
+              "id" : "F6D6DFA1-DEDB-4830-BFAA-1D5E497E5A06",
+              "isDailyDouble" : false,
+              "response" : "What is the Sargasso Sea?",
+              "value" : 2000
+            }
+          ],
+          "title" : "Oceans & Seas"
+        },
+        {
+          "id" : "C125CDB7-488C-45BF-A6D6-64B4D224E9F3",
+          "questions" : [
+            {
+              "clue" : "Leonardo da Vinci's portrait famous for its mysterious smile.",
+              "hasBeenPlayed" : false,
+              "id" : "4E7FBF02-CCE7-4671-9A1D-115F18B23527",
+              "isDailyDouble" : false,
+              "response" : "What is the Mona Lisa?",
+              "value" : 400
+            },
+            {
+              "clue" : "This Dutch painter of \"The Starry Night\" famously cut off part of his own ear.",
+              "hasBeenPlayed" : false,
+              "id" : "1AFD177C-6322-4505-A685-ED441390120B",
+              "isDailyDouble" : false,
+              "response" : "Who is Vincent van Gogh?",
+              "value" : 800
+            },
+            {
+              "clue" : "Michelangelo spent four years painting the ceiling of this Vatican chapel.",
+              "hasBeenPlayed" : false,
+              "id" : "65C5526A-A679-4D5C-9DF8-EDB9245313D9",
+              "isDailyDouble" : false,
+              "response" : "What is the Sistine Chapel?",
+              "value" : 1200
+            },
+            {
+              "clue" : "This movement takes its name from Claude Monet's painting of a sunrise.",
+              "hasBeenPlayed" : false,
+              "id" : "D5164FA9-1FFE-4B4D-B968-A0A8E83272C3",
+              "isDailyDouble" : true,
+              "response" : "What is Impressionism?",
+              "value" : 1600
+            },
+            {
+              "clue" : "This Flemish master's 1434 \"Arnolfini Portrait\" features a famous convex mirror.",
+              "hasBeenPlayed" : false,
+              "id" : "E9DA8765-96D3-4A24-B82E-C998C6660C5B",
+              "isDailyDouble" : false,
+              "response" : "Who is Jan van Eyck?",
+              "value" : 2000
+            }
+          ],
+          "title" : "Art History"
+        },
+        {
+          "id" : "6CFC05DE-5323-4C02-8671-756A4CF8A9BB",
+          "questions" : [
+            {
+              "clue" : "H2O is the chemical formula for this.",
+              "hasBeenPlayed" : false,
+              "id" : "5896A1DF-4607-40C2-B833-ADB9175E5E69",
+              "isDailyDouble" : false,
+              "response" : "What is water?",
+              "value" : 400
+            },
+            {
+              "clue" : "The element with atomic number 1.",
+              "hasBeenPlayed" : false,
+              "id" : "921945B6-9657-480A-B1EA-18740B8A1003",
+              "isDailyDouble" : false,
+              "response" : "What is hydrogen?",
+              "value" : 800
+            },
+            {
+              "clue" : "The chemical symbol Na stands for this element.",
+              "hasBeenPlayed" : false,
+              "id" : "8B117716-3524-4D38-8F6D-DF670DAD3D18",
+              "isDailyDouble" : false,
+              "response" : "What is sodium?",
+              "value" : 1200
+            },
+            {
+              "clue" : "The most abundant gas in Earth's atmosphere.",
+              "hasBeenPlayed" : false,
+              "id" : "284DAFE9-2FDE-4B45-9443-3A3913C3F52B",
+              "isDailyDouble" : false,
+              "response" : "What is nitrogen?",
+              "value" : 1600
+            },
+            {
+              "clue" : "With atomic number 74, it has the highest melting point of any metal.",
+              "hasBeenPlayed" : false,
+              "id" : "17CCDF73-CC2A-468C-B08E-E31D7A8BC5AD",
+              "isDailyDouble" : false,
+              "response" : "What is tungsten?",
+              "value" : 2000
+            }
+          ],
+          "title" : "Chemistry"
+        },
+        {
+          "id" : "7D4892C5-30B1-4BC5-801A-38277D5EC5C7",
+          "questions" : [
+            {
+              "clue" : "The boy from Neverland who never grows up.",
+              "hasBeenPlayed" : false,
+              "id" : "A493D8B3-8208-4AE0-A742-12FB06B8F4D6",
+              "isDailyDouble" : false,
+              "response" : "Who is Peter Pan?",
+              "value" : 400
+            },
+            {
+              "clue" : "The scientist who brings a creature to life in Mary Shelley's 1818 novel.",
+              "hasBeenPlayed" : false,
+              "id" : "4C497486-A0F6-4128-A675-A7AD5CD55D95",
+              "isDailyDouble" : false,
+              "response" : "Who is Victor Frankenstein?",
+              "value" : 800
+            },
+            {
+              "clue" : "He narrates \"The Great Gatsby\".",
+              "hasBeenPlayed" : false,
+              "id" : "1AFE6EEC-93F0-4F45-AEB4-A29CCCE80301",
+              "isDailyDouble" : false,
+              "response" : "Who is Nick Carraway?",
+              "value" : 1200
+            },
+            {
+              "clue" : "The reclusive neighbor in \"To Kill a Mockingbird\".",
+              "hasBeenPlayed" : false,
+              "id" : "633BCA91-870E-464F-8AD8-844196E22DD3",
+              "isDailyDouble" : false,
+              "response" : "Who is Boo Radley?",
+              "value" : 1600
+            },
+            {
+              "clue" : "The name of Don Quixote's bony old horse.",
+              "hasBeenPlayed" : false,
+              "id" : "F449F115-B8BB-4BC9-8E0E-5FA01ABA1F73",
+              "isDailyDouble" : false,
+              "response" : "What is Rocinante?",
+              "value" : 2000
+            }
+          ],
+          "title" : "Literary Characters"
+        },
+        {
+          "id" : "68383D1E-FA3A-4030-AC97-4AD3C06942E2",
+          "questions" : [
+            {
+              "clue" : "This country's flag features a red maple leaf.",
+              "hasBeenPlayed" : false,
+              "id" : "9C9279BF-7EDD-47D4-B69E-A01D64753800",
+              "isDailyDouble" : false,
+              "response" : "What is Canada?",
+              "value" : 400
+            },
+            {
+              "clue" : "This country's flag is a red circle on a white field.",
+              "hasBeenPlayed" : false,
+              "id" : "1ACC48A5-9289-4DD9-8E81-8C488208C683",
+              "isDailyDouble" : false,
+              "response" : "What is Japan?",
+              "value" : 800
+            },
+            {
+              "clue" : "It has the only national flag that isn't a rectangle.",
+              "hasBeenPlayed" : false,
+              "id" : "93D65124-9DC1-4716-9033-0397577BAAB1",
+              "isDailyDouble" : false,
+              "response" : "What is Nepal?",
+              "value" : 1200
+            },
+            {
+              "clue" : "A green cedar tree sits at the center of this country's flag.",
+              "hasBeenPlayed" : false,
+              "id" : "B1F66FDA-ABD3-4160-B7E1-9E511A65BF72",
+              "isDailyDouble" : false,
+              "response" : "What is Lebanon?",
+              "value" : 1600
+            },
+            {
+              "clue" : "This African nation's flag includes an AK-47 rifle.",
+              "hasBeenPlayed" : false,
+              "id" : "4A13A06B-8E99-48B2-AB92-FCFCFA0443AF",
+              "isDailyDouble" : true,
+              "response" : "What is Mozambique?",
+              "value" : 2000
+            }
+          ],
+          "title" : "Flags of the World"
+        },
+        {
+          "id" : "3FF0260D-CCE0-4B9E-B413-95373FC7057F",
+          "questions" : [
+            {
+              "clue" : "Ross, Rachel and friends hung out at the Central Perk coffee shop on this sitcom.",
+              "hasBeenPlayed" : false,
+              "id" : "95C4BC81-93FF-4A1D-BD10-01AC980C91C2",
+              "isDailyDouble" : false,
+              "response" : "What is Friends?",
+              "value" : 400
+            },
+            {
+              "clue" : "This drama follows chemistry teacher Walter White.",
+              "hasBeenPlayed" : false,
+              "id" : "720F01EA-E508-4A4F-8F6D-3450852D9350",
+              "isDailyDouble" : false,
+              "response" : "What is Breaking Bad?",
+              "value" : 800
+            },
+            {
+              "clue" : "The paper company where Michael Scott works on \"The Office\".",
+              "hasBeenPlayed" : false,
+              "id" : "92595FB8-A4F8-4936-8B96-35EE5C442BFE",
+              "isDailyDouble" : false,
+              "response" : "What is Dunder Mifflin?",
+              "value" : 1200
+            },
+            {
+              "clue" : "This HBO drama follows the Roy family's fight over a media empire.",
+              "hasBeenPlayed" : false,
+              "id" : "9DD2AC66-9424-4267-98AB-59FCAA8BE8A2",
+              "isDailyDouble" : false,
+              "response" : "What is Succession?",
+              "value" : 1600
+            },
+            {
+              "clue" : "Its 1983 finale is still the most-watched episode of a scripted series in U.S. history.",
+              "hasBeenPlayed" : false,
+              "id" : "0305BD3B-A950-4887-A8BD-CB8A44983882",
+              "isDailyDouble" : false,
+              "response" : "What is M*A*S*H?",
+              "value" : 2000
+            }
+          ],
+          "title" : "TV Time"
+        }
+      ],
+      "id" : "4B1D621E-7F00-4E3B-B594-BDD69DAF564A",
+      "round" : "doubleMacpardy",
+      "title" : "Double Macpardy"
+    },
+    {
+      "categories" : [
+        {
+          "id" : "E0BBAE61-0DC3-47C4-BFC4-F6EDA9DB7FD2",
+          "questions" : [
+            {
+              "clue" : "It's the only language revived from mostly written and religious use to become the everyday native tongue of millions.",
+              "hasBeenPlayed" : false,
+              "id" : "5F653264-F65E-479D-9B9C-425A32C3EEBF",
+              "isDailyDouble" : false,
+              "response" : "What is Hebrew?",
+              "value" : 0
+            }
+          ],
+          "title" : "Languages"
+        }
+      ],
+      "id" : "3A2A166E-0763-4C34-BA39-0AF03D45D2CF",
+      "round" : "finalMacpardy",
+      "title" : "Final Macpardy"
+    }
+  ],
+  "formatVersion" : 2,
+  "title" : "Classic Game 2"
+}

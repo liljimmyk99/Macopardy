@@ -190,6 +190,7 @@ extension CreateMacpardyGameView {
         selectedQuestion = nil
         exportDocument = nil
         savedDraft = draft
+        suggestedFilename = editorSession.takePendingSuggestedFilename()
         isEditingExistingBoard = true
     }
 }

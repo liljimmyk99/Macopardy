@@ -23,6 +23,11 @@ struct LaunchScreenView: View {
     /// The auto-saved game, if any, offered in the resume banner.
     @State var savedSnapshot: GameSnapshot?
     @State var showDiscardConfirmation: Bool = false
+    /// Which built-in game picker is open, if any.
+    @State var pickerMode: GamePickerMode?
+    /// What to do once the picker has finished closing (a file panel can't
+    /// open while the sheet is still on screen).
+    @State var afterPickerDismiss: (() -> Void)?
 
     var body: some View {
         VStack(spacing: 48) {
@@ -54,6 +59,12 @@ struct LaunchScreenView: View {
         .sheet(item: $loadErrorReport) { report in
             BoardLoadErrorView(report: report)
         }
+        .sheet(item: $pickerMode, onDismiss: {
+            afterPickerDismiss?()
+            afterPickerDismiss = nil
+        }) { mode in
+            builtInPicker(for: mode)
+        }
         .sheet(isPresented: $showNewGameSheet) {
             NewGameView(
                 onBuildInEditor: {
@@ -75,7 +86,7 @@ struct LaunchScreenView: View {
             }
             Button("launch.alert.new_game_action", role: .destructive) {
                 discardSavedGame()
-                showFileExporter = true
+                pickerMode = .play
             }
             Button("common.cancel", role: .cancel) {}
         } message: {
@@ -112,4 +123,12 @@ struct LaunchScreenView: View {
     )
     .environment(BoardEditorSession())
     .frame(width: 1200, height: 800)
+}
+
+/// Which action the built-in game picker is for.
+enum GamePickerMode: Identifiable {
+    case play
+    case edit
+
+    var id: Self { self }
 }

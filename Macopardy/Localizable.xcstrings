@@ -3243,6 +3243,42 @@
         }
       }
     },
+    "launch.picker.edit_title" : {
+      "comment" : "Title of the built-in game picker opened from the Edit tile",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Choose a game to edit"
+          }
+        }
+      }
+    },
+    "launch.picker.load_own_file" : {
+      "comment" : "Picker row that opens the file panel",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Load my own file…"
+          }
+        }
+      }
+    },
+    "launch.picker.play_title" : {
+      "comment" : "Title of the built-in game picker opened from the Play tile",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Choose a game"
+          }
+        }
+      }
+    },
     "launch.resume.discard" : {
       "comment" : "Button that deletes the auto-saved game",
       "extractionState" : "manual",
