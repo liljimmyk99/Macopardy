@@ -7,9 +7,10 @@ import Foundation
 
 /// The CSV a user downloads to start a game in a spreadsheet.
 ///
-/// It's a complete, importable game: the sample categories for the first
-/// round, placeholders for Double Macpardy, and one Final Macpardy row. The
-/// user replaces the text and uploads it.
+/// It's a complete, importable game built from `BoardDefaults`, the same
+/// content a new game in the editor starts with: both rounds, their Daily
+/// Doubles, and one Final Macpardy row. The user replaces the text and
+/// uploads it.
 enum CSVBoardTemplate {
 
     static let suggestedFileName = "macopardy-template.csv"
@@ -20,43 +21,27 @@ enum CSVBoardTemplate {
 
         var rows: [[String]] = [Column.allCases.map(\.rawValue)]
 
-        // First round: the built-in sample board, with one Daily Double.
-        for (categoryIndex, category) in MacpardyBoard.sample.categories.enumerated() {
-            for (questionIndex, question) in category.questions.enumerated() {
-                let isDailyDouble = categoryIndex == 2 && questionIndex == 3
-                rows.append([
-                    RoundName.single.rawValue,
-                    category.title,
-                    String(question.value),
-                    question.clue,
-                    question.response,
-                    isDailyDouble ? "yes" : "no",
-                ])
-            }
-        }
-
-        // Double Macpardy: placeholders, with two Daily Doubles.
-        let doubleValues = CSVBoardImporter.values(for: .double)
-        for (categoryIndex, title) in CreateMacpardyGameView.round2DefaultCategories.enumerated() {
-            for (questionIndex, value) in doubleValues.enumerated() {
-                let isDailyDouble = (categoryIndex == 1 && questionIndex == 2) || (categoryIndex == 4 && questionIndex == 4)
-                rows.append([
-                    RoundName.double.rawValue,
-                    title,
-                    String(value),
-                    "Replace with your \(title) clue for \(value)",
-                    "Replace with the response",
-                    isDailyDouble ? "yes" : "no",
-                ])
+        for (roundNumber, roundName) in [(1, RoundName.single), (2, RoundName.double)] {
+            for category in BoardDefaults.makeCategories(round: roundNumber) {
+                for question in category.questions {
+                    rows.append([
+                        roundName.rawValue,
+                        category.title,
+                        String(question.value),
+                        question.clue,
+                        question.response,
+                        question.isDailyDouble ? "yes" : "no",
+                    ])
+                }
             }
         }
 
         rows.append([
             RoundName.finalRound.rawValue,
-            "World Capitals",
+            BoardDefaults.finalCategory,
             "",
-            "This capital city sits on both banks of the Danube, which once divided its two halves.",
-            "What is Budapest?",
+            BoardDefaults.finalClue,
+            BoardDefaults.finalAnswer,
             "",
         ])
 

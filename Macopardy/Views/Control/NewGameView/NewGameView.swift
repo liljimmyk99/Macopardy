@@ -71,6 +71,8 @@ private struct CSVImportOption: View {
     @State private var showCSVImporter = false
 
     @State private var issues: [CSVBoardImporter.Issue] = []
+    /// Cells that still hold the template's default text, awaiting the user's decision.
+    @State private var defaultTextWarnings: [CSVBoardImporter.Issue] = []
     @State private var importedTitle = ""
     @State private var jsonDocument: MacpardyJSONBoardDocument?
     @State private var showJSONExporter = false
@@ -119,7 +121,18 @@ private struct CSVImportOption: View {
                         .foregroundStyle(.secondary)
                 }
 
-                if let jsonDocument {
+                if jsonDocument != nil, !defaultTextWarnings.isEmpty {
+                    DefaultTextWarningView(
+                        warnings: defaultTextWarnings,
+                        onCancel: {
+                            jsonDocument = nil
+                            defaultTextWarnings = []
+                        },
+                        onContinue: {
+                            defaultTextWarnings = []
+                        }
+                    )
+                } else if let jsonDocument {
                     ReadyToPlayView(title: importedTitle, boards: jsonDocument.boards) {
                         showJSONExporter = true
                     }
@@ -156,6 +169,7 @@ private struct CSVImportOption: View {
     private func handleCSVPicked(_ result: Result<URL, Error>) {
         jsonDocument = nil
         issues = []
+        defaultTextWarnings = []
         statusMessage = nil
 
         switch result {
@@ -164,6 +178,7 @@ private struct CSVImportOption: View {
             do {
                 let data = try FileManagerService().readData(from: url)
                 let boards = try CSVBoardImporter.importBoards(from: data, title: title)
+                defaultTextWarnings = CSVBoardImporter.defaultTextWarnings(from: data)
                 importedTitle = title
                 jsonDocument = MacpardyJSONBoardDocument(boards: boards)
                 AppLogger.database.info("Imported CSV \(url.lastPathComponent, privacy: .public)")
@@ -254,18 +269,46 @@ private struct ReadyToPlayView: View {
     }
 }
 
+/// Shown when an imported CSV still has the template's default text: the
+/// user can go back and edit it, or continue anyway.
+private struct DefaultTextWarningView: View {
+
+    let warnings: [CSVBoardImporter.Issue]
+    let onCancel: () -> Void
+    let onContinue: () -> Void
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 8) {
+            CSVIssueList(issues: warnings, isWarning: true)
+            HStack {
+                Button("common.cancel", role: .cancel, action: onCancel)
+                Button("new_game.csv.continue_anyway", action: onContinue)
+                    .buttonStyle(.borderedProminent)
+            }
+        }
+    }
+}
+
 /// Lists every problem in an uploaded CSV with the row and column to fix.
+/// With `isWarning`, lists cells that are allowed but worth a second look.
 struct CSVIssueList: View {
 
     let issues: [CSVBoardImporter.Issue]
+    var isWarning = false
+
+    private var tint: Color { isWarning ? MacpardyTheme.warning : .red }
 
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
             Label {
-                Text("new_game.csv.errors_title \(issues.count)")
+                if isWarning {
+                    Text("new_game.csv.warning_title \(issues.count)")
+                } else {
+                    Text("new_game.csv.errors_title \(issues.count)")
+                }
             } icon: {
-                Image(systemName: "exclamationmark.triangle.fill")
-                    .foregroundStyle(.red)
+                Image(systemName: isWarning ? "exclamationmark.circle.fill" : "exclamationmark.triangle.fill")
+                    .foregroundStyle(tint)
             }
             .font(.headline)
 
@@ -283,7 +326,7 @@ struct CSVIssueList: View {
                         }
                         .frame(maxWidth: .infinity, alignment: .leading)
                         .padding(8)
-                        .background(Color.red.opacity(0.08))
+                        .background(tint.opacity(0.08))
                         .clipShape(RoundedRectangle(cornerRadius: 6))
                     }
                 }

@@ -14,6 +14,7 @@ enum MacpardyTheme {
     static let tilePlayed = MacopardyAsset.tilePlayed.swiftUIColor
     static let panelBlue = MacopardyAsset.panelBlue.swiftUIColor
     static let gold = MacopardyAsset.gold.swiftUIColor
+    static let warning = MacopardyAsset.warning.swiftUIColor
     static let mutedText = MacopardyAsset.mutedText.swiftUIColor
     static let clueBackground = MacopardyAsset.clueBackground.swiftUIColor
     static let controlBackground = Color(nsColor: .windowBackgroundColor)

@@ -10,6 +10,7 @@ struct QuestionTileButtonView: View {
 
     let value: Int
     let isComplete: Bool
+    var isUnfilled: Bool = false
     var isDailyDouble: Bool = false
     var hasImage: Bool = false
     let action: () -> Void
@@ -24,6 +25,7 @@ struct QuestionTileButtonView: View {
                         RoundedRectangle(cornerRadius: 8)
                             .stroke(isComplete ? MacpardyTheme.gold : Color.clear, lineWidth: 2)
                     )
+                    .unfilledIndicator(isUnfilled, cornerRadius: 8, iconAlignment: .topLeading)
 
                 HStack(spacing: 4) {
                     if hasImage {

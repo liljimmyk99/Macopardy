@@ -42,6 +42,14 @@ A sheet with two options:
 
 ## 2. Building and editing a board (editor window)
 
+- A new game starts **fully filled with default text** (`Untitled Game`, `Round 1`/`Round 2`,
+  `Category N`, `Category N · $VALUE question`/`answer`, a Final Jeopardy category/question/answer),
+  standard values (200–1000 / 400–2000), and Daily Doubles pre-placed (1 in Round 1, 2 in
+  Round 2). It is valid and playable as is.
+- Fields that are empty or still hold their default text get a dashed outline and an icon, live
+  as you type, and the bottom bar shows a running count. **Save** (also from the close/quit
+  prompt) warns first with the count and where the fields are: **Keep Editing** or
+  **Save Anyway**. It never blocks.
 - Game title, plus a title per round (blank = the round's default name).
 - 6 categories × 5 clues per round with editable point values; one Final Macpardy category
   and clue.
@@ -49,7 +57,8 @@ A sheet with two options:
   (PNG, JPEG, HEIC, GIF, TIFF, BMP, WebP; up to 25 MB, downscaled to 1920 px).
 - Tiles show whether a clue is complete, incomplete, or has an image.
 - **Save**: new games are always saved as a `.macpardy` package. Edited games save as `.json`,
-  or `.macpardy` if any clue has a picture. After saving, the host can **Play Now**.
+  or `.macpardy` if any clue has a picture. After saving, the host can **Play Now**
+  (new games too).
 - When editing an existing board, closing the window or quitting the app with unsaved changes
   asks **Save… / Don't Save / Cancel**.
 

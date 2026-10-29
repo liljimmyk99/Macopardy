@@ -11,6 +11,7 @@ struct RoundTitleEditor: View {
 
     @Binding var title: String
     let round: MacpardyRound
+    var isUnfilled = false
 
     var body: some View {
         HStack(spacing: 12) {
@@ -21,6 +22,7 @@ struct RoundTitleEditor: View {
             TextField(BoardDraft.defaultTitle(for: round), text: $title)
                 .textFieldStyle(.roundedBorder)
                 .frame(maxWidth: 420)
+                .unfilledIndicator(isUnfilled, cornerRadius: 5)
                 .accessibilityLabel(Text("create.round_title_accessibility \(round.displayName)"))
         }
     }

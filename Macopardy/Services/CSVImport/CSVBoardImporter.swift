@@ -45,8 +45,8 @@ enum CSVBoardImporter {
     /// Point values for each clue in a category, matching the game editor.
     static func values(for round: RoundName) -> [Int] {
         switch round {
-        case .single: CreateMacpardyGameView.round1Values
-        case .double: CreateMacpardyGameView.round2Values
+        case .single: BoardDefaults.round1Values
+        case .double: BoardDefaults.round2Values
         case .finalRound: []
         }
     }
@@ -108,6 +108,9 @@ enum CSVBoardImporter {
         case finalHasValue
         /// The Final Macpardy row is marked as a Daily Double.
         case finalIsDailyDouble
+        /// The cell still holds the template's default text. Only reported
+        /// as a warning by `defaultTextWarnings`; it never blocks an import.
+        case defaultText
     }
 
     enum ImportError: Error {
@@ -330,6 +333,76 @@ enum CSVBoardImporter {
                 ]
             ),
         ]
+    }
+
+    // MARK: - Default text
+
+    /// Cells that still hold the default text from `BoardDefaults` (the
+    /// downloaded template). Warnings only: the file is still a valid game.
+    /// Returns nothing if the file can't be read as a game.
+    ///
+    /// A category cell is reported once, on the category's first row.
+    static func defaultTextWarnings(from data: Data) -> [Issue] {
+        guard let records = try? CSVParser.parse(data),
+              let header = records.first else { return [] }
+
+        var columnIndex: [Column: Int] = [:]
+        for (index, name) in header.fields.enumerated() {
+            if let column = Column(rawValue: trim(name).lowercased()), columnIndex[column] == nil {
+                columnIndex[column] = index
+            }
+        }
+        guard Column.allCases.allSatisfy({ columnIndex[$0] != nil }) else { return [] }
+
+        var categoryOrder: [RoundName: [String]] = [:]
+        var warnings: [Issue] = []
+
+        for record in records.dropFirst() {
+            func cell(_ column: Column) -> String {
+                let index = columnIndex[column]!
+                return index < record.fields.count ? trim(record.fields[index]) : ""
+            }
+            guard let roundName = RoundName(rawValue: cell(.round).lowercased()) else { continue }
+
+            let category = cell(.category)
+            let clue = cell(.question)
+            let response = cell(.answer)
+
+            if roundName == .finalRound {
+                if category == trim(BoardDefaults.finalCategory) { warnings.append(Issue(row: record.row, column: .category, kind: .defaultText)) }
+                if clue == trim(BoardDefaults.finalClue) { warnings.append(Issue(row: record.row, column: .question, kind: .defaultText)) }
+                if response == trim(BoardDefaults.finalAnswer) { warnings.append(Issue(row: record.row, column: .answer, kind: .defaultText)) }
+                continue
+            }
+
+            guard !category.isEmpty, let value = parseNumber(cell(.value)) else { continue }
+
+            var categories = categoryOrder[roundName] ?? []
+            let isNewCategory: Bool
+            let index: Int
+            if let existing = categories.firstIndex(where: { $0.caseInsensitiveCompare(category) == .orderedSame }) {
+                index = existing
+                isNewCategory = false
+            } else {
+                categories.append(category)
+                index = categories.count - 1
+                isNewCategory = true
+            }
+            categoryOrder[roundName] = categories
+
+            let number = index + 1
+            if isNewCategory, category == trim(BoardDefaults.categoryTitle(number)) {
+                warnings.append(Issue(row: record.row, column: .category, kind: .defaultText))
+            }
+            if clue == trim(BoardDefaults.clue(category: number, value: value)) {
+                warnings.append(Issue(row: record.row, column: .question, kind: .defaultText))
+            }
+            if response == trim(BoardDefaults.answer(category: number, value: value)) {
+                warnings.append(Issue(row: record.row, column: .answer, kind: .defaultText))
+            }
+        }
+
+        return warnings
     }
 
     // MARK: - Helpers

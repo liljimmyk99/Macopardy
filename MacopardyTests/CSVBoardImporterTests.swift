@@ -137,9 +137,52 @@ final class CSVBoardImporterTests: XCTestCase {
     func testTemplateImportsCleanly() throws {
         let boards = try CSVBoardImporter.importBoards(from: CSVBoardTemplate.makeData(), title: "Template")
         XCTAssertEqual(boards.count, 3)
-        XCTAssertEqual(boards[0].categories.map(\.title), MacpardyBoard.sample.categories.map(\.title))
+        XCTAssertEqual(boards[0].categories.map(\.title), (1...6).map { BoardDefaults.categoryTitle($0) })
+        XCTAssertEqual(boards[2].categories.first?.title, BoardDefaults.finalCategory)
         XCTAssertEqual(boards[0].categories.flatMap(\.questions).filter(\.isDailyDouble).count, 1)
         XCTAssertEqual(boards[1].categories.flatMap(\.questions).filter(\.isDailyDouble).count, 2)
+    }
+
+    func testTemplateMatchesTheEditorsDefaults() throws {
+        let boards = try CSVBoardImporter.importBoards(from: CSVBoardTemplate.makeData(), title: "Template")
+        let draft = BoardDefaults.makeDraft()
+        XCTAssertEqual(
+            boards[0].categories.map { $0.questions.map(\.clue) },
+            draft.makeBoards()[0].categories.map { $0.questions.map(\.clue) }
+        )
+        XCTAssertEqual(
+            boards[1].categories.map { $0.questions.map(\.isDailyDouble) },
+            draft.makeBoards()[1].categories.map { $0.questions.map(\.isDailyDouble) }
+        )
+    }
+
+    func testUntouchedTemplateWarnsAboutEveryDefaultCell() {
+        let warnings = CSVBoardImporter.defaultTextWarnings(from: CSVBoardTemplate.makeData())
+        // 12 categories (once each) + 60 clues + 60 answers + 3 final cells.
+        XCTAssertEqual(warnings.count, 12 + 60 + 60 + 3)
+        XCTAssertTrue(warnings.allSatisfy { $0.kind == .defaultText })
+        // Row 2 is the first clue of the first category.
+        XCTAssertEqual(
+            warnings.prefix(3).map { [$0.row, $0.column.map(\.rawValue)] as [AnyHashable?] },
+            [[2, "category"], [2, "question"], [2, "answer"]]
+        )
+        XCTAssertNotNil(warnings[0].location)
+        XCTAssertFalse(warnings[0].message.isEmpty)
+    }
+
+    func testEditedCellsAreNotWarnedAbout() {
+        var rows = CSVBoardTemplate.makeRows()
+        rows[1][3] = "A real clue"          // row 2: question
+        rows[1][1] = "Science"              // row 2: category title
+        let data = Data(CSVParser.write(rows).utf8)
+        let warnings = CSVBoardImporter.defaultTextWarnings(from: data)
+        XCTAssertFalse(warnings.contains { $0.row == 2 && $0.column == .question })
+        XCTAssertTrue(warnings.contains { $0.row == 2 && $0.column == .answer })
+    }
+
+    func testFileWithoutDefaultTextHasNoWarnings() {
+        let data = Data(CSVParser.write(validRows()).utf8)
+        XCTAssertTrue(CSVBoardImporter.defaultTextWarnings(from: data).isEmpty)
     }
 
     func testSavedJSONReopensThroughBoardLoader() throws {

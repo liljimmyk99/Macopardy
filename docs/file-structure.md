@@ -30,7 +30,7 @@ Generated and ignored: `Macopardy.xcodeproj`, `Macopardy.xcworkspace`, `Derived/
 Macopardy/
 ├── App/
 │   └── MacopardyApp.swift        @main app, windows, app delegate, GameState ⇄ buzzer wiring
-├── Models/                       Game data and app-wide observable state
+├── Models/                       Game data and app-wide observable state (BoardDefaults: new-board content)
 │   ├── Game.swift                rounds + currentRound + teams
 │   ├── MacpardyBoard.swift       one round: title, round kind, categories (+ sample board)
 │   ├── MacpardyRound.swift       macpardy | doubleMacpardy | finalMacpardy
@@ -78,6 +78,7 @@ Macopardy/
 │   │   ├── ControlView/              Main host screen (see below)
 │   │   ├── CreateMacpardyGameView/   Board editor window
 │   │   │   ├── Models/BoardDraft.swift  Editor state, shape validation, makeBoards()
+│   │   │   ├── Models/UnfilledField.swift  Fields that are empty or still default text
 │   │   │   └── Components/              Draft board, tiles, question/image editors, titles
 │   │   └── NewGameView/              New Game sheet: editor or CSV import
 │   ├── Display/

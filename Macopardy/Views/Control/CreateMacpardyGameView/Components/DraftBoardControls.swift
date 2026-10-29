@@ -9,6 +9,7 @@ import SwiftUI
 
 struct DraftBoardControls: View {
     @Binding var currentRound: Int
+    var unfilled: [UnfilledField] = []
     let saveGame: () -> Void
     
     var body: some View {
@@ -28,7 +29,9 @@ struct DraftBoardControls: View {
             }
             
             Spacer()
-            
+
+            UnfilledSummary(unfilled: unfilled)
+
             Button("create.button.save_game") {
                 saveGame()
             }
@@ -52,5 +55,37 @@ struct DraftBoardControls: View {
         case 1: "create.draft.next_round.final_macpardy"
         default: "create.draft.next_round"
         }
+    }
+}
+
+/// The running count of fields that still have default text.
+private struct UnfilledSummary: View {
+
+    let unfilled: [UnfilledField]
+
+    var body: some View {
+        if unfilled.isEmpty {
+            Label("create.unfilled.none", systemImage: "checkmark.circle.fill")
+                .foregroundStyle(.secondary)
+        } else {
+            Label {
+                Text("create.unfilled.count \(unfilled.count)")
+            } icon: {
+                Image(systemName: "exclamationmark.circle.fill")
+                    .foregroundStyle(MacpardyTheme.warning)
+            }
+            .help(breakdown)
+        }
+    }
+
+    private var breakdown: String {
+        let game = unfilled.filter { $0.round == nil }.count
+        let parts = [
+            game > 0 ? String(localized: "create.unfilled.breakdown.game \(game)") : nil,
+            String(localized: "create.unfilled.breakdown.round1 \(unfilled.fieldCount(inRound: 0))"),
+            String(localized: "create.unfilled.breakdown.round2 \(unfilled.fieldCount(inRound: 1))"),
+            String(localized: "create.unfilled.breakdown.final \(unfilled.fieldCount(inRound: 2))"),
+        ].compactMap { $0 }
+        return parts.joined(separator: " · ")
     }
 }

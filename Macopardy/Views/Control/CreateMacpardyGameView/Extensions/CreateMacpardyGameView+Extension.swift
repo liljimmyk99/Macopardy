@@ -62,6 +62,28 @@ extension CreateMacpardyGameView {
         return currentDraft != savedDraft
     }
 
+    // MARK: - Default text
+
+    /// Fields that are empty or still hold their default text.
+    var unfilledFields: [UnfilledField] {
+        currentDraft.unfilledFields()
+    }
+
+    /// Where the unfilled fields are, for the warning before saving.
+    var unfilledAlertMessage: String {
+        let fields = unfilledFields
+        let groups = fields.groupedByArea
+        let shown = groups.prefix(Self.maxAlertAreas)
+        var lines = shown.map { "• \($0.area): \($0.count)" }
+        if groups.count > shown.count {
+            lines.append(String(localized: "create.unfilled.alert.more \(groups.count - shown.count)"))
+        }
+        let summary = String(localized: "create.unfilled.count \(fields.count)")
+        return ([summary] + lines).joined(separator: "\n")
+    }
+
+    private static var maxAlertAreas: Int { 12 }
+
     // MARK: - Round titles
 
     var currentRoundKind: MacpardyRound {
@@ -90,7 +112,10 @@ extension CreateMacpardyGameView {
     /// Validates and opens the save panel. With a `request`, the close or
     /// quit it stands for goes ahead once the save succeeds, and is called
     /// off if the save doesn't happen.
-    func saveGame(thenFinish request: BoardEditorSession.CloseRequest?) {
+    ///
+    /// A game that still has default text is saved only once the user
+    /// confirms the warning (`confirmedUnfilled`).
+    func saveGame(thenFinish request: BoardEditorSession.CloseRequest?, confirmedUnfilled: Bool = false) {
         let draft = currentDraft
 
         if draft.trimmedTitle.isEmpty {
@@ -99,6 +124,12 @@ extension CreateMacpardyGameView {
             if request != nil {
                 finishClose(proceed: false)
             }
+            return
+        }
+
+        if !confirmedUnfilled, !draft.unfilledFields().isEmpty {
+            unfilledAlertRequest = request
+            showUnfilledAlert = true
             return
         }
 
@@ -161,16 +192,4 @@ extension CreateMacpardyGameView {
         savedDraft = draft
         isEditingExistingBoard = true
     }
-
-    static func makeDefaultCategories(values: [Int], titles: [String]) -> [DraftCategory] {
-        titles.map { title in
-            DraftCategory(
-                title: title,
-                questions: values.map { value in
-                    DraftQuestion(value: value, clue: "", response: "")
-                }
-            )
-        }
-    }
 }
-

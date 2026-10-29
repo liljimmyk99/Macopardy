@@ -34,11 +34,11 @@ final class BoardLoaderTests: XCTestCase {
         var draft = BoardDraft(
             title: title,
             round1Title: "Warm Up",
-            round1Categories: categories(1, values: CreateMacpardyGameView.round1Values),
-            round1Values: CreateMacpardyGameView.round1Values,
+            round1Categories: categories(1, values: BoardDefaults.round1Values),
+            round1Values: BoardDefaults.round1Values,
             round2Title: "Turning Up the Heat",
-            round2Categories: categories(2, values: CreateMacpardyGameView.round2Values),
-            round2Values: CreateMacpardyGameView.round2Values,
+            round2Categories: categories(2, values: BoardDefaults.round2Values),
+            round2Values: BoardDefaults.round2Values,
             finalTitle: "The Last Word",
             finalMacpardy: DraftFinalMacpardy(category: "Final Cat", clue: "Final clue", response: "Final answer")
         )
@@ -168,8 +168,8 @@ final class BoardLoaderTests: XCTestCase {
         let boards = makeDraft().makeBoards()
         let draft = try BoardLoader.load(data: try json(boards), fileName: "game.json")
 
-        XCTAssertEqual(draft.round1Values, CreateMacpardyGameView.round1Values)
-        XCTAssertEqual(draft.round2Values, CreateMacpardyGameView.round2Values)
+        XCTAssertEqual(draft.round1Values, BoardDefaults.round1Values)
+        XCTAssertEqual(draft.round2Values, BoardDefaults.round2Values)
         XCTAssertEqual(draft.round1Categories.map(\.title), boards[0].categories.map(\.title))
         XCTAssertEqual(draft.round2Categories.map(\.title), boards[1].categories.map(\.title))
         XCTAssertTrue(draft.round1Categories[0].questions[2].isDailyDouble)
@@ -369,8 +369,8 @@ final class BoardLoaderTests: XCTestCase {
             .shape(.mismatchedValues(
                 round: .doubleMacpardy,
                 category: "R2 Cat 3",
-                expected: CreateMacpardyGameView.round2Values,
-                found: Array(CreateMacpardyGameView.round2Values.dropLast()) + [2500]
+                expected: BoardDefaults.round2Values,
+                found: Array(BoardDefaults.round2Values.dropLast()) + [2500]
             ))
         )
     }
