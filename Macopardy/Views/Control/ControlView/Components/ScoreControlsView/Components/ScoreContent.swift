@@ -126,6 +126,7 @@ extension ScoreControlsView {
     func scoreButton(title: LocalizedStringKey, for team: Team, amount: Int, isCorrect: Bool? = nil) -> some View {
         Button(title) {
             gameState.adjustScore(for: team.id, by: amount)
+            if isCorrect == false { SoundPlayer.shared.play(.incorrect) }
             updateBuzzer(for: team, isCorrect: isCorrect)
         }
         .buttonStyle(.bordered)

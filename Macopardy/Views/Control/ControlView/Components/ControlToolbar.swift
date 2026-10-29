@@ -25,6 +25,10 @@ extension ControlView {
         }
 
         ToolbarItem(placement: .primaryAction) {
+            SoundMenu()
+        }
+
+        ToolbarItem(placement: .primaryAction) {
             Button("control.toolbar.show_display", systemImage: "display") {
                 openWindow(id: "display")
             }

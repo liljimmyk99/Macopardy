@@ -45,6 +45,7 @@ Macopardy/
 ├── Services/                     Non-UI logic and I/O
 │   ├── AppLogger.swift           OSLog categories
 │   ├── GameTimerService.swift    GameTimer (15 s countdown)
+│   ├── Sound/                    SoundEffect (sounds + phase cues), SoundPlayer (see sounds.md)
 │   ├── GameSaveStore.swift       actor: auto-save read/write/clear
 │   ├── FileManagerService.swift  FileDocument for boards, security-scoped reads, file names
 │   ├── BoardPackage.swift        .macpardy zip + JSON read/write, UTType

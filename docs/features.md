@@ -105,6 +105,10 @@ Scoring rules the app applies:
   question is revealed bets everything.
 - **Complete Game** clears the auto-save and starts a new buzzer session (new join code).
 
+Sound: the Control Mac plays a buzzer on a wrong answer, a warning over the last 5 seconds of
+the timer, stings for Daily Double and Final Macpardy, and quiet music on the board. The
+toolbar's **Sound** menu turns effects and music off. See [sounds.md](sounds.md).
+
 ## 4. Phone buzzers (optional)
 
 A game works without phones. When the game starts, the app serves a page on the local network.
