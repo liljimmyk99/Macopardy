@@ -164,6 +164,14 @@ struct MacpardyApp: App {
         .onChange(of: buzzerMode) { _, mode in
             Task { await buzzerState.setMode(mode) }
         }
+        // A phone buzz pauses the question timer and starts the response timer (#59).
+        .onChange(of: buzzerState.firstBuzzTeamID) { _, teamID in
+            gameState.teamBuzzedIn(teamID)
+        }
+        // Phones count the response time down themselves from start / stop events.
+        .onChange(of: gameState.answeringTeamID) { _, teamID in
+            Task { await buzzerState.setResponseTimer(teamID: teamID, seconds: GameState.responseSeconds) }
+        }
         // Wagering is open exactly while the Final category is displayed.
         .onChange(of: gameState.phase) { _, phase in
             Task { await syncWagering() }

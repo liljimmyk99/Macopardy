@@ -16,7 +16,11 @@ struct PresentationView: View {
         VStack(spacing: 0) {
             phaseContent
 
-            ScoreboardView(teams: gameState.game.teams, disconnectedTeamIDs: buzzerState.disconnectedTeamIDs)
+            ScoreboardView(
+                teams: gameState.game.teams,
+                disconnectedTeamIDs: buzzerState.disconnectedTeamIDs,
+                responseCountdown: gameState.responseCountdown
+            )
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background(MacpardyTheme.boardBlue)

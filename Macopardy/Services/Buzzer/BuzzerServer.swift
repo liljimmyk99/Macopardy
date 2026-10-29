@@ -47,6 +47,8 @@ actor BuzzerServer {
     private var engine = BuzzerEngine()
     private var wagerBook = FinalWagerBook()
     private var tieWindowTask: Task<Void, Never>?
+    /// The answering team's response countdown, while one is running.
+    private var responseTimer: (teamID: UUID, endsAt: Date, total: TimeInterval)?
     private var codeLimiter = AttemptRateLimiter(
         maxAttempts: BuzzerConstants.maxCodeAttempts,
         window: BuzzerConstants.codeAttemptWindow,
@@ -270,6 +272,39 @@ actor BuzzerServer {
         tieWindowTask = nil
         engine.markCorrect()
         buzzerChanged()
+    }
+
+    // MARK: - Response timer
+
+    /// Starts the answering team's response countdown on every phone, or stops
+    /// it when `teamID` is nil. Phones count down locally from the start event.
+    func setResponseTimer(teamID: UUID?, seconds: TimeInterval, now: Date = Date()) {
+        if let teamID {
+            responseTimer = (teamID, now.addingTimeInterval(seconds), seconds)
+            if let info = responseTimerInfo(now: now) {
+                broadcast(.responseTimer(info))
+            }
+        } else {
+            guard responseTimer != nil else { return }
+            responseTimer = nil
+            broadcast(.responseTimerStopped)
+        }
+    }
+
+    /// The running countdown with the time left as of `now`, for a phone that
+    /// claims its team mid-response.
+    private func responseTimerInfo(now: Date = Date()) -> ResponseTimerInfo? {
+        guard let responseTimer else { return nil }
+        return ResponseTimerInfo(
+            teamID: responseTimer.teamID,
+            remaining: max(0, responseTimer.endsAt.timeIntervalSince(now)),
+            total: responseTimer.total
+        )
+    }
+
+    private func sendResponseTimer(to session: ClientSession) {
+        guard let info = responseTimerInfo() else { return }
+        session.send(.responseTimer(info))
     }
 
     // MARK: - Final Macpardy wagers
@@ -662,12 +697,14 @@ actor BuzzerServer {
                 session.send(.claimAccepted(teamID: teamID))
                 sendBuzzerState(toTeam: teamID)
                 sendWagerInfo(toTeam: teamID)
+                sendResponseTimer(to: session)
                 claimsChanged()
                 AppLogger.buzzer.info("[\(session.id)] Claimed team \(teamID)")
             case .alreadyHeld:
                 session.send(.claimAccepted(teamID: teamID))
                 sendBuzzerState(toTeam: teamID)
                 sendWagerInfo(toTeam: teamID)
+                sendResponseTimer(to: session)
             // Refresh the picker first so the rejection message isn't wiped by it.
             case .taken:
                 session.send(.teams(teamsPayload()))

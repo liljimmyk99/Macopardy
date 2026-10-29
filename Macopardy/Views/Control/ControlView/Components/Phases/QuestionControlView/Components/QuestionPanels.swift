@@ -77,7 +77,8 @@ extension QuestionControlView {
                     caption: "control.question.buzzed_first_caption",
                     title: team.name,
                     detail: nil,
-                    accent: team.displayColor
+                    accent: team.displayColor,
+                    responseCountdown: gameState.responseCountdown?.teamID == teamID ? gameState.responseCountdown : nil
                 )
             } else {
                 Label("control.question.waiting_for_buzz", systemImage: "bolt.slash")
@@ -90,7 +91,13 @@ extension QuestionControlView {
         }
     }
 
-    private func statusCard(caption: LocalizedStringKey, title: String, detail: Text?, accent: Color) -> some View {
+    private func statusCard(
+        caption: LocalizedStringKey,
+        title: String,
+        detail: Text?,
+        accent: Color,
+        responseCountdown: ResponseCountdown? = nil
+    ) -> some View {
         VStack(alignment: .leading, spacing: 4) {
             Text(caption)
                 .font(.caption.bold())
@@ -102,6 +109,9 @@ extension QuestionControlView {
                     .font(.subheadline)
                     .foregroundStyle(MacpardyTheme.mutedText)
             }
+            if let responseCountdown {
+                responseTimerRow(responseCountdown)
+            }
         }
         .frame(maxWidth: .infinity, alignment: .leading)
         .padding(16)
@@ -112,5 +122,23 @@ extension QuestionControlView {
                 .fill(accent)
                 .frame(width: 6)
         }
+    }
+
+    /// The answering team's response time: dots plus seconds, then "Time's up"
+    /// once it runs out. The host can mark correct / wrong at any point.
+    private func responseTimerRow(_ countdown: ResponseCountdown) -> some View {
+        HStack(spacing: 10) {
+            ResponseTimerDots(lit: countdown.secondsLeft, total: countdown.totalSeconds, dotSize: 10)
+            if countdown.isExpired {
+                Text("control.question.response_time_up")
+                    .font(.subheadline.bold())
+                    .foregroundStyle(MacpardyTheme.warning)
+            } else {
+                Text("control.question.response_seconds_left \(countdown.secondsLeft)")
+                    .font(.subheadline.monospacedDigit())
+                    .foregroundStyle(MacpardyTheme.mutedText)
+            }
+        }
+        .padding(.top, 4)
     }
 }

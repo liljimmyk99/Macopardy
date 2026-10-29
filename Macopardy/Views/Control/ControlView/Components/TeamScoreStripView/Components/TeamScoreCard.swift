@@ -102,6 +102,8 @@ struct TeamScoreCard: View {
             gameState.adjustScore(for: team.id, by: isCorrect ? amount : -amount)
             if !isCorrect { SoundPlayer.shared.play(.incorrect) }
             if !isDailyDouble {
+                // Ends this team's response time; wrong resumes the question timer.
+                gameState.judgeResponse(teamID: team.id, isCorrect: isCorrect)
                 updateBuzzer(isCorrect: isCorrect)
             }
         } label: {

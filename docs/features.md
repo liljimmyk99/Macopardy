@@ -91,7 +91,7 @@ each team's phone status with **Remove phone**. The Display window, opened with
 | **Setup** | Team cards (max 4): rename, pick a color swatch, remove, **Add Team**; buzzer panel with QR code, join code, URL, and how many teams have a phone; **Start Game** | Buzzer QR code, join URL, and join code, with a card per team showing **Connected** / **Not connected**; "Waiting to start game…" if the buzzer server isn't running |
 | **Board** | Pick a clue from the board; **Next Round**; show/hide the Display window | The board, played tiles blanked |
 | **Daily Double** | Pick the team and wager (quick-wager buttons), **Show Question** | Daily Double splash |
-| **Question** | Clue as a big tile, correct response (host only) with **Reveal Answer**, who buzzed first (or the Daily Double team and wager), 15 s timer ring (start/pause/reset/±5 s), ✓/✗ score buttons on each team card (only the Daily Double team's on a Daily Double), **Return to Board** in the toolbar | Clue (and picture, if any), timer |
+| **Question** | Clue as a big tile, correct response (host only) with **Reveal Answer**, who buzzed first with their 5 s response timer (or the Daily Double team and wager), 15 s timer ring (start/pause/reset/±5 s), ✓/✗ score buttons on each team card (only the Daily Double team's on a Daily Double), **Return to Board** in the toolbar | Clue (and picture, if any), timer; response-timer dots above the answering team's score |
 | **Answer** | Same screen, answer revealed; score buttons, **Return to Board** | Correct response |
 | **Final – Category** | Watch each team's wager status, enter or edit wagers, **Reveal Question** | Final category |
 | **Final – Question / Answer** | Reveal answer, adjust scores, **Complete Game** | Final clue, then response |
@@ -101,6 +101,12 @@ Scoring rules the app applies:
   Final wager). With no clue up they become ±100 / ±200 manual adjustments. Scores can be reset.
 - On a normal clue, *wrong* locks that team's buzzer and re-arms the others; *correct* stops
   the buzzers. Daily Double and Final scoring never touch the buzzers.
+- **Response timer** (phone buzzers only): when a team's buzz wins, the 15 s question timer
+  pauses and the team gets 5 s to answer, shown as dots on the Control window, above the
+  team's score on the Display, and on every phone. Nothing is scored when it runs out; the
+  host marks correct or wrong (any time, even before it runs out). *Wrong* resumes the
+  question timer where it paused so the other teams can buzz; *correct* leaves it stopped.
+  Revealing the answer or returning to the board cancels it.
 - Final Macpardy: teams at $0 or below are excluded and wager 0. A team with no wager when the
   question is revealed bets everything.
 - **Complete Game** clears the auto-save and starts a new buzzer session (new join code).
@@ -119,6 +125,9 @@ A game works without phones. When the game starts, the app serves a page on the 
   "too early" message. On a Daily Double the button can't be pressed.
 - **First buzz:** the first buzz the Mac receives wins; buzzes within ~75 ms count as a tie,
   won by the lower score (equal scores: random).
+- **Response time:** the winning team has 5 s to answer. Every phone shows the countdown as
+  dots under the buzzer ("Answer now" on the answering phone, "<team> is answering" on the
+  others, "Time's up" at zero) until the host judges the answer.
 - **Wrong answer:** that team is locked out for the rest of the clue; the others can buzz again.
 - **Final Macpardy:** while the category is shown, each eligible phone gets a wager screen
   with its max (its score). Only the first submission counts; after that only the host can

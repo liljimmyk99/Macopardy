@@ -90,4 +90,25 @@ final class BuzzerProtocolTests: XCTestCase {
         XCTAssertEqual(removedObject["type"] as? String, "removed")
         XCTAssertNil(removedObject["payload"])
     }
+
+    // MARK: - Response timer (#59)
+
+    func testResponseTimerEncoding() throws {
+        let id = UUID()
+        let info = ResponseTimerInfo(teamID: id, remaining: 3.2499, total: 5)
+        let data = try ServerMessage.responseTimer(info).jsonData()
+        let object = try XCTUnwrap(JSONSerialization.jsonObject(with: data) as? [String: Any])
+        XCTAssertEqual(object["type"] as? String, "responseTimer")
+        let payload = try XCTUnwrap(object["payload"] as? [String: Any])
+        XCTAssertEqual(payload["teamID"] as? String, id.uuidString)
+        XCTAssertEqual(try XCTUnwrap(payload["remaining"] as? Double), 3.2, accuracy: 0.0001)
+        XCTAssertEqual(try XCTUnwrap(payload["total"] as? Double), 5, accuracy: 0.0001)
+    }
+
+    func testResponseTimerStoppedHasNoPayload() throws {
+        let data = try ServerMessage.responseTimerStopped.jsonData()
+        let object = try XCTUnwrap(JSONSerialization.jsonObject(with: data) as? [String: Any])
+        XCTAssertEqual(object["type"] as? String, "responseTimerStopped")
+        XCTAssertNil(object["payload"])
+    }
 }

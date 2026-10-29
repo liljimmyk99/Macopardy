@@ -16,6 +16,15 @@ final class GameState {
     var timer = GameTimer()
     var phase: GamePhase = .setup
 
+    // Buzz-in response (issue #59)
+    /// Counts down the answering team's time after a phone buzz wins.
+    let responseTimer = GameTimer(seconds: GameState.responseSeconds)
+    /// The team that buzzed in and hasn't been judged yet.
+    private(set) var answeringTeamID: UUID?
+
+    /// How long a team has to answer after buzzing in.
+    static let responseSeconds: TimeInterval = 5
+
     // Daily Double State
     var dailyDoubleTeamID: UUID?
     var dailyDoubleWager: Int = 0
@@ -76,6 +85,7 @@ final class GameState {
         self.finalMacpardyWagers = snapshot.finalMacpardyWagers
         self.currentCategoryTitle = snapshot.currentCategoryTitle
         self.currentQuestion = nil
+        cancelResponse()
         if let qID = snapshot.currentQuestionID,
            game.rounds.indices.contains(game.currentRound) {
             let currentBoard = game.rounds[game.currentRound]
@@ -95,6 +105,7 @@ final class GameState {
     }
 
     func selectQuestion(_ question: Question, categoryTitle: String) {
+        cancelResponse()
         markQuestionPlayed(question)
         currentQuestion = question
         currentCategoryTitle = categoryTitle
@@ -112,6 +123,7 @@ final class GameState {
     }
 
     func submitDailyDoubleWager(teamID: UUID, wager: Int) {
+        cancelResponse()
         dailyDoubleTeamID = teamID
         dailyDoubleWager = wager
         phase = .question
@@ -120,6 +132,7 @@ final class GameState {
     }
 
     func revealAnswer() {
+        cancelResponse()
         if phase == .finalMacpardyQuestion {
             phase = .finalMacpardyAnswer
         } else {
@@ -129,6 +142,7 @@ final class GameState {
     }
 
     func showBoard() {
+        cancelResponse()
         phase = .board
         currentQuestion = nil
         currentCategoryTitle = nil
@@ -143,6 +157,7 @@ final class GameState {
     }
 
     func showFinalMacpardy(categoryTitle: String? = nil) {
+        cancelResponse()
         // Look up final macpardy board if present
         if let fjBoard = game.rounds.first(where: { $0.round == .finalMacpardy }),
            let category = fjBoard.categories.first,
@@ -244,6 +259,7 @@ final class GameState {
             teams: Team.defaultNewTeams
         )
         self.phase = .setup
+        cancelResponse()
         self.currentQuestion = nil
         self.currentCategoryTitle = nil
         self.dailyDoubleTeamID = nil
@@ -279,6 +295,56 @@ final class GameState {
             }
         }
         triggerSave()
+    }
+
+    // MARK: - Buzz-in response
+
+    /// The answering team and its time left, while a team is answering.
+    var responseCountdown: ResponseCountdown? {
+        guard let answeringTeamID else { return nil }
+        return ResponseCountdown(
+            teamID: answeringTeamID,
+            remainingTime: responseTimer.remainingTime,
+            totalTime: responseTimer.startingTime
+        )
+    }
+
+    /// Called when the phone buzzers report who is answering (nil when no one is).
+    /// A buzz on a normal clue pauses the question timer and starts the team's
+    /// response time. Daily Doubles and Final Macpardy have no buzzing.
+    func teamBuzzedIn(_ teamID: UUID?) {
+        guard let teamID else {
+            // The buzzers stopped without the host judging this team
+            // (e.g. another team was marked correct): drop the response.
+            cancelResponse()
+            return
+        }
+        guard teamID != answeringTeamID,
+              phase == .question,
+              dailyDoubleTeamID == nil else { return }
+
+        answeringTeamID = teamID
+        timer.stop()
+        responseTimer.reset()
+        responseTimer.start()
+    }
+
+    /// The host marked a team correct or wrong on a normal clue. If that team
+    /// was answering, its response time ends. Wrong resumes the question timer
+    /// from where it paused so other teams can buzz; correct leaves it stopped.
+    /// The host can judge before the response time runs out.
+    func judgeResponse(teamID: UUID, isCorrect: Bool) {
+        guard answeringTeamID == teamID else { return }
+        cancelResponse()
+        if !isCorrect, phase == .question, timer.remainingTime > 0 {
+            timer.start()
+        }
+    }
+
+    /// Stops and clears any response in progress without touching the question timer.
+    func cancelResponse() {
+        answeringTeamID = nil
+        responseTimer.reset()
     }
 
     private func markQuestionPlayed(_ question: Question) {
