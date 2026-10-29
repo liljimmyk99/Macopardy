@@ -25,6 +25,7 @@ Full walkthrough: [docs/features.md](docs/features.md).
 | ⌘T | Start / pause the timer |
 | ⌘R | **Reveal Answer** |
 | ⌘, | **Settings** (sound, timers, starting teams, buzzer port) |
+| ⌘/ | **Keyboard Shortcuts** window (also the keyboard button in the Control toolbar) |
 | ⌘D | **Show Display** |
 | ⌘B | **Return to Board** (on a clue) |
 | ⌘⇧B | **Buzzers** popover |

@@ -47,6 +47,10 @@ Keyboard shortcuts are defined once, in `App/Commands/ShortcutCatalog.swift` (`A
 and applied with `.keyboardShortcut(_ shortcut: AppShortcut)`; don't write raw
 `.keyboardShortcut("x", …)` calls (Return/Esc via `.defaultAction` / `.cancelAction` are fine).
 `ShortcutCatalogTests` fails if two shortcuts share a key or one takes a reserved system key.
+The catalog also lists the system's own shortcuts (⌘, ⌃⌘F ⌘Z …, `isSystemProvided`) so the
+Keyboard Shortcuts window (`Views/Shortcuts`, opened by `HelpCommands` and a toolbar button) is
+complete; those are never bound with `.keyboardShortcut`. `ShortcutFormatter` draws the glyphs,
+and `ShortcutGroups` orders the window. Adding a catalog entry adds it to the window.
 
 `GameCommands` (the **Game** menu, attached to the Control window scene with `.commands`) calls
 the same `GameState` methods as the on-screen buttons. Which items apply in a phase comes from

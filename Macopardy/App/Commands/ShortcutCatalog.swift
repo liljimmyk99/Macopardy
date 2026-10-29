@@ -10,7 +10,13 @@ import SwiftUI
 
 /// Where in the app a shortcut applies.
 nonisolated enum ShortcutArea: String, CaseIterable {
-    case start, file, edit, game, timer, editor, view, window, help
+    case start, file, edit, game, timer, editor, view, window, app, help
+
+    /// Order of the groups in the Keyboard Shortcuts window.
+    static let displayOrder: [ShortcutArea] = [.start, .file, .edit, .game, .timer, .editor, .view, .window, .app, .help]
+
+    /// Localization key of the group's heading.
+    var titleKey: String { "shortcuts.area.\(rawValue)" }
 }
 
 nonisolated enum AppShortcut: String, CaseIterable, Identifiable {
@@ -23,6 +29,11 @@ nonisolated enum AppShortcut: String, CaseIterable, Identifiable {
     case returnToBoard, nextRound, finalMacpardy, revealAnswer, showDisplay, buzzers
     // Timer
     case toggleTimer, resetTimer, timerMinus5, timerPlus5
+    // Provided by macOS, listed so the Keyboard Shortcuts window is complete.
+    // Never bound with `.keyboardShortcut`; they only appear in the catalog.
+    case settings, undo, redo, fullScreen, closeWindow, minimize
+    // Help
+    case keyboardShortcuts
 
     var id: String { rawValue }
 
@@ -42,6 +53,13 @@ nonisolated enum AppShortcut: String, CaseIterable, Identifiable {
         case .resetTimer: "menu.game.timer.reset"
         case .timerMinus5: "menu.game.timer.minus_5"
         case .timerPlus5: "menu.game.timer.plus_5"
+        case .settings: "menu.app.settings"
+        case .undo: "menu.edit.undo"
+        case .redo: "menu.edit.redo"
+        case .fullScreen: "menu.view.full_screen"
+        case .closeWindow: "menu.window.close"
+        case .minimize: "menu.window.minimize"
+        case .keyboardShortcuts: "menu.help.keyboard_shortcuts"
         }
     }
 
@@ -59,12 +77,19 @@ nonisolated enum AppShortcut: String, CaseIterable, Identifiable {
         case .resetTimer: .leftArrow
         case .timerMinus5: "-"
         case .timerPlus5: "+"
+        case .settings: ","
+        case .undo, .redo: "z"
+        case .fullScreen: "f"
+        case .closeWindow: "w"
+        case .minimize: "m"
+        case .keyboardShortcuts: "/"
         }
     }
 
     var modifiers: EventModifiers {
         switch self {
-        case .buzzers: [.command, .shift]
+        case .buzzers, .redo: [.command, .shift]
+        case .fullScreen: [.command, .control]
         default: .command
         }
     }
@@ -75,22 +100,43 @@ nonisolated enum AppShortcut: String, CaseIterable, Identifiable {
         case .saveGame: .editor
         case .returnToBoard, .nextRound, .finalMacpardy, .revealAnswer, .showDisplay, .buzzers: .game
         case .toggleTimer, .resetTimer, .timerMinus5, .timerPlus5: .timer
+        case .settings: .app
+        case .undo, .redo: .edit
+        case .fullScreen: .view
+        case .closeWindow, .minimize: .window
+        case .keyboardShortcuts: .help
+        }
+    }
+
+    /// Whether macOS provides the shortcut (the app doesn't bind it itself).
+    var isSystemProvided: Bool {
+        switch self {
+        case .settings, .undo, .redo, .fullScreen, .closeWindow, .minimize: true
+        default: false
         }
     }
 
     /// The shortcut as menus draw it, e.g. "⇧⌘B".
     var glyph: String {
-        var text = ""
-        if modifiers.contains(.control) { text += "⌃" }
-        if modifiers.contains(.option) { text += "⌥" }
-        if modifiers.contains(.shift) { text += "⇧" }
-        if modifiers.contains(.command) { text += "⌘" }
-        switch key {
-        case .leftArrow: text += "←"
-        case .rightArrow: text += "→"
-        default: text += String(key.character).uppercased()
+        ShortcutFormatter.glyph(key: key, modifiers: modifiers)
+    }
+}
+
+/// The catalog as the Keyboard Shortcuts window shows it: grouped by area, in
+/// display order, with empty groups left out.
+nonisolated enum ShortcutGroups {
+
+    struct Group: Identifiable {
+        let area: ShortcutArea
+        let shortcuts: [AppShortcut]
+        var id: ShortcutArea { area }
+    }
+
+    static func all() -> [Group] {
+        ShortcutArea.displayOrder.compactMap { area in
+            let shortcuts = AppShortcut.allCases.filter { $0.area == area }
+            return shortcuts.isEmpty ? nil : Group(area: area, shortcuts: shortcuts)
         }
-        return text
     }
 }
 

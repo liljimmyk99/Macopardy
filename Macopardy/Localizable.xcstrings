@@ -4350,6 +4350,246 @@
           }
         }
       }
+    },
+    "shortcuts.window.title" : {
+      "comment" : "Title of the Keyboard Shortcuts window",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Keyboard Shortcuts"
+          }
+        }
+      }
+    },
+    "shortcuts.toolbar" : {
+      "comment" : "Control toolbar button that opens the Keyboard Shortcuts window",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Shortcuts"
+          }
+        }
+      }
+    },
+    "shortcuts.toolbar.help" : {
+      "comment" : "Tooltip of the Shortcuts toolbar button",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Show keyboard shortcuts"
+          }
+        }
+      }
+    },
+    "shortcuts.area.start" : {
+      "comment" : "Group heading in the Keyboard Shortcuts window",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Start Screen"
+          }
+        }
+      }
+    },
+    "shortcuts.area.file" : {
+      "comment" : "Group heading",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "File"
+          }
+        }
+      }
+    },
+    "shortcuts.area.edit" : {
+      "comment" : "Group heading",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Edit"
+          }
+        }
+      }
+    },
+    "shortcuts.area.game" : {
+      "comment" : "Group heading",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Game"
+          }
+        }
+      }
+    },
+    "shortcuts.area.timer" : {
+      "comment" : "Group heading",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Timer"
+          }
+        }
+      }
+    },
+    "shortcuts.area.editor" : {
+      "comment" : "Group heading",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Board Editor"
+          }
+        }
+      }
+    },
+    "shortcuts.area.view" : {
+      "comment" : "Group heading",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "View"
+          }
+        }
+      }
+    },
+    "shortcuts.area.window" : {
+      "comment" : "Group heading",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Window"
+          }
+        }
+      }
+    },
+    "shortcuts.area.app" : {
+      "comment" : "Group heading",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "App"
+          }
+        }
+      }
+    },
+    "shortcuts.area.help" : {
+      "comment" : "Group heading",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Help"
+          }
+        }
+      }
+    },
+    "menu.app.settings" : {
+      "comment" : "Name of the Settings shortcut in the shortcuts list",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Settings…"
+          }
+        }
+      }
+    },
+    "menu.edit.undo" : {
+      "comment" : "Name of the Undo shortcut in the shortcuts list",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Undo"
+          }
+        }
+      }
+    },
+    "menu.edit.redo" : {
+      "comment" : "Name of the Redo shortcut in the shortcuts list",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Redo"
+          }
+        }
+      }
+    },
+    "menu.view.full_screen" : {
+      "comment" : "Name of the full screen shortcut in the shortcuts list",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Enter / Exit Full Screen"
+          }
+        }
+      }
+    },
+    "menu.window.close" : {
+      "comment" : "Name of the Close Window shortcut in the shortcuts list",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Close Window"
+          }
+        }
+      }
+    },
+    "menu.window.minimize" : {
+      "comment" : "Name of the Minimize shortcut in the shortcuts list",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Minimize"
+          }
+        }
+      }
+    },
+    "menu.help.keyboard_shortcuts" : {
+      "comment" : "Help menu item that opens the Keyboard Shortcuts window",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Keyboard Shortcuts"
+          }
+        }
+      }
     }
   },
   "version" : "1.1"

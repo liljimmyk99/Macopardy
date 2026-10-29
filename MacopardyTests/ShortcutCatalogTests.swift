@@ -50,7 +50,8 @@ final class ShortcutCatalogTests: XCTestCase {
             Combo(character: "x", modifiers: .command),
             Combo(character: "a", modifiers: .command),
         ]
-        for shortcut in AppShortcut.allCases {
+        // The system's own shortcuts are listed in the catalog on purpose.
+        for shortcut in AppShortcut.allCases where !shortcut.isSystemProvided {
             XCTAssertFalse(reserved.contains(combo(shortcut)), "\(shortcut) uses a reserved shortcut")
         }
     }
@@ -68,5 +69,29 @@ final class ShortcutCatalogTests: XCTestCase {
         XCTAssertEqual(AppShortcut.nextRound.glyph, "⌘→")
         XCTAssertEqual(AppShortcut.resetTimer.glyph, "⌘←")
         XCTAssertEqual(AppShortcut.toggleTimer.glyph, "⌘T")
+    }
+
+    func testEveryAreaTitleIsLocalized() {
+        let bundle = Bundle(for: GameState.self)
+        for area in ShortcutArea.displayOrder {
+            let value = bundle.localizedString(forKey: area.titleKey, value: "__missing__", table: nil)
+            XCTAssertNotEqual(value, "__missing__", "\(area.titleKey) is missing from Localizable.xcstrings")
+        }
+    }
+
+    func testAppOwnedShortcutsAreNotMarkedSystemProvided() {
+        for shortcut in [AppShortcut.saveGame, .newBoard, .toggleTimer, .keyboardShortcuts] {
+            XCTAssertFalse(shortcut.isSystemProvided)
+        }
+        XCTAssertTrue(AppShortcut.settings.isSystemProvided)
+    }
+
+    func testWindowGroupsCoverEveryShortcutOnceInDisplayOrder() {
+        let groups = ShortcutGroups.all()
+        XCTAssertEqual(groups.flatMap(\.shortcuts).count, AppShortcut.allCases.count)
+        XCTAssertEqual(Set(groups.flatMap(\.shortcuts)), Set(AppShortcut.allCases))
+        XCTAssertFalse(groups.contains { $0.shortcuts.isEmpty })
+        let order = groups.map(\.area).compactMap(ShortcutArea.displayOrder.firstIndex(of:))
+        XCTAssertEqual(order, order.sorted())
     }
 }
