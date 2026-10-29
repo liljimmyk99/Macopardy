@@ -100,6 +100,7 @@ struct TeamScoreCard: View {
     private func clueButton(isCorrect: Bool, amount: Int, isDailyDouble: Bool) -> some View {
         Button {
             gameState.adjustScore(for: team.id, by: isCorrect ? amount : -amount)
+            if !isCorrect { SoundPlayer.shared.play(.incorrect) }
             if !isDailyDouble {
                 updateBuzzer(isCorrect: isCorrect)
             }
