@@ -111,4 +111,34 @@ final class BuzzerProtocolTests: XCTestCase {
         XCTAssertEqual(object["type"] as? String, "responseTimerStopped")
         XCTAssertNil(object["payload"])
     }
+
+    // MARK: - Game PIN entry and session end (#61)
+
+    func testProtocolVersionIsSix() {
+        XCTAssertEqual(BuzzerConstants.protocolVersion, 6)
+    }
+
+    func testJoinRejectedEncodesCodeAndReason() throws {
+        let expected: [JoinRejectReason: (code: String, reason: String)] = [
+            .invalidCode: ("invalidCode", "Invalid join code"),
+            .rateLimited: ("rateLimited", "Too many attempts. Try again shortly."),
+            .unsupportedVersion: ("unsupportedVersion", "Unsupported protocol version"),
+        ]
+        XCTAssertEqual(expected.count, JoinRejectReason.allCases.count)
+        for (reason, values) in expected {
+            let data = try ServerMessage.joinRejected(reason).jsonData()
+            let object = try XCTUnwrap(JSONSerialization.jsonObject(with: data) as? [String: Any])
+            XCTAssertEqual(object["type"] as? String, "joinRejected")
+            let payload = try XCTUnwrap(object["payload"] as? [String: Any])
+            XCTAssertEqual(payload["code"] as? String, values.code)
+            XCTAssertEqual(payload["reason"] as? String, values.reason)
+        }
+    }
+
+    func testSessionEndedHasNoPayload() throws {
+        let data = try ServerMessage.sessionEnded.jsonData()
+        let object = try XCTUnwrap(JSONSerialization.jsonObject(with: data) as? [String: Any])
+        XCTAssertEqual(object["type"] as? String, "sessionEnded")
+        XCTAssertNil(object["payload"])
+    }
 }

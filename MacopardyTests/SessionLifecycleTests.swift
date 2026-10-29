@@ -60,6 +60,16 @@ final class SessionLifecycleTests: XCTestCase {
         await buzzer.stopServer()
         XCTAssertTrue(buzzer.joinCode.isEmpty)
         XCTAssertNil(buzzer.serverURL)
+        XCTAssertNil(buzzer.baseURL)
         XCTAssertTrue(buzzer.claimedTeamIDs.isEmpty)
+    }
+
+    func testJoinURLsShowBareAddressAndQRLinkWithCode() throws {
+        let urls = try XCTUnwrap(BuzzerState.joinURLs(ip: "192.168.1.20", port: 8472, code: "AB3XYZ"))
+        XCTAssertEqual(urls.base.absoluteString, "http://192.168.1.20:8472")
+        XCTAssertNil(urls.base.query)
+        XCTAssertEqual(urls.join.absoluteString, "http://192.168.1.20:8472?code=AB3XYZ")
+        let items = URLComponents(url: urls.join, resolvingAgainstBaseURL: false)?.queryItems
+        XCTAssertEqual(items?.first(where: { $0.name == "code" })?.value, "AB3XYZ")
     }
 }

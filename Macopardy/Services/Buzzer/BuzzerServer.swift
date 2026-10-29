@@ -12,6 +12,8 @@
 //  • Validates the join code on first contact; rejects wrong codes
 //  • Pings all sessions on a timer; evicts sessions that miss the TTL
 //  • Broadcasts ServerMessage values to all authenticated sessions
+//  • On stop, tells joined phones the session ended (`sessionEnded`) so they
+//    return to their Game PIN screen
 //  • Reports the connected-client count via an AsyncStream
 //
 
@@ -193,12 +195,23 @@ actor BuzzerServer {
     }
 
     /// Stops the server, cancels all sessions, and cleans up the heartbeat timer.
+    /// Joined phones get `sessionEnded` first so they go back to the Game PIN
+    /// screen instead of retrying a PIN that no longer works.
     func stop() {
         heartbeatTask?.cancel()
         heartbeatTask = nil
         tieWindowTask?.cancel()
         tieWindowTask = nil
-        sessions.values.forEach { $0.close() }
+        for session in sessions.values {
+            if session.isAuthenticated {
+                // Closes the connection once the frame is flushed. Connections
+                // are independent of the listener, so cancelling it below
+                // doesn't cut this send short.
+                session.send(.sessionEnded, closeAfterSending: true)
+            } else {
+                session.close()
+            }
+        }
         sessions.removeAll()
         claims = TeamClaimRegistry()
         listener?.cancel()
@@ -643,7 +656,7 @@ actor BuzzerServer {
         case .join(let code, let version):
             guard version == BuzzerConstants.protocolVersion else {
                 session.send(
-                    .joinRejected(reason: "Unsupported protocol version"),
+                    .joinRejected(.unsupportedVersion),
                     closeAfterSending: true
                 )
                 removeSession(session)
@@ -654,7 +667,7 @@ actor BuzzerServer {
             // the lockout would only slow down guessing, not stop it.
             if codeLimiter.isBlocked(session.remoteKey) {
                 session.send(
-                    .joinRejected(reason: "Too many attempts. Try again shortly."),
+                    .joinRejected(.rateLimited),
                     closeAfterSending: true
                 )
                 AppLogger.buzzer.warning("[\(session.id)] Rejected — code attempts rate limited")
@@ -671,9 +684,7 @@ actor BuzzerServer {
             } else {
                 let limited = codeLimiter.record(session.remoteKey)
                 session.send(
-                    .joinRejected(reason: limited
-                        ? "Too many attempts. Try again shortly."
-                        : "Invalid join code"),
+                    .joinRejected(limited ? .rateLimited : .invalidCode),
                     closeAfterSending: true
                 )
                 AppLogger.buzzer.warning("[\(session.id)] Rejected — wrong code '\(code)'")
