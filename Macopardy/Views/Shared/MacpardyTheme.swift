@@ -10,6 +10,7 @@ enum MacpardyTheme {
     // Colors live in Assets.xcassets (Theme/ and Team/); Tuist generates `MacopardyAsset`.
     static let boardBlue = MacopardyAsset.boardBlue.swiftUIColor
     static let tileBlue = MacopardyAsset.tileBlue.swiftUIColor
+    static let tileIncomplete = MacopardyAsset.tileIncomplete.swiftUIColor
     static let tileHover = MacopardyAsset.tileHover.swiftUIColor
     static let tilePlayed = MacopardyAsset.tilePlayed.swiftUIColor
     static let panelBlue = MacopardyAsset.panelBlue.swiftUIColor

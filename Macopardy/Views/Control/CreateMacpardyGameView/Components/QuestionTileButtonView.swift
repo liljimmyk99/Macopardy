@@ -19,7 +19,7 @@ struct QuestionTileButtonView: View {
         Button(action: action) {
             ZStack(alignment: .topTrailing) {
                 Rectangle()
-                    .fill(MacpardyTheme.tileBlue)
+                    .fill(isComplete ? MacpardyTheme.tileBlue : MacpardyTheme.tileIncomplete)
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
                     .overlay(
                         RoundedRectangle(cornerRadius: 8)
