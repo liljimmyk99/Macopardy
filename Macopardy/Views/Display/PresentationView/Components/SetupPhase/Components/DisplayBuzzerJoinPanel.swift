@@ -2,20 +2,23 @@
 //  DisplayBuzzerJoinPanel.swift
 //  Macopardy
 //
-//  Big QR code, join URL and join code on the Display before the game starts,
-//  so teams can scan from across the room.
+//  Big QR code, page address and Game PIN on the Display before the game starts,
+//  so teams can scan from across the room or type the address and PIN.
 //
 
 import SwiftUI
 
 struct DisplayBuzzerJoinPanel: View {
 
-    let url: URL
+    /// Full link with `?code=`, encoded in the QR code so scanning joins straight away.
+    let joinURL: URL
+    /// The page address without the code, shown as text next to the Game PIN.
+    let baseURL: URL
     let joinCode: String
 
     var body: some View {
         HStack(spacing: 48) {
-            if let qrImage = QRCodeGenerator.image(from: url.absoluteString, size: 600) {
+            if let qrImage = QRCodeGenerator.image(from: joinURL.absoluteString, size: 600) {
                 Image(nsImage: qrImage)
                     .interpolation(.none)
                     .resizable()
@@ -35,7 +38,7 @@ struct DisplayBuzzerJoinPanel: View {
                     Text("display.setup.buzzer.or_visit")
                         .font(.title3)
                         .foregroundStyle(MacpardyTheme.mutedText)
-                    Text(url.absoluteString)
+                    Text(baseURL.absoluteString)
                         .font(MacpardyTheme.displayJoinURLFont)
                         .foregroundStyle(.white)
                         .lineLimit(1)
@@ -58,7 +61,11 @@ struct DisplayBuzzerJoinPanel: View {
 }
 
 #Preview {
-    DisplayBuzzerJoinPanel(url: URL(string: "http://192.168.1.20:8080?code=ABC234")!, joinCode: "ABC234")
+    DisplayBuzzerJoinPanel(
+        joinURL: URL(string: "http://192.168.1.20:8472?code=ABC234")!,
+        baseURL: URL(string: "http://192.168.1.20:8472")!,
+        joinCode: "ABC234"
+    )
         .padding()
         .background(MacpardyTheme.boardBlue)
 }

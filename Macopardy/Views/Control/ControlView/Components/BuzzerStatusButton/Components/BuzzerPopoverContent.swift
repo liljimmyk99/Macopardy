@@ -27,7 +27,7 @@ extension BuzzerStatusButton {
 
     @ViewBuilder
     private func joinHeader() -> some View {
-        if buzzerState.isRunning, let url = buzzerState.serverURL {
+        if buzzerState.isRunning, let url = buzzerState.serverURL, let baseURL = buzzerState.baseURL {
             HStack(alignment: .top, spacing: 16) {
                 if let qrImage = QRCodeGenerator.image(from: url.absoluteString, size: 112) {
                     Image(nsImage: qrImage)
@@ -49,10 +49,11 @@ extension BuzzerStatusButton {
 
                     Button {
                         NSPasteboard.general.clearContents()
+                        // Copies the full link (with the PIN) so it joins straight away.
                         NSPasteboard.general.setString(url.absoluteString, forType: .string)
                     } label: {
                         HStack(spacing: 6) {
-                            Text(url.absoluteString)
+                            Text(baseURL.absoluteString)
                                 .font(.system(.caption, design: .monospaced))
                                 .lineLimit(1)
                                 .truncationMode(.middle)

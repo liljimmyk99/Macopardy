@@ -20,7 +20,7 @@ struct BuzzerJoinInfoView: View {
 
     var body: some View {
         VStack(spacing: 18) {
-            if buzzerState.isRunning, let url = buzzerState.serverURL {
+            if buzzerState.isRunning, let url = buzzerState.serverURL, let baseURL = buzzerState.baseURL {
                 if let qrImage = QRCodeGenerator.image(from: url.absoluteString, size: 200) {
                     Image(nsImage: qrImage)
                         .interpolation(.none)
@@ -41,10 +41,11 @@ struct BuzzerJoinInfoView: View {
 
                 Button {
                     NSPasteboard.general.clearContents()
+                    // Copies the full link (with the PIN) so it joins straight away.
                     NSPasteboard.general.setString(url.absoluteString, forType: .string)
                 } label: {
                     HStack(spacing: 6) {
-                        Text(url.absoluteString)
+                        Text(baseURL.absoluteString)
                             .font(.system(.callout, design: .monospaced))
                             .lineLimit(1)
                             .truncationMode(.middle)

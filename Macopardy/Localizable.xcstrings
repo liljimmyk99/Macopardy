@@ -946,7 +946,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Removing a phone keeps the team and its score. The phone can rejoin with the join code."
+            "value" : "Removing a phone keeps the team and its score. The phone can rejoin with the Game PIN."
           }
         }
       }
@@ -1810,7 +1810,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Join Code"
+            "value" : "Game PIN"
           }
         }
       }
@@ -2074,7 +2074,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Join code and each team's phone"
+            "value" : "Game PIN and each team's phone"
           }
         }
       }
@@ -3078,7 +3078,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Join code"
+            "value" : "Game PIN"
           }
         }
       }

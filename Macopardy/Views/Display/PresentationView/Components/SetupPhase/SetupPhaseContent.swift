@@ -6,8 +6,8 @@ extension PresentationView {
             Spacer()
             GameTitleView(title: "Macpardy!")
 
-            if buzzerState.isRunning, let url = buzzerState.serverURL {
-                DisplayBuzzerJoinPanel(url: url, joinCode: buzzerState.joinCode)
+            if buzzerState.isRunning, let url = buzzerState.serverURL, let baseURL = buzzerState.baseURL {
+                DisplayBuzzerJoinPanel(joinURL: url, baseURL: baseURL, joinCode: buzzerState.joinCode)
                 DisplayTeamConnectionRow(
                     teams: gameState.game.teams,
                     connectedTeamIDs: buzzerState.claimedTeamIDs
