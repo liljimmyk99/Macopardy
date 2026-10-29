@@ -41,6 +41,19 @@ Defined in `App/MacopardyApp.swift`:
 to save unsaved edits. `Views/Shared/WindowCloseGuard` does the same for closing the editor
 window, since SwiftUI has no close hook outside document apps.
 
+## Menu commands
+
+Keyboard shortcuts are defined once, in `App/Commands/ShortcutCatalog.swift` (`AppShortcut`),
+and applied with `.keyboardShortcut(_ shortcut: AppShortcut)`; don't write raw
+`.keyboardShortcut("x", …)` calls (Return/Esc via `.defaultAction` / `.cancelAction` are fine).
+`ShortcutCatalogTests` fails if two shortcuts share a key or one takes a reserved system key.
+
+`GameCommands` (the **Game** menu, attached to the Control window scene with `.commands`) calls
+the same `GameState` methods as the on-screen buttons. Which items apply in a phase comes from
+`GameCommandAvailability`, which `ControlToolbar` also reads. Each shortcut belongs either to a
+menu item or to a button, never both. The Buzzers popover's open state is
+`BuzzerState.isPopoverPresented` so the menu can open it.
+
 ## State
 
 ### `GameState` (`Models/GameState.swift`)

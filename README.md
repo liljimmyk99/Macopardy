@@ -21,7 +21,9 @@ Full walkthrough: [docs/features.md](docs/features.md).
 | Shortcut | Action |
 |---|---|
 | ⌘O / ⌘N / ⌘E | Start screen: **Play**, **New Board**, **Edit Board** |
-| ⌘S | Editor: **Save Game** · Control: start / pause the timer |
+| ⌘S | Editor: **Save Game** |
+| ⌘T | Start / pause the timer |
+| ⌘R | **Reveal Answer** |
 | ⌘D | **Show Display** |
 | ⌘B | **Return to Board** (on a clue) |
 | ⌘⇧B | **Buzzers** popover |
@@ -30,7 +32,7 @@ Full walkthrough: [docs/features.md](docs/features.md).
 | ⌘← | Reset the timer |
 | ⌘− / ⌘+ | Timer −5 s / +5 s |
 
-Where each one applies: [docs/features.md §7](docs/features.md#7-keyboard-shortcuts).
+Everything except the start screen and editor ones is in the **Game** menu, which greys out items that don't apply. Where each one applies: [docs/features.md §7](docs/features.md#7-keyboard-shortcuts).
 
 ## Quick start
 

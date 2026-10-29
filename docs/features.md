@@ -158,7 +158,10 @@ notarized). See [EXPORTING.md](../EXPORTING.md).
 
 ## 7. Keyboard shortcuts
 
-Shortcuts work only while their button is on screen, so most depend on the window and phase.
+Game shortcuts live in the **Game** menu in the menu bar. Items are always listed and greyed out
+when they don't apply to the current phase. Start-screen and editor shortcuts still belong to
+their buttons, so they work only while that screen is up. Every shortcut is defined once in
+`App/Commands/ShortcutCatalog.swift`.
 
 | Where | Shortcut | Action |
 |---|---|---|
@@ -174,7 +177,8 @@ Shortcuts work only while their button is on screen, so most depend on the windo
 | Control, Board | ⌘F | **Final Macpardy** |
 | Control, Board | ⌘→ | **Next Round** |
 | Control, Question / Answer | ⌘B | **Return to Board** |
-| Control, Question / Final | ⌘S | Start / pause the timer |
+| Control, Question | ⌘R | **Reveal Answer** (also Final question) |
+| Control, Question / Final | ⌘T | Start / pause the timer |
 | Control, Question / Final | ⌘← | Reset the timer |
 | Control, Question / Final | ⌘− / ⌘+ | Timer −5 s / +5 s |
 

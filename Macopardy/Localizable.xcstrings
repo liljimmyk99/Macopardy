@@ -428,6 +428,102 @@
         }
       }
     },
+    "menu.game" : {
+      "comment" : "Title of the Game menu in the menu bar",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Game"
+          }
+        }
+      }
+    },
+    "menu.game.buzzers" : {
+      "comment" : "Game menu item that opens the buzzers popover",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Buzzers…"
+          }
+        }
+      }
+    },
+    "menu.game.timer.minus_5" : {
+      "comment" : "Game menu item that removes five seconds from the timer",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Timer −5 Seconds"
+          }
+        }
+      }
+    },
+    "menu.game.timer.pause" : {
+      "comment" : "Game menu item that pauses the question timer",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pause Timer"
+          }
+        }
+      }
+    },
+    "menu.game.timer.plus_5" : {
+      "comment" : "Game menu item that adds five seconds to the timer",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Timer +5 Seconds"
+          }
+        }
+      }
+    },
+    "menu.game.timer.reset" : {
+      "comment" : "Game menu item that resets the question timer",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Reset Timer"
+          }
+        }
+      }
+    },
+    "menu.game.timer.start" : {
+      "comment" : "Game menu item that starts the question timer",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Start Timer"
+          }
+        }
+      }
+    },
+    "menu.game.timer.toggle" : {
+      "comment" : "Shortcut name for starting or pausing the timer",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Start / Pause Timer"
+          }
+        }
+      }
+    },
     "new_game.csv.continue_anyway" : {
       "comment" : "Button that continues importing a CSV that still has default text",
       "extractionState" : "manual",

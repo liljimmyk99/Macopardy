@@ -10,13 +10,12 @@ import SwiftUI
 extension ControlView {
     @ToolbarContentBuilder
     var controlToolbar: some ToolbarContent {
-        if gameState.phase == .question || gameState.phase == .answer {
+        if commandAvailability.canReturnToBoard {
             ToolbarItem(placement: .navigation) {
                 Button("control.question.button.return_to_board", systemImage: "chevron.backward") {
                     gameState.showBoard()
                 }
                 .labelStyle(.titleAndIcon)
-                .keyboardShortcut("b", modifiers: .command)
             }
         }
 
@@ -33,11 +32,10 @@ extension ControlView {
                 openWindow(id: "display")
             }
             .labelStyle(.titleAndIcon)
-            .keyboardShortcut("d", modifiers: .command)
-            .help("control.toolbar.show_display.help")
+            .help(Text("control.toolbar.show_display.help") + Text(verbatim: " (\(AppShortcut.showDisplay.glyph))"))
         }
 
-        if gameState.phase == .board {
+        if commandAvailability.canGoToFinal {
             ToolbarSpacer(.fixed, placement: .primaryAction)
 
             ToolbarItem(placement: .primaryAction) {
@@ -45,7 +43,6 @@ extension ControlView {
                     gameState.showFinalMacpardy()
                 }
                 .labelStyle(.titleAndIcon)
-                .keyboardShortcut("f", modifiers: .command)
                 .foregroundStyle(MacpardyTheme.gold)
             }
 
@@ -56,7 +53,6 @@ extension ControlView {
                 .labelStyle(.titleAndIcon)
                 .buttonStyle(.borderedProminent)
                 .tint(MacpardyTheme.gold)
-                .keyboardShortcut(.rightArrow, modifiers: .command)
                 .foregroundStyle(MacpardyTheme.boardBlue)
             }
         }

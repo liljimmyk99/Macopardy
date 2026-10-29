@@ -8,6 +8,11 @@
 import SwiftUI
 
 extension ControlView {
+    /// What the Game menu and the toolbar offer in the current phase.
+    var commandAvailability: GameCommandAvailability {
+        GameCommandAvailability(phase: gameState.phase, hasSelectedGame: true)
+    }
+
     /// The current round's title, e.g. "General Categories".
     var navigationTitleText: Text {
         if let board = gameState.game.currentBoard {

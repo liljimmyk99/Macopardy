@@ -13,11 +13,11 @@ struct BuzzerStatusButton: View {
     @Environment(GameState.self) var gameState
     @Environment(BuzzerState.self) var buzzerState
 
-    @State private var isPresented = false
-
     var body: some View {
+        @Bindable var buzzerState = buzzerState
+
         Button {
-            isPresented.toggle()
+            buzzerState.isPopoverPresented.toggle()
         } label: {
             HStack(spacing: 6) {
                 Circle()
@@ -26,11 +26,10 @@ struct BuzzerStatusButton: View {
                 Text(title)
             }
         }
-        .help("control.toolbar.buzzers.help")
-        .popover(isPresented: $isPresented, arrowEdge: .bottom) {
+        .help(Text("control.toolbar.buzzers.help") + Text(verbatim: " (\(AppShortcut.buzzers.glyph))"))
+        .popover(isPresented: $buzzerState.isPopoverPresented, arrowEdge: .bottom) {
             popoverContent()
         }
-        .keyboardShortcut("b", modifiers: [.command, .shift])
     }
 }
 

@@ -1,0 +1,34 @@
+//
+//  GameCommandAvailability.swift
+//  Macopardy
+//
+//  Which Game menu actions apply in the current phase. The menu and the
+//  Control toolbar both read this so they can't disagree.
+//
+
+struct GameCommandAvailability: Equatable {
+
+    let phase: GamePhase
+    let hasSelectedGame: Bool
+
+    var canReturnToBoard: Bool {
+        hasSelectedGame && (phase == .question || phase == .answer)
+    }
+
+    var canGoToFinal: Bool { hasSelectedGame && phase == .board }
+
+    var canAdvanceRound: Bool { hasSelectedGame && phase == .board }
+
+    var canRevealAnswer: Bool {
+        hasSelectedGame && (phase == .question || phase == .finalMacpardyQuestion)
+    }
+
+    /// The timer is on screen on a clue and during the Final question and answer.
+    var canControlTimer: Bool {
+        hasSelectedGame && (phase == .question || phase == .finalMacpardyQuestion || phase == .finalMacpardyAnswer)
+    }
+
+    var canShowDisplay: Bool { hasSelectedGame }
+
+    var canOpenBuzzers: Bool { hasSelectedGame }
+}
