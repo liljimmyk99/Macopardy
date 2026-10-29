@@ -27,7 +27,7 @@ extension LaunchScreenView {
 
     @ViewBuilder
     func actionTiles() -> some View {
-        HStack(spacing: 6) {
+        HStack(alignment: .top, spacing: 6) {
             LaunchActionTile(
                 title: "launch.tile.play",
                 caption: "launch.tile.play.caption",
@@ -55,6 +55,8 @@ extension LaunchScreenView {
                 showEditImporter = true
             }
         }
+        // Sizes every tile to the tallest, so captions that wrap differently don't change them.
+        .fixedSize(horizontal: false, vertical: true)
         .frame(maxWidth: 1020)
     }
 

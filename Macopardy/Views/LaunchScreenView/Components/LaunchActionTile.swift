@@ -46,7 +46,7 @@ struct LaunchActionTile: View {
                 }
                 .padding(.vertical, 32)
                 .padding(.horizontal, 20)
-                .frame(maxWidth: .infinity)
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
                 .background(isHovered ? MacpardyTheme.tileHover : MacpardyTheme.tileBlue)
             }
             .contentShape(Rectangle())

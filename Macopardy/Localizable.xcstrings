@@ -2914,7 +2914,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Build in the editor or import a CSV"
+            "value" : "Build in the editor or import a SpreadSheet"
           }
         }
       }
@@ -3064,25 +3064,25 @@
       }
     },
     "new_game.csv.title" : {
-      "comment" : "New Game sheet: heading for importing a game from CSV",
+      "comment" : "New Game sheet: heading for importing a game from SpreadSheet",
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Import from CSV"
+            "value" : "Import from SpreadSheet"
           }
         }
       }
     },
     "new_game.csv.upload" : {
-      "comment" : "New Game sheet: button to pick a CSV file to import",
+      "comment" : "New Game sheet: button to pick a SpreadSheet file to import",
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Upload CSV"
+            "value" : "Upload SpreadSheet"
           }
         }
       }
