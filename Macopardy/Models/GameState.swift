@@ -23,13 +23,13 @@ final class GameState {
     private(set) var answeringTeamID: UUID?
 
     /// How long a team has to answer after buzzing in (Settings > Game).
-    var responseSeconds: TimeInterval { TimeInterval(AppSettings.responseSeconds()) }
+    var responseSeconds: TimeInterval { TimeInterval(AppSettings.responseSeconds(settings)) }
 
     /// Returns the question timer to the length set in Settings. Only a timer
     /// that starts afterwards is affected; one that is running is stopped by
     /// the reset like any other.
     func resetTimer() {
-        timer.reset(seconds: TimeInterval(AppSettings.questionTimerSeconds()))
+        timer.reset(seconds: TimeInterval(AppSettings.questionTimerSeconds(settings)))
     }
 
     // Daily Double State
@@ -38,6 +38,12 @@ final class GameState {
 
     // Final Macpardy State
     var finalMacpardyWagers: [UUID: Int] = [:]
+
+    /// Where timer lengths are read from (Settings). Tests swap in their own.
+    @ObservationIgnored var settings: UserDefaults = .standard
+
+    // Undo (Edit menu): set by the Control window.
+    @ObservationIgnored var scoreUndoManager: UndoManager?
 
     // Persistence
     private var pendingSaveTask: Task<Void, Never>?
@@ -85,6 +91,7 @@ final class GameState {
     }
 
     func restore(from snapshot: GameSnapshot) {
+        clearScoreUndo()
         self.game = snapshot.game
         self.phase = snapshot.phase
         self.dailyDoubleTeamID = snapshot.dailyDoubleTeamID
@@ -235,18 +242,39 @@ final class GameState {
     }
 
     func adjustScore(for teamID: UUID, by amount: Int) {
-        guard let index = game.teams.firstIndex(where: { $0.id == teamID }) else { return }
-        game.teams[index].score += amount
-        triggerSave()
+        guard let team = game.teams.first(where: { $0.id == teamID }) else { return }
+        let name = amount < 0 ? String(localized: "undo.deduct_points") : String(localized: "undo.award_points")
+        setScore(for: teamID, to: team.score + amount, undoName: name)
     }
 
     func resetScore(for teamID: UUID) {
+        setScore(for: teamID, to: 0, undoName: String(localized: "undo.reset_score"))
+    }
+
+    /// Sets a team's score and registers the step that puts it back. Only
+    /// scores can be undone; moving between clues or rounds can't.
+    private func setScore(for teamID: UUID, to newScore: Int, undoName: String) {
         guard let index = game.teams.firstIndex(where: { $0.id == teamID }) else { return }
-        game.teams[index].score = 0
+        let previous = game.teams[index].score
+        game.teams[index].score = newScore
         triggerSave()
+
+        guard previous != newScore, let scoreUndoManager else { return }
+        scoreUndoManager.registerUndo(withTarget: self) { state in
+            // Registered while undoing, so it becomes the redo.
+            state.setScore(for: teamID, to: previous, undoName: undoName)
+        }
+        scoreUndoManager.setActionName(undoName)
+    }
+
+    /// Forgets every score step, so an undo can't change a score from an
+    /// earlier round or game.
+    func clearScoreUndo() {
+        scoreUndoManager?.removeAllActions(withTarget: self)
     }
 
     func advanceRound() {
+        clearScoreUndo()
         // Find next non-final-macpardy board or next round index
         let nextRound = game.currentRound + 1
         if nextRound < game.rounds.count {
@@ -261,6 +289,7 @@ final class GameState {
     }
 
     func loadGame(boards: [MacpardyBoard]) {
+        clearScoreUndo()
         self.game = Game(
             rounds: boards,
             currentRound: 0,
