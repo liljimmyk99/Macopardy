@@ -175,6 +175,7 @@ struct CreateMacpardyGameView: View {
             switch result {
             case .success(let url):
                 AppLogger.database.info("Saved boards to \(url.lastPathComponent, privacy: .public)")
+                RecentBoards.shared.note(url)
                 savedDraft = draftBeingSaved
                 suggestedFilename = nil
                 if closeAfterSave != nil {

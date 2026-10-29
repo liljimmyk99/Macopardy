@@ -13,7 +13,8 @@ struct LaunchActionTile: View {
     let title: LocalizedStringKey
     let caption: LocalizedStringKey
     let systemImage: String
-    let shortcut: AppShortcut
+    /// The menu shortcut that does the same thing, shown as a hint.
+    let shortcut: AppShortcut?
     let action: () -> Void
 
     @State private var isHovered = false
@@ -40,9 +41,11 @@ struct LaunchActionTile: View {
                         .multilineTextAlignment(.center)
                         .fixedSize(horizontal: false, vertical: true)
 
-                    Text(verbatim: shortcut.glyph)
-                        .font(MacpardyTheme.shortcutFont)
-                        .foregroundStyle(MacpardyTheme.mutedText)
+                    if let shortcut {
+                        Text(verbatim: shortcut.glyph)
+                            .font(MacpardyTheme.shortcutFont)
+                            .foregroundStyle(MacpardyTheme.mutedText)
+                    }
                 }
                 .padding(.vertical, 32)
                 .padding(.horizontal, 20)
@@ -52,7 +55,6 @@ struct LaunchActionTile: View {
             .contentShape(Rectangle())
         }
         .buttonStyle(.plain)
-        .keyboardShortcut(shortcut)
         .onHover { isHovered = $0 }
     }
 }
@@ -62,7 +64,7 @@ struct LaunchActionTile: View {
         title: "launch.tile.play",
         caption: "launch.tile.play.caption",
         systemImage: "play.fill",
-        shortcut: .play
+        shortcut: .importBoard
     ) {}
     .frame(width: 320)
     .padding()

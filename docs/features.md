@@ -17,7 +17,8 @@ A game is three rounds, like the TV show: **Macpardy** (6 categories × 5 clues)
 ## 1. Getting a game
 
 The start screen (Control window) uses the board's look: three tiles styled like board
-columns — **Play** (⌘O), **New Board** (⌘N), and **Edit Board** (⌘E). If an auto-saved game
+columns — **Play**, **New Board**, and **Edit Board**. (The tiles are click-only; their
+shortcuts live in the **File** menu — see below.) If an auto-saved game
 exists, a banner below them shows its round and team count with **Resume** and **Discard**
 (Discard asks first).
 
@@ -27,7 +28,27 @@ exists, a banner below them shows its round and team count with **Resume** and *
   opens the file panel for a `.macpardy` package or a `.json` board.
 - If an auto-saved game exists, the app first asks: **Resume** it, start a **New Game**
   (discards the save, then shows the picker), or cancel.
-- Double-clicking a `.macpardy` file in Finder also opens it (ignored while a game is in progress).
+- Double-clicking a `.macpardy` file in Finder goes through the same flow as **File > Import
+  Board…** (see "File menu" below).
+
+### File menu
+Boards can be opened from the menu bar at any time, on the start screen or during a game:
+
+- **New Board** (⌘N) opens the editor with a fresh board.
+- **Import Board…** (⌘O) picks a `.macpardy`, `.json`, `.zip`, or `.csv` file.
+- **Open Recent** lists the last 10 boards (file names, newest first) with **Clear Menu** at the
+  bottom; it shows a disabled "No Recent Boards" when empty. A file that is missing or can't be
+  read shows the normal load error and is removed from the list. Boards are added to the list
+  when played, edited, or saved from the editor.
+
+After a file is picked (Import, Open Recent, or Finder) the app asks **Play**, **Edit**, or Cancel:
+
+- **Edit** opens it in the editor and never touches a running game. If the editor has unsaved
+  changes, the app asks before replacing them.
+- **Play** with no game running starts it.
+- **Play** during a game asks "End the current game and open this board?" On confirm, the
+  buzzer server and sounds stop (as when leaving a game) and the new game starts. Auto-save keeps
+  a single slot: the ended game can be resumed only until the new game moves past setup.
 
 ### New Board
 A sheet with two options:
@@ -159,15 +180,14 @@ notarized). See [EXPORTING.md](../EXPORTING.md).
 ## 7. Keyboard shortcuts
 
 Game shortcuts live in the **Game** menu in the menu bar. Items are always listed and greyed out
-when they don't apply to the current phase. Start-screen and editor shortcuts still belong to
-their buttons, so they work only while that screen is up. Every shortcut is defined once in
+when they don't apply to the current phase. File-menu items work anywhere; the editor's ⌘S still belongs to its button, so it works only
+while the editor is up. Every shortcut is defined once in
 `App/Commands/ShortcutCatalog.swift`.
 
 | Where | Shortcut | Action |
 |---|---|---|
-| Start screen | ⌘O | **Play** (open a board) |
-| Start screen | ⌘N | **New Board** |
-| Start screen | ⌘E | **Edit Board** |
+| File menu | ⌘O | **Import Board…** (then Play or Edit) |
+| File menu | ⌘N | **New Board** |
 | New Board sheet | Esc | Cancel |
 | Board error sheet | Return | OK |
 | Editor window | ⌘S | **Save Game** |

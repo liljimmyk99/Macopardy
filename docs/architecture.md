@@ -54,6 +54,13 @@ the same `GameState` methods as the on-screen buttons. Which items apply in a ph
 menu item or to a button, never both. The Buzzers popover's open state is
 `BuzzerState.isPopoverPresented` so the menu can open it.
 
+`FileCommands` (the **File** menu) drives `BoardOpenCoordinator`, an `@Observable` created in
+`MacopardyApp`. The coordinator owns the import picker, the Play / Edit choice, the "end the
+current game?" and "replace editor changes?" confirmations, and the load-error sheet. They are
+presented at the root of the Control window by `BoardOpenDialogs`, so they work on the start
+screen and mid-game. `RecentBoards` keeps Open Recent in `NSDocumentController` (so the sandbox
+remembers access to each file), behind a small storage protocol for tests.
+
 ## State
 
 ### `GameState` (`Models/GameState.swift`)

@@ -10,6 +10,7 @@ struct LaunchScreenView: View {
 
     @Environment(\.openWindow) var openWindow
     @Environment(BoardEditorSession.self) var editorSession
+    var recents: RecentBoards = .shared
 
     @Binding var hasSelectedGame: Bool
     @State var showFileExporter: Bool = false
