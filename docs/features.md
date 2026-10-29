@@ -81,14 +81,15 @@ progress, a **Buzzers** button, **Show Display**, and on the board **Final Macpa
 Doubles (a gold **DD** badge) and clues with pictures are marked for the host only. Team scores
 run along the bottom with ±100 buttons (right-click a team to reset its score).
 
-The **Buzzers** button shows the join code and how many teams have a phone; its dot turns orange
-when a phone stops responding. It opens a popover with the QR code, join code, copyable URL, and
+The **Buzzers** button shows the Game PIN and how many teams have a phone; its dot turns orange
+when a phone stops responding. It opens a popover with the QR code, Game PIN, the page address
+(the copy button copies the full link with the PIN), and
 each team's phone status with **Remove phone**. The Display window, opened with
 **Show Display**, mirrors the phase full-screen with a scoreboard along the bottom.
 
 | Phase | Host (Control) | Display |
 |---|---|---|
-| **Setup** | Team cards (max 4): rename, pick a color swatch, remove, **Add Team**; buzzer panel with QR code, join code, URL, and how many teams have a phone; **Start Game** | Buzzer QR code, join URL, and join code, with a card per team showing **Connected** / **Not connected**; "Waiting to start game…" if the buzzer server isn't running |
+| **Setup** | Team cards (max 4): rename, pick a color swatch, remove, **Add Team**; buzzer panel with QR code, Game PIN, page address, and how many teams have a phone; **Start Game** | Buzzer QR code, page address, and Game PIN, with a card per team showing **Connected** / **Not connected**; "Waiting to start game…" if the buzzer server isn't running |
 | **Board** | Pick a clue from the board; **Next Round**; show/hide the Display window | The board, played tiles blanked |
 | **Daily Double** | Pick the team and wager (quick-wager buttons), **Show Question** | Daily Double splash |
 | **Question** | Clue as a big tile, correct response (host only) with **Reveal Answer**, who buzzed first with their 5 s response timer (or the Daily Double team and wager), 15 s timer ring (start/pause/reset/±5 s), ✓/✗ score buttons on each team card (only the Daily Double team's on a Daily Double), **Return to Board** in the toolbar | Clue (and picture, if any), timer; response-timer dots above the answering team's score |
@@ -109,7 +110,8 @@ Scoring rules the app applies:
   Revealing the answer or returning to the board cancels it.
 - Final Macpardy: teams at $0 or below are excluded and wager 0. A team with no wager when the
   question is revealed bets everything.
-- **Complete Game** clears the auto-save and starts a new buzzer session (new join code).
+- **Complete Game** clears the auto-save and starts a new buzzer session (new Game PIN);
+  phones go back to their Game PIN screen.
 
 Sound: the Control Mac plays a buzzer on a wrong answer, a warning over the last 5 seconds of
 the timer, stings for Daily Double and Final Macpardy, and quiet music on the board. The
@@ -119,8 +121,10 @@ toolbar's **Sound** menu turns effects and music off. See [sounds.md](sounds.md)
 
 A game works without phones. When the game starts, the app serves a page on the local network.
 
-- **Joining:** scan the QR code or open the URL, enter the 6-character code, pick a team.
-  One phone per team; a claimed team's Join button is disabled for everyone else.
+- **Joining:** scan the QR code (joins straight away), or open the page address shown on the
+  Display and type the 6-character **Game PIN**; then pick a team. One phone per team; a
+  claimed team's Join button is disabled for everyone else. A wrong PIN shows an error and
+  the player can try again.
 - **Buzzing:** the buzzer is live only while a normal clue is shown. Buzzing early shows a
   "too early" message. On a Daily Double the button can't be pressed.
 - **First buzz:** the first buzz the Mac receives wins; buzzes within ~75 ms count as a tie,
@@ -133,9 +137,14 @@ A game works without phones. When the game starts, the app serves a page on the 
   with its max (its score). Only the first submission counts; after that only the host can
   change it. Excluded teams are told they can't win points.
 - **Connection:** a phone that stops answering for 5 s counts as disconnected; the Control
-  and Display windows flag the team. The host can remove a team's phone (team and score kept)
-  and the phone can rejoin.
-- Abuse limits: wrong join codes and claim attempts are rate limited per address.
+  and Display windows flag the team. The phone goes back to the Game PIN screen with its PIN
+  filled in and a dismissible "Unable to find client" toast; tapping **Join** rejoins. It
+  doesn't reconnect on its own. The host can remove a team's phone (team and score kept) and
+  the phone can rejoin.
+- **Game over:** when the game is completed, a save is resumed, or the host leaves the game,
+  every phone returns to an empty Game PIN screen ("Game over…"). An old PIN is refused with
+  "That game has ended or the PIN changed".
+- Abuse limits: wrong Game PINs and claim attempts are rate limited per address.
 
 Wire details: [buzzer-protocol.md](buzzer-protocol.md).
 
@@ -148,7 +157,8 @@ Wire details: [buzzer-protocol.md](buzzer-protocol.md).
   the board file moved. This holds for built-in games too: a save keeps the whole board and
   doesn't refer to the bundled file, so it still resumes after an app update changes or
   removes that game.
-- Resuming starts a new buzzer session; phones drop and rejoin with the new code.
+- Resuming starts a new buzzer session; phones go back to the Game PIN screen and rejoin
+  with the new PIN.
 - A save that's corrupt or from a different schema version is discarded, not migrated.
 
 ## 6. Sharing the app
