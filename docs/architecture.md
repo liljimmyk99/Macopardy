@@ -51,6 +51,11 @@ The single source of truth for a game in progress. `@Observable`, main-actor, in
 - `phase: GamePhase` — which screen is up (see below).
 - Per-clue state: `currentQuestion`, `currentCategoryTitle`, `dailyDoubleTeamID`,
   `dailyDoubleWager`, `finalMacpardyWagers`, and a `GameTimer` (15 s).
+- Buzz-in response (#59): `answeringTeamID` and a second `GameTimer`, `responseTimer`
+  (`GameState.responseSeconds`, 5 s). `teamBuzzedIn(_:)` pauses the question timer and starts
+  the response timer; `judgeResponse(teamID:isCorrect:)` ends it and, on wrong, resumes the
+  question timer. Phase changes call `cancelResponse()`. `responseCountdown` is what the
+  screens draw. None of this is auto-saved.
 - All game actions are methods on `GameState` (`selectQuestion`, `revealAnswer`,
   `adjustScore`, `advanceRound`, `setFinalWager`, …). Views call these; they don't mutate
   `game` directly. Each action ends with `triggerSave()`.
@@ -149,10 +154,13 @@ Code: `Services/Buzzer/`. Protocol: [buzzer-protocol.md](buzzer-protocol.md).
 - **App → server:** `MacpardyApp` watches `GameState` and pushes teams, scores, the buzzer
   mode (`armed` on a normal question, `unavailable` on Daily Double, `disabled` otherwise), and
   Final wagering open/closed (open exactly while `phase == .finalMacpardyCategory`).
+  It also forwards `BuzzerState.firstBuzzTeamID` to `GameState.teamBuzzedIn`, and sends the
+  response timer's start / stop to the phones when `answeringTeamID` changes (the phones
+  count down themselves).
 - **Server → app:** async streams for claimed teams, the first buzz, wager submissions,
   connection count, and listener failures, surfaced as `BuzzerState` properties.
-- **Host actions:** score buttons call `teamAnsweredWrong` / `teamAnsweredCorrect` on normal
-  clues; the toolbar's Buzzers popover can remove a team's phone.
+- **Host actions:** score buttons call `GameState.judgeResponse` and then
+  `teamAnsweredWrong` / `teamAnsweredCorrect` on normal clues; the toolbar's Buzzers popover can remove a team's phone.
 - **Pure logic is separated from I/O:** `BuzzerEngine`, `TeamClaimRegistry`,
   `FinalWagerBook`, `BuzzTieResolver`, `AttemptRateLimiter`, and `WebSocketFrameParser` are
   `nonisolated` value types with unit tests; `BuzzerServer` wires them to the network.

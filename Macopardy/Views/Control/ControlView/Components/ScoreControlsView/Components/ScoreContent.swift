@@ -114,6 +114,7 @@ extension ScoreControlsView {
         guard let isCorrect,
               gameState.dailyDoubleTeamID == nil,
               gameState.phase == .question || gameState.phase == .answer else { return }
+        gameState.judgeResponse(teamID: team.id, isCorrect: isCorrect)
         Task {
             if isCorrect {
                 await buzzerState.teamAnsweredCorrect()

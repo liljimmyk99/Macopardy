@@ -92,6 +92,12 @@ final class BuzzerState {
         await server?.markCorrect()
     }
 
+    /// Starts the answering team's response countdown on every phone, or stops
+    /// it when `teamID` is nil. Phones count down on their own.
+    func setResponseTimer(teamID: UUID?, seconds: TimeInterval) async {
+        await server?.setResponseTimer(teamID: teamID, seconds: seconds)
+    }
+
     // MARK: - Final Macpardy wagers
 
     /// Opens wagering on the phones. `limits` maps each team to its max wager

@@ -1,4 +1,4 @@
-# Macpardy! Buzzer WebSocket Protocol — v4
+# Macpardy! Buzzer WebSocket Protocol — v5
 
 All WebSocket messages are JSON objects with a required top-level `type` string field
 and an optional `payload` object. Unknown `type` values should be silently ignored by
@@ -36,7 +36,7 @@ and closes the connection.
 
 | Field     | Type   | Description                                              |
 |-----------|--------|----------------------------------------------------------|
-| `version` | int    | Required. Protocol version the client speaks. Currently always `4`. A missing version is not decodable and the message is ignored. |
+| `version` | int    | Required. Protocol version the client speaks. Currently always `5`. A missing version is not decodable and the message is ignored. |
 | `code`    | string | The 6-character join code shown on the host's screen.    |
 
 ---
@@ -113,7 +113,7 @@ Sent to the joining phone after a valid join code is received.
 
 | Payload field | Type     | Description                                                     |
 |---------------|----------|-----------------------------------------------------------------|
-| `version`     | int      | Protocol version the server is speaking. Currently always `4`.  |
+| `version`     | int      | Protocol version the server is speaking. Currently always `5`.  |
 | `teams`       | object[] | Teams in display order (at most 4). `claimed` is true while a phone holds the team; the phone disables that team's Join button. `color` is one of `blue`, `red`, `green`, `yellow`, `purple`, `orange`. |
 
 ---
@@ -323,6 +323,32 @@ after `claimAccepted`.
 | `lockedOut`   | The team answered wrong and cannot buzz again on this question.                  |
 | `tooEarly`    | The team pressed while disabled ("Slow your horses bud, too early"). Transient: the phone returns to `waiting` on its own. |
 
+### `responseTimer`
+
+Broadcast to every joined phone when a team's buzz wins and its response time starts, and
+sent to a phone right after `claimAccepted` while one is running (with the time left then).
+The server sends no ticks: the phone counts down from `remaining` on its own clock. At zero
+the phone shows "Time's up" and waits; nothing is scored automatically.
+
+```json
+{ "type": "responseTimer", "payload": { "teamID": "6F9619FF-8B86-D011-B42D-00C04FC964FF", "remaining": 5, "total": 5 } }
+```
+
+| Field       | Type   | Description                                                  |
+|-------------|--------|--------------------------------------------------------------|
+| `teamID`    | string | The answering team.                                          |
+| `remaining` | number | Seconds left when sent (tenths).                             |
+| `total`     | number | The full response time in seconds (one dot per second).      |
+
+### `responseTimerStopped`
+
+Broadcast when the response time ends: the host marked the answer correct or wrong, revealed
+the answer, or left the clue. The phone hides the countdown.
+
+```json
+{ "type": "responseTimerStopped" }
+```
+
 ---
 
 ## Final Macpardy wagers
@@ -381,3 +407,4 @@ Wagering is over; the phone returns to the buzzer.
 | 2       | Issue #29. `joinAccepted.teams` is now an array of `{id, name, color, claimed}` objects. Adds `claim`, `teams`, `claimAccepted`, `claimRejected`, `removed` and rate limiting. |
 | 3       | Issue #30. Adds `buzz` and `buzzerState`. |
 | 4       | Issue #31. Adds `submitWager`, `wagerInfo`, `wagerLocked`, `wagerRejected` and `wagerClosed`. |
+| 5       | Issue #59. Adds `responseTimer` and `responseTimerStopped`. |

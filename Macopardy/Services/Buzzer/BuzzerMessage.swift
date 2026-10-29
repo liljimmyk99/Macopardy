@@ -29,6 +29,16 @@ nonisolated enum ClaimRejectReason: String, Encodable {
     case rateLimited
 }
 
+/// The answering team's response countdown. Phones count down locally from
+/// `remaining`; the server only sends start and stop events.
+nonisolated struct ResponseTimerInfo: Equatable {
+    let teamID: UUID
+    /// Seconds left when the message was sent.
+    let remaining: TimeInterval
+    /// The full response time, in seconds.
+    let total: TimeInterval
+}
+
 /// Messages sent by the server to a connected phone client.
 nonisolated enum ServerMessage {
     /// Sent after a valid join code is received. Carries the teams (with claim
@@ -74,6 +84,12 @@ nonisolated enum ServerMessage {
 
     /// Wagering is over; the phone returns to the buzzer.
     case wagerClosed
+
+    /// A team buzzed in and its response time is running. Broadcast.
+    case responseTimer(ResponseTimerInfo)
+
+    /// The response time ended early (host judged the answer) or was cancelled. Broadcast.
+    case responseTimerStopped
 }
 
 extension ServerMessage: Encodable {
@@ -145,11 +161,22 @@ extension ServerMessage: Encodable {
 
         case .wagerClosed:
             try container.encode("wagerClosed", forKey: .type)
+
+        case .responseTimer(let info):
+            try container.encode("responseTimer", forKey: .type)
+            var payload = container.nestedContainer(keyedBy: PayloadKeys.self, forKey: .payload)
+            try payload.encode(info.teamID, forKey: .teamID)
+            // Tenths are plenty for a countdown the phone animates itself.
+            try payload.encode((info.remaining * 10).rounded() / 10, forKey: .remaining)
+            try payload.encode(info.total, forKey: .total)
+
+        case .responseTimerStopped:
+            try container.encode("responseTimerStopped", forKey: .type)
         }
     }
 
     private enum PayloadKeys: String, CodingKey {
-        case teams, version, reason, phase, teamID, state, eligible, max, wager
+        case teams, version, reason, phase, teamID, state, eligible, max, wager, remaining, total
     }
 }
 

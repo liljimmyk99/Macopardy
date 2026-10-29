@@ -176,6 +176,17 @@
     }
     .wager-submit:disabled { opacity: 0.45; }
     .wager-error { color: var(--red); min-height: 1.2em; }
+
+    /* Response timer: one dot per second, going out left to right */
+    .response { display: none; flex-direction: column; align-items: center; gap: 10px; }
+    .response-label { font-size: 1rem; font-weight: 700; opacity: 0.85; }
+    .response-dots { display: flex; gap: 12px; }
+    .response-dot {
+      width: 18px; height: 18px; border-radius: 50%;
+      background: var(--gold);
+      transition: opacity 0.2s ease-out;
+    }
+    .response-dot.out { opacity: 0.18; }
   </style>
 </head>
 <body>
@@ -189,6 +200,10 @@
     <div class="status-sub"  id="statusSub"></div>
     <div class="teams" id="teams"></div>
     <button class="buzzer" id="buzzer" type="button"></button>
+    <div class="response" id="response">
+      <div class="response-dots" id="responseDots"></div>
+      <div class="response-label" id="responseLabel"></div>
+    </div>
     <div class="wager" id="wager"></div>
     <div class="reconnect-bar" id="reconnectBar" style="display:none">
       <div class="reconnect-bar-fill" id="reconnectFill" style="width:100%"></div>
@@ -198,7 +213,7 @@
 
 <script>
   // ─── Config ──────────────────────────────────────────────────────────────
-  const PROTOCOL_VERSION = 4;
+  const PROTOCOL_VERSION = 5;
   const MAX_BACKOFF_MS   = 10_000;
   const WATCHDOG_MS      = 5_000;   // server pings every 2s; silence this long = lost
   const CODE             = new URLSearchParams(location.search).get("code") ?? "";
@@ -218,6 +233,8 @@
   let tooEarlyTid  = null;
   let wagerInfo    = null;    // Final wager screen state from the server, null when closed
   let wagerError   = "";
+  let response     = null;    // { teamID, endsAt (ms), total } while a team is answering
+  let responseTid  = null;
 
   // ─── DOM refs ────────────────────────────────────────────────────────────
   const card          = document.getElementById("card");
@@ -230,6 +247,9 @@
   const teamsEl       = document.getElementById("teams");
   const buzzerEl      = document.getElementById("buzzer");
   const wagerEl       = document.getElementById("wager");
+  const responseEl    = document.getElementById("response");
+  const responseDots  = document.getElementById("responseDots");
+  const responseLabel = document.getElementById("responseLabel");
 
   const BUZZ_LABELS = {
     waiting:     "Waiting for the question\u2026",
@@ -257,6 +277,7 @@
     if (state !== "connected") teamsEl.style.display = "none";
     if (state !== "connected") buzzerEl.style.display = "none";
     if (state !== "connected") wagerEl.style.display = "none";
+    if (state !== "connected") responseEl.style.display = "none";
   }
 
   function renderBuzzer() {
@@ -274,6 +295,58 @@
     notEligible: "Your team can\u2019t wager.",
     notOpen:     "Wagering isn\u2019t open.",
   };
+
+  // ─── Response timer ──────────────────────────────────────────────────────
+  // The server sends start / stop events; the countdown runs here.
+  function startResponse(payload) {
+    if (!payload?.teamID) return;
+    const remaining = Number(payload.remaining) || 0;
+    response = {
+      teamID: payload.teamID,
+      endsAt: Date.now() + remaining * 1_000,
+      total: Math.max(1, Math.round(Number(payload.total) || 5)),
+    };
+    clearInterval(responseTid);
+    responseTid = setInterval(renderResponse, 100);
+    renderResponse();
+  }
+
+  function stopResponse() {
+    response = null;
+    clearInterval(responseTid);
+    responseTid = null;
+    renderResponse();
+  }
+
+  // Dots under the buzzer while any team is answering. At zero they stay out
+  // until the host judges the answer.
+  function renderResponse() {
+    if (!response || !myTeamId || wagerInfo) {
+      responseEl.style.display = "none";
+      return;
+    }
+    const left = Math.max(0, Math.ceil((response.endsAt - Date.now()) / 1_000 - 0.05));
+    if (left === 0) { clearInterval(responseTid); responseTid = null; }
+
+    const dots = [];
+    for (let i = 0; i < response.total; i++) {
+      const dot = document.createElement("span");
+      // Dots on the right stay lit longest.
+      dot.className = i >= response.total - left ? "response-dot" : "response-dot out";
+      dots.push(dot);
+    }
+    responseDots.replaceChildren(...dots);
+
+    const team = teams.find(t => t.id === response.teamID);
+    if (left === 0) {
+      responseLabel.textContent = "Time\u2019s up";
+    } else if (response.teamID === myTeamId) {
+      responseLabel.textContent = `Answer now \u2013 ${left}s`;
+    } else {
+      responseLabel.textContent = `${team?.name ?? "A team"} is answering`;
+    }
+    responseEl.style.display = "flex";
+  }
 
   // Final wager screen: input until locked, then a read-only confirmation.
   // Teams with no points left only see the sorry message.
@@ -338,12 +411,14 @@
         wagerEl.style.display = "none";
         renderBuzzer();
       }
+      renderResponse();
       // setState keeps the list visible in the connected state, so hide it here.
       teamsEl.replaceChildren();
       teamsEl.style.display = "none";
       return;
     }
 
+    responseEl.style.display = "none";
     setState("connected", "Pick your team",
              teams.length ? "" : "The host hasn\u2019t set up any teams yet.");
     teamsEl.replaceChildren(...teams.map(team => {
@@ -400,6 +475,7 @@
       myTeamId = null;     // a new connection never holds a team yet
       wagerInfo = null;
       buzzState = "waiting";
+      stopResponse();      // the server resends it after the claim if still running
       // Send join immediately.
       send({ type: "join", version: PROTOCOL_VERSION, code: CODE });
       backoffMs = 1_000;   // reset back-off on success
@@ -488,6 +564,14 @@
           if (myTeamId) renderBuzzer();
           break;
         }
+
+        case "responseTimer":
+          startResponse(msg.payload);
+          break;
+
+        case "responseTimerStopped":
+          stopResponse();
+          break;
 
         case "state":
           break;
