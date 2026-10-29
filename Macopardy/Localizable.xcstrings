@@ -4194,6 +4194,162 @@
           }
         }
       }
+    },
+    "undo.edit_title" : {
+      "comment" : "Name of an undoable action, shown in the Edit menu as Undo / Redo <name>",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Edit Title"
+          }
+        }
+      }
+    },
+    "undo.rename_round" : {
+      "comment" : "Name of an undoable action, shown in the Edit menu as Undo / Redo <name>",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rename Round"
+          }
+        }
+      }
+    },
+    "undo.edit_category" : {
+      "comment" : "Name of an undoable action, shown in the Edit menu as Undo / Redo <name>",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Edit Category"
+          }
+        }
+      }
+    },
+    "undo.edit_clue" : {
+      "comment" : "Name of an undoable action, shown in the Edit menu as Undo / Redo <name>",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Edit Clue"
+          }
+        }
+      }
+    },
+    "undo.edit_answer" : {
+      "comment" : "Name of an undoable action, shown in the Edit menu as Undo / Redo <name>",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Edit Answer"
+          }
+        }
+      }
+    },
+    "undo.change_value" : {
+      "comment" : "Name of an undoable action, shown in the Edit menu as Undo / Redo <name>",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Change Value"
+          }
+        }
+      }
+    },
+    "undo.toggle_daily_double" : {
+      "comment" : "Name of an undoable action, shown in the Edit menu as Undo / Redo <name>",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Toggle Daily Double"
+          }
+        }
+      }
+    },
+    "undo.add_image" : {
+      "comment" : "Name of an undoable action, shown in the Edit menu as Undo / Redo <name>",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Add Image"
+          }
+        }
+      }
+    },
+    "undo.remove_image" : {
+      "comment" : "Name of an undoable action, shown in the Edit menu as Undo / Redo <name>",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Remove Image"
+          }
+        }
+      }
+    },
+    "undo.edit" : {
+      "comment" : "Name of an undoable action, shown in the Edit menu as Undo / Redo <name>",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Edit"
+          }
+        }
+      }
+    },
+    "undo.award_points" : {
+      "comment" : "Name of an undoable action, shown in the Edit menu as Undo / Redo <name>",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Award Points"
+          }
+        }
+      }
+    },
+    "undo.deduct_points" : {
+      "comment" : "Name of an undoable action, shown in the Edit menu as Undo / Redo <name>",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Deduct Points"
+          }
+        }
+      }
+    },
+    "undo.reset_score" : {
+      "comment" : "Name of an undoable action, shown in the Edit menu as Undo / Redo <name>",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Reset Score"
+          }
+        }
+      }
     }
   },
   "version" : "1.1"

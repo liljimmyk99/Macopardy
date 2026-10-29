@@ -11,6 +11,7 @@ struct ControlView: View {
 
     @Environment(\.openWindow) var openWindow
     @Environment(GameState.self) var gameState
+    @Environment(\.undoManager) var undoManager
 
     var body: some View {
         VStack(spacing: 0) {
@@ -28,6 +29,9 @@ struct ControlView: View {
         .toolbar { controlToolbar }
         .toolbarBackground(MacpardyTheme.panelBlue, for: .windowToolbar)
         .toolbarBackgroundVisibility(.visible, for: .windowToolbar)
+        // Score changes go on this window's undo stack (Edit > Undo).
+        .onAppear { gameState.scoreUndoManager = undoManager }
+        .onChange(of: undoManager) { _, manager in gameState.scoreUndoManager = manager }
     }
 }
 

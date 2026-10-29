@@ -61,6 +61,17 @@ presented at the root of the Control window by `BoardOpenDialogs`, so they work 
 screen and mid-game. `RecentBoards` keeps Open Recent in `NSDocumentController` (so the sandbox
 remembers access to each file), behind a small storage protocol for tests.
 
+## Undo / redo
+
+Each window has its own `UndoManager` (SwiftUI's `\.undoManager`), and the standard Edit menu
+shows its steps. The editor's `EditorUndoController` (`CreateMacpardyGameView/Models`) watches
+`currentDraft`; `EditorUndoHistory` is the pure part that names a change (`EditorChange`) and
+decides whether it continues the previous step (same field, within 1 s). An undo applies the
+saved `BoardDraft` back to the editor's `@State`, and the history ignores the resulting change.
+`EditorUndoController.registersTypingSteps` turns off text steps if a focused field's own typing
+undo ever stacks up with them. In the Control window, `GameState.setScore` is the only place
+scores change and registers the inverse on `scoreUndoManager`, which `ControlView` sets.
+
 ## State
 
 ### `GameState` (`Models/GameState.swift`)

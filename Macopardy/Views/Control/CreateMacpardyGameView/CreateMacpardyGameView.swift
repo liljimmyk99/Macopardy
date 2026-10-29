@@ -11,6 +11,7 @@ struct CreateMacpardyGameView: View {
     @Environment(\.dismissWindow) internal var dismissWindow
     @Environment(\.openWindow) private var openWindow
     @Environment(BoardEditorSession.self) internal var editorSession
+    @Environment(\.undoManager) internal var undoManager
 
     @State internal var title: String = BoardDefaults.gameTitle
     @State internal var currentRound: Int = 0
@@ -46,6 +47,11 @@ struct CreateMacpardyGameView: View {
     @State internal var showUnsavedPrompt = false
 
     @State internal var selectedQuestion: EditingQuestion?
+
+    /// Undo and redo for the board's contents (Edit menu).
+    @State internal var undoController = EditorUndoController(
+        draft: BoardDefaults.makeDraft()
+    )
 
     @State internal var validationMessage: String = ""
     @State internal var showValidationAlert = false
@@ -270,7 +276,18 @@ struct CreateMacpardyGameView: View {
         // "Edit game" queues a loaded board; pick it up when the window opens,
         // or right away if it's already open.
         .onAppear {
+            resetUndo(to: currentDraft)
             loadPendingDraft()
+        }
+        .onChange(of: currentDraft) { _, draft in
+            recordUndoStep(for: draft)
+        }
+        // Moving to another round or clue ends the edit in progress.
+        .onChange(of: currentRound) { _, _ in
+            undoController.closeStep()
+        }
+        .onChange(of: selectedQuestion?.id) { _, _ in
+            undoController.closeStep()
         }
         .onChange(of: editorSession.editRequest) { _, _ in
             loadPendingDraft()
@@ -285,6 +302,7 @@ struct CreateMacpardyGameView: View {
             }
         }
         .onDisappear {
+            undoController.clearStack()
             editorSession.hasUnsavedEdits = false
         }
         .background(

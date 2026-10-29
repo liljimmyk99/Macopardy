@@ -187,7 +187,22 @@ Wire details: [buzzer-protocol.md](buzzer-protocol.md).
 `scripts/export.sh` builds an ad-hoc signed `.app` and `.dmg` for trusted sharing (not
 notarized). See [EXPORTING.md](../EXPORTING.md).
 
-## 6a. Settings
+## 6a. Undo and redo
+
+**Edit > Undo / Redo** (⌘Z / ⇧⌘Z) work in two places, each window with its own history, and the
+menu items name the action (e.g. "Undo Award Points").
+
+- **Board editor:** Edit Title, Rename Round, Edit Category, Edit Clue, Edit Answer, Change
+  Value, Toggle Daily Double, Add Image, Remove Image. Typing in one field within about a second
+  is one step; moving to another field, clue or round starts a new one. Undoing back to the saved
+  board clears the unsaved-changes indicator. The history clears when the editor closes or loads
+  another board.
+- **Control window, scores only:** Award Points, Deduct Points, Reset Score. Undo and redo save
+  the game and the phones see the restored scores. Clearing a clue, advancing a round, and adding
+  or removing teams are not undoable, and the score history clears when a game starts or resumes
+  or the round advances, so an undo can't change a score from an earlier round.
+
+## 6b. Settings
 
 **Macopardy > Settings…** (⌘,) opens a standard Settings window. Changes apply immediately and
 are remembered (`UserDefaults`, keys in `AppSettings`).

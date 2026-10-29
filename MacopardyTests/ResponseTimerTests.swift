@@ -19,6 +19,14 @@ final class ResponseTimerTests: XCTestCase {
     /// States made by a test, so their run-loop timers are stopped afterwards.
     private var states: [GameState] = []
 
+    /// Settings with nothing changed, so the host's own timer settings don't reach the tests.
+    private let defaults: UserDefaults = {
+        let suite = "ResponseTimerTests"
+        let defaults = UserDefaults(suiteName: suite)!
+        defaults.removePersistentDomain(forName: suite)
+        return defaults
+    }()
+
     override func tearDown() {
         for state in states {
             state.cancelResponse()
@@ -31,6 +39,7 @@ final class ResponseTimerTests: XCTestCase {
     /// A game showing a normal (non–Daily Double) clue with the question timer running.
     private func makeStateOnClue() throws -> GameState {
         let state = GameState(rounds: [MacpardyBoard.sample], teams: [red, blue], phase: .board)
+        state.settings = defaults
         let (question, category) = try XCTUnwrap(
             MacpardyBoard.sample.categories.lazy
                 .compactMap { category in

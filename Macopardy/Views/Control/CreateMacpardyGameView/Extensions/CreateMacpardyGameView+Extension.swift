@@ -177,6 +177,18 @@ extension CreateMacpardyGameView {
     /// Fills the editor with a board queued by "Edit game", if there is one.
     func loadPendingDraft() {
         guard let draft = editorSession.takePendingDraft() else { return }
+        showDraft(draft)
+        currentRound = 0
+        selectedQuestion = nil
+        exportDocument = nil
+        savedDraft = draft
+        suggestedFilename = editorSession.takePendingSuggestedFilename()
+        isEditingExistingBoard = true
+        resetUndo(to: draft)
+    }
+
+    /// Puts `draft`'s contents in the editor's fields.
+    func showDraft(_ draft: BoardDraft) {
         title = draft.title
         round1Title = draft.round1Title
         round1Categories = draft.round1Categories
@@ -186,11 +198,19 @@ extension CreateMacpardyGameView {
         round2BoardValues = draft.round2Values
         finalTitle = draft.finalTitle
         finalMacpardy = draft.finalMacpardy
-        currentRound = 0
-        selectedQuestion = nil
-        exportDocument = nil
-        savedDraft = draft
-        suggestedFilename = editorSession.takePendingSuggestedFilename()
-        isEditingExistingBoard = true
+    }
+
+    // MARK: - Undo
+
+    /// Starts undo history afresh from what the editor holds now (the window
+    /// opened, or a different board was loaded).
+    func resetUndo(to draft: BoardDraft) {
+        undoController.apply = { showDraft($0) }
+        undoController.reset(to: draft, undoManager: undoManager)
+    }
+
+    func recordUndoStep(for draft: BoardDraft) {
+        undoController.apply = { showDraft($0) }
+        undoController.draftChanged(draft, undoManager: undoManager)
     }
 }
