@@ -133,6 +133,7 @@ final class GameState {
 
     func revealAnswer() {
         cancelResponse()
+        timer.stop()
         if phase == .finalMacpardyQuestion {
             phase = .finalMacpardyAnswer
         } else {
