@@ -21,12 +21,8 @@ are on by default and are remembered between launches (`UserDefaults`).
 
 ## Files
 
-`Macopardy/Resources/Sounds/*.wav` are generated, not recorded, by
-[`scripts/generate_sounds.py`](../scripts/generate_sounds.py) (Python 3, no dependencies):
-
-```sh
-python3 scripts/generate_sounds.py
-```
+`Macopardy/Resources/Sounds/*.wav` are synthesized placeholders (generated from sine and saw
+waves, so nothing to license), not recordings.
 
 To use your own recording, replace the file with one of the same name and format (`.wav`).
 No code changes are needed. The file names are the raw values of `SoundEffect`.
