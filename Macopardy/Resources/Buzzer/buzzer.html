@@ -74,9 +74,7 @@
     /* State-specific colours */
     .state-connecting  .status-icon::before { content: "⏳"; }
     .state-connected   .status-icon::before { content: "✅"; }
-    .state-rejected    .status-icon::before { content: "🚫"; }
-    .state-lost        .status-icon::before { content: "⚠️"; }
-    .state-lost        .status-card         { border: 2px solid var(--red); }
+    .state-removed     .status-icon::before { content: "🚫"; }
 
     /* Spinner for connecting state */
     @keyframes spin { to { transform: rotate(360deg); } }
@@ -88,18 +86,42 @@
       animation: spin 0.8s linear infinite;
     }
 
-    .reconnect-bar {
+    /* Game PIN entry */
+    .pin {
       width: 100%;
-      height: 4px;
-      background: rgba(255,255,255,0.15);
-      border-radius: 2px;
-      overflow: hidden;
+      display: none;
+      flex-direction: column;
+      gap: 12px;
     }
-    .reconnect-bar-fill {
-      height: 100%;
-      background: var(--gold);
-      border-radius: 2px;
-      transition: width 1s linear;
+    .pin-label { font-size: 0.95rem; font-weight: 700; opacity: 0.85; }
+    .pin-input {
+      font: inherit; font-size: 2.2rem; font-weight: 800; text-align: center;
+      letter-spacing: 0.3em; text-transform: uppercase;
+      padding: 12px; border: 0; border-radius: 16px; width: 100%; color: #1a1a1a;
+    }
+    .pin-submit {
+      font: inherit; font-size: 1.4rem; font-weight: 800; padding: 16px;
+      border: 0; border-radius: 16px; background: var(--gold); color: #1a1a1a;
+    }
+    .pin-submit:disabled { opacity: 0.45; }
+    .pin-error { color: #ffb0b0; font-weight: 600; min-height: 1.2em; line-height: 1.3; }
+
+    /* "Unable to find client" toast, shown on the PIN screen after a lost connection */
+    .toast {
+      position: fixed; top: 16px; left: 16px; right: 16px;
+      max-width: 420px; margin: 0 auto;
+      display: flex; align-items: center; gap: 12px;
+      background: var(--red); color: var(--white);
+      border-radius: 14px; padding: 12px 14px;
+      font-weight: 700; text-align: left;
+      box-shadow: 0 6px 24px rgba(0,0,0,0.35);
+      z-index: 10;
+    }
+    .toast[hidden] { display: none; }
+    .toast-text { flex: 1; }
+    .toast-close {
+      font: inherit; font-size: 1.2rem; line-height: 1;
+      background: transparent; color: inherit; border: 0; padding: 4px 8px;
     }
 
     /* Team picker */
@@ -198,6 +220,14 @@
     <div class="status-icon" id="icon" style="display:none"></div>
     <div class="status-text" id="statusText">Connecting…</div>
     <div class="status-sub"  id="statusSub"></div>
+    <form class="pin" id="pinForm" autocomplete="off" novalidate>
+      <label class="pin-label" for="pinInput">Game PIN</label>
+      <input class="pin-input" id="pinInput" name="pin" type="text" inputmode="text"
+             autocapitalize="characters" autocomplete="off" autocorrect="off"
+             spellcheck="false" enterkeyhint="go" placeholder="······" />
+      <button class="pin-submit" id="pinSubmit" type="submit" disabled>Join</button>
+      <div class="pin-error" id="pinError" role="alert"></div>
+    </form>
     <div class="teams" id="teams"></div>
     <button class="buzzer" id="buzzer" type="button"></button>
     <div class="response" id="response">
@@ -205,28 +235,32 @@
       <div class="response-label" id="responseLabel"></div>
     </div>
     <div class="wager" id="wager"></div>
-    <div class="reconnect-bar" id="reconnectBar" style="display:none">
-      <div class="reconnect-bar-fill" id="reconnectFill" style="width:100%"></div>
-    </div>
   </div>
+</div>
+
+<div class="toast" id="toast" role="status" hidden>
+  <span class="toast-text">Unable to find client</span>
+  <button class="toast-close" id="toastClose" type="button" aria-label="Dismiss">✕</button>
 </div>
 
 <script>
   // ─── Config ──────────────────────────────────────────────────────────────
-  const PROTOCOL_VERSION = 5;
-  const MAX_BACKOFF_MS   = 10_000;
+  const PROTOCOL_VERSION = 6;
   const WATCHDOG_MS      = 5_000;   // server pings every 2s; silence this long = lost
-  const CODE             = new URLSearchParams(location.search).get("code") ?? "";
+  const PIN_LENGTH       = 6;
   const WS_URL           = `ws://${location.hostname}:${location.port}/ws`;
 
   // ─── State ───────────────────────────────────────────────────────────────
+  // The Game PIN is the server's join code. It comes from `?code=` (QR code) or
+  // the PIN screen. The page never reconnects on its own: a lost connection,
+  // a rejected PIN or a finished game all land on the PIN screen.
+  let pin          = normalisePin(new URLSearchParams(location.search).get("code") ?? "");
+  let pinFromURL   = pin.length === PIN_LENGTH;   // a rejected URL PIN is treated as stale
+  let acceptedPin  = null;    // last PIN the server accepted on this page
   let ws           = null;
-  let backoffMs    = 1_000;
-  let reconnectTid = null;
-  let countdownTid = null;
   let watchdogTid  = null;
   let lastServerMsgAt = 0;
-  let rejected     = false;   // permanent — don't reconnect after joinRejected / removed
+  let intentionalClose = false;   // the close was expected: no "Unable to find client" toast
   let teams        = [];      // latest team list from the server
   let myTeamId     = null;    // team this phone holds, if any
   let buzzState    = "waiting";   // what the buzzer button shows, set by the server
@@ -242,8 +276,12 @@
   const icon          = document.getElementById("icon");
   const statusText    = document.getElementById("statusText");
   const statusSub     = document.getElementById("statusSub");
-  const reconnectBar  = document.getElementById("reconnectBar");
-  const reconnectFill = document.getElementById("reconnectFill");
+  const pinForm       = document.getElementById("pinForm");
+  const pinInput      = document.getElementById("pinInput");
+  const pinSubmit     = document.getElementById("pinSubmit");
+  const pinError      = document.getElementById("pinError");
+  const toast         = document.getElementById("toast");
+  const toastClose    = document.getElementById("toastClose");
   const teamsEl       = document.getElementById("teams");
   const buzzerEl      = document.getElementById("buzzer");
   const wagerEl       = document.getElementById("wager");
@@ -267,13 +305,14 @@
   };
 
   // ─── UI helpers ──────────────────────────────────────────────────────────
+  // States: "pin" (Game PIN screen), "connecting", "connected", "removed".
   function setState(state, text, sub = "") {
     card.className = `status-card state-${state}`;
     statusText.textContent = text;
     statusSub.textContent  = sub;
-    spinner.style.display       = state === "connecting" ? "block" : "none";
-    icon.style.display          = state !== "connecting" ? "block" : "none";
-    reconnectBar.style.display  = state === "lost"       ? "block" : "none";
+    spinner.style.display = state === "connecting" ? "block" : "none";
+    icon.style.display    = state === "connected" || state === "removed" ? "block" : "none";
+    pinForm.style.display = state === "pin" ? "flex" : "none";
     if (state !== "connected") teamsEl.style.display = "none";
     if (state !== "connected") buzzerEl.style.display = "none";
     if (state !== "connected") wagerEl.style.display = "none";
@@ -453,21 +492,82 @@
     send({ type: "buzz" });
   });
 
-  function startCountdownBar(seconds) {
-    reconnectFill.style.transition = "none";
-    reconnectFill.style.width      = "100%";
-    // Force a reflow so the transition resets.
-    reconnectFill.getBoundingClientRect();
-    reconnectFill.style.transition = `width ${seconds}s linear`;
-    reconnectFill.style.width      = "0%";
+  // ─── Game PIN screen ─────────────────────────────────────────────────────
+  // Upper-cases and drops anything that can't be in a PIN (spaces, dashes).
+  function normalisePin(value) {
+    return String(value).toUpperCase().replace(/[^A-Z0-9]/g, "").slice(0, PIN_LENGTH);
   }
 
-  // ─── Connection ──────────────────────────────────────────────────────────
-  function connect() {
-    if (rejected) return;
-    setState("connecting", "Connecting\u2026");
+  function updatePinSubmit() {
+    pinSubmit.disabled = normalisePin(pinInput.value).length !== PIN_LENGTH;
+  }
 
-    const socket = new WebSocket(WS_URL);
+  // Leaves the game and shows the PIN screen. `value` pre-fills the field.
+  function showPin({ value = "", error = "", sub = "" } = {}) {
+    stopWatchdog();
+    myTeamId   = null;
+    wagerInfo  = null;
+    wagerError = "";
+    buzzState  = "waiting";
+    clearTimeout(tooEarlyTid);
+    stopResponse();
+    setState("pin", "Enter the Game PIN", sub);
+    pinInput.value = normalisePin(value);
+    pinError.textContent = error;
+    updatePinSubmit();
+    pinInput.focus();
+  }
+
+  function showToast() { toast.hidden = false; }
+  function hideToast() { toast.hidden = true; }
+
+  // Keeps `?code=` in the address bar only while it's a PIN the server accepted,
+  // so a refresh rejoins and a finished game's PIN isn't retried.
+  function setURLCode(code) {
+    const url = code ? `${location.pathname}?code=${encodeURIComponent(code)}` : location.pathname;
+    history.replaceState(null, "", url);
+  }
+
+  pinInput.addEventListener("input", () => {
+    const value = normalisePin(pinInput.value);
+    if (value !== pinInput.value) pinInput.value = value;
+    pinError.textContent = "";
+    updatePinSubmit();
+  });
+
+  pinForm.addEventListener("submit", event => {
+    event.preventDefault();
+    const value = normalisePin(pinInput.value);
+    if (value.length !== PIN_LENGTH) return;
+    pin = value;
+    pinFromURL = false;
+    connect();
+  });
+
+  toast.addEventListener("click", hideToast);
+  toastClose.addEventListener("click", event => { event.stopPropagation(); hideToast(); });
+
+  // ─── Connection ──────────────────────────────────────────────────────────
+  // Opens a socket and joins with `pin`. Called only from the PIN screen and on
+  // load with `?code=`; there is no automatic reconnect.
+  function connect() {
+    stopWatchdog();
+    if (ws) {
+      const old = ws;
+      ws = null;          // its close event is ignored from here on
+      old.close();
+    }
+    hideToast();
+    intentionalClose = false;
+    setState("connecting", "Connecting…");
+
+    let socket;
+    try {
+      socket = new WebSocket(WS_URL);
+    } catch {
+      connectionLost(null);
+      return;
+    }
     ws = socket;
 
     socket.addEventListener("open", () => {
@@ -476,9 +576,7 @@
       wagerInfo = null;
       buzzState = "waiting";
       stopResponse();      // the server resends it after the claim if still running
-      // Send join immediately.
-      send({ type: "join", version: PROTOCOL_VERSION, code: CODE });
-      backoffMs = 1_000;   // reset back-off on success
+      send({ type: "join", version: PROTOCOL_VERSION, code: pin });
       startWatchdog(socket);
     });
 
@@ -490,6 +588,12 @@
 
       switch (msg.type) {
         case "joinAccepted":
+          acceptedPin = pin;
+          setURLCode(pin);
+          teams = msg.payload?.teams ?? [];
+          renderTeams();
+          break;
+
         case "teams":
           teams = msg.payload?.teams ?? [];
           renderTeams();
@@ -507,7 +611,7 @@
             rateLimited: "Too many attempts. Wait a moment and try again.",
           };
           renderTeams();
-          statusSub.textContent = reasons[msg.payload?.reason] ?? "Couldn\u2019t join that team.";
+          statusSub.textContent = reasons[msg.payload?.reason] ?? "Couldn’t join that team.";
           break;
         }
 
@@ -524,7 +628,7 @@
           break;
 
         case "wagerRejected":
-          wagerError = WAGER_ERRORS[msg.payload?.reason] ?? "Couldn\u2019t submit that wager.";
+          wagerError = WAGER_ERRORS[msg.payload?.reason] ?? "Couldn’t submit that wager.";
           if (myTeamId) renderTeams();
           break;
 
@@ -535,19 +639,20 @@
           break;
 
         case "removed":
-          rejected = true;
+          intentionalClose = true;
           stopWatchdog();
-          setState("rejected", "Removed by host",
+          stopResponse();
+          setState("removed", "Removed by host",
                    "Reload the page to join again.");
           socket.close();
           break;
 
         case "joinRejected":
-          rejected = true;
-          stopWatchdog();
-          setState("rejected", msg.payload?.reason ?? "Unable to join",
-                   "Ask the host to check the connection details.");
-          socket.close();
+          joinRejected(socket, msg.payload);
+          break;
+
+        case "sessionEnded":
+          sessionEnded(socket);
           break;
 
         case "ping":
@@ -578,9 +683,59 @@
       }
     });
 
-    // Both events fire on a failed connection; handleDisconnect is idempotent.
-    socket.addEventListener("close", () => handleDisconnect(socket));
-    socket.addEventListener("error", () => handleDisconnect(socket));
+    // Both events fire on a failed connection; connectionLost is idempotent.
+    socket.addEventListener("close", () => connectionLost(socket));
+    socket.addEventListener("error", () => connectionLost(socket));
+  }
+
+  // The server refused the PIN. A PIN that worked before (or came from the QR
+  // code) means the game ended or the PIN changed, so it's cleared.
+  function joinRejected(socket, payload) {
+    intentionalClose = true;
+    ws = null;
+    socket.close();
+
+    switch (payload?.code ?? "invalidCode") {
+      case "rateLimited":
+        showPin({ value: pin, error: "Too many attempts. Try again shortly." });
+        return;
+      case "unsupportedVersion":
+        showPin({ value: pin, error: "This page is out of date. Reload it." });
+        return;
+    }
+
+    if (pin === acceptedPin || pinFromURL) {
+      acceptedPin = null;
+      pinFromURL  = false;
+      pin = "";
+      setURLCode(null);
+      showPin({ error: "That game has ended or the PIN changed. Enter the Game PIN shown on screen." });
+    } else {
+      showPin({ value: pin, error: "Wrong Game PIN. Check the screen and try again." });
+    }
+  }
+
+  // The host completed the game, resumed a save, or left: the PIN is dead.
+  function sessionEnded(socket) {
+    intentionalClose = true;
+    ws = null;
+    acceptedPin = null;
+    pinFromURL  = false;
+    pin = "";
+    setURLCode(null);
+    hideToast();
+    showPin({ sub: "Game over. Enter the new Game PIN to play again." });
+    socket.close();
+  }
+
+  // Unexpected close, failed connection, or watchdog silence: back to the PIN
+  // screen with the last PIN filled in, and the "Unable to find client" toast.
+  function connectionLost(socket) {
+    if (socket !== ws || intentionalClose) return;
+    intentionalClose = true;
+    ws = null;
+    showPin({ value: acceptedPin ?? pin });
+    showToast();
   }
 
   // If the network drops silently no close/error event fires, so treat a long
@@ -591,8 +746,8 @@
     watchdogTid = setInterval(() => {
       if (socket !== ws) { stopWatchdog(); return; }
       if (Date.now() - lastServerMsgAt > WATCHDOG_MS) {
+        connectionLost(socket);
         socket.close();
-        handleDisconnect(socket);
       }
     }, 1_000);
   }
@@ -602,42 +757,6 @@
     watchdogTid = null;
   }
 
-  function handleDisconnect(socket) {
-    if (rejected || socket !== ws || reconnectTid !== null) return;
-    stopWatchdog();
-    scheduleReconnect();
-  }
-
-  function scheduleReconnect() {
-    clearTimeout(reconnectTid);
-    clearInterval(countdownTid);
-
-    const seconds = Math.round(backoffMs / 1_000);
-    setState("lost", "Unable to find client",
-             `Reconnecting in ${seconds}s\u2026`);
-    startCountdownBar(seconds);
-
-    reconnectTid = setTimeout(() => {
-      reconnectTid = null;
-      clearInterval(countdownTid);
-      connect();
-    }, backoffMs);
-
-    // Update the countdown text every second.
-    let remaining = seconds;
-    countdownTid = setInterval(() => {
-      remaining -= 1;
-      if (remaining <= 0) {
-        clearInterval(countdownTid);
-      } else {
-        statusSub.textContent = `Reconnecting in ${remaining}s\u2026`;
-      }
-    }, 1_000);
-
-    // Exponential back-off, capped at MAX_BACKOFF_MS.
-    backoffMs = Math.min(backoffMs * 2, MAX_BACKOFF_MS);
-  }
-
   function send(obj) {
     if (ws && ws.readyState === WebSocket.OPEN) {
       ws.send(JSON.stringify(obj));
@@ -645,7 +764,12 @@
   }
 
   // ─── Boot ─────────────────────────────────────────────────────────────────
-  connect();
+  // With a full `?code=` (QR code) join straight away; otherwise ask for the PIN.
+  if (pin.length === PIN_LENGTH) {
+    connect();
+  } else {
+    showPin({ value: pin });
+  }
 </script>
 </body>
 </html>
