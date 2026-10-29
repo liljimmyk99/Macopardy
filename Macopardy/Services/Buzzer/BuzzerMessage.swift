@@ -29,6 +29,26 @@ nonisolated enum ClaimRejectReason: String, Encodable {
     case rateLimited
 }
 
+/// Why a `join` was refused. Sent as `code` so the phone doesn't have to match
+/// the English `reason` text.
+nonisolated enum JoinRejectReason: String, Encodable, CaseIterable {
+    /// The Game PIN doesn't match this session (wrong, or from a finished game).
+    case invalidCode
+    /// Too many wrong PINs from this address.
+    case rateLimited
+    /// The page speaks a different protocol version.
+    case unsupportedVersion
+
+    /// Human-readable text sent as `reason`, for logs and older pages.
+    var message: String {
+        switch self {
+        case .invalidCode: "Invalid join code"
+        case .rateLimited: "Too many attempts. Try again shortly."
+        case .unsupportedVersion: "Unsupported protocol version"
+        }
+    }
+}
+
 /// The answering team's response countdown. Phones count down locally from
 /// `remaining`; the server only sends start and stop events.
 nonisolated struct ResponseTimerInfo: Equatable {
@@ -45,9 +65,14 @@ nonisolated enum ServerMessage {
     /// flags) so the phone can render its team picker.
     case joinAccepted(teams: [BuzzerTeam])
 
-    /// Sent when the join code is wrong. The phone should display an error
-    /// and not attempt to reconnect with the same code.
-    case joinRejected(reason: String)
+    /// Sent when the join is refused. The server closes the connection after it;
+    /// the phone goes back to its Game PIN screen.
+    case joinRejected(JoinRejectReason)
+
+    /// The server is ending this session (game completed, saved game resumed, or
+    /// host left the game). The Game PIN no longer works; the phone returns to its
+    /// Game PIN screen. The server closes the connection after it.
+    case sessionEnded
 
     /// Broadcast whenever teams are added, renamed, removed, claimed or freed.
     case teams([BuzzerTeam])
@@ -109,7 +134,11 @@ extension ServerMessage: Encodable {
         case .joinRejected(let reason):
             try container.encode("joinRejected", forKey: .type)
             var payload = container.nestedContainer(keyedBy: PayloadKeys.self, forKey: .payload)
-            try payload.encode(reason, forKey: .reason)
+            try payload.encode(reason.message, forKey: .reason)
+            try payload.encode(reason, forKey: .code)
+
+        case .sessionEnded:
+            try container.encode("sessionEnded", forKey: .type)
 
         case .teams(let teams):
             try container.encode("teams", forKey: .type)
@@ -176,7 +205,7 @@ extension ServerMessage: Encodable {
     }
 
     private enum PayloadKeys: String, CodingKey {
-        case teams, version, reason, phase, teamID, state, eligible, max, wager, remaining, total
+        case teams, version, reason, phase, teamID, state, eligible, max, wager, remaining, total, code
     }
 }
 

@@ -18,8 +18,13 @@ final class BuzzerState {
     /// The 6-character code phones must enter to join.
     private(set) var joinCode: String = ""
 
-    /// Full URL (including join code) that should be displayed / encoded as QR.
+    /// Full join link (including `?code=`), encoded in the QR code and copied by
+    /// the Copy button. Opening it joins straight away.
     private(set) var serverURL: URL?
+
+    /// The page address without the code (`http://<ip>:<port>`), shown as text next
+    /// to the Game PIN. Opening it shows the phone's Game PIN screen.
+    private(set) var baseURL: URL?
 
     /// Number of phones that have authenticated with a valid join code.
     private(set) var connectedClientCount: Int = 0
@@ -143,16 +148,21 @@ final class BuzzerState {
         }
 
         let code = JoinCodeGenerator.generate()
+        guard let urls = Self.joinURLs(ip: ip, port: BuzzerConstants.port, code: code) else {
+            startError = "No local network address found. Connect to Wi-Fi or Ethernet."
+            AppLogger.buzzer.error("Buzzer server not started — couldn't build a URL for \(ip)")
+            return
+        }
         let newServer = BuzzerServer(joinCode: code)
-        let urlString = "http://\(ip):\(BuzzerConstants.port)?code=\(code)"
 
         do {
             try await newServer.start()
             self.server = newServer
             self.joinCode = code
-            self.serverURL = URL(string: urlString)
+            self.serverURL = urls.join
+            self.baseURL = urls.base
             self.isRunning = true
-            AppLogger.buzzer.info("Buzzer server started at \(urlString)")
+            AppLogger.buzzer.info("Buzzer server started at \(urls.join.absoluteString)")
 
             await newServer.updateTeams(latestTeams)
             await newServer.updateScores(latestScores)
@@ -225,6 +235,7 @@ final class BuzzerState {
         isRunning = false
         joinCode = ""
         serverURL = nil
+        baseURL = nil
         connectedClientCount = 0
         claimedTeamIDs = []
         everClaimedTeamIDs = []
@@ -233,6 +244,15 @@ final class BuzzerState {
     /// Broadcasts the current game phase to all connected phones.
     func broadcastPhase(_ phase: String) async {
         await server?.broadcast(.state(phase: phase))
+    }
+
+    // MARK: - Join URLs
+
+    /// The bare page address and the full join link for a server at `ip:port`.
+    nonisolated static func joinURLs(ip: String, port: UInt16, code: String) -> (base: URL, join: URL)? {
+        guard let base = URL(string: "http://\(ip):\(port)"),
+              let join = URL(string: "http://\(ip):\(port)?code=\(code)") else { return nil }
+        return (base, join)
     }
 
     // MARK: - Local IP Resolution
