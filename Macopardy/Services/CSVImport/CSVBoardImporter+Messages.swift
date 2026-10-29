@@ -63,6 +63,8 @@ extension CSVBoardImporter.Issue {
             String(localized: "csv.error.final_has_value")
         case .finalIsDailyDouble:
             String(localized: "csv.error.final_is_daily_double")
+        case .defaultText:
+            String(localized: "csv.warning.default_text")
         }
     }
 

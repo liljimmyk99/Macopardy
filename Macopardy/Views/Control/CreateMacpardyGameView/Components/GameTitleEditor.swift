@@ -8,6 +8,7 @@
 import SwiftUI
 struct GameTitleEditor: View {
     @Binding var title: String
+    var isUnfilled = false
     
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
@@ -18,6 +19,7 @@ struct GameTitleEditor: View {
             TextField("create.title_placeholder", text: $title)
                 .textFieldStyle(.roundedBorder)
                 .frame(maxWidth: 420)
+                .unfilledIndicator(isUnfilled, cornerRadius: 5)
                 .accessibilityLabel(Text("create.title_accessibility"))
         }
     }

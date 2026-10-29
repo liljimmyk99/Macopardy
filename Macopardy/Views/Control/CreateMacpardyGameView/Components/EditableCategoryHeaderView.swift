@@ -11,6 +11,7 @@ struct EditableCategoryHeaderView: View {
     @Binding var title: String
     var placeholder: String = String(localized: "create.category_placeholder")
     var font: Font = MacpardyTheme.categoryFont
+    var isUnfilled = false
 
     @FocusState private var isFocused: Bool
 
@@ -38,6 +39,7 @@ struct EditableCategoryHeaderView: View {
             RoundedRectangle(cornerRadius: 6)
                 .stroke(isFocused ? MacpardyTheme.gold : Color.clear, lineWidth: 2)
         )
+        .unfilledIndicator(isUnfilled)
     }
 }
 

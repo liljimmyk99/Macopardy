@@ -10,6 +10,7 @@ struct QuestionTileButtonView: View {
 
     let value: Int
     let isComplete: Bool
+    var isUnfilled: Bool = false
     var isDailyDouble: Bool = false
     var hasImage: Bool = false
     let action: () -> Void
@@ -18,12 +19,13 @@ struct QuestionTileButtonView: View {
         Button(action: action) {
             ZStack(alignment: .topTrailing) {
                 Rectangle()
-                    .fill(MacpardyTheme.tileBlue)
+                    .fill(isComplete ? MacpardyTheme.tileBlue : MacpardyTheme.tileIncomplete)
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
                     .overlay(
                         RoundedRectangle(cornerRadius: 8)
                             .stroke(isComplete ? MacpardyTheme.gold : Color.clear, lineWidth: 2)
                     )
+                    .unfilledIndicator(isUnfilled, cornerRadius: 8, iconAlignment: .topLeading)
 
                 HStack(spacing: 4) {
                     if hasImage {

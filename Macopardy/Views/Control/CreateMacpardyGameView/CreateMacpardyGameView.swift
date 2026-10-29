@@ -12,43 +12,22 @@ struct CreateMacpardyGameView: View {
     @Environment(\.openWindow) private var openWindow
     @Environment(BoardEditorSession.self) internal var editorSession
 
-    internal static let round1DefaultCategories = [
-        "Science",
-        "History",
-        "Literature",
-        "Geography",
-        "Pop Culture",
-        "Think Music"
-    ]
-
-    internal static let round2DefaultCategories = [
-        "World History",
-        "Physical Science",
-        "Fine Arts",
-        "World Geography",
-        "Music & Movies",
-        "Word Play"
-    ]
-
-    internal static let round1Values = [200, 400, 600, 800, 1000]
-    internal static let round2Values = [400, 800, 1200, 1600, 2000]
-
-    @State internal var title: String = ""
+    @State internal var title: String = BoardDefaults.gameTitle
     @State internal var currentRound: Int = 0
 
-    @State internal var round1Categories: [DraftCategory] = Self.makeDefaultCategories(values: Self.round1Values, titles: Self.round1DefaultCategories)
-    @State internal var round2Categories: [DraftCategory] = Self.makeDefaultCategories(values: Self.round2Values, titles: Self.round2DefaultCategories)
-    @State internal var finalMacpardy: DraftFinalMacpardy = DraftFinalMacpardy()
+    @State internal var round1Categories: [DraftCategory] = BoardDefaults.makeCategories(round: 1)
+    @State internal var round2Categories: [DraftCategory] = BoardDefaults.makeCategories(round: 2)
+    @State internal var finalMacpardy: DraftFinalMacpardy = BoardDefaults.makeFinal()
 
     /// Each round's own title, shown on the control screen during play.
-    @State internal var round1Title: String = BoardDraft.defaultTitle(for: .macpardy)
-    @State internal var round2Title: String = BoardDraft.defaultTitle(for: .doubleMacpardy)
+    @State internal var round1Title: String = BoardDefaults.roundTitle(round: 1)
+    @State internal var round2Title: String = BoardDefaults.roundTitle(round: 2)
     @State internal var finalTitle: String = BoardDraft.defaultTitle(for: .finalMacpardy)
 
     /// Row values for each round. The defaults for a new game; a loaded
     /// board keeps its own.
-    @State internal var round1BoardValues: [Int] = Self.round1Values
-    @State internal var round2BoardValues: [Int] = Self.round2Values
+    @State internal var round1BoardValues: [Int] = BoardDefaults.round1Values
+    @State internal var round2BoardValues: [Int] = BoardDefaults.round2Values
 
     /// `true` once a loaded board is in the editor ("Edit game").
     @State internal var isEditingExistingBoard = false
@@ -80,32 +59,48 @@ struct CreateMacpardyGameView: View {
 
     @State internal var showPlayPrompt = false
 
+    /// The warning shown before saving a game that still has default text.
+    @State internal var showUnfilledAlert = false
+    /// The close or quit waiting on the save the warning interrupted.
+    @State internal var unfilledAlertRequest: BoardEditorSession.CloseRequest?
+
     var body: some View {
-        VStack(alignment: .leading, spacing: 18) {
-            GameTitleEditor(title: $title)
+        let unfilled = unfilledFields
+
+        return VStack(alignment: .leading, spacing: 18) {
+            GameTitleEditor(title: $title, isUnfilled: unfilled.contains(.gameTitle))
             
             RoundIndictator(currentRound: $currentRound)
 
-            RoundTitleEditor(title: currentRoundTitle, round: currentRoundKind)
+            RoundTitleEditor(
+                title: currentRoundTitle,
+                round: currentRoundKind,
+                isUnfilled: unfilled.contains(.roundTitle, round: currentRound)
+            )
 
             if currentRound == 0 {
                 DraftBoard(
                     draftCategories: $round1Categories,
                     selectedQuestion: $selectedQuestion,
-                    values: round1BoardValues
+                    values: round1BoardValues,
+                    round: 0,
+                    unfilled: unfilled
                 )
             } else if currentRound == 1 {
                 DraftBoard(
                     draftCategories: $round2Categories,
                     selectedQuestion: $selectedQuestion,
-                    values: round2BoardValues
+                    values: round2BoardValues,
+                    round: 1,
+                    unfilled: unfilled
                 )
             } else {
-                DraftFinalMacpardyView(draft: $finalMacpardy)
+                DraftFinalMacpardyView(draft: $finalMacpardy, unfilled: unfilled)
             }
 
             DraftBoardControls(
                 currentRound: $currentRound,
+                unfilled: unfilled,
                 saveGame: { saveGame() }
             )
         }
@@ -116,6 +111,22 @@ struct CreateMacpardyGameView: View {
             Button("common.ok") {}
         } message: {
             Text(validationMessage)
+        }
+        .alert("create.unfilled.alert.title", isPresented: $showUnfilledAlert) {
+            Button("create.unfilled.alert.keep_editing", role: .cancel) {
+                let request = unfilledAlertRequest
+                unfilledAlertRequest = nil
+                if request != nil {
+                    finishClose(proceed: false)
+                }
+            }
+            Button("create.unfilled.alert.save_anyway") {
+                let request = unfilledAlertRequest
+                unfilledAlertRequest = nil
+                saveGame(thenFinish: request, confirmedUnfilled: true)
+            }
+        } message: {
+            Text(unfilledAlertMessage)
         }
         .alert("create.alert.save_failed_title", isPresented: $showSaveErrorAlert) {
             Button("common.ok") {}
@@ -167,10 +178,8 @@ struct CreateMacpardyGameView: View {
                     // Saved from the "save changes?" prompt: carry on closing.
                     closeAfterSave = nil
                     finishClose(proceed: true)
-                } else if isEditingExistingBoard {
-                    showPlayPrompt = true
                 } else {
-                    dismissWindow(id: "create-macpardy")
+                    showPlayPrompt = true
                 }
             case .failure(let error):
                 if (error as? CocoaError)?.code != .userCancelled {

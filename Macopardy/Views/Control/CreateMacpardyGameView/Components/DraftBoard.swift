@@ -10,11 +10,13 @@ struct DraftBoard: View {
     @Binding var draftCategories: [DraftCategory]
     @Binding var selectedQuestion: EditingQuestion?
     let values: [Int]
+    var round = 0
+    var unfilled: [UnfilledField] = []
     
     var body: some View {
         ScrollView([.horizontal, .vertical], showsIndicators: false) {
             VStack(alignment: .leading, spacing: 8) {
-                CategoryRow(draftCategories: $draftCategories)
+                CategoryRow(draftCategories: $draftCategories, round: round, unfilled: unfilled)
 
                 ForEach(Array(values.enumerated()), id: \.offset) { rowIndex, value in
                     HStack(spacing: 8) {
@@ -22,7 +24,9 @@ struct DraftBoard: View {
                             draftCategories: $draftCategories,
                             selectedQuestion: $selectedQuestion,
                             rowIndex: rowIndex,
-                            value: value
+                            value: value,
+                            round: round,
+                            unfilled: unfilled
                         )
                     }
                 }

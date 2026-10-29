@@ -2,11 +2,17 @@
 
 **New Game** offers two paths: build the game in the editor, or import it from a CSV file.
 
-1. Click **Download Template** to save a CSV with the headers and a complete example game
-   (same as [`csv-import-example.csv`](csv-import-example.csv)).
+1. Click **Download Template** to save a CSV with the headers and a complete game filled with
+   default text (same as [`csv-import-example.csv`](csv-import-example.csv)): `Category N`,
+   `Category N · $VALUE question` / `answer`, the Daily Doubles, and a Final row. It uses the
+   same defaults as a new game in the editor (`Models/BoardDefaults.swift`).
 2. Edit it in any spreadsheet app and export it as **CSV (UTF-8)**.
 3. Click **Upload CSV**. If the file is valid, click **Save and Play** to save the game as a
    `.json` board (keep it; it reopens from **Play**) and start playing.
+
+If the file imports but a category, question, or answer cell still has the template's default
+text, a warning lists those cells (same row/column format) and you can **Cancel** or
+**Play Anyway**. The warning never blocks.
 
 If anything is wrong, nothing is imported and every problem is listed with its row and
 column. The game's title comes from the CSV's file name.
@@ -55,7 +61,8 @@ Rows can be in any order; clues are sorted by value. Completely empty rows are s
 
 - `Services/CSVImport/CSVParser.swift` — CSV reading and writing.
 - `Services/CSVImport/CSVBoardImporter.swift` — schema, validation, conversion to `MacpardyBoard`.
-- `Services/CSVImport/CSVBoardTemplate.swift` — the downloadable template.
+- `Services/CSVImport/CSVBoardTemplate.swift` — the downloadable template, built from `BoardDefaults`.
+- `CSVBoardImporter.defaultTextWarnings(from:)` — cells that still hold default text.
 - `Views/Control/NewGameView/NewGameView.swift` — the New Game sheet.
 
 ## Future enhancements

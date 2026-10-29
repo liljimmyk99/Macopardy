@@ -10,6 +10,7 @@ import SwiftUI
 struct DraftFinalMacpardyView: View {
     @FocusState private var focusedField: Field?
     @Binding var draft: DraftFinalMacpardy
+    var unfilled: [UnfilledField] = []
     
     private enum Field: Hashable {
         case category
@@ -28,6 +29,7 @@ struct DraftFinalMacpardyView: View {
                     .focused($focusedField, equals: .category)
                     .textFieldStyle(.roundedBorder)
                     .frame(maxWidth: 480)
+                    .unfilledIndicator(unfilled.contains(.finalCategory, round: 2), cornerRadius: 5)
                     .accessibilityLabel(Text("create.final_macpardy.category_accessibility"))
                     .onSubmit {
                         focusedField = .question
@@ -55,6 +57,7 @@ struct DraftFinalMacpardyView: View {
                     placeholder: String(localized: "create.final_macpardy.clue_placeholder"),
                     minHeight: 140
                 )
+                .unfilledIndicator(unfilled.contains(.finalClue, round: 2), cornerRadius: 8)
                 .focused($focusedField, equals: .question)
                 .accessibilityLabel(Text("create.final_macpardy.clue_accessibility"))
                 .onSubmit {
@@ -83,6 +86,7 @@ struct DraftFinalMacpardyView: View {
                     placeholder: String(localized: "create.final_macpardy.response_placeholder"),
                     minHeight: 140
                 )
+                .unfilledIndicator(unfilled.contains(.finalAnswer, round: 2), cornerRadius: 8)
                 .focused($focusedField, equals: .answer)
                 .accessibilityLabel(Text("create.final_macpardy.response_accessibility"))
                 .onSubmit {
