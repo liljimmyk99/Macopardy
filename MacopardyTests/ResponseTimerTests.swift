@@ -53,7 +53,7 @@ final class ResponseTimerTests: XCTestCase {
 
         XCTAssertFalse(state.timer.isRunning)
         XCTAssertTrue(state.responseTimer.isRunning)
-        XCTAssertEqual(state.responseTimer.remainingTime, GameState.responseSeconds)
+        XCTAssertEqual(state.responseTimer.remainingTime, state.responseSeconds)
         XCTAssertEqual(state.answeringTeamID, red.id)
         XCTAssertEqual(state.responseCountdown?.teamID, red.id)
         XCTAssertEqual(state.responseCountdown?.secondsLeft, 5)
@@ -67,7 +67,7 @@ final class ResponseTimerTests: XCTestCase {
 
         state.teamBuzzedIn(red.id)
 
-        XCTAssertEqual(state.responseTimer.remainingTime, GameState.responseSeconds - 2, accuracy: 0.001)
+        XCTAssertEqual(state.responseTimer.remainingTime, state.responseSeconds - 2, accuracy: 0.001)
     }
 
     func testBuzzIsIgnoredOnDailyDouble() throws {
@@ -150,7 +150,7 @@ final class ResponseTimerTests: XCTestCase {
         state.teamBuzzedIn(blue.id)
 
         XCTAssertEqual(state.answeringTeamID, blue.id)
-        XCTAssertEqual(state.responseTimer.remainingTime, GameState.responseSeconds)
+        XCTAssertEqual(state.responseTimer.remainingTime, state.responseSeconds)
         XCTAssertFalse(state.timer.isRunning)
     }
 

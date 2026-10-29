@@ -31,7 +31,7 @@ extension TimerControlsView {
                 label: "control.timer.reset",
                 shortcut: .resetTimer
             ) {
-                gameState.timer.reset()
+                gameState.resetTimer()
             }
 
             Button("control.timer.adjustment.plus_5") {

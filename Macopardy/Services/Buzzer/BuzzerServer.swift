@@ -6,7 +6,7 @@
 //
 //  Responsibilities
 //  ─────────────────
-//  • Listens on BuzzerConstants.port for incoming TCP connections
+//  • Listens on the configured port (default BuzzerConstants.defaultPort) for incoming TCP connections
 //  • Serves buzzer.html (bundled resource) for plain HTTP GET / requests
 //  • Handles WebSocket connections (manual RFC 6455 framing over plain TCP)
 //  • Validates the join code on first contact; rejects wrong codes
@@ -94,10 +94,14 @@ actor BuzzerServer {
     private var failureContinuation: AsyncStream<String>.Continuation?
     nonisolated let listenerFailureStream: AsyncStream<String>
 
+    /// The port the listener binds to.
+    let port: UInt16
+
     // MARK: - Init
 
-    init(joinCode: String) {
+    init(joinCode: String, port: UInt16 = BuzzerConstants.defaultPort) {
         self.joinCode = joinCode
+        self.port = port
 
         // Load the bundled web page once at init time.
         let bundledPageURL = Bundle.main.url(
@@ -144,11 +148,11 @@ actor BuzzerServer {
         let tcpParams = NWParameters.tcp
         tcpParams.allowLocalEndpointReuse = true
 
-        guard let port = NWEndpoint.Port(rawValue: BuzzerConstants.port) else {
+        guard let endpointPort = NWEndpoint.Port(rawValue: port) else {
             throw ServerError.invalidPort
         }
 
-        let listener = try NWListener(using: tcpParams, on: port)
+        let listener = try NWListener(using: tcpParams, on: endpointPort)
         self.listener = listener
 
         listener.newConnectionHandler = { [weak self] connection in
@@ -156,7 +160,7 @@ actor BuzzerServer {
             Task { await self.handleNewConnection(connection) }
         }
 
-        let portNumber = BuzzerConstants.port
+        let portNumber = port
         do {
             try await withCheckedThrowingContinuation { (continuation: CheckedContinuation<Void, Error>) in
                 // The handler can fire many times; resume the continuation only once.

@@ -151,12 +151,13 @@ final class BuzzerState {
         }
 
         let code = JoinCodeGenerator.generate()
-        guard let urls = Self.joinURLs(ip: ip, port: BuzzerConstants.port, code: code) else {
+        let port = AppSettings.buzzerPort()
+        guard let urls = Self.joinURLs(ip: ip, port: port, code: code) else {
             startError = "No local network address found. Connect to Wi-Fi or Ethernet."
             AppLogger.buzzer.error("Buzzer server not started — couldn't build a URL for \(ip)")
             return
         }
-        let newServer = BuzzerServer(joinCode: code)
+        let newServer = BuzzerServer(joinCode: code, port: port)
 
         do {
             try await newServer.start()
@@ -215,7 +216,7 @@ final class BuzzerState {
                 }
             }
         } catch {
-            startError = error.localizedDescription
+            startError = String(localized: "control.buzzer.error.start_failed \(Int(port)) \(error.localizedDescription)")
             AppLogger.buzzer.error("Failed to start buzzer server: \(error)")
         }
     }

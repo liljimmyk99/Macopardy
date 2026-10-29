@@ -59,7 +59,7 @@ struct GameCommands: Commands {
             .disabled(!availability.canControlTimer)
 
             Button("menu.game.timer.reset") {
-                gameState.timer.reset()
+                gameState.resetTimer()
             }
             .keyboardShortcut(.resetTimer)
             .disabled(!availability.canControlTimer)

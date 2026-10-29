@@ -113,7 +113,7 @@ each team's phone status with **Remove phone**. The Display window, opened with
 | **Setup** | Team cards (max 4): rename, pick a color swatch, remove, **Add Team**; buzzer panel with QR code, Game PIN, page address, and how many teams have a phone; **Start Game** | Buzzer QR code, page address, and Game PIN, with a card per team showing **Connected** / **Not connected**; "Waiting to start game…" if the buzzer server isn't running |
 | **Board** | Pick a clue from the board; **Next Round**; show/hide the Display window | The board, played tiles blanked |
 | **Daily Double** | Pick the team and wager (quick-wager buttons), **Show Question** | Daily Double splash |
-| **Question** | Clue as a big tile, correct response (host only) with **Reveal Answer**, who buzzed first with their 5 s response timer (or the Daily Double team and wager), 15 s timer ring (start/pause/reset/±5 s), ✓/✗ score buttons on each team card (only the Daily Double team's on a Daily Double), **Return to Board** in the toolbar | Clue (and picture, if any), timer; response-timer dots above the answering team's score |
+| **Question** | Clue as a big tile, correct response (host only) with **Reveal Answer**, who buzzed first with their response timer (5 s by default) (or the Daily Double team and wager), question timer ring (15 s by default; start/pause/reset/±5 s), ✓/✗ score buttons on each team card (only the Daily Double team's on a Daily Double), **Return to Board** in the toolbar | Clue (and picture, if any), timer; response-timer dots above the answering team's score |
 | **Answer** | Same screen, answer revealed; score buttons, **Return to Board** | Correct response |
 | **Final – Category** | Watch each team's wager status, enter or edit wagers, **Reveal Question** | Final category |
 | **Final – Question / Answer** | Reveal answer, adjust scores, **Complete Game** | Final clue, then response |
@@ -123,7 +123,7 @@ Scoring rules the app applies:
   Final wager). With no clue up they become ±100 / ±200 manual adjustments. Scores can be reset.
 - On a normal clue, *wrong* locks that team's buzzer and re-arms the others; *correct* stops
   the buzzers. Daily Double and Final scoring never touch the buzzers.
-- **Response timer** (phone buzzers only): when a team's buzz wins, the 15 s question timer
+- **Response timer** (phone buzzers only): when a team's buzz wins, the question timer
   pauses and the team gets 5 s to answer, shown as dots on the Control window, above the
   team's score on the Display, and on every phone. Nothing is scored when it runs out; the
   host marks correct or wrong (any time, even before it runs out). *Wrong* resumes the
@@ -187,6 +187,18 @@ Wire details: [buzzer-protocol.md](buzzer-protocol.md).
 `scripts/export.sh` builds an ad-hoc signed `.app` and `.dmg` for trusted sharing (not
 notarized). See [EXPORTING.md](../EXPORTING.md).
 
+## 6a. Settings
+
+**Macopardy > Settings…** (⌘,) opens a standard Settings window. Changes apply immediately and
+are remembered (`UserDefaults`, keys in `AppSettings`).
+
+- **Sound:** sound effects and music, the same switches as the toolbar's Sound menu.
+- **Game:** question timer length (5–60 s in 5 s steps, default 15), answer time after a buzz
+  (3–30 s, default 5), starting team count (1–4, default 3) and starting team names (up to 100
+  characters; empty uses "Team N"). Timer lengths apply the next time a timer starts; team
+  settings apply to games started afterwards.
+- **Buzzers:** server port (1024–65535, default 8472), applied the next time the server starts.
+
 ## 7. Keyboard shortcuts
 
 Game shortcuts live in the **Game** menu in the menu bar. Items are always listed and greyed out
@@ -202,6 +214,7 @@ while the editor is up. Every shortcut is defined once in
 | Board error sheet | Return | OK |
 | Editor window | ⌘S | **Save Game** |
 | Editor window | Tab / ⇧Tab | Move between the clue and response fields (and the Final category) |
+| Any window | ⌘, | Open **Settings** |
 | Control, any phase in a game | ⌘⇧B | Open the **Buzzers** popover |
 | Control, any phase in a game | ⌘D | **Show Display** |
 | Control, Board | ⌘F | **Final Macpardy** |

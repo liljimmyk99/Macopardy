@@ -46,12 +46,19 @@ struct Team: Identifiable, Equatable, Codable {
 
 extension Team {
 
+    /// Colors given to new teams, in order.
+    static let defaultColors = ["blue", "red", "green", "yellow"]
+
+    /// The starting teams, using the count and names from Settings.
     static var defaultNewTeams: [Team] {
-        [
-            Team(name: String(localized: "team.default_name \(1)"), score: 0, color: "blue"),
-            Team(name: String(localized: "team.default_name \(2)"), score: 0, color: "red"),
-            Team(name: String(localized: "team.default_name \(3)"), score: 0, color: "green"),
-        ]
+        let count = AppSettings.defaultTeamCount()
+        return (0..<count).map { index in
+            Team(
+                name: AppSettings.customTeamName(at: index) ?? String(localized: "team.default_name \(index + 1)"),
+                score: 0,
+                color: defaultColors[index]
+            )
+        }
     }
 
     static let sampleTeams: [Team] = [

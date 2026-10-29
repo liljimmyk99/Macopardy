@@ -307,7 +307,7 @@ connection (below).
 
 The "Game PIN" players see is the server's 6-character join code.
 
-- Opening the page with no `?code=` (typing `http://<ip>:8472`) shows the Game PIN screen.
+- Opening the page with no `?code=` (typing `http://<ip>:<port>`; the port is 8472 unless changed in Settings > Buzzers) shows the Game PIN screen.
   No WebSocket is opened until the player submits a PIN, so the 5 s join TTL and the
   wrong-code rate limit don't apply to someone still typing.
 - The field upper-cases input and drops anything that isn't a letter or digit; **Join** is
@@ -463,3 +463,10 @@ Wagering is over; the phone returns to the buzzer.
 | 4       | Issue #31. Adds `submitWager`, `wagerInfo`, `wagerLocked`, `wagerRejected` and `wagerClosed`. |
 | 5       | Issue #59. Adds `responseTimer` and `responseTimerStopped`. |
 | 6       | Issue #61. Adds `sessionEnded` and `joinRejected.code`. The page asks for a Game PIN when opened without `?code=` and no longer reconnects on its own. |
+
+## Port
+
+The server listens on port **8472** by default. The host can change it in **Settings > Buzzers**
+(1024–65535); it is read once when the server starts, so a change applies to the next game, and
+the join URL and QR code are built from the port actually in use. If the port is taken, the
+setup screen shows a start error naming it. The wire protocol is unchanged.

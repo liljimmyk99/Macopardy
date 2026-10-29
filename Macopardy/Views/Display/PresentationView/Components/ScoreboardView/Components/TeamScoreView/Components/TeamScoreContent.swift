@@ -36,7 +36,7 @@ extension TeamScoreView {
                 dotSize: compact ? 8 : 14
             )
         } else if !compact {
-            ResponseTimerDots(lit: 0, total: Int(GameState.responseSeconds), dotSize: 14)
+            ResponseTimerDots(lit: 0, total: AppSettings.responseSeconds(), dotSize: 14)
                 .hidden()
                 .accessibilityHidden(true)
         }

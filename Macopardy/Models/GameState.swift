@@ -13,17 +13,24 @@ final class GameState {
     // UI State
     var currentQuestion: Question?
     var currentCategoryTitle: String?
-    var timer = GameTimer()
+    var timer = GameTimer(seconds: TimeInterval(AppSettings.questionTimerSeconds()))
     var phase: GamePhase = .setup
 
     // Buzz-in response (issue #59)
     /// Counts down the answering team's time after a phone buzz wins.
-    let responseTimer = GameTimer(seconds: GameState.responseSeconds)
+    let responseTimer = GameTimer(seconds: TimeInterval(AppSettings.responseSeconds()))
     /// The team that buzzed in and hasn't been judged yet.
     private(set) var answeringTeamID: UUID?
 
-    /// How long a team has to answer after buzzing in.
-    static let responseSeconds: TimeInterval = 5
+    /// How long a team has to answer after buzzing in (Settings > Game).
+    var responseSeconds: TimeInterval { TimeInterval(AppSettings.responseSeconds()) }
+
+    /// Returns the question timer to the length set in Settings. Only a timer
+    /// that starts afterwards is affected; one that is running is stopped by
+    /// the reset like any other.
+    func resetTimer() {
+        timer.reset(seconds: TimeInterval(AppSettings.questionTimerSeconds()))
+    }
 
     // Daily Double State
     var dailyDoubleTeamID: UUID?
@@ -96,7 +103,7 @@ final class GameState {
                 }
             }
         }
-        self.timer.reset()
+        self.resetTimer()
     }
 
     func startGame() {
@@ -117,7 +124,7 @@ final class GameState {
             dailyDoubleTeamID = nil
             dailyDoubleWager = 0
             phase = .question
-            timer.reset()
+            resetTimer()
         }
         triggerSave()
     }
@@ -127,7 +134,7 @@ final class GameState {
         dailyDoubleTeamID = teamID
         dailyDoubleWager = wager
         phase = .question
-        timer.reset()
+        resetTimer()
         triggerSave()
     }
 
@@ -176,7 +183,7 @@ final class GameState {
         // No wagers yet; a missing wager means the team hasn't bet.
         finalMacpardyWagers = [:]
         phase = .finalMacpardyCategory
-        timer.reset()
+        resetTimer()
         triggerSave()
     }
 
@@ -223,7 +230,7 @@ final class GameState {
     func revealFinalMacpardyQuestion() {
         applyFinalWagerDefaults()
         phase = .finalMacpardyQuestion
-        timer.reset()
+        resetTimer()
         triggerSave()
     }
 
@@ -326,7 +333,7 @@ final class GameState {
 
         answeringTeamID = teamID
         timer.stop()
-        responseTimer.reset()
+        responseTimer.reset(seconds: responseSeconds)
         responseTimer.start()
     }
 
@@ -345,7 +352,7 @@ final class GameState {
     /// Stops and clears any response in progress without touching the question timer.
     func cancelResponse() {
         answeringTeamID = nil
-        responseTimer.reset()
+        responseTimer.reset(seconds: responseSeconds)
     }
 
     private func markQuestionPlayed(_ question: Question) {

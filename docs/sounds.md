@@ -16,8 +16,10 @@ resuming inside the last 5 seconds picks the ticks up at the matching point.
 
 ## Settings
 
-The toolbar's **Sound** menu has two switches, *Sound Effects* and *Background Music*. Both
-are on by default and are remembered between launches (`UserDefaults`).
+The toolbar's **Sound** menu and **Settings > Sound** (⌘,) have the same two switches, *Sound
+Effects* and *Background Music*. Both are on by default and are remembered between launches
+(`UserDefaults`). Both screens bind straight to `SoundPlayer.shared` (not `@AppStorage`, since
+the player caches its values), so they always agree.
 
 ## Files
 

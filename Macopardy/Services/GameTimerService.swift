@@ -13,7 +13,7 @@ final class GameTimer {
     private(set) var remainingTime: TimeInterval
         private(set) var isRunning = false
 
-        let startingTime: TimeInterval
+        private(set) var startingTime: TimeInterval
 
     init(seconds: TimeInterval = 15.0) {
             self.startingTime = seconds
@@ -52,9 +52,12 @@ final class GameTimer {
             isRunning = false
         }
 
-        func reset() {
+        /// Stops the timer and returns it to its starting time. With `seconds`,
+        /// that starting time changes too (the length set in Settings).
+        func reset(seconds: TimeInterval? = nil) {
             stop()
             isWarningSpent = false
+            if let seconds { startingTime = seconds }
             remainingTime = startingTime
         }
 
