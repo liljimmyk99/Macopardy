@@ -138,7 +138,9 @@ struct MacpardyApp: App {
                     }
                     await buzzerState.startServer()
                 }
+                SoundPlayer.shared.handle(phase: gameState.phase)
             } else {
+                SoundPlayer.shared.stopAll()
                 Task { await buzzerState.stopServer() }
             }
         }
@@ -163,8 +165,9 @@ struct MacpardyApp: App {
             Task { await buzzerState.setMode(mode) }
         }
         // Wagering is open exactly while the Final category is displayed.
-        .onChange(of: gameState.phase) { _, _ in
+        .onChange(of: gameState.phase) { _, phase in
             Task { await syncWagering() }
+            SoundPlayer.shared.handle(phase: phase)
         }
 
         Window("Display", id: "display") {

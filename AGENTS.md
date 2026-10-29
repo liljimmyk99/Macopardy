@@ -24,6 +24,7 @@ web page the app serves on the local network.
 | [`docs/file-structure.md`](docs/file-structure.md) | Looking for where something lives or where a new file should go |
 | [`docs/board-format.md`](docs/board-format.md) | Touching `.macpardy` / `.json` boards, images, auto-save, or "Edit Board" |
 | [`docs/csv-import.md`](docs/csv-import.md) | Touching CSV import or the CSV template |
+| [`docs/sounds.md`](docs/sounds.md) | Touching sound effects, music, or the sound settings |
 | [`docs/buzzer-protocol.md`](docs/buzzer-protocol.md) | Touching the phone buzzer server, `buzzer.html`, or any WebSocket message |
 | [`EXPORTING.md`](EXPORTING.md) | Building a shareable `.app` / `.dmg` |
 
