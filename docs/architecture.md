@@ -37,6 +37,10 @@ Defined in `App/MacopardyApp.swift`:
 | `display` | Suppressed; opened from the board screen | `PresentationView`, only when a game is loaded |
 | `create-macpardy` | Suppressed; opened from New Game / Edit | `CreateMacpardyGameView` |
 
+Only `control` opens at launch: the other windows are `.restorationBehavior(.disabled)`, so
+they never reappear from a previous session. Closing the Control window quits the app
+(`MacopardyAppDelegate.controlWindow`), which closes every other window.
+
 `MacopardyAppDelegate` intercepts quit (`applicationShouldTerminate`) so the editor can ask
 to save unsaved edits. `Views/Shared/WindowCloseGuard` does the same for closing the editor
 window, since SwiftUI has no close hook outside document apps.
