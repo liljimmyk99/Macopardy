@@ -1,6 +1,6 @@
 //
 //  QuestionValueView.swift
-//  Macopardy
+//  Macpardy
 //
 
 import SwiftUI

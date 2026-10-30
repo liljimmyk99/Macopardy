@@ -1,6 +1,6 @@
 //
 //  RecentBoards.swift
-//  Macopardy
+//  Macpardy
 //
 //  The File > Open Recent list: newest first, no duplicates, capped.
 //

@@ -1,6 +1,6 @@
 //
 //  DisplayTeamConnectionRow.swift
-//  Macopardy
+//  Macpardy
 //
 //  One chip per team on the Display's setup screen showing whether a phone
 //  has joined as that team yet.

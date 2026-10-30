@@ -1,6 +1,6 @@
 //
 //  SoundEffect.swift
-//  Macopardy
+//  Macpardy
 //
 
 import Foundation

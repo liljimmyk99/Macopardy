@@ -1,8 +1,8 @@
 //
 //  HelpCommands.swift
-//  Macopardy
+//  Macpardy
 //
-//  The Help menu. Replaces the empty "Macopardy Help" item with the
+//  The Help menu. Replaces the empty "Macpardy Help" item with the
 //  Keyboard Shortcuts window.
 //
 

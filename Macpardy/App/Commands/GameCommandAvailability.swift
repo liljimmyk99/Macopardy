@@ -1,6 +1,6 @@
 //
 //  GameCommandAvailability.swift
-//  Macopardy
+//  Macpardy
 //
 //  Which Game menu actions apply in the current phase. The menu and the
 //  Control toolbar both read this so they can't disagree.

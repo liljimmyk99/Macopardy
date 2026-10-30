@@ -1,6 +1,6 @@
 //
 //  NewGameView.swift
-//  Macopardy
+//  Macpardy
 //
 
 import OSLog

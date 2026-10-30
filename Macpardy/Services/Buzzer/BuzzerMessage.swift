@@ -1,6 +1,6 @@
 //
 //  BuzzerMessage.swift
-//  Macopardy
+//  Macpardy
 //
 //  Versioned JSON message protocol for the buzzer WebSocket connection.
 //  All messages use a top-level `type` string field plus an optional `payload`.

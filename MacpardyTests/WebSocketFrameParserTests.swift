@@ -1,10 +1,10 @@
 //
 //  WebSocketFrameParserTests.swift
-//  MacopardyTests
+//  MacpardyTests
 //
 
 import XCTest
-@testable import Macopardy
+@testable import Macpardy
 
 final class WebSocketFrameParserTests: XCTestCase {
 

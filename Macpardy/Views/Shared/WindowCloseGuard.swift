@@ -1,6 +1,6 @@
 //
 //  WindowCloseGuard.swift
-//  Macopardy
+//  Macpardy
 //
 
 import AppKit

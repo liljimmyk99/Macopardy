@@ -1,6 +1,6 @@
 //
 //  BuzzerSettingsPane.swift
-//  Macopardy
+//  Macpardy
 //
 
 import SwiftUI

@@ -1,6 +1,6 @@
 //
 //  TeamClaimRegistry.swift
-//  Macopardy
+//  Macpardy
 //
 //  Tracks which phone session currently holds each team. A team is held by at
 //  most one session; a claim lives exactly as long as its session does.

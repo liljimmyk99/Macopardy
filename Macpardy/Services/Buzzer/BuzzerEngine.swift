@@ -1,6 +1,6 @@
 //
 //  BuzzerEngine.swift
-//  Macopardy
+//  Macpardy
 //
 //  Pure state machine behind the buzzers: disabled, armed, window open and
 //  answering. It has no networking or timers; the server feeds it buzzes,

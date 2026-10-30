@@ -1,6 +1,6 @@
 //
 //  KeyboardShortcutsView.swift
-//  Macopardy
+//  Macpardy
 //
 //  Every shortcut in the app, read from `ShortcutCatalog`.
 //

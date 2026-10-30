@@ -1,6 +1,6 @@
 //
 //  CreateMacpardyGameView.swift
-//  Macopardy
+//  Macpardy
 //
 
 import SwiftUI

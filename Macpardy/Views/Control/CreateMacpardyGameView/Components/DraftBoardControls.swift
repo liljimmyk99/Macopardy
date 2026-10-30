@@ -1,6 +1,6 @@
 //
 //  DraftBoardControls.swift
-//  Macopardy
+//  Macpardy
 //
 //  Created by Jimmy Kane on 10/8/26.
 //

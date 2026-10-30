@@ -1,6 +1,6 @@
 //
 //  SoundSettingsPane.swift
-//  Macopardy
+//  Macpardy
 //
 
 import SwiftUI

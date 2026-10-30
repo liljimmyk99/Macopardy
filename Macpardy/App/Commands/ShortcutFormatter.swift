@@ -1,6 +1,6 @@
 //
 //  ShortcutFormatter.swift
-//  Macopardy
+//  Macpardy
 //
 //  Draws a key and its modifiers the way macOS menus do, e.g. "⇧⌘B".
 //

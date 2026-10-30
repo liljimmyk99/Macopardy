@@ -1,6 +1,6 @@
 //
 //  TeamScoreView.swift
-//  Macopardy
+//  Macpardy
 //
 
 import SwiftUI

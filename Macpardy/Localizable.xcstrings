@@ -698,7 +698,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "This board uses format version %lld, which is newer than this version of Macopardy supports."
+            "value" : "This board uses format version %lld, which is newer than this version of Macpardy supports."
           }
         }
       }
@@ -734,7 +734,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Macopardy can’t edit “.%@” files. Choose a .json, .macpardy, .zip, or .csv board."
+            "value" : "Macpardy can’t edit “.%@” files. Choose a .json, .macpardy, .zip, or .csv board."
           }
         }
       }

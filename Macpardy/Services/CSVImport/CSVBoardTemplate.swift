@@ -1,6 +1,6 @@
 //
 //  CSVBoardTemplate.swift
-//  Macopardy
+//  Macpardy
 //
 
 import Foundation
@@ -13,7 +13,7 @@ import Foundation
 /// uploads it.
 enum CSVBoardTemplate {
 
-    static let suggestedFileName = "macopardy-template.csv"
+    static let suggestedFileName = "macpardy-template.csv"
 
     static func makeRows() -> [[String]] {
         typealias Column = CSVBoardImporter.Column

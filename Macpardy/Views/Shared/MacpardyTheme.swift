@@ -1,23 +1,23 @@
 //
 //  MacpardyTheme.swift
-//  Macopardy
+//  Macpardy
 //
 
 import SwiftUI
 
 enum MacpardyTheme {
 
-    // Colors live in Assets.xcassets (Theme/ and Team/); Tuist generates `MacopardyAsset`.
-    static let boardBlue = MacopardyAsset.boardBlue.swiftUIColor
-    static let tileBlue = MacopardyAsset.tileBlue.swiftUIColor
-    static let tileIncomplete = MacopardyAsset.tileIncomplete.swiftUIColor
-    static let tileHover = MacopardyAsset.tileHover.swiftUIColor
-    static let tilePlayed = MacopardyAsset.tilePlayed.swiftUIColor
-    static let panelBlue = MacopardyAsset.panelBlue.swiftUIColor
-    static let gold = MacopardyAsset.gold.swiftUIColor
-    static let warning = MacopardyAsset.warning.swiftUIColor
-    static let mutedText = MacopardyAsset.mutedText.swiftUIColor
-    static let clueBackground = MacopardyAsset.clueBackground.swiftUIColor
+    // Colors live in Assets.xcassets (Theme/ and Team/); Tuist generates `MacpardyAsset`.
+    static let boardBlue = MacpardyAsset.boardBlue.swiftUIColor
+    static let tileBlue = MacpardyAsset.tileBlue.swiftUIColor
+    static let tileIncomplete = MacpardyAsset.tileIncomplete.swiftUIColor
+    static let tileHover = MacpardyAsset.tileHover.swiftUIColor
+    static let tilePlayed = MacpardyAsset.tilePlayed.swiftUIColor
+    static let panelBlue = MacpardyAsset.panelBlue.swiftUIColor
+    static let gold = MacpardyAsset.gold.swiftUIColor
+    static let warning = MacpardyAsset.warning.swiftUIColor
+    static let mutedText = MacpardyAsset.mutedText.swiftUIColor
+    static let clueBackground = MacpardyAsset.clueBackground.swiftUIColor
     static let controlBackground = Color(nsColor: .windowBackgroundColor)
 
     // SF Pro is the system font, so there are no font files to bundle; sizes live here.

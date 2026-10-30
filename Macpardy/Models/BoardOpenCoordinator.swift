@@ -1,6 +1,6 @@
 //
 //  BoardOpenCoordinator.swift
-//  Macopardy
+//  Macpardy
 //
 
 import Foundation

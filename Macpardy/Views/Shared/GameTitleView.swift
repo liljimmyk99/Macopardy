@@ -1,6 +1,6 @@
 //
 //  GameTitleView.swift
-//  Macopardy
+//  Macpardy
 //
 
 import SwiftUI

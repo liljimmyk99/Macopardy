@@ -1,6 +1,6 @@
 //
 //  BoardPackage.swift
-//  Macopardy
+//  Macpardy
 //
 
 import Foundation
@@ -10,7 +10,7 @@ import ZIPFoundation
 
 extension UTType {
     /// A `.macpardy` board package. Declared in the app's Info.plist.
-    nonisolated static let macpardyBoard = UTType(exportedAs: "jbkiv.macopardy.board", conformingTo: .data)
+    nonisolated static let macpardyBoard = UTType(exportedAs: "jbkiv.macpardy.board", conformingTo: .data)
 }
 
 /// Reads and writes board files.

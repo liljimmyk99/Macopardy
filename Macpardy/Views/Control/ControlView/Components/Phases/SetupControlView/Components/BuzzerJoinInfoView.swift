@@ -1,6 +1,6 @@
 //
 //  BuzzerJoinInfoView.swift
-//  Macopardy
+//  Macpardy
 //
 //  QR code, join code, copyable link and how many teams have a phone, on the
 //  setup screen. The toolbar's buzzer popover shows a compact version.

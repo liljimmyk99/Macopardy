@@ -1,6 +1,6 @@
 //
 //  CountdownView.swift
-//  Macopardy
+//  Macpardy
 //
 
 import SwiftUI

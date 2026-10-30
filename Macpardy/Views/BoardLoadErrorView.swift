@@ -1,6 +1,6 @@
 //
 //  BoardLoadErrorView.swift
-//  Macopardy
+//  Macpardy
 //
 
 import SwiftUI

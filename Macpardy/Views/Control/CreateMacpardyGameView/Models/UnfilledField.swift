@@ -1,6 +1,6 @@
 //
 //  UnfilledField.swift
-//  Macopardy
+//  Macpardy
 //
 
 import Foundation

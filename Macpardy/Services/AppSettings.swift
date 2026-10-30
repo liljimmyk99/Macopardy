@@ -1,6 +1,6 @@
 //
 //  AppSettings.swift
-//  Macopardy
+//  Macpardy
 //
 //  Keys, defaults and valid ranges for the preferences in the Settings
 //  window. Values are read through an injectable `UserDefaults`, and every

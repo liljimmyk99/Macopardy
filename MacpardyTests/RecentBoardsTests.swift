@@ -1,10 +1,10 @@
 //
 //  RecentBoardsTests.swift
-//  MacopardyTests
+//  MacpardyTests
 //
 
 import XCTest
-@testable import Macopardy
+@testable import Macpardy
 
 private final class MemoryRecentsStorage: RecentBoardsStorage {
     var urls: [URL] = []

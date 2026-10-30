@@ -1,6 +1,6 @@
 //
 //  FileCommands.swift
-//  Macopardy
+//  Macpardy
 //
 //  The File menu: New Board, Import Board… and Open Recent.
 //

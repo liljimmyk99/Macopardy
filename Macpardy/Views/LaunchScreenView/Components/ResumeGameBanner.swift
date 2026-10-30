@@ -1,6 +1,6 @@
 //
 //  ResumeGameBanner.swift
-//  Macopardy
+//  Macpardy
 //
 //  Offers the auto-saved game on the start screen: which round it was on and
 //  how many teams, with Resume and Discard.

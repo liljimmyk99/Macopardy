@@ -1,6 +1,6 @@
 //
 //  FinalWagerBook.swift
-//  Macopardy
+//  Macpardy
 //
 //  Validation and storage for Final Macpardy wagers submitted from phones.
 //  It has no networking: the server feeds it submissions and reads back what

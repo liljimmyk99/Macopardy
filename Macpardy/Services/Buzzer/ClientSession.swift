@@ -1,6 +1,6 @@
 //
 //  ClientSession.swift
-//  Macopardy
+//  Macpardy
 //
 //  Represents a single connected WebSocket client (one phone browser tab).
 //

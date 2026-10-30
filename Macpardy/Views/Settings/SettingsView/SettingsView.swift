@@ -1,6 +1,6 @@
 //
 //  SettingsView.swift
-//  Macopardy
+//  Macpardy
 //
 //  The Settings window (⌘,). Changes apply as they are made.
 //

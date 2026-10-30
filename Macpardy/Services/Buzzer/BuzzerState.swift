@@ -1,9 +1,9 @@
 //
 //  BuzzerState.swift
-//  Macopardy
+//  Macpardy
 //
 //  @Observable bridge between the BuzzerServer actor and SwiftUI views.
-//  Inject this into the environment via MacopardyApp.
+//  Inject this into the environment via MacpardyApp.
 //
 
 import Foundation

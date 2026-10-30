@@ -1,6 +1,6 @@
 //
 //  BoardOpenDialogs.swift
-//  Macopardy
+//  Macpardy
 //
 //  The file picker, Play / Edit choice, confirmations and error sheet for
 //  `BoardOpenCoordinator`. Applied at the root of the Control window.

@@ -1,6 +1,6 @@
 //
 //  GameCommands.swift
-//  Macopardy
+//  Macpardy
 //
 //  The Game menu. Items are always listed and greyed out when they don't
 //  apply, and call the same GameState methods as the on-screen buttons.

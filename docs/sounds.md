@@ -23,7 +23,7 @@ the player caches its values), so they always agree.
 
 ## Files
 
-`Macopardy/Resources/Sounds/*.wav` are synthesized placeholders (generated from sine and saw
+`Macpardy/Resources/Sounds/*.wav` are synthesized placeholders (generated from sine and saw
 waves, so nothing to license), not recordings.
 
 To use your own recording, replace the file with one of the same name and format (`.wav`).
@@ -33,6 +33,6 @@ No code changes are needed. The file names are the raw values of `SoundEffect`.
 
 - `Services/Sound/SoundEffect.swift` — the sounds, and `SoundCue` (what each game phase triggers).
 - `Services/Sound/SoundPlayer.swift` — `SoundPlayer.shared`, plus the two switches.
-- `MacopardyApp` forwards phase changes to `SoundPlayer.handle(phase:)`; `GameTimer` starts the
+- `MacpardyApp` forwards phase changes to `SoundPlayer.handle(phase:)`; `GameTimer` starts the
   warning; the score buttons play the wrong-answer sound.
 - Sound uses no new entitlements.

@@ -1,6 +1,6 @@
 //
 //  MacpardyMotion.swift
-//  Macopardy
+//  Macpardy
 //
 //  Timings and transitions for the Display window's animations. Whether
 //  they run at all comes from `\.animationsEnabled`, which the Display sets

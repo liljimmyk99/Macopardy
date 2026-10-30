@@ -1,6 +1,6 @@
 //
 //  BuiltInGamePicker.swift
-//  Macopardy
+//  Macpardy
 //
 //  Lists the games that ship with the app, with "Load my own file…" below.
 //

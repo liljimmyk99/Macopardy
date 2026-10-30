@@ -1,6 +1,6 @@
 //
 //  TeamSetupCard.swift
-//  Macopardy
+//  Macpardy
 //
 //  One team on the setup screen: name, color swatches, phone status, remove.
 //

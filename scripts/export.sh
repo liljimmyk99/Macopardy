@@ -26,11 +26,11 @@ if [[ "$EXPORT_DIR" == "$ROOT_DIR" ]]; then
 fi
 
 BUILD_DIR="$ROOT_DIR/build/DerivedData"
-APP_NAME="Macopardy"
+APP_NAME="Macpardy"
 BUILT_APP="$BUILD_DIR/Build/Products/Release/$APP_NAME.app"
 EXPORTED_APP="$EXPORT_DIR/$APP_NAME.app"
 EXPORTED_DMG="$EXPORT_DIR/$APP_NAME.dmg"
-STAGING_DIR="$(mktemp -d "${TMPDIR:-/tmp}/macopardy-export.XXXXXX")"
+STAGING_DIR="$(mktemp -d "${TMPDIR:-/tmp}/macpardy-export.XXXXXX")"
 STAGED_APP="$STAGING_DIR/$APP_NAME.app"
 STAGED_DMG="$STAGING_DIR/$APP_NAME.dmg"
 

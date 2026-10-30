@@ -1,6 +1,6 @@
 //
 //  QuestionImagePlaceholder.swift
-//  Macopardy
+//  Macpardy
 //
 
 import SwiftUI

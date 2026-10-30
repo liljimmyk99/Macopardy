@@ -1,11 +1,11 @@
 //
 //  ShortcutCatalogTests.swift
-//  MacopardyTests
+//  MacpardyTests
 //
 
 import SwiftUI
 import XCTest
-@testable import Macopardy
+@testable import Macpardy
 
 @MainActor
 final class ShortcutCatalogTests: XCTestCase {

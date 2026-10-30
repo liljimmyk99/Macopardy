@@ -1,6 +1,6 @@
 //
 //  LargeButton.swift
-//  Macopardy
+//  Macpardy
 //
 
 import SwiftUI

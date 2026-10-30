@@ -1,6 +1,6 @@
 //
 //  ResponseCountdown.swift
-//  Macopardy
+//  Macpardy
 //
 //  The answering team's response time as the Control window, the Display and
 //  the phones show it (issue #59).

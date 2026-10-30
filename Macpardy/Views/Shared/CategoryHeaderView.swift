@@ -1,6 +1,6 @@
 //
 //  CategoryHeaderView.swift
-//  Macopardy
+//  Macpardy
 //
 
 import SwiftUI

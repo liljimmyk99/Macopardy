@@ -1,6 +1,6 @@
 //
 //  BuzzerPhoneRow.swift
-//  Macopardy
+//  Macpardy
 //
 //  One team in the buzzer popover: phone status and Remove phone.
 //

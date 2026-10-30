@@ -1,6 +1,6 @@
 //
 //  TeamScoreStripView.swift
-//  Macopardy
+//  Macpardy
 //
 //  Team scores along the bottom of the Control window, like the Display's scoreboard.
 //

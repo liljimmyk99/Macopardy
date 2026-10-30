@@ -1,6 +1,6 @@
 //
 //  TimerControlsView.swift
-//  Macopardy
+//  Macpardy
 //
 
 import SwiftUI

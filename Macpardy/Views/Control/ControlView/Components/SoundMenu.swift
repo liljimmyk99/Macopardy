@@ -1,6 +1,6 @@
 //
 //  SoundMenu.swift
-//  Macopardy
+//  Macpardy
 //
 //  Toolbar menu that switches sound effects and background music on or off.
 //

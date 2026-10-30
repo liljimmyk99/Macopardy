@@ -1,6 +1,6 @@
 //
 //  TeamScoreStripMode.swift
-//  Macopardy
+//  Macpardy
 //
 //  Which buttons the team score strip shows for the current phase.
 //

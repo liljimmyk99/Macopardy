@@ -1,6 +1,6 @@
 //
 //  ImageImporter.swift
-//  Macopardy
+//  Macpardy
 //
 
 import CoreGraphics

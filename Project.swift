@@ -1,7 +1,7 @@
 import ProjectDescription
 
 let project = Project(
-    name: "Macopardy",
+    name: "Macpardy",
     packages: [
         .remote(
             url: "https://github.com/weichsel/ZIPFoundation",
@@ -10,17 +10,17 @@ let project = Project(
     ],
     targets: [
         .target(
-            name: "Macopardy",
+            name: "Macpardy",
             destinations: [.mac],
             product: .app,
-            bundleId: "jbkiv.Macopardy",
+            bundleId: "jbkiv.Macpardy",
             deploymentTargets: .macOS("26.3"),
             infoPlist: .extendingDefault(with: [
                 // Board packages (.macpardy): a zip with board.json and images/.
                 "UTExportedTypeDeclarations": [
                     [
-                        "UTTypeIdentifier": "jbkiv.macopardy.board",
-                        "UTTypeDescription": "Macopardy Board",
+                        "UTTypeIdentifier": "jbkiv.macpardy.board",
+                        "UTTypeDescription": "Macpardy Board",
                         "UTTypeConformsTo": ["public.data", "public.archive"],
                         "UTTypeTagSpecification": [
                             "public.filename-extension": ["macpardy"],
@@ -29,21 +29,21 @@ let project = Project(
                 ],
                 "CFBundleDocumentTypes": [
                     [
-                        "CFBundleTypeName": "Macopardy Board",
+                        "CFBundleTypeName": "Macpardy Board",
                         "CFBundleTypeRole": "Editor",
                         "LSHandlerRank": "Owner",
-                        "LSItemContentTypes": ["jbkiv.macopardy.board"],
+                        "LSItemContentTypes": ["jbkiv.macpardy.board"],
                     ],
                 ],
             ]),
-            sources: ["Macopardy/**/*.swift"],
+            sources: ["Macpardy/**/*.swift"],
             resources: [
-                "Macopardy/Assets.xcassets",
-                "Macopardy/Localizable.xcstrings",
-                "Macopardy/Resources/Buzzer/**",
-                "Macopardy/Resources/Sounds/**",
+                "Macpardy/Assets.xcassets",
+                "Macpardy/Localizable.xcstrings",
+                "Macpardy/Resources/Buzzer/**",
+                "Macpardy/Resources/Sounds/**",
                 // Kept as a folder so the games can be listed from the bundle.
-                .folderReference(path: "Macopardy/Resources/Games"),
+                .folderReference(path: "Macpardy/Resources/Games"),
             ],
             dependencies: [
                 .package(product: "ZIPFoundation"),
@@ -53,7 +53,7 @@ let project = Project(
                     "ASSETCATALOG_COMPILER_APPICON_NAME": "AppIcon",
                     "ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME": "AccentColor",
                     "CODE_SIGN_STYLE": "Automatic",
-                    "CODE_SIGN_ENTITLEMENTS": "Config/Macopardy.entitlements",
+                    "CODE_SIGN_ENTITLEMENTS": "Config/Macpardy.entitlements",
                     "COMBINE_HIDPI_IMAGES": "YES",
                     "CURRENT_PROJECT_VERSION": "1",
                     "ENABLE_APP_SANDBOX": "YES",
@@ -80,7 +80,7 @@ let project = Project(
                     ],
                     "MACOSX_DEPLOYMENT_TARGET": "26.3",
                     "MARKETING_VERSION": "0.3.1",
-                    "PRODUCT_BUNDLE_IDENTIFIER": "jbkiv.Macopardy",
+                    "PRODUCT_BUNDLE_IDENTIFIER": "jbkiv.Macpardy",
                     "REGISTER_APP_GROUPS": "YES",
                     "STRING_CATALOG_GENERATE_SYMBOLS": "YES",
                     "SWIFT_APPROACHABLE_CONCURRENCY": "YES",
@@ -116,14 +116,14 @@ let project = Project(
             )
         ),
         .target(
-            name: "MacopardyTests",
+            name: "MacpardyTests",
             destinations: [.mac],
             product: .unitTests,
-            bundleId: "jbkiv.MacopardyTests",
+            bundleId: "jbkiv.MacpardyTests",
             deploymentTargets: .macOS("26.3"),
             infoPlist: .default,
-            sources: ["MacopardyTests/**/*.swift"],
-            dependencies: [.target(name: "Macopardy")],
+            sources: ["MacpardyTests/**/*.swift"],
+            dependencies: [.target(name: "Macpardy")],
             settings: .settings(
                 base: [
                     "SWIFT_VERSION": "5.0",

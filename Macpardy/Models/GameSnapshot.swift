@@ -1,6 +1,6 @@
 //
 //  GameSnapshot.swift
-//  Macopardy
+//  Macpardy
 //
 //  Created by Jimmy Kane on 10/18/26.
 //

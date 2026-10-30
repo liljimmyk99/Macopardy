@@ -1,6 +1,6 @@
 //
 //  LaunchActionTile.swift
-//  Macopardy
+//  Macpardy
 //
 //  A start-screen action drawn as a board column: category-style header
 //  over a tile with an icon, caption and keyboard shortcut.

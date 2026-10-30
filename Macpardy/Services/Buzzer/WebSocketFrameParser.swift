@@ -1,6 +1,6 @@
 //
 //  WebSocketFrameParser.swift
-//  Macopardy
+//  Macpardy
 //
 //  Incremental RFC 6455 frame parser. TCP may deliver a frame split across
 //  reads or several frames in one read, so callers append received bytes to a

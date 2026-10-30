@@ -1,6 +1,6 @@
 //
 //  ResponseTimerTests.swift
-//  MacopardyTests
+//  MacpardyTests
 //
 //  The buzz-in response timer (issue #59): a phone buzz pauses the question
 //  timer and starts the answering team's time; the host's correct / wrong
@@ -8,7 +8,7 @@
 //
 
 import XCTest
-@testable import Macopardy
+@testable import Macpardy
 
 @MainActor
 final class ResponseTimerTests: XCTestCase {

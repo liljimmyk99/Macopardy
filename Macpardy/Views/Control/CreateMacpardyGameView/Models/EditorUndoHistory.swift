@@ -1,6 +1,6 @@
 //
 //  EditorUndoHistory.swift
-//  Macopardy
+//  Macpardy
 //
 //  Decides how the board editor's changes group into undo steps. The undo
 //  manager keeps the steps themselves; this works out what each change was

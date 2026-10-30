@@ -1,4 +1,4 @@
-# Macopardy
+# Macpardy
 
 A macOS app for hosting a Jeopardy-style trivia night ("Macpardy!"). The host runs the game
 from a control window, the room watches a full-screen display on a TV or projector, and teams
@@ -42,10 +42,10 @@ Everything except the start screen and editor ones is in the **Game** menu, whic
 Requires macOS 26.3+, Xcode 26, and [Tuist](https://tuist.io).
 
 ```sh
-tuist generate   # generates and opens Macopardy.xcodeproj
+tuist generate   # generates and opens Macpardy.xcodeproj
 ```
 
-Run the **Macopardy** scheme. To make a shareable build, see [EXPORTING.md](EXPORTING.md).
+Run the **Macpardy** scheme. To make a shareable build, see [EXPORTING.md](EXPORTING.md).
 
 ## Docs
 

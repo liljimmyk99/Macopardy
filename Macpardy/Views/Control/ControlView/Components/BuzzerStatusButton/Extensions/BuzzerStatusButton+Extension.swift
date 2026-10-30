@@ -1,6 +1,6 @@
 //
 //  BuzzerStatusButton+Extension.swift
-//  Macopardy
+//  Macpardy
 //
 
 import SwiftUI

@@ -1,6 +1,6 @@
 //
 //  AttemptRateLimiter.swift
-//  Macopardy
+//  Macpardy
 //
 //  Sliding-window attempt counter with a lockout, keyed by remote address.
 //  Pure value type; the caller supplies the clock so it can be tested.

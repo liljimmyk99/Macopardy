@@ -1,10 +1,10 @@
 //
 //  UnfilledFieldTests.swift
-//  MacopardyTests
+//  MacpardyTests
 //
 
 import XCTest
-@testable import Macopardy
+@testable import Macpardy
 
 @MainActor
 final class UnfilledFieldTests: XCTestCase {

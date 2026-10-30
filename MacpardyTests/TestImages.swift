@@ -1,6 +1,6 @@
 //
 //  TestImages.swift
-//  MacopardyTests
+//  MacpardyTests
 //
 
 import CoreGraphics

@@ -1,6 +1,6 @@
 //
 //  BuzzerServer.swift
-//  Macopardy
+//  Macpardy
 //
 //  Embedded HTTP + WebSocket server powered by Network.framework.
 //

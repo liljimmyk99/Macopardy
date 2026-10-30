@@ -1,6 +1,6 @@
 //
 //  FileManagerService.swift
-//  Macopardy
+//  Macpardy
 //
 //  Created by Jimmy Kane on 9/20/26.
 //

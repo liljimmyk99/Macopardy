@@ -1,6 +1,6 @@
 //
 //  BuzzerConstants.swift
-//  Macopardy
+//  Macpardy
 //
 //  Central configuration for the embedded buzzer server.
 //

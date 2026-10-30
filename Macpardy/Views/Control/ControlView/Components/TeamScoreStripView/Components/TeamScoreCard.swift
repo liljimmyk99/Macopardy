@@ -1,6 +1,6 @@
 //
 //  TeamScoreCard.swift
-//  Macopardy
+//  Macpardy
 //
 //  One team's name, phone status and score, with the strip mode's buttons.
 //  Right-click to reset the score.

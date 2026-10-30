@@ -1,6 +1,6 @@
 //
 //  LaunchScreenView+Extension.swift
-//  Macopardy
+//  Macpardy
 //
 
 import OSLog

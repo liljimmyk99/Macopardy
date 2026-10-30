@@ -1,6 +1,6 @@
 //
 //  CreateMacpardyGameView+Extension.swift
-//  Macopardy
+//  Macpardy
 //
 //  Created by Jimmy Kane on 10/6/26.
 //

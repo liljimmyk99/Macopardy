@@ -1,6 +1,6 @@
 //
 //  CSVBoardImporter.swift
-//  Macopardy
+//  Macpardy
 //
 
 import Foundation

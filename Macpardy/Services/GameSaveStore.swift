@@ -1,6 +1,6 @@
 //
 //  GameSaveStore.swift
-//  Macopardy
+//  Macpardy
 //
 //  Created by Jimmy Kane on 10/18/26.
 //
@@ -13,11 +13,11 @@ actor GameSaveStore {
 
     private let fileManager: FileManager
     private let saveFileName: String = "saved_game.json"
-    private let directoryName: String = "Macopardy"
+    private let directoryName: String = "Macpardy"
     private let baseDirectory: URL?
 
     /// - Parameter baseDirectory: Where to keep the save. Defaults to
-    ///   Application Support/Macopardy; tests pass a temporary directory.
+    ///   Application Support/Macpardy; tests pass a temporary directory.
     init(fileManager: FileManager = .default, baseDirectory: URL? = nil) {
         self.fileManager = fileManager
         self.baseDirectory = baseDirectory

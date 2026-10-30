@@ -1,6 +1,6 @@
 //
 //  Team.swift
-//  Macopardy
+//  Macpardy
 //
 //  Created by Jimmy Kane on 7/15/26.
 //
@@ -33,12 +33,12 @@ struct Team: Identifiable, Equatable, Codable {
 
     static func displayColor(for color: String) -> Color {
         switch color.lowercased() {
-        case "blue": MacopardyAsset.teamBlue.swiftUIColor
-        case "red": MacopardyAsset.teamRed.swiftUIColor
-        case "green": MacopardyAsset.teamGreen.swiftUIColor
-        case "yellow": MacopardyAsset.teamYellow.swiftUIColor
-        case "purple": MacopardyAsset.teamPurple.swiftUIColor
-        case "orange": MacopardyAsset.teamOrange.swiftUIColor
+        case "blue": MacpardyAsset.teamBlue.swiftUIColor
+        case "red": MacpardyAsset.teamRed.swiftUIColor
+        case "green": MacpardyAsset.teamGreen.swiftUIColor
+        case "yellow": MacpardyAsset.teamYellow.swiftUIColor
+        case "purple": MacpardyAsset.teamPurple.swiftUIColor
+        case "orange": MacpardyAsset.teamOrange.swiftUIColor
         default: .gray
         }
     }

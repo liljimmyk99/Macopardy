@@ -1,6 +1,6 @@
 //
 //  BoardLoader+Messages.swift
-//  Macopardy
+//  Macpardy
 //
 
 import Foundation

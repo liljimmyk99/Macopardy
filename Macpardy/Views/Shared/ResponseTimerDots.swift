@@ -1,6 +1,6 @@
 //
 //  ResponseTimerDots.swift
-//  Macopardy
+//  Macpardy
 //
 //  A row of dots, one per second of response time; a dot goes out each
 //  second, left to right. Used on the Display scoreboard and the Control

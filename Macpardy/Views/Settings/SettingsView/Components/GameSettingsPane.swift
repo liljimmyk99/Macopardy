@@ -1,6 +1,6 @@
 //
 //  GameSettingsPane.swift
-//  Macopardy
+//  Macpardy
 //
 
 import SwiftUI

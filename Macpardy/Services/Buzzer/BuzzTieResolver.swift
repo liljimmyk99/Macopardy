@@ -1,6 +1,6 @@
 //
 //  BuzzTieResolver.swift
-//  Macopardy
+//  Macpardy
 //
 //  Picks the winner among buzzes received inside the tie window. Kept separate
 //  from the engine so the tie rules can be tweaked on their own.

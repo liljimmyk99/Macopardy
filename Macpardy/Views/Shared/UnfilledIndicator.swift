@@ -1,6 +1,6 @@
 //
 //  UnfilledIndicator.swift
-//  Macopardy
+//  Macpardy
 //
 
 import SwiftUI

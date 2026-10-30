@@ -1,6 +1,6 @@
 //
 //  SetupControlView.swift
-//  Macopardy
+//  Macpardy
 //
 //  Created by Jimmy Kane on 10/10/26.
 //

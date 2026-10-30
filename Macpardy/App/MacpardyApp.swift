@@ -1,6 +1,6 @@
 //
-//  MacopardyApp.swift
-//  Macopardy
+//  MacpardyApp.swift
+//  Macpardy
 //
 //  Created by Jimmy Kane on 7/15/26.
 //
@@ -11,7 +11,7 @@ import SwiftUI
 
 /// Holds a quit while an edited board has unsaved changes, so the editor
 /// can ask whether to save first.
-final class MacopardyAppDelegate: NSObject, NSApplicationDelegate {
+final class MacpardyAppDelegate: NSObject, NSApplicationDelegate {
 
     /// The Control window. Closing it ends the app, taking every other window with it.
     weak var controlWindow: NSWindow?
@@ -51,7 +51,7 @@ final class MacopardyAppDelegate: NSObject, NSApplicationDelegate {
 @main
 struct MacpardyApp: App {
 
-    @NSApplicationDelegateAdaptor(MacopardyAppDelegate.self)
+    @NSApplicationDelegateAdaptor(MacpardyAppDelegate.self)
     private var appDelegate
 
     @State

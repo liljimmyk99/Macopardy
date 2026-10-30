@@ -1,6 +1,6 @@
 //
 //  ShortcutRow.swift
-//  Macopardy
+//  Macpardy
 //
 
 import SwiftUI

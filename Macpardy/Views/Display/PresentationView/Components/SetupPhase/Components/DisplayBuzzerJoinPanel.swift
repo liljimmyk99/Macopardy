@@ -1,6 +1,6 @@
 //
 //  DisplayBuzzerJoinPanel.swift
-//  Macopardy
+//  Macpardy
 //
 //  Big QR code, page address and Game PIN on the Display before the game starts,
 //  so teams can scan from across the room or type the address and PIN.

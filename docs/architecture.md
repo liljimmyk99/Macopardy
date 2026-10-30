@@ -29,7 +29,7 @@ opens outgoing connections.
 
 ## Windows (scenes)
 
-Defined in `App/MacopardyApp.swift`:
+Defined in `App/MacpardyApp.swift`:
 
 | Window id | Default | Content |
 |---|---|---|
@@ -39,9 +39,9 @@ Defined in `App/MacopardyApp.swift`:
 
 Only `control` opens at launch: the other windows are `.restorationBehavior(.disabled)`, so
 they never reappear from a previous session. Closing the Control window quits the app
-(`MacopardyAppDelegate.controlWindow`), which closes every other window.
+(`MacpardyAppDelegate.controlWindow`), which closes every other window.
 
-`MacopardyAppDelegate` intercepts quit (`applicationShouldTerminate`) so the editor can ask
+`MacpardyAppDelegate` intercepts quit (`applicationShouldTerminate`) so the editor can ask
 to save unsaved edits. `Views/Shared/WindowCloseGuard` does the same for closing the editor
 window, since SwiftUI has no close hook outside document apps.
 
@@ -63,7 +63,7 @@ menu item or to a button, never both. The Buzzers popover's open state is
 `BuzzerState.isPopoverPresented` so the menu can open it.
 
 `FileCommands` (the **File** menu) drives `BoardOpenCoordinator`, an `@Observable` created in
-`MacopardyApp`. The coordinator owns the import picker, the Play / Edit choice, the "end the
+`MacpardyApp`. The coordinator owns the import picker, the Play / Edit choice, the "end the
 current game?" and "replace editor changes?" confirmations, and the load-error sheet. They are
 presented at the root of the Control window by `BoardOpenDialogs`, so they work on the start
 screen and mid-game. `RecentBoards` keeps Open Recent in `NSDocumentController` (so the sandbox
@@ -160,7 +160,7 @@ GameState action ─▶ triggerSave() ─▶ GameSnapshot(from: self)
                                         │  debounce 300 ms (cancel previous Task)
                                         ▼
                          GameSaveStore.shared.save(snapshot)   (actor; atomic write)
-                         Application Support/Macopardy/saved_game.json
+                         Application Support/Macpardy/saved_game.json
 ```
 
 - Nothing is saved during `setup`.

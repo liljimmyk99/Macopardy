@@ -1,6 +1,6 @@
 //
 //  CSVParser.swift
-//  Macopardy
+//  Macpardy
 //
 
 import Foundation

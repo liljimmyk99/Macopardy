@@ -1,6 +1,6 @@
 //
 //  LaunchScreenView.swift
-//  Macopardy
+//  Macpardy
 //
 import OSLog
 import SwiftUI

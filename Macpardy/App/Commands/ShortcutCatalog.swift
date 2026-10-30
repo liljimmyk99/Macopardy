@@ -1,6 +1,6 @@
 //
 //  ShortcutCatalog.swift
-//  Macopardy
+//  Macpardy
 //
 //  Every keyboard shortcut in the app, defined once. Menu items and buttons
 //  read their key from here so two actions can't claim the same one.

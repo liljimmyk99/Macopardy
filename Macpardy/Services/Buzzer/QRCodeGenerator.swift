@@ -1,6 +1,6 @@
 //
 //  QRCodeGenerator.swift
-//  Macopardy
+//  Macpardy
 //
 //  Generates a QR code NSImage using Core Image (no third-party library required).
 //

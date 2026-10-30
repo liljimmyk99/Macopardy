@@ -1,6 +1,6 @@
 //
 //  ControlQuestionTile.swift
-//  Macopardy
+//  Macpardy
 //
 //  One clickable board tile. Played tiles go blank and disabled, as on the Display.
 //

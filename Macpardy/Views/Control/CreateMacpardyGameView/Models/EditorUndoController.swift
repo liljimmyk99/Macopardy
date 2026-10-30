@@ -1,6 +1,6 @@
 //
 //  EditorUndoController.swift
-//  Macopardy
+//  Macpardy
 //
 //  Puts the board editor's undo steps on the window's undo manager, so the
 //  standard Edit > Undo / Redo items work and show what they will undo.

@@ -1,11 +1,11 @@
 //
 //  ImageImporterTests.swift
-//  MacopardyTests
+//  MacpardyTests
 //
 
 import UniformTypeIdentifiers
 import XCTest
-@testable import Macopardy
+@testable import Macpardy
 
 @MainActor
 final class ImageImporterTests: XCTestCase {

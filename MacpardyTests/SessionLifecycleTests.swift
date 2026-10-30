@@ -1,10 +1,10 @@
 //
 //  SessionLifecycleTests.swift
-//  MacopardyTests
+//  MacpardyTests
 //
 
 import XCTest
-@testable import Macopardy
+@testable import Macpardy
 
 @MainActor
 final class SessionLifecycleTests: XCTestCase {

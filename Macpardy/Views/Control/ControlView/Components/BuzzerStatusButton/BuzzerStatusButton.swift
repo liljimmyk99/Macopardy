@@ -1,6 +1,6 @@
 //
 //  BuzzerStatusButton.swift
-//  Macopardy
+//  Macpardy
 //
 //  Toolbar button showing the join code and how many teams have a phone.
 //  Opens a popover with join info and each team's phone.

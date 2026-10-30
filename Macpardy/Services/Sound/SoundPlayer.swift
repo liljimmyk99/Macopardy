@@ -1,6 +1,6 @@
 //
 //  SoundPlayer.swift
-//  Macopardy
+//  Macpardy
 //
 
 import AVFoundation

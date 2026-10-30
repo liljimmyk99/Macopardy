@@ -1,6 +1,6 @@
 //
 //  ControlToolbar.swift
-//  Macopardy
+//  Macpardy
 //
 //  Window toolbar: buzzers, the Display window, and the board's round actions.
 //

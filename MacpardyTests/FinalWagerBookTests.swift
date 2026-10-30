@@ -1,10 +1,10 @@
 //
 //  FinalWagerBookTests.swift
-//  MacopardyTests
+//  MacpardyTests
 //
 
 import XCTest
-@testable import Macopardy
+@testable import Macpardy
 
 @MainActor
 final class FinalWagerBookTests: XCTestCase {

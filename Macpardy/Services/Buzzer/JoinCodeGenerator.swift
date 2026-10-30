@@ -1,6 +1,6 @@
 //
 //  JoinCodeGenerator.swift
-//  Macopardy
+//  Macpardy
 //
 //  Generates a cryptographically random 6-character join code.
 //  Characters that are visually ambiguous (0/O, 1/I/l) are excluded.

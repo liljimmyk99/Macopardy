@@ -1,6 +1,6 @@
 //
 //  CSVBoardImporter+Messages.swift
-//  Macopardy
+//  Macpardy
 //
 
 import Foundation

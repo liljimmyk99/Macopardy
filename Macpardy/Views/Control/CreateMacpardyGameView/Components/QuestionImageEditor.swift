@@ -1,6 +1,6 @@
 //
 //  QuestionImageEditor.swift
-//  Macopardy
+//  Macpardy
 //
 
 import OSLog

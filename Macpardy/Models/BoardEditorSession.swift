@@ -1,6 +1,6 @@
 //
 //  BoardEditorSession.swift
-//  Macopardy
+//  Macpardy
 //
 
 import AppKit

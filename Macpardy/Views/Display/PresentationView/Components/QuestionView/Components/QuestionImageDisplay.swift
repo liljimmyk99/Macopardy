@@ -1,6 +1,6 @@
 //
 //  QuestionImageDisplay.swift
-//  Macopardy
+//  Macpardy
 //
 
 import AppKit
