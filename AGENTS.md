@@ -96,7 +96,7 @@ When you add or change a `.keyboardShortcut`, update the shortcut tables in
 
 ### Naming
 - The app, target, and in-game brand are all **Macpardy** (`MacpardyBoard`, `MacpardyRound`,
-  `.macpardy` files, "Final Macpardy"). The old "Macopardy" spelling was retired; don't
+  `.macpardy` files, "Final Macpardy"). The old "Macpardy" spelling was retired; don't
   reintroduce it.
 - Rounds are `macpardy`, `doubleMacpardy`, `finalMacpardy`.
 
