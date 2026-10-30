@@ -12,24 +12,24 @@ how the pieces fit together.
 ├── EXPORTING.md              Building a shareable .app / .dmg
 ├── Project.swift             Tuist manifest: targets, settings, Info.plist, ZIPFoundation
 ├── Config/
-│   └── Macopardy.entitlements    Sandbox, user-selected files, network server + client
-├── Macopardy/                App target sources and resources
-├── MacopardyTests/           Unit tests (XCTest)
+│   └── Macpardy.entitlements    Sandbox, user-selected files, network server + client
+├── Macpardy/                App target sources and resources
+├── MacpardyTests/           Unit tests (XCTest)
 ├── docs/                     Design and format docs
 ├── scripts/
 │   └── export.sh             Release build, ad-hoc signing, .dmg
 └── Macpardy-icon.svg         App icon source
 ```
 
-Generated and ignored: `Macopardy.xcodeproj`, `Macopardy.xcworkspace`, `Derived/`,
+Generated and ignored: `Macpardy.xcodeproj`, `Macpardy.xcworkspace`, `Derived/`,
 `build/`, `derivedData/`.
 
-## `Macopardy/` (app target)
+## `Macpardy/` (app target)
 
 ```
-Macopardy/
+Macpardy/
 ├── App/
-│   └── MacopardyApp.swift        @main app, windows, app delegate, GameState ⇄ buzzer wiring
+│   └── MacpardyApp.swift        @main app, windows, app delegate, GameState ⇄ buzzer wiring
 ├── Models/                       Game data and app-wide observable state (BoardDefaults: new-board content)
 │   ├── Game.swift                rounds + currentRound + teams
 │   ├── MacpardyBoard.swift       one round: title, round kind, categories (+ sample board)
@@ -128,7 +128,7 @@ SomeView/
 └── Models/                       (optional) view-specific value types, e.g. BoardDraft
 ```
 
-## `MacopardyTests/`
+## `MacpardyTests/`
 
 One `<Type>Tests.swift` per type under test:
 
@@ -164,7 +164,7 @@ One `<Type>Tests.swift` per type under test:
 |---|---|
 | A new game rule or state | `GameState` (method) + `GameSnapshot` if it must survive a resume |
 | A new data field on boards | `Models/` + keep old files decoding + `board-format.md` |
-| Pure logic (parsing, rules) | `Services/`, `nonisolated`, with a test in `MacopardyTests/` |
+| Pure logic (parsing, rules) | `Services/`, `nonisolated`, with a test in `MacpardyTests/` |
 | File or network I/O | An `actor` in `Services/` |
 | A host screen | `Views/Control/…` using the view folder pattern |
 | An audience screen | `Views/Display/PresentationView/Components/…` |

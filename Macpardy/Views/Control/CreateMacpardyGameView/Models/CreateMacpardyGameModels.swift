@@ -1,0 +1,52 @@
+//
+//  CreateMacpardyGameModels.swift
+//  Macpardy
+//
+//  Created by Jimmy Kane on 10/6/26.
+//
+import Foundation
+
+struct DraftCategory: Identifiable, Equatable {
+
+    let id = UUID()
+    var title: String
+    var questions: [DraftQuestion]
+}
+
+struct DraftQuestion: Equatable {
+
+    let value: Int
+    var clue: String
+    var response: String
+    var isDailyDouble: Bool = false
+    var image: QuestionImage?
+
+    var isComplete: Bool {
+        !clue.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
+            && !response.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
+    }
+}
+
+struct EditingQuestion: Identifiable {
+
+    let id = UUID()
+    let categoryIndex: Int
+    let questionIndex: Int
+    let value: Int
+    let clue: String
+    let response: String
+    let isDailyDouble: Bool
+}
+
+struct DraftFinalMacpardy: Equatable {
+
+    var category: String = ""
+    var clue: String = ""
+    var response: String = ""
+
+    var isComplete: Bool {
+        !category.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
+            && !clue.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
+            && !response.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
+    }
+}

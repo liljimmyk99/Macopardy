@@ -40,7 +40,7 @@ control, or phone buzzer screens).
 
 ## Auto-save
 
-The auto-saved game (`Application Support/Macopardy/saved_game.json`) embeds image bytes
+The auto-saved game (`Application Support/Macpardy/saved_game.json`) embeds image bytes
 (base64), so resuming works even if the original board file was moved or deleted.
 
 ## Boards imported from CSV

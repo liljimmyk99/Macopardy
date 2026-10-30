@@ -1,6 +1,6 @@
 # Features and use cases
 
-What Macopardy does, from the point of view of the people using it. For how it's built, see
+What Macpardy does, from the point of view of the people using it. For how it's built, see
 [architecture.md](architecture.md).
 
 ## Who uses it
@@ -173,7 +173,7 @@ Wire details: [buzzer-protocol.md](buzzer-protocol.md).
 
 - Once play starts, every game action auto-saves (debounced 300 ms) to `saved_game.json` in
   the app's Application Support folder (sandboxed:
-  `~/Library/Containers/jbkiv.Macopardy/Data/Library/Application Support/Macopardy/`).
+  `~/Library/Containers/jbkiv.Macpardy/Data/Library/Application Support/Macpardy/`).
   Pictures are embedded, so a crash or quit can be resumed from **Play** even if
   the board file moved. This holds for built-in games too: a save keeps the whole board and
   doesn't refer to the bundled file, so it still resumes after an app update changes or
@@ -204,7 +204,7 @@ menu items name the action (e.g. "Undo Award Points").
 
 ## 6b. Settings
 
-**Macopardy > Settings…** (⌘,) opens a standard Settings window. Changes apply immediately and
+**Macpardy > Settings…** (⌘,) opens a standard Settings window. Changes apply immediately and
 are remembered (`UserDefaults`, keys in `AppSettings`).
 
 - **Sound:** sound effects and music, the same switches as the toolbar's Sound menu.

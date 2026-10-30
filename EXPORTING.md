@@ -1,4 +1,4 @@
-# Exporting Macopardy
+# Exporting Macpardy
 
 The export script builds a Release version of the app with Hardened Runtime and an ad-hoc code signature, then creates both a standalone app and a compressed DMG:
 
