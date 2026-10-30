@@ -13,6 +13,25 @@ import SwiftUI
 /// can ask whether to save first.
 final class MacopardyAppDelegate: NSObject, NSApplicationDelegate {
 
+    /// The Control window. Closing it ends the app, taking every other window with it.
+    weak var controlWindow: NSWindow?
+
+    private var closeObserver: NSObjectProtocol?
+
+    func applicationDidFinishLaunching(_ notification: Notification) {
+        closeObserver = NotificationCenter.default.addObserver(
+            forName: NSWindow.willCloseNotification,
+            object: nil,
+            queue: .main
+        ) { [weak self] note in
+            guard let window = note.object as? NSWindow else { return }
+            MainActor.assumeIsolated {
+                guard let self, window === self.controlWindow else { return }
+                NSApp.terminate(nil)
+            }
+        }
+    }
+
     func applicationShouldTerminate(_ sender: NSApplication) -> NSApplication.TerminateReply {
         let session = BoardEditorSession.shared
         guard session.hasUnsavedEdits else { return .terminateNow }
@@ -126,6 +145,7 @@ struct MacpardyApp: App {
                 }
             }
             .boardOpenDialogs(boardOpenCoordinator)
+            .background(WindowCloseGuard(shouldClose: { true }, onWindow: { appDelegate.controlWindow = $0 }))
             .onAppear {
                 boardOpenCoordinator.isGameRunning = { hasSelectedGame }
                 boardOpenCoordinator.startGame = { boards in startGame(with: boards) }
@@ -202,6 +222,7 @@ struct MacpardyApp: App {
         }
         .defaultSize(width: 1920, height: 1080)
         .defaultLaunchBehavior(.suppressed)
+        .restorationBehavior(.disabled)
 
         Settings {
             SettingsView()
@@ -213,6 +234,7 @@ struct MacpardyApp: App {
         }
         .windowResizability(.contentSize)
         .defaultLaunchBehavior(.suppressed)
+        .restorationBehavior(.disabled)
 
         Window("Create Macpardy Game", id: "create-macpardy") {
             CreateMacpardyGameView()
@@ -221,5 +243,6 @@ struct MacpardyApp: App {
         }
         .defaultSize(width: 1400, height: 820)
         .defaultLaunchBehavior(.suppressed)
+        .restorationBehavior(.disabled)
     }
 }
