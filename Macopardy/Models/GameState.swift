@@ -15,6 +15,10 @@ final class GameState {
     var currentCategoryTitle: String?
     var timer = GameTimer(seconds: TimeInterval(AppSettings.questionTimerSeconds()))
     var phase: GamePhase = .setup
+    /// True from the start of a round until its first clue is picked, so the
+    /// Display plays the board intro (categories one by one, then the clues).
+    /// Not saved: a resumed game shows its board straight away.
+    var boardIntroPending = false
 
     // Buzz-in response (issue #59)
     /// Counts down the answering team's time after a phone buzz wins.
@@ -114,12 +118,14 @@ final class GameState {
     }
 
     func startGame() {
+        boardIntroPending = true
         phase = .board
         triggerSave()
     }
 
     func selectQuestion(_ question: Question, categoryTitle: String) {
         cancelResponse()
+        boardIntroPending = false
         markQuestionPlayed(question)
         currentQuestion = question
         currentCategoryTitle = categoryTitle
@@ -283,6 +289,7 @@ final class GameState {
             } else {
                 game.currentRound = nextRound
                 showBoard()
+                boardIntroPending = true
             }
         }
         triggerSave()

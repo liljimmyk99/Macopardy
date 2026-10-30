@@ -4123,6 +4123,42 @@
         }
       }
     },
+    "settings.game.display_header" : {
+      "comment" : "Settings section header",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Display"
+          }
+        }
+      }
+    },
+    "settings.game.animations" : {
+      "comment" : "Toggle: animations on the Display window",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Animate the Display"
+          }
+        }
+      }
+    },
+    "settings.game.animations_footer" : {
+      "comment" : "Explains the animations toggle and Reduce Motion",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Board intro, clue flips, Daily Double and score changes. Always off while macOS Reduce Motion is on."
+          }
+        }
+      }
+    },
     "settings.game.teams_footer" : {
       "comment" : "Explains when team changes take effect",
       "extractionState" : "manual",

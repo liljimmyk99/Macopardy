@@ -11,10 +11,20 @@ struct PresentationView: View {
 
     @Environment(GameState.self) var gameState
     @Environment(BuzzerState.self) var buzzerState
+    @Environment(\.accessibilityReduceMotion) var reduceMotion
+    @AppStorage(AppSettings.Key.animationsEnabled)
+    var animationsSetting = AppSettings.defaultAnimationsEnabled
+
+    var animates: Bool {
+        AppSettings.shouldAnimate(setting: animationsSetting, reduceMotion: reduceMotion)
+    }
 
     var body: some View {
         VStack(spacing: 0) {
-            phaseContent
+            ZStack {
+                phaseContent
+            }
+            .animation(animates ? MacpardyMotion.quick : nil, value: gameState.phase)
 
             ScoreboardView(
                 teams: gameState.game.teams,
@@ -24,6 +34,7 @@ struct PresentationView: View {
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background(MacpardyTheme.boardBlue)
+        .environment(\.animationsEnabled, animates)
     }
 }
 

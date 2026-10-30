@@ -16,6 +16,9 @@ struct GameSettingsPane: View {
     @AppStorage(AppSettings.Key.defaultTeamCount)
     private var teamCount = AppSettings.defaultTeamCountValue
 
+    @AppStorage(AppSettings.Key.animationsEnabled)
+    private var animationsEnabled = AppSettings.defaultAnimationsEnabled
+
     var body: some View {
         Form {
             Section {
@@ -34,6 +37,14 @@ struct GameSettingsPane: View {
                 Text("settings.game.timers_header")
             } footer: {
                 Text("settings.game.timers_footer")
+            }
+
+            Section {
+                Toggle("settings.game.animations", isOn: $animationsEnabled)
+            } header: {
+                Text("settings.game.display_header")
+            } footer: {
+                Text("settings.game.animations_footer")
             }
 
             Section {

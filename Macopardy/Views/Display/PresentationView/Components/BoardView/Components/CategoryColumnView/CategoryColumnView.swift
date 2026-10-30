@@ -3,6 +3,9 @@ import SwiftUI
 struct CategoryColumnView: View {
 
     let category: Category
+    /// The board intro shows titles one by one, then the clues together.
+    var isTitleShown = true
+    var areCluesShown = true
 
     var body: some View {
         VStack(spacing: 4) {

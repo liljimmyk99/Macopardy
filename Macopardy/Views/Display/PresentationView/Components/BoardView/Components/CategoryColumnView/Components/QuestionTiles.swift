@@ -2,8 +2,8 @@ import SwiftUI
 
 extension CategoryColumnView {
     func questionTiles() -> some View {
-        ForEach(category.questions) { question in
-            QuestionTileView(question: question)
+        ForEach(Array(category.questions.enumerated()), id: \.element.id) { row, question in
+            QuestionTileView(question: question, isRevealed: areCluesShown, row: row)
         }
     }
 }

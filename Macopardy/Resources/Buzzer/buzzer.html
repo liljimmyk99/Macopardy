@@ -86,6 +86,42 @@
       animation: spin 0.8s linear infinite;
     }
 
+    /* Motion. Screens rise in when they are shown; the buzzer button animates by state. */
+    @keyframes rise {
+      from { opacity: 0; transform: translateY(12px); }
+      to   { opacity: 1; transform: none; }
+    }
+    @keyframes pop {
+      from { opacity: 0; transform: scale(0.5); }
+      60%  { transform: scale(1.12); }
+      to   { opacity: 1; transform: none; }
+    }
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      20%, 60% { transform: translateX(-10px); }
+      40%, 80% { transform: translateX(10px); }
+    }
+    @keyframes ring-green {
+      0%   { box-shadow: 0 0 0 0 rgba(51,191,89,0.6); }
+      70%, 100% { box-shadow: 0 0 0 22px rgba(51,191,89,0); }
+    }
+    @keyframes ring-gold {
+      0%   { box-shadow: 0 0 0 0 rgba(245,197,24,0.8); }
+      70%, 100% { box-shadow: 0 0 0 26px rgba(245,197,24,0); }
+    }
+    @keyframes slide-down {
+      from { opacity: 0; transform: translateY(-24px); }
+      to   { opacity: 1; transform: none; }
+    }
+    @keyframes row-in {
+      from { opacity: 0; transform: translateX(-16px); }
+      to   { opacity: 1; transform: none; }
+    }
+    .pin, .teams, .wager, .response { animation: rise 0.35s ease-out; }
+    .status-icon { animation: pop 0.45s ease-out; }
+    .pin-input.shake { animation: shake 0.4s ease-in-out; }
+    .team-row.enter { animation: row-in 0.35s ease-out backwards; }
+
     /* Game PIN entry */
     .pin {
       width: 100%;
@@ -116,6 +152,7 @@
       font-weight: 700; text-align: left;
       box-shadow: 0 6px 24px rgba(0,0,0,0.35);
       z-index: 10;
+      animation: slide-down 0.3s ease-out;
     }
     .toast[hidden] { display: none; }
     .toast-text { flex: 1; }
@@ -179,13 +216,16 @@
       color: #1a1a1a;
       background: #8a8fa8;
       touch-action: manipulation;
+      transition: background-color 0.2s ease-out, color 0.2s ease-out,
+                  opacity 0.2s ease-out, transform 0.1s ease-out;
     }
     .buzzer:disabled { opacity: 0.45; }
-    .buzzer.buzz-armed     { background: #33bf59; }
-    .buzzer.buzz-pressed   { background: #f28c26; }
-    .buzzer.buzz-first     { background: var(--gold); }
-    .buzzer.buzz-lockedOut { background: var(--red); color: var(--white); }
-    .buzzer.buzz-tooEarly  { background: var(--red); color: var(--white); font-size: 1.4rem; }
+    .buzzer:active:not(:disabled) { transform: scale(0.96); }
+    .buzzer.buzz-armed     { background: #33bf59; animation: ring-green 1.4s ease-out infinite; }
+    .buzzer.buzz-pressed   { background: #f28c26; transform: scale(0.97); }
+    .buzzer.buzz-first     { background: var(--gold); animation: ring-gold 1s ease-out infinite; }
+    .buzzer.buzz-lockedOut { background: var(--red); color: var(--white); animation: shake 0.4s ease-in-out; }
+    .buzzer.buzz-tooEarly  { background: var(--red); color: var(--white); font-size: 1.4rem; animation: shake 0.4s ease-in-out; }
     .wager { display: none; flex-direction: column; gap: 12px; width: 100%; text-align: center; }
     .wager-max, .wager-note { font-size: 1rem; opacity: 0.85; }
     .wager-input {
@@ -209,6 +249,14 @@
       transition: opacity 0.2s ease-out;
     }
     .response-dot.out { opacity: 0.18; }
+
+    /* Reduce Motion on the phone: no animation except the connecting spinner. */
+    @media (prefers-reduced-motion: reduce) {
+      *:not(.spinner), *::before, *::after {
+        animation: none !important;
+        transition: none !important;
+      }
+    }
   </style>
 </head>
 <body>
@@ -367,14 +415,18 @@
     const left = Math.max(0, Math.ceil((response.endsAt - Date.now()) / 1_000 - 0.05));
     if (left === 0) { clearInterval(responseTid); responseTid = null; }
 
-    const dots = [];
-    for (let i = 0; i < response.total; i++) {
-      const dot = document.createElement("span");
-      // Dots on the right stay lit longest.
-      dot.className = i >= response.total - left ? "response-dot" : "response-dot out";
-      dots.push(dot);
+    // Dots are reused between ticks so each one fades out rather than being replaced.
+    if (responseDots.children.length !== response.total) {
+      responseDots.replaceChildren(...Array.from({ length: response.total }, () => {
+        const dot = document.createElement("span");
+        dot.className = "response-dot";
+        return dot;
+      }));
     }
-    responseDots.replaceChildren(...dots);
+    // Dots on the right stay lit longest.
+    Array.from(responseDots.children).forEach((dot, i) => {
+      dot.classList.toggle("out", i < response.total - left);
+    });
 
     const team = teams.find(t => t.id === response.teamID);
     if (left === 0) {
@@ -460,9 +512,11 @@
     responseEl.style.display = "none";
     setState("connected", "Pick your team",
              teams.length ? "" : "The host hasn\u2019t set up any teams yet.");
-    teamsEl.replaceChildren(...teams.map(team => {
+    const firstShow = teamsEl.style.display !== "flex";   // not on later updates
+    teamsEl.replaceChildren(...teams.map((team, index) => {
       const row  = document.createElement("div");
-      row.className = "team-row";
+      row.className = firstShow ? "team-row enter" : "team-row";
+      row.style.animationDelay = `${index * 70}ms`;
 
       const dot  = document.createElement("span");
       dot.className = "team-dot";
@@ -514,6 +568,11 @@
     setState("pin", "Enter the Game PIN", sub);
     pinInput.value = normalisePin(value);
     pinError.textContent = error;
+    if (error) {
+      pinInput.classList.remove("shake");
+      void pinInput.offsetWidth;   // restart the animation
+      pinInput.classList.add("shake");
+    }
     updatePinSubmit();
     pinInput.focus();
   }
