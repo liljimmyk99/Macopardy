@@ -7,6 +7,10 @@ import SwiftUI
 
 struct TeamScoreView: View {
 
+    @Environment(\.animationsEnabled) var animationsEnabled
+    /// The score's colour while it flashes after a change.
+    @State var pulseColor: Color?
+
     let team: Team
     var compact: Bool = false
     var isDisconnected: Bool = false

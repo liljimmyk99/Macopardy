@@ -67,4 +67,16 @@ final class AppSettingsTests: XCTestCase {
         defaults.set(9000, forKey: AppSettings.Key.buzzerPort)
         XCTAssertEqual(AppSettings.buzzerPort(defaults), 9000)
     }
+
+    func testAnimationsDefaultOnAndCanBeTurnedOff() {
+        XCTAssertTrue(AppSettings.animationsEnabled(defaults))
+        defaults.set(false, forKey: AppSettings.Key.animationsEnabled)
+        XCTAssertFalse(AppSettings.animationsEnabled(defaults))
+    }
+
+    func testReduceMotionOverridesAnimationsSetting() {
+        XCTAssertTrue(AppSettings.shouldAnimate(setting: true, reduceMotion: false))
+        XCTAssertFalse(AppSettings.shouldAnimate(setting: true, reduceMotion: true))
+        XCTAssertFalse(AppSettings.shouldAnimate(setting: false, reduceMotion: false))
+    }
 }

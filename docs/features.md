@@ -212,7 +212,26 @@ are remembered (`UserDefaults`, keys in `AppSettings`).
   (3–30 s, default 5), starting team count (1–4, default 3) and starting team names (up to 100
   characters; empty uses "Team N"). Timer lengths apply the next time a timer starts; team
   settings apply to games started afterwards.
+- **Display:** animations on or off (default on). They are also off whenever macOS
+  **Reduce Motion** is on.
 - **Buzzers:** server port (1024–65535, default 8472), applied the next time the server starts.
+
+## 6c. Display animations
+
+The Display window (not Control) animates, unless turned off in Settings or macOS Reduce Motion
+is on:
+
+- **Board intro:** at the start of each round the category titles appear one by one, then the
+  clue tiles turn over together. It plays once per round, not when returning from a clue, and
+  not when a saved game resumes.
+- **Clue flip:** the clue (and its answer) turns to face the room.
+- **Phase transitions:** setup and board fade; the Daily Double splash scales in with a gold
+  burst; Final Macpardy slides in.
+- **Phone buzzer page:** screens rise in, team rows slide in one by one, the buzzer pulses green
+  when armed and gold when you're up, and it shakes when locked out or too early. The response
+  dots fade out. It follows the phone's own Reduce Motion setting (the Settings toggle only
+  affects the Display).
+- **Scores:** the number rolls to its new value and flashes gold when it rises, red when it falls.
 
 ## 7. Keyboard shortcuts
 

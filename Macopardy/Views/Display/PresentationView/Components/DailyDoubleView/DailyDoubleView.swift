@@ -2,6 +2,8 @@ import SwiftUI
 
 struct DailyDoubleView: View {
 
+    @Environment(\.animationsEnabled) var animationsEnabled
+
     var body: some View {
         dailyDoubleContent()
     }

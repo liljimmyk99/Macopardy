@@ -84,7 +84,7 @@ Macopardy/
 │   │   │   └── Components/              Draft board, tiles, question/image editors, titles
 │   │   └── NewGameView/              New Game sheet: editor or CSV import
 │   ├── Display/
-│   │   └── PresentationView/     TV/projector screen: board, question, answer, Daily
+│   │   └── PresentationView/     TV/projector screen (animated, see MacpardyMotion): board, question, answer, Daily
 │   │                             Double, Final, timer, scoreboard
 │   └── Shared/                   Theme, buttons, headers, image placeholder, WindowCloseGuard
 ├── Resources/

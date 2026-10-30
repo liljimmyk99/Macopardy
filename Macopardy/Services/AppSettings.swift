@@ -17,6 +17,7 @@ nonisolated enum AppSettings {
         static let defaultTeamCount = "settings.game.defaultTeamCount"
         static let teamNamePrefix = "settings.game.teamName."
         static let buzzerPort = "settings.buzzers.port"
+        static let animationsEnabled = "settings.display.animationsEnabled"
     }
 
     // MARK: - Question timer
@@ -81,6 +82,23 @@ nonisolated enum AppSettings {
         guard let stored = defaults.string(forKey: Key.teamNamePrefix + String(index)) else { return nil }
         let name = clampTeamName(stored)
         return name.isEmpty ? nil : name
+    }
+
+    // MARK: - Animations
+
+    static let defaultAnimationsEnabled = true
+
+    static func animationsEnabled(_ defaults: UserDefaults = .standard) -> Bool {
+        guard let stored = defaults.object(forKey: Key.animationsEnabled) as? Bool else {
+            return defaultAnimationsEnabled
+        }
+        return stored
+    }
+
+    /// The Display animates only when the setting is on and macOS's
+    /// Reduce Motion is off.
+    static func shouldAnimate(setting: Bool, reduceMotion: Bool) -> Bool {
+        setting && !reduceMotion
     }
 
     // MARK: - Buzzer server
